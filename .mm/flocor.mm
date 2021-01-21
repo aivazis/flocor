@@ -5,13 +5,13 @@
 
 
 # flocor consists of a python package
-flocor.packages :=
+flocor.packages := flocor.pkg
 # libraries
 flocor.libraries := flocor.lib ${call extern.if.available,cuda,flocor_cuda.lib}
 # python extensions
 flocor.extensions :=
 # a ux bundle
-flocor.webpack :=
+flocor.webpack := flocor.ux
 # and some tests
 flocor.tests :=
 
