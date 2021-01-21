@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+#
+# michael a.g. aïvázis <michael.aivazis@para-sim.com>
+# (c) 1998-2021 all rights reserved
+
+
+# expansion placeholders
+date = "@TODAY@"
+major = @MAJOR@
+minor = @MINOR@
+micro = @MICRO@
+revision = "@REVISION@"
+
+
+# assemble the version tuple
+version = (major, minor, micro, revision)
+
+
+# decorations for the help system
+copyright = "copyright (c) 1998-2021 all rights reserved"
+
+banner = f"""
+    flocor {major}.{minor}.{micro} revision {revision}
+    {copyright}
+"""
+
+header = banner + """
+authors:
+    michael a.g. aïvázis <michael.aivazis@para-sim.com>
+"""
+
+license = header + """
+license:
+    The complete usage terms can be found in the LICENSE file
+"""
+
+# end of file
