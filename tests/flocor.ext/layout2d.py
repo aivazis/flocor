@@ -20,10 +20,15 @@ def test():
 
     # make a shape
     shape = libflocor.Shape2D(shape=(256,128))
+    # and an oriign
+    origin = libflocor.Index2D(index=(-2,17))
     # use it to make a layout
-    layout = libflocor.Layout2D(shape)
+    layout = libflocor.Layout2D(shape=shape, origin=origin)
 
-    print(layout)
+    # check the shape
+    assert tuple(layout.shape) == (256,128)
+    # and the origin
+    assert tuple(layout.origin) == (-2,17)
 
     # all done
     return 0
