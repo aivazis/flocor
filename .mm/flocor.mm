@@ -9,7 +9,7 @@ flocor.packages := flocor.pkg
 # libraries
 flocor.libraries := flocor.lib ${call extern.if.available,cuda,flocor_cuda.lib}
 # python extensions
-flocor.extensions :=
+flocor.extensions := flocor.ext
 # a ux bundle
 flocor.webpack := flocor.ux
 # and some tests
