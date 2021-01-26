@@ -14,4 +14,12 @@ flocor.lib.tests.extern := flocor.lib pyre
 flocor.lib.tests.c++.flags += -Wall $($(compiler.c++).std.c++17)
 
 
+# global cleanup
+tests.flocor.lib.products.clean += slc.dat
+
+
+# the {slc_t} product tests must be executed in a specific order
+tests.flocor.lib.products.slc_get.pre := tests.flocor.lib.products.slc_set
+
+
 # end of file
