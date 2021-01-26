@@ -14,6 +14,9 @@ namespace flocor::py {
     void opaque(py::module &);
     // exceptions
     void exceptions(py::module &);
+
+    // bindings for the {slc_t} product spec
+    void slc(py::module &);
 }
 
 

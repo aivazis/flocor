@@ -19,6 +19,9 @@ PYBIND11_MODULE(flocor, m) {
     flocor::py::opaque(m);
     // register the exception types
     flocor::py::exceptions(m);
+
+    // add the product spec bindings
+    flocor::py::slc(m);
 }
 
 
