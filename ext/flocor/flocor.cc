@@ -22,6 +22,8 @@ PYBIND11_MODULE(flocor, m)
     flocor::py::exceptions(m);
 
     // bindings for product layouts
+    flocor::py::index2d(m);
+    flocor::py::shape2d(m);
     flocor::py::layout2d(m);
 
     // product spec bindings
