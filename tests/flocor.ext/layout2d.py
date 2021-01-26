@@ -17,21 +17,13 @@ def test():
 
     # verify that the layout objects exist
     assert libflocor.Layout2D
-    assert libflocor.Index2D
-    assert libflocor.Shape2D
 
     # make a shape
     shape = libflocor.Shape2D(shape=(256,128))
-    # verify the rank
-    assert shape.rank == 2
-    # and the capacity of the shape
-    assert shape.cells == 256*128
+    # use it to make a layout
+    layout = libflocor.Layout2D(shape)
 
-    # leverage iteration support to unpack a shape
-    lines, samples = shape
-    # verify it worked
-    assert lines == 256
-    assert samples == 128
+    print(layout)
 
     # all done
     return 0
