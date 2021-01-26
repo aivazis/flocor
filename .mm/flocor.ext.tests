@@ -1,0 +1,13 @@
+# -*- makefile -*-
+#
+# michael a.g. aïvázis <michael.aivazis@para-sim.com>
+# (c) 1998-2021 all rights reserved
+
+
+# the testsuite for the flocor bindings
+flocor.ext.tests.stem := flocor.ext
+# depends on
+flocor.ext.tests.prerequisites := flocor.ext
+
+
+# end of file

@@ -13,7 +13,7 @@ flocor.extensions := flocor.ext
 # a ux bundle
 flocor.webpack := flocor.ux
 # and some tests
-flocor.tests := flocor.lib.tests
+flocor.tests := flocor.lib.tests flocor.ext.tests
 
 
 # load the packages
