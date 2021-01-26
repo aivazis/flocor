@@ -15,6 +15,9 @@ namespace flocor::py {
     // exceptions
     void exceptions(py::module &);
 
+    // bindings for the product memory layouts
+    void layout2d(py::module &);
+
     // bindings for the {slc_t} product spec
     void slc(py::module &);
 }

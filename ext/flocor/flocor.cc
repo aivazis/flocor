@@ -11,7 +11,8 @@
 
 
 // the module entry point
-PYBIND11_MODULE(flocor, m) {
+PYBIND11_MODULE(flocor, m)
+{
     // the doc string
     m.doc() = "the libflocor bindings";
 
@@ -20,7 +21,10 @@ PYBIND11_MODULE(flocor, m) {
     // register the exception types
     flocor::py::exceptions(m);
 
-    // add the product spec bindings
+    // bindings for product layouts
+    flocor::py::layout2d(m);
+
+    // product spec bindings
     flocor::py::slc(m);
 }
 
