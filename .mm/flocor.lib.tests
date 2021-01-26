@@ -1,0 +1,17 @@
+# -*- makefile -*-
+#
+# michael a.g. aïvázis <michael.aivazis@para-sim.com>
+# (c) 1998-2021 all rights reserved
+
+
+# the testsuite for the flocor library
+flocor.lib.tests.stem := flocor.lib
+# depends on
+flocor.lib.tests.prerequisites := flocor.lib
+# and
+flocor.lib.tests.extern := flocor.lib pyre
+# compiler flags
+flocor.lib.tests.c++.flags += -Wall $($(compiler.c++).std.c++17)
+
+
+# end of file
