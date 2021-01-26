@@ -14,6 +14,8 @@ from pyre import (
     executive,
     # support for concurrency
     nexus,
+    # workflows, products, and factories
+    flow,
     # shells
     application, plexus,
     # miscellaneous
@@ -28,11 +30,18 @@ home, prefix, defaults = package.layout()
 
 
 # publish the local modules
+# basic functionality
 from . import meta           # package meta-data
 from . import exceptions     # the exception hierarchy
+from . import ext            # cpu and gpu acceleration
+# user interfaces
 from . import shells         # the supported application shells
 from . import cli            # the command line interface
 from . import ux             # support for the web client
+# protocols for products and factories
+from . import specs
+# flow nodes
+from . import products
 
 
 # administrivia
