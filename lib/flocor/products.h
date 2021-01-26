@@ -5,7 +5,7 @@
 
 // code guard
 #if !defined(flocor_products_h)
-#define
+#define flocor_products_h
 
 
 // publish the product specs

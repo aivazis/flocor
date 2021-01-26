@@ -4,8 +4,21 @@
 // (c) 1998-2021 all rights reserved
 
 // code guard
-#if !defined(flocor_products_public_h)
-#define
+#if !defined(flocor_products_forward_h)
+#define flocor_products_forward_h
+
+
+// namespace setup
+namespace flocor::products {
+    // product specs
+    class SLC;
+
+    // intermediate products
+
+    // data containers
+    template <class specT, bool isReadOnly>
+    class Raster;
+}
 
 
 #endif

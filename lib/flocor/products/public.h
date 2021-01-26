@@ -5,7 +5,23 @@
 
 // code guard
 #if !defined(flocor_products_public_h)
-#define
+#define flocor_products_public_h
+
+
+// external packages
+#include "extern.h"
+// namespace setup
+#include "forward.h"
+
+// published type aliases and other declarations that constitute the public API of this package
+// this is the file you are looking for
+#include "api.h"
+
+// local entities
+// product specifications
+#include "SLC.h"
+// realizations and data containers
+#include "Raster.h"
 
 
 #endif
