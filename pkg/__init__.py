@@ -42,6 +42,8 @@ from . import ux             # support for the web client
 from . import specs
 # flow nodes
 from . import products
+from . import factories
+from . import flows
 
 
 # administrivia
