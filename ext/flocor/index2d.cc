@@ -14,11 +14,9 @@
 
 // type aliases
 namespace flocor::py {
-    // 2d layouts
+    // 2d layout
     using layout2d_t = products::layout_t<2>;
-    // the corresponding shape
-    using shape2d_t = layout2d_t::shape_type;
-    // and index
+    // and its index
     using index2d_t = layout2d_t::index_type;
 }
 

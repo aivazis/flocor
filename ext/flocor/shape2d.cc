@@ -16,7 +16,7 @@
 namespace flocor::py {
     // 2d layouts
     using layout2d_t = products::layout_t<2>;
-    // the corresponding shape
+    // and its shape
     using shape2d_t = layout2d_t::shape_type;
 }
 
