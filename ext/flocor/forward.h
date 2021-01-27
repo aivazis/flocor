@@ -16,6 +16,7 @@ namespace flocor::py {
     void exceptions(py::module &);
 
     // bindings for the product memory layouts
+    void order2d(py::module &);
     void index2d(py::module &);
     void shape2d(py::module &);
     void layout2d(py::module &);
