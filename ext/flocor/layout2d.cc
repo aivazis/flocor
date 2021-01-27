@@ -30,18 +30,18 @@ void
 flocor::py::layout2d(py::module & m)
 {
     // 2d layouts
-    auto layout = py::class_<layout2d_t>(m, "Layout2D");
+    auto layoutCls = py::class_<layout2d_t>(m, "Layout2D");
 
     // constructors
     // from a shape
-    layout.def(
+    layoutCls.def(
         // the handler
         py::init<const shape2d_t &>(),
         // the signature
         "shape"_a);
 
     // from a shape and an origin
-    layout.def(
+    layoutCls.def(
         // the handler
         py::init<const shape2d_t &, const index2d_t &>(),
         // the signature
@@ -49,7 +49,7 @@ flocor::py::layout2d(py::module & m)
 
     // accessors
     // my shape
-    layout.def_property_readonly(
+    layoutCls.def_property_readonly(
         // the name
         "shape",
         // the getter
@@ -58,7 +58,7 @@ flocor::py::layout2d(py::module & m)
         "get my shape");
 
     // my origin
-    layout.def_property_readonly(
+    layoutCls.def_property_readonly(
         // the name
         "origin",
         // the getter
@@ -67,13 +67,90 @@ flocor::py::layout2d(py::module & m)
         "get my origin");
 
     // my origin
-    layout.def_property_readonly(
+    layoutCls.def_property_readonly(
         // the name
         "order",
         // the getter
         [](const layout2d_t & layout) { return layout.order(); },
         // the docstring
         "get my packing order");
+
+    // my strides
+    layoutCls.def_property_readonly(
+        // the name
+        "strides",
+        // the getter
+        &layout2d_t::strides,
+        // the docstring
+        "get my strides");
+
+    // my nudge
+    layoutCls.def_property_readonly(
+        // the name
+        "nudge",
+        // the getter
+        &layout2d_t::nudge,
+        // the docstring
+        "get my nudge");
+
+    // indexing
+    // get the index that corresponds to a given offset
+    layoutCls.def(
+        // the name
+        "index",
+        // the function
+        &layout2d_t::index,
+        // the signature,
+        "offset"_a,
+        // the docstring
+        "get the index that corresponds to the given {offset}");
+    // get the offset that corresponds to the given {index}
+    layoutCls.def(
+        // the name
+        "offset",
+        // the function
+        &layout2d_t::offset,
+        // the signature
+        "index"_a,
+        // the docstring
+        "get the offset that corresponds to the given {index}");
+    // same as above, with {index} a tuple
+    layoutCls.def(
+        // the name
+        "offset",
+        // the function
+        [](const layout2d_t & layout, std::tuple<int, int> index) {
+            // unpack
+            auto [i0, i1] = index;
+            // make an index
+            index2d_t idx { i0, i1 };
+            // and ask for the offset
+            return layout.offset(idx);
+        },
+        // the signature
+        "index"_a,
+        // the docstring
+        "get the offset that corresponds to the given {index}");
+
+    // iteration support
+    layoutCls.def(
+        // the name
+        "__iter__",
+        // the implementation
+        [](const layout2d_t & layout) { return py::make_iterator(layout.begin(), layout.end()); },
+        // the docstring
+        "iterate over the layout in its natural order",
+        // make sure the shape lives long enough
+        py::keep_alive<0, 1>());
+
+    // rank
+    layoutCls.def_property_readonly_static(
+        // the name of the property
+        "rank",
+        // the getter
+        [](py::object) { return layout2d_t::rank(); },
+        // the docstring
+        "the number of cells in this shape");
 
     // all done
     return;

@@ -11,24 +11,42 @@ def test():
     Verify we can build and use 2D layouts
     """
     # get the package
-    import flocor
-    # get the bindings
-    libflocor = flocor.ext.libflocor
+    from flocor.ext import libflocor
 
-    # verify that the layout objects exist
+    # verify that the layout object bindings exist
     assert libflocor.Layout2D
 
+    # pick a shape
+    dim = 256,128
+    dim = 2,3
+    # and the layout origin
+    org = -2, 17
+
     # make a shape
-    shape = libflocor.Shape2D(shape=(256,128))
-    # and an oriign
-    origin = libflocor.Index2D(index=(-2,17))
+    shape = libflocor.Shape2D(shape=dim)
+    # and an origin
+    origin = libflocor.Index2D(index=org)
     # use it to make a layout
     layout = libflocor.Layout2D(shape=shape, origin=origin)
 
     # check the shape
-    assert tuple(layout.shape) == (256,128)
-    # and the origin
-    assert tuple(layout.origin) == (-2,17)
+    assert tuple(layout.shape) == dim
+    # the origin
+    assert tuple(layout.origin) == org
+    # the strides
+    assert tuple(layout.strides) == (dim[1], 1)
+    # and the nudge, using its definition
+    assert layout.nudge == layout.offset(index=(0,0))
+
+    # iterate over the layout in its native order
+    for index in layout:
+        # verify the index identity; convert to tuples since we don't have {__eq__} yet
+        assert tuple(layout.index(layout.offset(index))) == tuple(index)
+
+    # go through all possible offsets
+    for offset in range(layout.shape.cells):
+        # verify the offset identity
+        assert layout.offset(layout.index(offset)) == offset
 
     # all done
     return 0
