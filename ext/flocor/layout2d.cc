@@ -18,7 +18,9 @@ namespace flocor::py {
     using layout2d_t = products::layout_t<2>;
     // the corresponding shape
     using shape2d_t = layout2d_t::shape_type;
-    // and the index
+    // order
+    using order2d_t = layout2d_t::order_type;
+    // and index
     using index2d_t = layout2d_t::index_type;
 }
 
@@ -63,6 +65,15 @@ flocor::py::layout2d(py::module & m)
         &layout2d_t::origin,
         // the docstring
         "get my origin");
+
+    // my origin
+    layout.def_property_readonly(
+        // the name
+        "order",
+        // the getter
+        [](const layout2d_t & layout) { return layout.order(); },
+        // the docstring
+        "get my packing order");
 
     // all done
     return;
