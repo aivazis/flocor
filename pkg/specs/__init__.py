@@ -4,8 +4,15 @@
 # (c) 1998-2021 all rights reserved
 
 
-# product specs
+# SLC
+# the fully decorated product
 from .SLC import SLC as slc
+# its metadata
+from .SLCMetadata import SLCMetadata as slcMetadata
+# its payload
+from .SLCDataset import SLCDataset as slcDataset
+# slc factories
+from .SLCFactory import SLCFactory as slcFactory
 
 
 # end of file
