@@ -6,10 +6,12 @@
 
 # support
 import flocor
+# my superclass
+from .Specification import Specification
 
 
 # SLC metadata
-class SLCMetadata(flocor.flow.specification, family="flocor.products.metadata"):
+class SLCMetadata(Specification, family="flocor.products.metadata"):
     """
     The SLC metadata
     """

@@ -6,12 +6,14 @@
 
 # framework
 import flocor
+# my superclass
+from .Producer import Producer
 # my product specs
 from .SLC import SLC
 
 
 # the specification for an SLC factory
-class SLCFactory(flocor.flow.producer, family="flocor.factories.slc"):
+class SLCFactory(Producer, family="flocor.factories.slc"):
     """
     The specification for SLC factories
     """

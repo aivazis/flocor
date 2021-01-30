@@ -6,10 +6,12 @@
 
 # support
 import flocor
+# my superclass
+from .Specification import Specification
 
 
 # the product payload
-class SLCDataset(flocor.flow.specification, family="flocor.products.datasets"):
+class SLCDataset(Specification, family="flocor.products.datasets"):
     """
     A dataset provides access to the actual data
     """
