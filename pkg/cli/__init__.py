@@ -11,9 +11,19 @@ from ..shells import command
 # pull in the command decorator
 from .. import foundry
 
+# list known factories and products
+@foundry(implements=action, tip="list factories and products")
+def list():
+    # get the action
+    from .List import List
+    # borrow its docstring
+    __doc__ = List.__doc__
+    # and publish it
+    return List
+
 
 # help
-@foundry(implements=action, tip="display information about this application")
+@foundry(implements=action, tip="information about this application")
 def about():
     # get the action
     from .About import About
@@ -23,7 +33,7 @@ def about():
     return About
 
 
-@foundry(implements=action, tip="display configuration information about this application")
+@foundry(implements=action, tip="configuration information")
 def config():
     # get the action
     from .Config import Config
@@ -33,7 +43,7 @@ def config():
     return Config
 
 
-@foundry(implements=action, tip="display debugging information about this application")
+@foundry(implements=action, tip="debugging information")
 def debug():
     # get the action
     from .Debug import Debug
