@@ -4,10 +4,6 @@
 # (c) 1998-2021 all rights reserved
 
 
-# framework
-import flocor
-
-
 # publish the products
 from .SLC import SLC as slc
 
