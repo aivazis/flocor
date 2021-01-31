@@ -63,7 +63,7 @@ class List(flocor.shells.command, family='flocor.cli.about'):
         # grab a channel
         channel = plexus.info
         # sign on
-        channel.line("slc data products:")
+        channel.line("data products:")
         # go through the names
         for product in products:
             # and print them out
