@@ -6,33 +6,10 @@
 
 # externals
 import graphene
+# support
+import journal
 # the package
 import flocor
-
-
-# the abstractions
-class Node(graphene.relay.Node):
-    """
-    Requirements of all flow nodes
-    """
-
-    class Meta:
-        name = "Node"
-
-    # all pyre components have a name
-    name = graphene.String(required=True)
-    # and a family
-    family = graphene.String(required=True)
-
-    @staticmethod
-    def to_global_id(type_, id):
-        print(f"Node.to_global_id: type:{type_}, id={id}")
-        raise NotImplementedError("NYI!")
-
-    @staticmethod
-    def get_node_from_global_id(info, global_id, only_type=None):
-        print(f"Node.get_node_from_gloabl_id: info:{info}, global_id:{global_id}")
-        raise NotImplementedError("NYI!")
 
 
 # the server version
@@ -48,6 +25,84 @@ class Version(graphene.ObjectType):
     revid = graphene.String(required=True)
 
 
+# basic flow entities
+class Specification(graphene.ObjectType):
+    """
+    {Specification} is the protocol that {Product} implements
+    """
+
+    # the fields
+    family = graphene.String(required=True)
+
+    # the resolvers
+    def resolve_family(specification, info, **kwds):
+        # easy enough
+        return specification.pyre_family()
+
+
+class Producer(graphene.ObjectType):
+    """
+    {Producer} is the protocol that {factory} implements
+    """
+
+    # the fields
+    family = graphene.String(required=True)
+
+    # the resolvers
+    def resolve_family(producer, info, **kwds):
+        # easy enough
+        return producer.pyre_family()
+
+
+class Catalog(graphene.ObjectType):
+    """
+    The specifications and producers in a particular package
+    """
+
+    # the fields
+    producers = graphene.List(Producer, required=True)
+    specifications = graphene.List(graphene.NonNull(Specification), required=True)
+
+
+    # resolvers
+    def resolve_producers(catalog, info):
+        # get the {pyre} nameserver from the execution context
+        ns = info.context["nameserver"]
+        # and the package name from the query
+        package = catalog["package"]
+        # we are looking for producers, all of which sit under {factories}
+        factories = ns.join(package, "factories")
+        # retrieve the associated protocol
+        producer = ns[factories]
+
+        # prime the search
+        implementers = producer.pyre_locateAllImplementers(namespace=package)
+        # build the pile; some are accessible multiple ways, so eliminate the duplicates
+        yield from set(producer for _,_, producer in implementers)
+
+        # all done
+        return
+
+
+    def resolve_specifications(catalog, info):
+        # get the {pyre} nameserver from the execution context
+        ns = info.context["nameserver"]
+        # and the package name from the query
+        package = catalog["package"]
+        # we are looking for product specifications, all of which sit under {products}
+        products = ns.join(package, "products")
+        # retrieve the associated protocol
+        specification = ns[products]
+
+        # prime the search
+        implementers = specification.pyre_locateAllImplementers(namespace=package)
+        # build the pile; some are accessible multiple ways, so eliminate the duplicates
+        yield from set(spec for _,_, spec in implementers)
+
+        # all done
+        return
+
+
 # the query
 class Query(graphene.ObjectType):
     """
@@ -55,13 +110,28 @@ class Query(graphene.ObjectType):
     """
 
     # the fields
-    node = Node.Field()
     version = graphene.Field(Version, required=True)
+    catalog = graphene.Field(Catalog, required=True,
+                             package=graphene.String(default_value="flocor"))
 
-    # the resolver
+    # the resolvers
+    # version
     def resolve_version(root, info):
-        # get the version from the context
-        return info.context.get("version")
+        # get the {version} info from the execution {context} and make it available to the
+        # {Version} resolvers
+        return info.context["version"]
+
+    # catalog
+    def resolve_catalog(root, info, **kwds):
+        # this resolver must exist; its job is to build an object that gets handed to the
+        # {Catalog} resolvers; here we would prep such an object using the query execution
+        # context and the variable bindings in {kwds}, but for {Catalog} this is not necessary
+        #
+        #     root: should be {None}; this is the root
+        #     info: has {.context} with whatever was built by the executioner
+        #     kwds: contains the variable bindings for this catalog resolution
+        #
+        return kwds
 
 
 # build the schema
@@ -72,6 +142,8 @@ schema = graphene.Schema(
     types=[
         # administrative
         Version,
+        # producers and specifications
+        Catalog,
     ]
 )
 
