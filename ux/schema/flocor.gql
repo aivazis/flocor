@@ -19,7 +19,7 @@ type Version {
   major: Int!
   minor: Int!
   micro: Int!
-  revision: String!
+  revid: String!
 }
 
 

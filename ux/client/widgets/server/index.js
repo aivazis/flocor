@@ -15,13 +15,13 @@ import styles from './styles'
 // display the server state
 const server = ({style, ...props}) => {
     // the query fragment i care about
-    const { version: {major, minor, micro, revision} } = useLazyLoadQuery(
+    const { version: {major, minor, micro, revid} } = useLazyLoadQuery(
         graphql`query serverQuery {
             version {
                 major
                 minor
                 micro
-                revision
+                revid
             }
         }`
     )
@@ -36,10 +36,13 @@ const server = ({style, ...props}) => {
     // use it to make a timestamp
     const title = `last checked on ${now.toString()}`
 
+    // mark
+    console.log(`server: ${title}`)
+
     // build the componnent and return it
     return (
         <div style={{...base, ...good}} title={title}>
-            flocor server {major}.{minor}.{micro} rev {revision}
+            flocor server {major}.{minor}.{micro} rev {revid}
         </div>
     )
 }
