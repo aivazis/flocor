@@ -4,6 +4,7 @@
 // (c) 1998-2021 all rights reserved
 
 
+export Compass from './compass'
 export Flame from './flame'
 export Kill from './kill'
 export Server from './server'
