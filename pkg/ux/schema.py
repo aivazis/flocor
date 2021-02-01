@@ -45,7 +45,7 @@ class Version(graphene.ObjectType):
     major = graphene.Int(required=True)
     minor = graphene.Int(required=True)
     micro = graphene.Int(required=True)
-    revision = graphene.String(required=True)
+    revid = graphene.String(required=True)
 
 
 # the query

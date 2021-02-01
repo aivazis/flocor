@@ -22,10 +22,11 @@ class GraphQL:
         """
         # parse the {request} payload
         payload = json.loads(b'\n'.join(request.payload))
-        # and unpack it
+        # get the query
         query = payload.get("query")
-        operation = payload.get("operation")
-        variables = payload.get("variables")
+        # there are also other fields that we don't care about just yet
+        # operation = payload.get("operation")
+        # variables = payload.get("variables")
 
         # execute the query
         result = self.schema.execute(query, context=self.context)
@@ -46,14 +47,25 @@ class GraphQL:
         # chain up
         super().__init__(**kwds)
 
-        # load the schema
+        # load my schema
         from .schema import schema
-        # build my schema
+        # and attach it
         self.schema = schema
+
+        # get the package metadata
+        meta = flocor.meta
+        # build the version info
+        version = {
+            "major": meta.major,
+            "minor": meta.minor,
+            "micro": meta.micro,
+            "revid": meta.revision,
+        }
 
         # set up the execution context
         self.context = {
-            "version": flocor.meta,
+            "nameserver": panel.pyre_nameserver,
+            "version": version
         }
 
         # all done
