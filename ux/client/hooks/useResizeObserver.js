@@ -1,0 +1,83 @@
+// -*- web -*-
+//
+// michael a.g. aïvázis <michael.aivazis@para-sim.com>
+// (c) 1998-2021 all rights reserved
+
+
+// externals
+import { useLayoutEffect, useRef, useState } from 'react'
+
+
+// hook that listens to resize events
+const useResizeObserver = (ref = null, onResize = null) => {
+    // make a ref, in case the client didn't supply one
+    const cref = ref ?? useRef(null)
+    // attach a resize handler
+    const handler = useRef(null)
+    // storage for the element extent
+    const [extent, setExtent] = useState({height: undefined, width: undefined})
+
+    // the size update is the poster child for layout effects
+    useLayoutEffect(() => {
+        // make a notifier
+        const notify = (extent) => {
+            // which just sets the element extent
+            setExtent(prev => {
+                // if nothing has changed
+                if (prev.width === extent.width && prev.height === extent.height) {
+                    console.log("same")
+                    // just return the previous state
+                    return prev
+                }
+                // notify the client
+                onResize?.(extent)
+                // and return the new state
+                return extent
+            })
+        }
+
+        // build the callback we will install with the resize observer
+        const callback = targets => {
+            // go through the {targets}
+            targets.forEach(target => {
+                // get the extent
+                const extent = target?.contentRect ?? {height: undefined, width: undefined}
+                // invoke the notifier
+                notify(extent)
+            })
+        }
+
+        // install the callback in the handler
+        handler.current = callback
+        // make a resize observer
+        const observer = new window.ResizeObserver(handler.current)
+        // and if there is anything to observe
+        if (cref.current) {
+            // register it with the observer
+            observer.observe(cref.current)
+        }
+
+        // at clean up time
+        return () => {
+            // disconnect
+            observer.disconnect()
+            // get the callback
+            const callback = handler.current
+            // if it exists and it has a cancel method, invoke it
+            callback?.cancel?.()
+            // all done
+            return
+        }
+    // dependencies
+    }, [ onResize ])
+
+    // make the ref and the extent available
+    return { ref: cref, extent }
+}
+
+
+// publish
+export default useResizeObserver
+
+
+// end of file
