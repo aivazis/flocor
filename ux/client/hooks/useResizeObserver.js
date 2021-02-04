@@ -25,7 +25,6 @@ const useResizeObserver = (ref = null, onResize = null) => {
             setExtent(prev => {
                 // if nothing has changed
                 if (prev.width === extent.width && prev.height === extent.height) {
-                    console.log("same")
                     // just return the previous state
                     return prev
                 }
