@@ -5,17 +5,39 @@
 
 
 // externals
+import { debounce, throttle } from 'lodash'
 import { useLayoutEffect, useRef, useState } from 'react'
 
 
 // hook that listens to resize events
-const useResizeObserver = (ref = null, onResize = null) => {
+const useResizeObserver = (
+    ref = null,
+    onResize = null,
+    // see the {lodash} docs for {options}
+    limiter = { mode: null, wait: 0, options: null }
+) => {
     // make a ref, in case the client didn't supply one
     const cref = ref ?? useRef(null)
     // attach a resize handler
     const handler = useRef(null)
     // storage for the element extent
     const [extent, setExtent] = useState({height: undefined, width: undefined})
+
+    // figure out the event rate limiter strategy
+    let limiterStrategy = null
+    // if the client wants debouncing
+    if (limiter.mode === "debounce") {
+        // debounce, from {lodash}
+        limiterStrategy = debounce
+    // if the client wants throttling
+    } else if (limiter.mode === "throttle") {
+        // throttle, from {lodash}
+        limiterStrategy = throttle
+    // otherwise
+    } else {
+        // no dress up
+        limiterStrategy = (callback, ...args) => callback
+    }
 
     // the size update is the poster child for layout effects
     useLayoutEffect(() => {
@@ -49,7 +71,7 @@ const useResizeObserver = (ref = null, onResize = null) => {
         }
 
         // install the callback in the handler
-        handler.current = callback
+        handler.current = limiterStrategy(callback, limiter.wait, limiter.options)
         // make a resize observer
         const observer = new window.ResizeObserver(handler.current)
         // and if there is anything to observe
@@ -69,7 +91,7 @@ const useResizeObserver = (ref = null, onResize = null) => {
             // all done
             return
         }
-    // dependencies
+    // dependencies: the client's handler
     }, [ onResize ])
 
     // make the ref and the extent available
