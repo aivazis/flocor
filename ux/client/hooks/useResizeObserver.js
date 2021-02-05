@@ -21,7 +21,7 @@ const useResizeObserver = (ref = null, onResize = null) => {
     useLayoutEffect(() => {
         // make a notifier
         const notify = (extent) => {
-            // which just sets the element extent
+            // which updates our state with the element extent
             setExtent(prev => {
                 // if nothing has changed
                 if (prev.width === extent.width && prev.height === extent.height) {
@@ -40,6 +40,8 @@ const useResizeObserver = (ref = null, onResize = null) => {
             // go through the {targets}
             targets.forEach(target => {
                 // get the extent
+                // N.B.: {contentRect} is considered the "legacy" interface and may be deprecated;
+                //       consider {contentBoxSize} or {borderBoxSize}
                 const extent = target?.contentRect ?? {height: undefined, width: undefined}
                 // invoke the notifier
                 notify(extent)
