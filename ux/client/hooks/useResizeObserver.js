@@ -5,8 +5,8 @@
 
 
 // externals
-import { debounce, throttle } from 'lodash'
 import React from 'react'
+import { debounce, throttle } from 'lodash'
 
 
 // hook that listens to resize events
@@ -41,8 +41,8 @@ const useResizeObserver = ({
         limiterStrategy = (callback, ...args) => callback
     }
 
-    // the size update is the poster child for layout effects
-    React.useLayoutEffect(() => {
+    // layout effect? i think not
+    React.useEffect(() => {
         // make a notifier
         const notify = (extent) => {
             // which updates our state with the element extent
