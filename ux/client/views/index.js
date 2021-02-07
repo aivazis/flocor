@@ -11,6 +11,8 @@ export Footer from './footer'
 
 // the main page
 export Flo2d from './flo2d'
+// sandboxes
+export Flex from './flex'
 
 // tne page rendered when {suspense} is waiting
 export Loading from './loading'

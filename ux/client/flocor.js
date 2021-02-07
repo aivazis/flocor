@@ -20,6 +20,8 @@ import { environment } from '~/context'
 import {
     // the main page
     Flo2d,
+    // the flex sandbox
+    Flex,
     // boilerplate
     Loading, Stop,
     // layout
@@ -37,6 +39,8 @@ const FloApp = () => {
                 <Switch>
                     {/* the landing page */}
                     <Route path="/flo2d" component={Flo2d} />
+                    {/* the flex sandbox */}
+                    <Route path="/flex" component={Flex} />
                     {/* the closing page */}
                     <Route path="/stop" component={Stop} />
                     {/* the page to render while waiting for data to arrive */}

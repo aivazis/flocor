@@ -37,6 +37,8 @@ const header = () => {
 
     // the table of page links
     const links = [
+        { name: "flex", title: "split pane sandbox" },
+        { name: "flo", title: "workflow sandbox" },
         ]
 
     // build the component and return it
