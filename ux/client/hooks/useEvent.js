@@ -8,21 +8,21 @@
 import { useEffect } from 'react'
 
 
-// register a {handler} with {client} for the given {eventName} that gets updated
+// register a {handler} with {client} for the given event {name} that gets updated
 // whenever {triggers} are modified
-export default (eventName, handler, client, triggers=[]) => {
+export default ({name=throwError(), handler=throwError(), client=null, triggers=[]}) => {
     // create an effect
     useEffect(() => {
         // figure out the effect target
         const target = client?.current || window
         // add {handler} as an event listener
-        target.addEventListener(eventName, handler)
+        target.addEventListener(name, handler)
         // make a controller; not sure whether this required, useful, harmful...
         const controller = new AbortController()
         // and register a clean up
         return () => {
             // that removes the listener
-            target.removeEventListener(eventName, handler)
+            target.removeEventListener(name, handler)
             // and aborts any pending requests
             controller.abort()
         }
