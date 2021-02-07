@@ -48,7 +48,7 @@ export default {
 
     flex: {
         panel: {
-            flex: "1 1 10px",
+            flex: "0 0 100px",
             overflow: "hidden",
             backgroundColor: "hsl(0deg, 0%, 5%, 1)",
         },

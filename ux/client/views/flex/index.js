@@ -61,8 +61,6 @@ const Wrapper = ({style, children}) => {
     const start = ({separator, x, y}) => {
         // save the event data
         activeSeparator.current = {separator, x, y}
-        // show me
-        console.log(`sep ${separator}: start at ${x}x${y}`)
         // all done
         return
     }
@@ -73,9 +71,7 @@ const Wrapper = ({style, children}) => {
         const { separator, x, y } = activeSeparator.current
 
         // if we have an active separator
-        if (separator) {
-            // show me
-            console.log(`sep ${separator}: end at ${x}x${y}`)
+        if (separator !== null) {
             // and reset the saved state
             activeSeparator.current = inactiveSeparator
         }
@@ -87,9 +83,9 @@ const Wrapper = ({style, children}) => {
     // resizing happens as the mouse moves
     const drag = (evt) => {
         // get the active separator
-        const { separator } = activeSeparator.current
+        const { separator, x, y } = activeSeparator.current
         // if we don't have one
-        if (!separator) {
+        if (separator === null) {
             // bail
             return
         }
@@ -99,8 +95,24 @@ const Wrapper = ({style, children}) => {
         // and should hav eno side effects
         evt.preventDefault()
 
+        // grab the panel node
+        const node = refs[separator].current
+        // get its extent
+        const { height, width } = node.getBoundingClientRect()
+
+        // extract the new locations
+        const { clientX, clientY } = evt
+
+        // compute the displacement since the last update
+        const delta = { dx: clientX - x, dy: clientY - y }
+
+        // resize the panel
+        // node.style.flex = `0 0 ${height + delta.dy}px`
+        node.style.flex = `0 0 auto`
+        node.style.height = `${Math.max(height + delta.dy, 0)}px`
+
         // build the new state
-        const updatedState = { separator, x: evt.clientX, y: evt.clientY }
+        const updatedState = { separator, x: clientX, y: clientY }
         // and attach it
         activeSeparator.current = updatedState
         // all done
@@ -126,15 +138,7 @@ const Wrapper = ({style, children}) => {
 
     // go through my children
     children.forEach((child, idx) => {
-        // everybody except the first element
-        if (idx != 0) {
-            // is preceded by a separator
-            const sep = <Separator key={`sep.${idx-1}`} idx={idx-1}
-                                   style={style.separator} controls={separatorControls} />
-            // add it to the pile
-            contents.push(sep)
-        }
-        // make a ref for this child
+        // make a ref for this panel
         const ref = React.useRef()
         // add it to the pile
         refs.push(ref)
@@ -146,6 +150,12 @@ const Wrapper = ({style, children}) => {
         )
         // add it to the pile
         contents.push(panel)
+
+        // everybody is followed by a separator
+        const sep = <Separator key={`sep.${idx}`} idx={idx}
+                               style={style.separator} controls={separatorControls} />
+        // add it to the pile
+        contents.push(sep)
     })
 
     // paint me
