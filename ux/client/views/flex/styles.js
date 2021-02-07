@@ -66,7 +66,6 @@ export default {
 
         separator: {
             rule: {
-                zIndex: 1,
                 flex: "0 0 auto",
                 overflow: "visible",
                 height: "1px",
@@ -75,8 +74,9 @@ export default {
             },
 
             handle: {
+                zIndex: 1,
                 width: "100%",
-                height: "9px",
+                height: "11px",
                 transform: "translate(0, -50%)",
             },
 
