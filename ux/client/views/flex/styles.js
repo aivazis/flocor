@@ -25,53 +25,68 @@ export default {
     },
 
     before: {
-        flex: "0 0 35px",
+        fontFamily: "inconsolata",
+        fontSize: "60%",
+        flex: "0 0 2em",
         backgroundColor: "hsl(0deg, 20%, 10%)",
+
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
     },
 
     after: {
-        flex: "0 0 35px",
+        fontFamily: "inconsolata",
+        fontSize: "60%",
+        flex: "0 0 2em",
         backgroundColor: "hsl(0deg, 20%, 10%)",
+
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
     },
 
     flex: {
-        position: "relative",
-        height: "100%",
+        panel: {
+            flex: "1 1 10px",
+            overflow: "hidden",
+            backgroundColor: "hsl(0deg, 0%, 5%, 1)",
+        },
+
+        wrapper: {
+            fontFamily: "inconsolata",
+            fontSize: "60%",
+            position: "relative",
+            height: "100%",
+            overflow: "clip",
+
+            display: "flex",
+            flexDirection: "column",
+        },
+
+        separator: {
+            rule: {
+                zIndex: 1,
+                flex: "0 0 auto",
+                overflow: "visible",
+                height: "1px",
+                backgroundColor: "hsl(0deg, 0%, 15%, 0.5)",
+                cursor: "row-resize",
+            },
+
+            handle: {
+                width: "100%",
+                height: "9px",
+                transform: "translate(0, -50%)",
+            },
+
+            colors: {
+                hidden: "hsl(0deg, 0%, 15%, 0)",
+                visible: "hsl(0deg, 0%, 15%, 0.5)",
+            },
+        },
+
     },
-
-    wrapper: {
-        height: "100%",
-        overflow: "clip",
-
-        display: "flex",
-        flexDirection: "column",
-    },
-
-    separator: {
-        height: "2px",
-        backgroundColor: "hsl(0deg, 0%, 35%)",
-        cursor: "row-resize",
-    },
-
-    item1: {
-        flex: "0 0 30px",
-        overflow: "hidden",
-        backgroundColor: "hsl(0deg, 0%, 10%)",
-    },
-
-    item2: {
-        flex: 1,
-        // flexBasis: "45px",
-        overflow: "hidden",
-        backgroundColor: "hsl(0deg, 0%, 10%)",
-    },
-
-    item3: {
-        flex: "0 0 60px",
-        overflow: "hidden",
-        backgroundColor: "hsl(0deg, 0%, 10%)",
-    },
-
 }
 
 
