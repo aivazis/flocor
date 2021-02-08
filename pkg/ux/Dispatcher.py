@@ -29,8 +29,6 @@ class Dispatcher:
         command = request.command
         # get the request uri
         url = request.url
-        # show me
-        plexus.info.log(f"{command:>4}: {url}")
         # take a look
         match = self.regex.match(url)
         # if there is no match
