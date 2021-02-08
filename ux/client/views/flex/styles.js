@@ -54,6 +54,7 @@ export default {
         // individual panels
         panel: {
             flex: "0 0 100px",
+            height: "200px",
             overflow: "hidden",
             backgroundColor: "hsl(0deg, 0%, 5%, 1)",
         },
@@ -66,7 +67,6 @@ export default {
             },
             // the handle
             handle: {
-                height: "5px",
             },
         },
 

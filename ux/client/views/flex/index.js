@@ -34,10 +34,14 @@ const flex = () => {
 
             <Banner style={styles.before} text="top" />
 
-            <Flex style={styles.flex} >
+            <Flex direction="column" style={styles.flex} >
                 <div>panel 0</div>
                 <div>panel 1</div>
-                <div>panel 2</div>
+                <Flex direction="row" style={styles.flex} >
+                    <div>panel 2a</div>
+                    <div>panel 2b</div>
+                    <div>panel 2c</div>
+                </Flex >
                 <div>panel 3</div>
             </Flex >
 

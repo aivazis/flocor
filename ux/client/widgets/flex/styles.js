@@ -17,8 +17,6 @@ export default {
         position: "relative",
         overflow: "clip",
         display: "flex",
-        // orientation sensitive
-        flexDirection: "column",
     },
 
     // the individual panels
@@ -35,19 +33,11 @@ export default {
             flex: "0 0 auto",
             overflow: "visible",
             backgroundColor: "hsl(0deg, 0%, 15%, 0.5)",
-
-            // orientation sensitive
-            height: "1px",
-            cursor: "row-resize",
         },
 
         // the handle
         handle: {
             zIndex: 1,
-            // orientation sensitive
-            width: "100%",
-            height: "11px",
-            transform: "translate(0, -50%)",
         },
 
         // state dependent styling

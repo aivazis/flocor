@@ -17,7 +17,7 @@ import Separator from './separator'
 import styles from './styles'
 
 
-const flex = ({style, children}) => {
+const flex = ({direction, style, children}) => {
     // if i have no children
     if (children === undefined) {
         // there's nothing to do
@@ -29,6 +29,9 @@ const flex = ({style, children}) => {
         // nothing to do
         return children
     }
+
+    // deduce the direction
+    const isRow = direction.startsWith("row")
 
     // build and install the upport for the resizing behavior
     // keep track of the active separator
@@ -86,7 +89,15 @@ const flex = ({style, children}) => {
 
         // resize the panel
         node.style.flex = `0 0 auto`
-        node.style.height = `${Math.max(height + delta.dy, 0)}px`
+        // on horizontal layouts
+        if (isRow) {
+            // adjust the width
+            node.style.width = `${Math.max(width + delta.dx, 0)}px`
+        // on vertical layouts
+        } else {
+            // adjust the height
+            node.style.height = `${Math.max(height + delta.dy, 0)}px`
+        }
 
         // build the new state
         const updatedState = { separator, x: clientX, y: clientY }
@@ -129,14 +140,14 @@ const flex = ({style, children}) => {
         contents.push(panel)
 
         // everybody is followed by a separator
-        const sep = (<Separator key={`sep.${idx}`} idx={idx}
+        const sep = (<Separator key={`sep.${idx}`} idx={idx} direction={direction}
                                style={style?.separator} controls={separatorControls} />)
         // add it to the pile
         contents.push(sep)
     })
 
     // mix my paint
-    const boxStyle = {...styles.box, ...style.box}
+    const boxStyle = {...styles.box, ...style.box, flexDirection: direction}
     // paint me
     return (
         <div ref={wrapperRef} style={boxStyle}>

@@ -12,11 +12,45 @@ import React  from 'react'
 import styles from './styles'
 
 // the separator inserted between consecutive items in a flex panel
-const separator = ({idx, style, controls}) => {
+const separator = ({idx, direction, style, controls}) => {
+    // direction dependent settings
+    let dirRuleStyle = {}
+    let dirHandleStyle = {}
+
+    // configure for a vertical separator
+    if (direction.startsWith("row")) {
+        // for the rule
+        dirRuleStyle = {
+            width: "1px",
+            cursor: "col-resize",
+        }
+        // for the handle
+        dirHandleStyle = {
+            width: "9px",
+            height: "100%",
+            transform: "translate(-50%, 0)",
+        }
+    } else if (direction.startsWith("column")) {
+        // for the rule
+        dirRuleStyle = {
+            height: "1px",
+            cursor: "row-resize",
+        }
+        // for the handle
+        dirHandleStyle = {
+            width: "100%",
+            height: "9px",
+            transform: "translate(0, -50%)",
+        }
+    } else {
+        // nothing to do but complain
+        throw `direction should be one of [row|column], not '${direction}'`
+    }
+
     // mix my paint
-    const ruleStyle = { ...styles.separator.rule, ...style?.rule }
+    const ruleStyle = { ...styles.separator.rule, ...dirRuleStyle, ...style?.rule }
     // the paint of my handle
-    const handleStyle = { ...styles.separator.handle, ...style?.handle }
+    const handleStyle = { ...styles.separator.handle, ...dirHandleStyle, ...style?.handle }
     // and the state dependent coloring
     const stateStyle = { ...styles.separator.colors, ...style?.colors }
 
