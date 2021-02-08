@@ -7,9 +7,19 @@
 // externals
 import React  from 'react'
 
+// locals
+// styles
+import styles from './styles'
 
 // the separator inserted between consecutive items in a flex panel
 const separator = ({idx, style, controls}) => {
+    // mix my paint
+    const ruleStyle = { ...styles.separator.rule, ...style?.rule }
+    // the paint of my handle
+    const handleStyle = { ...styles.separator.handle, ...style?.handle }
+    // and the state dependent coloring
+    const stateStyle = { ...styles.separator.colors, ...style?.colors }
+
     // make a ref for the handle
     const ref = React.useRef(null)
 
@@ -22,7 +32,7 @@ const separator = ({idx, style, controls}) => {
         // if the handle has rendered
         if (handle) {
             // paint it
-            handle.style.backgroundColor = style.colors.visible
+            handle.style.backgroundColor = stateStyle.visible
         }
         // all done
         return
@@ -37,7 +47,7 @@ const separator = ({idx, style, controls}) => {
         // if the handle has rendered
         if (handle) {
             // paint it
-            handle.style.backgroundColor = style.colors.hidden
+            handle.style.backgroundColor = stateStyle.hidden
         }
         // all done
         return
@@ -62,8 +72,8 @@ const separator = ({idx, style, controls}) => {
 
     // paint me
     return (
-        <div style={style.rule} >
-            <div ref={ref} style={style.handle} {...handleControls} />
+        <div style={ruleStyle} >
+            <div ref={ref} style={handleStyle} {...handleControls} />
         </div>
     )
 }

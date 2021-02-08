@@ -30,8 +30,6 @@ const flex = ({style, children}) => {
         return children
     }
 
-    console.log(style.wrapper.flexDirection)
-
     // build and install the upport for the resizing behavior
     // keep track of the active separator
     const activeSeparator = React.useRef(inactiveSeparator)
@@ -123,7 +121,7 @@ const flex = ({style, children}) => {
         refs.push(ref)
         // every child is placed in a panel
         const panel = (
-            <Panel ref={ref} key={`panel.${idx}`} idx={idx} style={style.panel} >
+            <Panel ref={ref} key={`panel.${idx}`} idx={idx} style={style?.panel} >
                 {child}
             </Panel>
         )
@@ -131,15 +129,17 @@ const flex = ({style, children}) => {
         contents.push(panel)
 
         // everybody is followed by a separator
-        const sep = <Separator key={`sep.${idx}`} idx={idx}
-                               style={style.separator} controls={separatorControls} />
+        const sep = (<Separator key={`sep.${idx}`} idx={idx}
+                               style={style?.separator} controls={separatorControls} />)
         // add it to the pile
         contents.push(sep)
     })
 
+    // mix my paint
+    const boxStyle = {...styles.box, ...style.box}
     // paint me
     return (
-        <div ref={wrapperRef} style={style.wrapper}>
+        <div ref={wrapperRef} style={boxStyle}>
             {contents}
         </div >
     )

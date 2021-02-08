@@ -12,81 +12,51 @@ import base from '~/views/styles'
 
 // publish
 export default {
-    // the container
-    panel: {
-        // inherit
-        ...base.panel,
-        // styling
+    // the overall box
+    box: {
+        position: "relative",
         overflow: "clip",
-        margin: "0.5em",
-
-        // for my children: flow is already established by {base}
+        display: "flex",
+        // orientation sensitive
         flexDirection: "column",
     },
 
-    before: {
-        fontFamily: "inconsolata",
-        fontSize: "60%",
-        flex: "0 0 2em",
-        backgroundColor: "hsl(0deg, 20%, 10%)",
-
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
+    // the individual panels
+    panel: {
+        flex: "0 0 100px",
+        overflow: "hidden",
+        backgroundColor: "hsl(0deg, 0%, 5%, 1)",
     },
 
-    after: {
-        fontFamily: "inconsolata",
-        fontSize: "60%",
-        flex: "0 0 2em",
-        backgroundColor: "hsl(0deg, 20%, 10%)",
+    // the inre-panel separator
+    separator: {
+        // the line
+        rule: {
+            flex: "0 0 auto",
+            overflow: "visible",
+            backgroundColor: "hsl(0deg, 0%, 15%, 0.5)",
 
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
+            // orientation sensitive
+            height: "1px",
+            cursor: "row-resize",
+        },
+
+        // the handle
+        handle: {
+            zIndex: 1,
+            // orientation sensitive
+            width: "100%",
+            height: "11px",
+            transform: "translate(0, -50%)",
+        },
+
+        // state dependent styling
+        colors: {
+            hidden: "hsl(0deg, 0%, 15%, 0)",
+            visible: "hsl(0deg, 0%, 15%, 0.5)",
+        },
     },
 
-    flex: {
-        panel: {
-            flex: "0 0 100px",
-            overflow: "hidden",
-            backgroundColor: "hsl(0deg, 0%, 5%, 1)",
-        },
-
-        wrapper: {
-            fontFamily: "inconsolata",
-            fontSize: "60%",
-            position: "relative",
-            height: "100%",
-            overflow: "clip",
-
-            display: "flex",
-            flexDirection: "column",
-        },
-
-        separator: {
-            rule: {
-                flex: "0 0 auto",
-                overflow: "visible",
-                height: "1px",
-                backgroundColor: "hsl(0deg, 0%, 15%, 0.5)",
-                cursor: "row-resize",
-            },
-
-            handle: {
-                zIndex: 1,
-                width: "100%",
-                height: "11px",
-                transform: "translate(0, -50%)",
-            },
-
-            colors: {
-                hidden: "hsl(0deg, 0%, 15%, 0)",
-                visible: "hsl(0deg, 0%, 15%, 0.5)",
-            },
-        },
-
-    },
 }
 
 

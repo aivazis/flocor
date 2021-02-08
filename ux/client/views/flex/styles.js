@@ -18,15 +18,17 @@ export default {
         ...base.panel,
         // styling
         overflow: "clip",
-        margin: "0.5em",
+        margin: "0.5rem",
 
         // for my children: flow is already established by {base}
         flexDirection: "column",
+
+        // fonts
+        fontFamily: "inconsolata",
+        fontSize: "60%",
     },
 
     before: {
-        fontFamily: "inconsolata",
-        fontSize: "60%",
         flex: "0 0 2em",
         backgroundColor: "hsl(0deg, 20%, 10%)",
 
@@ -36,8 +38,6 @@ export default {
     },
 
     after: {
-        fontFamily: "inconsolata",
-        fontSize: "60%",
         flex: "0 0 2em",
         backgroundColor: "hsl(0deg, 20%, 10%)",
 
@@ -47,42 +47,26 @@ export default {
     },
 
     flex: {
+        // the overall flex container
+        box: {
+        },
+
+        // individual panels
         panel: {
             flex: "0 0 100px",
             overflow: "hidden",
             backgroundColor: "hsl(0deg, 0%, 5%, 1)",
         },
 
-        wrapper: {
-            fontFamily: "inconsolata",
-            fontSize: "60%",
-            position: "relative",
-            height: "100%",
-            overflow: "clip",
-
-            display: "flex",
-            flexDirection: "column",
-        },
-
+        // the inter-panel separator
         separator: {
+            // the line
             rule: {
-                flex: "0 0 auto",
-                overflow: "visible",
-                height: "1px",
                 backgroundColor: "hsl(0deg, 0%, 15%, 0.5)",
-                cursor: "row-resize",
             },
-
+            // the handle
             handle: {
-                zIndex: 1,
-                width: "100%",
-                height: "11px",
-                transform: "translate(0, -50%)",
-            },
-
-            colors: {
-                hidden: "hsl(0deg, 0%, 15%, 0)",
-                visible: "hsl(0deg, 0%, 15%, 0.5)",
+                height: "5px",
             },
         },
 
