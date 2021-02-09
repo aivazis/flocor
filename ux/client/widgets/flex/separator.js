@@ -17,7 +17,7 @@ const separator = ({idx, direction, style, controls}) => {
     let dirRuleStyle = {}
     let dirHandleStyle = {}
 
-    // configure for a vertical separator
+    // configure a vertical separator
     if (direction.startsWith("row")) {
         // for the rule
         dirRuleStyle = {
@@ -30,6 +30,7 @@ const separator = ({idx, direction, style, controls}) => {
             height: "100%",
             transform: "translate(-50%, 0)",
         }
+    // configure a horizontal separator
     } else if (direction.startsWith("column")) {
         // for the rule
         dirRuleStyle = {
@@ -42,6 +43,7 @@ const separator = ({idx, direction, style, controls}) => {
             height: "9px",
             transform: "translate(0, -50%)",
         }
+    // anything else
     } else {
         // nothing to do but complain
         throw `direction should be one of [row|column], not '${direction}'`
