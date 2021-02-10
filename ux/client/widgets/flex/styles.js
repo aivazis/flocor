@@ -21,12 +21,14 @@ export default {
 
     // the individual panels
     panel: {
-        flex: "0 0 100px",
+        // for me
+        flex: "1 1 100%",
+        // for my children
         overflow: "hidden",
-        backgroundColor: "hsl(0deg, 0%, 5%, 1)",
+        display: "flex",
     },
 
-    // the inre-panel separator
+    // the inter-panel separator
     separator: {
         // the line
         rule: {
