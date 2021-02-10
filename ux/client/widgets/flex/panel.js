@@ -12,7 +12,7 @@ import React  from 'react'
 import styles from './styles'
 
 // a container for client children
-const panel = React.forwardRef(({idx, style, children}, ref) => {
+const panel = React.forwardRef(({idx, direction, style, children}, ref) => {
     // mix my styles
     const panelStyle = { ...styles.panel, ...style }
 

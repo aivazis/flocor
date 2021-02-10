@@ -154,6 +154,7 @@ const flex = ({direction, style, children}) => {
         // every child is placed in a panel
         const panel = (
             <Panel ref={ref} key={`panel.${idx}`} idx={idx}
+                   direction={direction}
                    style={panelStyle} >
                 {child}
             </Panel>
