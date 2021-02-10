@@ -18,16 +18,30 @@ import styles from './styles'
 
 
 const flex = ({direction, style, children}) => {
+    // mix my paint
+    const boxStyle = {...styles.box, ...style?.box, flexDirection: direction}
+    const panelStyle = {...styles.panel, ...style?.panel}
+
     // if i have no children
     if (children === undefined) {
-        // there's nothing to do
-        return null
+        // make an empty container
+        return ( <div style={boxStyle} />)
     }
+
+    // a ref for the wrapper
+    const boxRef = React.useRef()
 
     // if i only have one child
     if (!Array.isArray(children)) {
-        // nothing to do
-        return children
+        // no interactivity is necessary; just render the box, for the styling side effects,
+        // and the single child wrapped in a {panel}, again for the styling side effects
+        return (
+            <div ref={boxRef} style={boxStyle}>
+                <Panel idx="0" style={panelStyle} >
+                    {children}
+                </Panel>
+            </div>
+        )
     }
 
     // deduce the direction
@@ -112,12 +126,10 @@ const flex = ({direction, style, children}) => {
         start
     }
 
-    // a ref for the wrapper
-    const wrapperRef = React.useRef()
     // install our event listeners on the wrapper
-    useEvent({name: "mouseleave", handler: end, client: wrapperRef})
-    useEvent({name: "mousemove", handler: drag, client: wrapperRef})
-    useEvent({name: "mouseup", handler: end, client: wrapperRef})
+    useEvent({name: "mouseleave", handler: end, client: boxRef})
+    useEvent({name: "mousemove", handler: drag, client: boxRef})
+    useEvent({name: "mouseup", handler: end, client: boxRef})
 
     // storaget for my content
     const contents = new Array()
@@ -126,31 +138,34 @@ const flex = ({direction, style, children}) => {
 
     // go through my children
     children.forEach((child, idx) => {
+        // everybody, except the zeroth panel
+        if (idx !== 0) {
+            // is preceded by a separator
+            const sep = (<Separator key={`sep.${idx-1}`} idx={idx-1} direction={direction}
+                                    style={style?.separator} controls={separatorControls} />)
+            // add it to the pile
+            contents.push(sep)
+        }
+
         // make a ref for this panel
         const ref = React.useRef()
         // add it to the pile
         refs.push(ref)
         // every child is placed in a panel
         const panel = (
-            <Panel ref={ref} key={`panel.${idx}`} idx={idx} style={style?.panel} >
+            <Panel ref={ref} key={`panel.${idx}`} idx={idx}
+                   style={panelStyle} >
                 {child}
             </Panel>
         )
         // add it to the pile
         contents.push(panel)
 
-        // everybody is followed by a separator
-        const sep = (<Separator key={`sep.${idx}`} idx={idx} direction={direction}
-                               style={style?.separator} controls={separatorControls} />)
-        // add it to the pile
-        contents.push(sep)
     })
 
-    // mix my paint
-    const boxStyle = {...styles.box, ...style.box, flexDirection: direction}
     // paint me
     return (
-        <div ref={wrapperRef} style={boxStyle}>
+        <div ref={boxRef} style={boxStyle}>
             {contents}
         </div >
     )
