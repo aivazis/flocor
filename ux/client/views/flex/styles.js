@@ -22,13 +22,14 @@ export default {
 
         // for my children: flow is already established by {base}
         flexDirection: "column",
+        justifyContent: "space-between",
 
         // fonts
         fontFamily: "inconsolata",
         fontSize: "60%",
     },
 
-    before: {
+    banner: {
         flex: "0 0 2em",
         backgroundColor: "hsl(0deg, 20%, 10%)",
 
@@ -37,26 +38,21 @@ export default {
         alignItems: "center",
     },
 
-    after: {
-        flex: "0 0 2em",
-        backgroundColor: "hsl(0deg, 20%, 10%)",
-
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
+    item: {
+        // width: "100%",
+        backgroundColor: "hsl(30deg, 20%, 12%)",
     },
 
     flex: {
         // the overall flex container
         box: {
+            flex: "1 1 auto",
+            backgroundColor: "hsl(0deg, 0%, 10%)",
         },
 
         // individual panels
         panel: {
-            flex: "0 0 100px",
-            height: "200px",
-            overflow: "hidden",
-            backgroundColor: "hsl(0deg, 0%, 5%, 1)",
+            backgroundColor: "hsl(0deg, 100%, 5%, 1)",
         },
 
         // the inter-panel separator

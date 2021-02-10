@@ -17,10 +17,27 @@ import styles from './styles'
 
 
 const Banner = ({style, text=""}) => {
+    // mix my styles
+    const bannerStyle = { ...styles.banner, ...style }
     // paint me
     return (
-        <div style={style}>
+        <div style={bannerStyle}>
             :{text}
+        </div>
+    )
+}
+
+const Item = ({style, children}) => {
+    // mix my style
+    const panelStyle = { ...styles.item, ...style }
+
+    // get my extent
+    const { ref, extent } = useResizeObserver()
+
+    // paint me
+    return (
+        <div ref={ref} style={panelStyle}>
+            {extent.height}x{extent.width}
         </div>
     )
 }
@@ -31,22 +48,16 @@ const flex = () => {
     // build the rep
     return (
         <section style={styles.panel} >
-
-            <Banner style={styles.before} text="top" />
+            <Banner text="top" />
 
             <Flex direction="column" style={styles.flex} >
-                <div>panel 0</div>
-                <div>panel 1</div>
-                <Flex direction="row" style={styles.flex} >
-                    <div>panel 2a</div>
-                    <div>panel 2b</div>
-                    <div>panel 2c</div>
-                </Flex >
-                <div>panel 3</div>
-            </Flex >
+                <Item>panel 0</Item>
+                <Item>panel 1</Item>
+                <Item>panel 2</Item>
+                <Item>panel 3</Item>
+            </Flex>
 
-            <Banner style={styles.after} text="bottom" />
-
+            <Banner text="bottom" />
         </section>
     )
 }
