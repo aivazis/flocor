@@ -46,6 +46,8 @@ const flex = ({direction, style, children}) => {
 
     // deduce the direction
     const isRow = direction.startsWith("row")
+    // and the order
+    const isReversed = direction.endsWith("-reverse")
 
     // build and install the upport for the resizing behavior
     // keep track of the active separator
@@ -141,7 +143,8 @@ const flex = ({direction, style, children}) => {
         // everybody, except the zeroth panel
         if (idx !== 0) {
             // is preceded by a separator
-            const sep = (<Separator key={`sep.${idx-1}`} idx={idx-1} direction={direction}
+            const sep = (<Separator key={`sep.${idx-1}`} idx={idx-1}
+                                    isRow={isRow} isReversed={isReversed}
                                     style={style?.separator} controls={separatorControls} />)
             // add it to the pile
             contents.push(sep)

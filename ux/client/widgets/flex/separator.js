@@ -12,13 +12,13 @@ import React  from 'react'
 import styles from './styles'
 
 // the separator inserted between consecutive items in a flex panel
-const separator = ({idx, direction, style, controls}) => {
+const separator = ({idx, isRow, isReversed, style, controls}) => {
     // direction dependent settings
     let dirRuleStyle = {}
     let dirHandleStyle = {}
 
     // configure a vertical separator
-    if (direction.startsWith("row")) {
+    if (isRow) {
         // for the rule
         dirRuleStyle = {
             width: "1px",
@@ -31,7 +31,7 @@ const separator = ({idx, direction, style, controls}) => {
             transform: "translate(-50%, 0)",
         }
     // configure a horizontal separator
-    } else if (direction.startsWith("column")) {
+    } else {
         // for the rule
         dirRuleStyle = {
             height: "1px",
@@ -43,10 +43,6 @@ const separator = ({idx, direction, style, controls}) => {
             height: "9px",
             transform: "translate(0, -50%)",
         }
-    // anything else
-    } else {
-        // nothing to do but complain
-        throw `direction should be one of [row|column], not '${direction}'`
     }
 
     // mix my paint
