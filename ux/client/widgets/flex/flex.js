@@ -32,7 +32,7 @@ const flex = ({direction, style, children}) => {
     const boxRef = React.useRef()
 
     // if i only have one child
-    if (!Array.isArray(children)) {
+    if (React.Children.count(children) == 1) {
         // no interactivity is necessary; just render the box, for the styling side effects,
         // and the single child wrapped in a {panel}, again for the styling side effects
         return (
