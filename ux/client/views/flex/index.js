@@ -37,7 +37,7 @@ const Item = ({style, children}) => {
     // paint me
     return (
         <div ref={ref} style={panelStyle}>
-            {extent.height}x{extent.width}
+            {extent.width}x{extent.height}
         </div>
     )
 }
