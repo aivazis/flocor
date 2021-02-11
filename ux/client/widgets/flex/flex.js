@@ -17,7 +17,7 @@ import Separator from './separator'
 import styles from './styles'
 
 
-const flex = ({direction, style, children}) => {
+const flex = ({direction, style, children, debug}) => {
     // mix my paint
     const boxStyle = {...styles.box, ...style?.box, flexDirection: direction}
     const panelStyle = {...styles.panel, ...style?.panel}
@@ -37,7 +37,7 @@ const flex = ({direction, style, children}) => {
         // and the single child wrapped in a {panel}, again for the styling side effects
         return (
             <div ref={boxRef} style={boxStyle}>
-                <Panel idx="0" style={panelStyle} >
+                <Panel idx="0" style={panelStyle} debug={debug} >
                     {children}
                 </Panel>
             </div>
@@ -145,7 +145,9 @@ const flex = ({direction, style, children}) => {
             // is preceded by a separator
             const sep = (<Separator key={`sep.${idx-1}`} idx={idx-1}
                                     isRow={isRow} isReversed={isReversed}
-                                    style={style?.separator} controls={separatorControls} />)
+                                    style={style?.separator} controls={separatorControls}
+                                    debug={debug}
+                         />)
             // add it to the pile
             contents.push(sep)
         }
@@ -158,7 +160,7 @@ const flex = ({direction, style, children}) => {
         const panel = (
             <Panel ref={ref} key={`panel.${idx}`} idx={idx}
                    direction={direction}
-                   style={panelStyle} >
+                   style={panelStyle} debug={debug} >
                 {child}
             </Panel>
         )
