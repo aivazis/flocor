@@ -17,7 +17,7 @@ import Separator from './separator'
 import styles from './styles'
 
 
-const flex = ({direction, style, children, debug}) => {
+const flex = ({direction, hints=[], style, children, debug}) => {
     // mix my paint
     const boxStyle = {...styles.box, ...style?.box, flexDirection: direction}
     const panelStyle = {...styles.panel, ...style?.panel}
@@ -33,11 +33,16 @@ const flex = ({direction, style, children, debug}) => {
 
     // if i only have one child
     if (React.Children.count(children) == 1) {
+        // get the size hints
+        const hint = hints[0] ?? [0, Infinity]
         // no interactivity is necessary; just render the box, for the styling side effects,
         // and the single child wrapped in a {panel}, again for the styling side effects
         return (
             <div ref={boxRef} style={boxStyle}>
-                <Panel idx="0" style={panelStyle} debug={debug} >
+                <Panel idx={0}
+                       isRow={isRow} isReversed={isReversed}
+                       hint={hint}
+                       style={panelStyle} debug={debug} >
                     {children}
                 </Panel>
             </div>
@@ -79,6 +84,17 @@ const flex = ({direction, style, children, debug}) => {
 
     // resizing happens as the mouse moves
     const drag = (evt) => {
+        // N.B.: do not be tempted to {end()} the interaction when the extent leaves the
+        // interval supplied by the client; since the mouse will continue to be held down
+        // while the user crosses the lines, calling {end} switches the browser to the
+        // default drag behavior, which is almost certainly selecting content from the
+        // panels; this doesn't look good...
+
+        // otherwise, let the browser know that this event is handled here
+        evt.stopPropagation()
+        // and should have no side effects
+        evt.preventDefault()
+
         // upack the current state
         const { separator, x, y } = activeSeparator.current
         // if we don't have an active separator
@@ -87,33 +103,49 @@ const flex = ({direction, style, children, debug}) => {
             return
         }
 
-        // this event is handled here
-        evt.stopPropagation()
-        // and should have no side effects
-        evt.preventDefault()
+        // the transaction parity determines whether positive displacements enlarge or shrink
+        // the panel
+        const parity = isReversed ? -1 : 1
+
+        // extract the new mouse coordinates
+        const { clientX, clientY } = evt
+        // compute the displacement since the last update
+        const delta = { dx: clientX - x, dy: clientY - y }
 
         // grab the panel node
         const node = refs[separator].current
         // get its extent
         const { height, width } = node.getBoundingClientRect()
+        // and the size hints
+        const [minSize, maxSize] = hints[separator] ?? [0, Infinity]
 
-        // extract the new locations
-        const { clientX, clientY } = evt
-
-        // compute the displacement since the last update
-        const delta = { dx: clientX - x, dy: clientY - y }
-
-        // resize the panel
-        node.style.flex = `0 0 auto`
+        // the proposed change
+        let proposed = 0
         // on horizontal layouts
         if (isRow) {
-            // adjust the width
-            node.style.width = `${Math.max(width + delta.dx, 0)}px`
+            // compute the suggested width
+            proposed = width + parity*delta.dx
         // on vertical layouts
         } else {
-            // adjust the height
-            node.style.height = `${Math.max(height + delta.dy, 0)}px`
+            // compute the suggested height
+            proposed = height + parity*delta.dy
         }
+
+        // confine the proposal to the client specified interval
+        proposed = Math.min(Math.max(minSize, proposed), maxSize)
+
+        // on horizontal layouts
+        if (isRow) {
+            // set the width to the proposed value
+            node.style.width = `${proposed}px`
+        // on vertical layouts
+        } else {
+            // set the height to the proposed value
+            node.style.height = `${proposed}px`
+        }
+
+        // restyle the panel
+        node.style.flex = `0 0 auto`
 
         // build the new state
         const updatedState = { separator, x: clientX, y: clientY }
@@ -133,9 +165,9 @@ const flex = ({direction, style, children, debug}) => {
     useEvent({name: "mousemove", handler: drag, client: boxRef})
     useEvent({name: "mouseup", handler: end, client: boxRef})
 
-    // storaget for my content
+    // storage for my content
     const contents = new Array()
-    // and the refs to my panels
+    // and for the refs to my panels
     const refs = new Array()
 
     // go through my children
@@ -156,10 +188,14 @@ const flex = ({direction, style, children, debug}) => {
         const ref = React.useRef()
         // add it to the pile
         refs.push(ref)
+
+        // carefully get the associated size hint
+        let hint = hints[idx] ?? [0, Infinity]
         // every child is placed in a panel
         const panel = (
             <Panel ref={ref} key={`panel.${idx}`} idx={idx}
-                   direction={direction}
+                   isRow={isRow} isReversed={isReversed}
+                   hint={hint}
                    style={panelStyle} debug={debug} >
                 {child}
             </Panel>
