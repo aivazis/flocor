@@ -37,7 +37,7 @@ const Item = ({style, children}) => {
     // paint me
     return (
         <div ref={ref} style={panelStyle}>
-            {extent.width}x{extent.height}
+            {extent.height}x{extent.width}
         </div>
     )
 }
@@ -46,25 +46,41 @@ const Item = ({style, children}) => {
 // the flex sandbox
 const flex = () => {
     // set up the size hints for my panels
-    const sizes = [
+    const columns = [
         // panel 0
-        [60, 120],
+        [60, 100],
         // panel 1
-        [30, Infinity],
+        [90, Infinity],
         // panel 2
-        [0, 100],
+        [120, 200],
         // panel 3
-        [50, Infinity],
+        [150, 300],
+        // panel 4
+        [180, Infinity],
         ]
+
+    const rows = [
+        // panel A
+        [40, 180],
+        // panel B
+        [60, 220],
+        // panel C
+        [100, Infinity],
+    ]
 
     // build the rep
     return (
         <section style={styles.panel} >
             <Banner text="top" />
 
-            <Flex debug={true} direction="column" hints={sizes} style={styles.flex} >
+            <Flex direction="row" hints={columns} style={styles.flex} >
                 <Item>panel 0</Item>
                 <Item>panel 1</Item>
+                <Flex debug={true} direction="column" hints={rows} style={styles.flex} >
+                    <Item>panel A</Item>
+                    <Item>panel B</Item>
+                    <Item>panel C</Item>
+                </Flex>
                 <Item>panel 2</Item>
                 <Item>panel 3</Item>
             </Flex>

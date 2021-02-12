@@ -18,7 +18,7 @@ export default {
         ...base.panel,
         // styling
         overflow: "clip",
-        margin: "0.5rem",
+        margin: "0.5em",
 
         // for my children: flow is already established by {base}
         flexDirection: "column",
@@ -39,8 +39,9 @@ export default {
     },
 
     item: {
-        // width: "100%",
-        backgroundColor: "hsl(30deg, 20%, 12%)",
+        width: "100%",
+        height: "100%",
+        backgroundColor: "hsl(0deg, 0%, 7%)",
     },
 
     flex: {
