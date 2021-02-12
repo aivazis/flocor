@@ -45,12 +45,24 @@ const Item = ({style, children}) => {
 
 // the flex sandbox
 const flex = () => {
+    // set up the size hints for my panels
+    const sizes = [
+        // panel 0
+        [60, 120],
+        // panel 1
+        [30, Infinity],
+        // panel 2
+        [0, 100],
+        // panel 3
+        [50, Infinity],
+        ]
+
     // build the rep
     return (
         <section style={styles.panel} >
             <Banner text="top" />
 
-            <Flex direction="column" style={styles.flex} >
+            <Flex debug={true} direction="column" hints={sizes} style={styles.flex} >
                 <Item>panel 0</Item>
                 <Item>panel 1</Item>
                 <Item>panel 2</Item>
