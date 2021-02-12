@@ -16,22 +16,22 @@ import styles from './styles'
 // a container for client children
 const panel = React.forwardRef(({idx, isRow, isReversed, hint, style, children, debug}, ref) => {
     // unpack the hint
-    const [minSize, maxSize] = hint
+    const [min, max] = hint
 
     // deduce the extent
-    const extent = isRow ? "Widht" : "Height"
+    const extent = isRow ? "Width" : "Height"
 
     // storage for the size dependent styling
     let sizeStyle = {}
     // if i have a minimum size
-    if (minSize > 0) {
+    if (min > 0) {
         // make it the minimum value
-        sizeStyle[`min${extent}`] = minSize
+        sizeStyle[`min${extent}`] = `${min}px`
     }
     // if i have a maximum size
-    if (maxSize < Infinity) {
-        // make the maximum value
-        sizeStyle["max${extent}"] = maxSize
+    if (max < Infinity) {
+        // make it the maximum value
+        sizeStyle[`max${extent}`] = `${max}px`
     }
 
     // mix my styles
