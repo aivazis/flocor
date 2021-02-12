@@ -14,9 +14,40 @@ import { useResizeObserver } from '~/hooks'
 import styles from './styles'
 
 // a container for client children
-const panel = React.forwardRef(({idx, direction, style, children, debug}, ref) => {
+const panel = React.forwardRef(({idx, isRow, isReversed, hint, style, children, debug}, ref) => {
+
+    // unpack the hint
+    const [minSize, maxSize] = hint
+
+    // storage for the size dependent styling
+    let sizeStyle = {}
+    // for horizontal layouts
+    if (isRow) {
+        // if i have a minimum size
+        if (minSize > 0) {
+            // set the minimum width
+            sizeStyle["minWidth"] = minSize
+        }
+        // if i have a maximum size
+        if (maxSize < Infinity) {
+            // set the minimum width
+            sizeStyle["maxWidth"] = maxSize
+        }
+    } else {
+        // if i have a minimum size
+        if (minSize > 0) {
+            // set the minimum height
+            sizeStyle["minHeight"] = minSize
+        }
+        // if i have a maximum size
+        if (maxSize < Infinity) {
+            // set the minimum height
+            sizeStyle["maxHeight"] = maxSize
+        }
+    }
+
     // mix my styles
-    const panelStyle = { ...styles.panel, ...style }
+    const panelStyle = { ...styles.panel, ...sizeStyle, ...style }
 
     // during normal execution, my content is my {children}
     let content = children
