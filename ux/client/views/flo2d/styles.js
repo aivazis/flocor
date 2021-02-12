@@ -16,8 +16,10 @@ export default {
     panel: {
         // inherit
         ...base.panel,
-        //
+        // style
         margin: "0.5em",
+        // no smaller than
+        minHeight: "400px",
     },
 
     canvas: {
