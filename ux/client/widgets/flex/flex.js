@@ -19,7 +19,9 @@ import styles from './styles'
 
 const flex = ({direction, hints=[], style, children, debug}) => {
     // mix my paint
+    // for the container
     const boxStyle = {...styles.box, ...style?.box, flexDirection: direction}
+    // and individual panels
     const panelStyle = {...styles.panel, ...style?.panel}
 
     // if i have no children
@@ -28,9 +30,6 @@ const flex = ({direction, hints=[], style, children, debug}) => {
         return ( <div style={boxStyle} />)
     }
 
-    // a ref for the wrapper
-    const boxRef = React.useRef()
-
     // if i only have one child
     if (React.Children.count(children) == 1) {
         // get the size hints
@@ -38,7 +37,7 @@ const flex = ({direction, hints=[], style, children, debug}) => {
         // no interactivity is necessary; just render the box, for the styling side effects,
         // and the single child wrapped in a {panel}, again for the styling side effects
         return (
-            <div ref={boxRef} style={boxStyle}>
+            <div style={boxStyle}>
                 <Panel idx={0}
                        isRow={isRow} isReversed={isReversed}
                        hint={hint}
@@ -49,20 +48,53 @@ const flex = ({direction, hints=[], style, children, debug}) => {
         )
     }
 
-    // deduce the direction
+    // deduce the main axis
     const isRow = direction.startsWith("row")
-    // and the order
+    // and the order, which affects the correlation between mouse movement and extent update
     const isReversed = direction.endsWith("-reverse")
 
-    // build and install the upport for the resizing behavior
+    // the box extent we manipulate is determined by the direction
+    const dim = isRow ? "width" : "height"
+
+    // build and install the support for the resizing behavior
     // keep track of the active separator
     const activeSeparator = React.useRef(inactiveSeparator)
+    // make a flag that indicates whether we have turned flexing off; this happens the first
+    // time the end-user clicks on a separator, indicating that she wants control over the
+    // panel sizes
+    let isUnflexed = false
 
     // resizing starts when a separator is clicked
     // save the separator id and the coordinates of the mouse
     const start = ({separator, x, y}) => {
         // save the event data
         activeSeparator.current = {separator, x, y}
+
+        // if this is not the first time a separator get clicked
+        if (isUnflexed) {
+            // nothing further to do
+            return
+        }
+        // otherwise, set the indicator
+        isUnflexed = true
+        // and shut {flex} down for all panels except the last one, which is expected to be
+        // and to absorb the viewport resizing
+        refs.forEach((ref, idx) => {
+            // get the associated node
+            const node = ref.current
+            // get its extent
+            const extent = Math.floor(node.getBoundingClientRect()[dim])
+            // transfer it to the style
+            node.style[dim] = `${extent}px`
+            // deduce the correct flex: every panel is now frozen to it styled extent, except
+            // the last one that absorbs viewport size changes
+            const flx = (idx == refs.length-1) ? "1 1 0" : "0 0 auto"
+            // style the node
+            node.style.flex = flx
+            // all done
+            return
+        })
+
         // all done
         return
     }
@@ -90,12 +122,12 @@ const flex = ({direction, hints=[], style, children, debug}) => {
         // default drag behavior, which is almost certainly selecting content from the
         // panels; this doesn't look good...
 
-        // otherwise, let the browser know that this event is handled here
+        // let the browser know that this event is handled here
         evt.stopPropagation()
         // and should have no side effects
         evt.preventDefault()
 
-        // upack the current state
+        // unpack the current state
         const { separator, x, y } = activeSeparator.current
         // if we don't have an active separator
         if (separator === null) {
@@ -103,72 +135,130 @@ const flex = ({direction, hints=[], style, children, debug}) => {
             return
         }
 
+        // convert the separator index into a panel id
+        const panel = separator
         // the transaction parity determines whether positive displacements enlarge or shrink
-        // the panel
+        // the panel; it provides support for the "-reversed" variants of {flex-direction}, and
+        // soon for {rtl} documents, once i understand that a bit better
         const parity = isReversed ? -1 : 1
 
         // extract the new mouse coordinates
         const { clientX, clientY } = evt
-        // compute the displacement since the last update
-        const delta = { dx: clientX - x, dy: clientY - y }
-
-        // grab the panel node
-        const node = refs[separator].current
-        // get its extent
-        const { height, width } = node.getBoundingClientRect()
-        // and the size hints
-        const [minSize, maxSize] = hints[separator] ?? [0, Infinity]
-
-        // the proposed change
-        let proposed = 0
-        // on horizontal layouts
-        if (isRow) {
-            // compute the suggested width
-            proposed = width + parity*delta.dx
-        // on vertical layouts
-        } else {
-            // compute the suggested height
-            proposed = height + parity*delta.dy
+        // compute the proposed size change
+        let delta = parity * (isRow ? (clientX - x) : (clientY - y))
+        // if we are sliding along the cross axis
+        if (delta == 0) {
+            // nothing further to do
+            return
         }
 
-        // confine the proposal to the client specified interval
-        proposed = Math.min(Math.max(minSize, proposed), maxSize)
-
-        // on horizontal layouts
-        if (isRow) {
-            // set the width to the proposed value
-            node.style.width = `${proposed}px`
-        // on vertical layouts
-        } else {
-            // set the height to the proposed value
-            node.style.height = `${proposed}px`
+        // cap the proposed size change to what i can accommodate
+        const allowed = allowable(panel, dim, delta)
+        // if no change is permitted
+        if (allowed == 0) {
+            // nothing further to do
+            return
         }
 
-        // restyle the panel
-        node.style.flex = `0 0 auto`
+        // make a pile to keep the proposed updates
+        const updates = new Array()
+        // and add me to it
+        updates.push([panel, allowed])
+
+        // the size change remaining to absorb is the opposite
+        let remaining = - allowed
+        // go through the panels that follow me; at least one is guaranteed to exist
+        // since the last panel doesn't have an associated separator
+        for (let pid = panel+1; pid < refs.length; ++pid) {
+            // compute how much this one can absorb
+            const absorbed = allowable(pid, dim, remaining)
+            // if it can participate
+            if (absorbed != 0) {
+                // add it to the pile
+                updates.push([pid, absorbed])
+            }
+            // update what's left
+            remaining -= absorbed
+        }
+
+        // if we failed to absorb the entire proposed change
+        if (remaining != 0) {
+            // don't change anything; there is no acceptable solution
+            return
+        }
+
+        // otherwise, update the extents
+        resize(updates, dim)
 
         // build the new state
         const updatedState = { separator, x: clientX, y: clientY }
         // and attach it
         activeSeparator.current = updatedState
+
         // all done
         return
     }
+
+    // compute how much of a proposed extent change can be accommodated by a given panel
+    const allowable = (panel, dim, proposal) => {
+        // if there is no proposed change
+        if (proposal == 0) {
+            // short circuit the logic to avoid measuring the panel
+            return 0
+        }
+        // get the panel node
+        const node = refs[panel].current
+        // compute its relevant extent
+        const extent = node.getBoundingClientRect()[dim]
+        // unpack the size hints
+        const [min, max] = hints[panel] ?? [0, Infinity]
+
+        // in order to compute the change that can be accommodated
+        const allowed = Math.round(
+            // figure out which way we plan to change the extent
+            (proposal > 0)
+            // on strech: no more than {maxSize} permits
+            ? Math.min(proposal, max - extent)
+            // on shrink: no less that {minSize} permits
+            : Math.max(proposal, min - extent))
+
+        // pass it on
+        return allowed
+    }
+
+    // adjust the extents of all panels that can participate in a resize
+    const resize = (updates, dim) => {
+        // go through all updates
+        updates.forEach(update => {
+            // unpack the instructions
+            const [panel, delta] = update
+            // get the node
+            const node = refs[panel].current
+            // compute the new extent
+            const extent = node.getBoundingClientRect()[dim] + delta
+            // and use it to style the node
+            node.style[dim] = `${extent}px`
+            // all done
+            return
+        })
+    }
+
+    // make a ref for the container
+    const boxRef = React.useRef()
+    // install our event listeners
+    useEvent({name: "mouseleave", handler: end, client: boxRef})
+    useEvent({name: "mousemove", handler: drag, client: boxRef})
+    useEvent({name: "mouseup", handler: end, client: boxRef})
+
+    // set aside storage for my content
+    const contents = new Array()
+    // and for the refs to my panels
+    const refs = new Array()
 
     // assemble the separator controls
     const separatorControls = {
         start
     }
-
-    // install our event listeners on the wrapper
-    useEvent({name: "mouseleave", handler: end, client: boxRef})
-    useEvent({name: "mousemove", handler: drag, client: boxRef})
-    useEvent({name: "mouseup", handler: end, client: boxRef})
-
-    // storage for my content
-    const contents = new Array()
-    // and for the refs to my panels
-    const refs = new Array()
 
     // go through my children
     children.forEach((child, idx) => {
@@ -202,7 +292,6 @@ const flex = ({direction, hints=[], style, children, debug}) => {
         )
         // add it to the pile
         contents.push(panel)
-
     })
 
     // paint me
@@ -214,7 +303,7 @@ const flex = ({direction, hints=[], style, children, debug}) => {
 }
 
 
-// the null active separator
+// the inactive separator
 const inactiveSeparator = {
     separator: null,
     x: 0,
