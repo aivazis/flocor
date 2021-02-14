@@ -18,7 +18,7 @@ export default {
         ...base.panel,
         // styling
         overflow: "clip",
-        margin: "0.5em",
+        margin: "1.0rem",
 
         // for my children: flow is already established by {base}
         flexDirection: "column",
