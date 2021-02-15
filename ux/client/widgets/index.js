@@ -11,6 +11,7 @@ export Flame from './flame'
 export Flex from './flex'
 export Kill from './kill'
 export Server from './server'
+export Spacer from './spacer'
 
 
 // end of file
