@@ -1,0 +1,39 @@
+// -*- web -*-
+//
+// michael a.g. aïvázis <michael.aivazis@para-sim.com>
+// (c) 1998-2021 all rights reserved
+
+
+// externals
+import React from 'react'
+// locals
+import styles from './styles'
+
+
+// a container with author and copyright notes
+const colophon = ({ style }) => {
+    // mix my styles
+    const boxStyle = { ...styles.box, ...style?.box }
+    const copynoteStyle = { ...styles.copyright, ...style?.copyright }
+    const authorStyle = { ...styles.author, ...style?.author }
+
+    // paint me
+    return (
+        <div style={boxStyle}>
+            <span style={copynoteStyle}>
+                &copy; 1998-2021
+                &nbsp;
+                <a style={authorStyle} href="https://github.com/aivazis">
+                    michael&nbsp;aïvázis
+                </a>
+            </span>
+        </div>
+    )
+}
+
+
+// publish
+export default colophon
+
+
+// end of file
