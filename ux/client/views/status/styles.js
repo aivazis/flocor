@@ -58,8 +58,11 @@ export default {
         },
     },
 
-    // the box with copyright note; not much to say...
+    // the box with copyright note
     colophon: {
+        author: {
+            textTransform: "uppercase",
+        },
     },
 
     // spacer

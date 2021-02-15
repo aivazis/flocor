@@ -23,7 +23,9 @@ const status = () => (
         <Spacer style={styles.spacer} />
 
         {/* the box with the copyright note */}
-        <Colophon style={styles.colophon} />
+        <Colophon author="Michael&nbsp;Aïvázis" link="https://github.com/aivazis"
+                  span="1998-2021"
+                  style={styles.colophon} />
 
     </footer>
 )
