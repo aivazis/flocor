@@ -13,7 +13,7 @@
 
 /* placeholder while the react components load*/
 div#placeholder {
-    color: #f37f19;
+    /* color: #f37f19; */
 
     position: fixed;
     top: 50%;
@@ -35,7 +35,7 @@ svg#placeholder_logo {
 }
 
 p#placeholder_text {
-    font-family: "courier new";
+    font-family: "inconsolata";
     font-size: 120%;
     text-align: center;
 }
