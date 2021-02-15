@@ -4,6 +4,8 @@
 // (c) 1998-2021 all rights reserved
 
 
+// publish
+export Colophon from './colophon'
 export Compass from './compass'
 export Flame from './flame'
 export Flex from './flex'
