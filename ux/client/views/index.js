@@ -7,7 +7,6 @@
 // publish
 // app layout
 export Header from './header'
-export Footer from './footer'
 export Status from './status'
 
 // the main page
