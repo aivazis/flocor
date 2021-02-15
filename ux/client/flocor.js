@@ -4,10 +4,13 @@
 // (c) 1998-2021 all rights reserved
 
 
+import 'regenerator-runtime'
 // the component framework
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
+// relay
 import { RelayEnvironmentProvider } from 'react-relay/hooks'
+// routing
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 
