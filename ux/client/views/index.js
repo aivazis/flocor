@@ -8,6 +8,7 @@
 // app layout
 export Header from './header'
 export Footer from './footer'
+export Status from './status'
 
 // the main page
 export Flo2d from './flo2d'
