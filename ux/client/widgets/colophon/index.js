@@ -11,7 +11,7 @@ import styles from './styles'
 
 
 // a container with author and copyright notes
-const colophon = ({ style }) => {
+const colophon = ({ author, link, span, style }) => {
     // mix my styles
     const boxStyle = { ...styles.box, ...style?.box }
     const copynoteStyle = { ...styles.copyright, ...style?.copyright }
@@ -21,10 +21,10 @@ const colophon = ({ style }) => {
     return (
         <div style={boxStyle}>
             <span style={copynoteStyle}>
-                &copy; 1998-2021
+                &copy; {span}
                 &nbsp;
-                <a style={authorStyle} href="https://github.com/aivazis">
-                    michael&nbsp;aïvázis
+                <a style={authorStyle} href={link}>
+                    {author}
                 </a>
             </span>
         </div>

@@ -24,7 +24,6 @@ export default {
     // the author
     author: {
         color: theme.colophon.author,
-        textTransform: "uppercase",
     },
 }
 
