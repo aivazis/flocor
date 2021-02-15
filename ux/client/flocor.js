@@ -25,7 +25,7 @@ import {
     // boilerplate
     Loading, Stop,
     // layout
-    Header, Footer,
+    Header, Status,
 } from '~/views'
 
 
@@ -48,7 +48,7 @@ const FloApp = () => {
                 {/* default landing spot */}
                 <Route path="/" component={Flo2d} />
             </Switch>
-            <Footer />
+            <Status />
         </div>
     )
 }
