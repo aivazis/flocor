@@ -46,21 +46,27 @@ p#placeholder_text {
 }
 
 html {
+    /* defaults */
+    font-family: "geneva", "arial", "helvetica", sans-serif;
+    /* 1.0 rem = 20 pixels */
+    font-size: 20px;
+
+    /* placement */
     height: 100%;
-    overflow: hidden;
+    width: 100%;
 }
 
 body {
-    font-family: "geneva", "arial", "helvetica", sans-serif;
-    font-size: 20px;
-    color: #666;
-
     /* placement */
     height: 100%;
     width: 100%;
     margin: 0em;;
     padding: 0em;
 
+    /* clip to my extent */
+    overflow: clip;
+    /* colors */
+    color: #666;
     background-color: #1b1b1b;
 }
 
