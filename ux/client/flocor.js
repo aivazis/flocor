@@ -33,34 +33,34 @@ import {
 const FloApp = () => {
     // render
     return (
-        <Router>
-            <div style={styles.layout}>
-                <Header />
-                <Switch>
-                    {/* the landing page */}
-                    <Route path="/flo2d" component={Flo2d} />
-                    {/* the flex sandbox */}
-                    <Route path="/flex" component={Flex} />
-                    {/* the closing page */}
-                    <Route path="/stop" component={Stop} />
-                    {/* the page to render while waiting for data to arrive */}
-                    <Route path="/loading" component={Loading} />
+        <div style={styles.layout}>
+            <Header />
+            <Switch>
+                {/* the landing page */}
+                <Route path="/flo2d" component={Flo2d} />
+                {/* the flex sandbox */}
+                <Route path="/flex" component={Flex} />
+                {/* the closing page */}
+                <Route path="/stop" component={Stop} />
+                {/* the page to render while waiting for data to arrive */}
+                <Route path="/loading" component={Loading} />
 
-                    {/* default landing spot */}
-                    <Route path="/" component={Flo2d} />
-                </Switch>
-                <Footer />
-            </div>
-        </Router>
+                {/* default landing spot */}
+                <Route path="/" component={Flo2d} />
+            </Switch>
+            <Footer />
+        </div>
     )
 }
 
 
-// the outer component that sets up access to the {relay} environmet
+// the outer component that sets up access to the {relay}, {suspense}, and {router} environments
 const Root = () => (
     <RelayEnvironmentProvider environment={environment}>
         <Suspense fallback={<Loading />}>
-            <FloApp />
+            <Router>
+                <FloApp />
+            </Router>
         </Suspense>
     </RelayEnvironmentProvider>
 )
