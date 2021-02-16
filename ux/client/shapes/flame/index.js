@@ -24,14 +24,14 @@ C 716.1332 598.4 863.7332 188.4 470.1332 8
 Z`
 
 
-// render as a path
-const shape = ({style, ...xforms}) => {
+// render the shape
+const shape = ({ style }) => {
     // mix my paint
-    const iconStyle = { ...style?.icon, ...styles.icon }
+    const ico = { ...styles.icon, ...style?.icon }
 
     // paint me
     return (
-        <path d={flame} style={iconStyle} />
+        <path d={flame} style={ico} />
     )
 }
 

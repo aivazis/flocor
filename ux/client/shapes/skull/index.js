@@ -93,14 +93,14 @@ C 956.9091 612.88295 949.1272 639.01324 925.9131 650.8813
 Z`
 
 
-// render as a path
-const shape = ({style, ...xforms}) => {
+// render the shape
+const shape = ({ style }) => {
     // mix my paint
-    const iconStyle = { ...style?.icon, ...styles.icon }
+    const ico = { ...styles.icon, ...style?.icon }
 
     // paint me
     return (
-        <path d={skull} style={iconStyle} />
+        <path d={skull} style={ico} />
     )
 }
 
