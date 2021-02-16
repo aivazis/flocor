@@ -23,10 +23,8 @@ export default {
         ...style.icon,
         // stroke
         stroke: ink,
-        strokeOpacity: 0.5,
         // fill
         fill: paint,
-        fillOpacity: 0.5,
     },
 
     // decorative touches

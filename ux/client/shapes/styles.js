@@ -29,7 +29,6 @@ export default {
         strokeWidth: 0.25,
         // fill
         fill: "none",
-        fillOpacity: 0,
         // exclude the stroke from any transforms
         vectorEffect: "non-scaling-stroke",
     },
