@@ -29,7 +29,7 @@ const shape = ({ style }) => {
             <circle style={ico}
                     cx="150" cy="200" r="100" />
             <circle style={ico}
-                    cx="900" cy="500" r="100" />
+                    cx="890" cy="500" r="100" />
             <circle style={ico}
                     cx="150" cy="800" r="100" />
         </>
