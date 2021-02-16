@@ -5,6 +5,7 @@
 
 
 // publish
+export Flame from './flame'
 
 
 // end of file
