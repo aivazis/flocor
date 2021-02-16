@@ -6,6 +6,7 @@
 
 // publish
 export Flame from './flame'
+export Skull from './skull'
 
 
 // end of file
