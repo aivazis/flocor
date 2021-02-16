@@ -20,7 +20,7 @@ const badge = ({ size=32, style, children }) => {
         height: size,
     }
     // and the shape
-    const shapeStyle = { ...style?.shape, ...styles.shape }
+    const shapeStyle = { ...styles.shape, ...style?.shape }
 
     // make a ref for the shape container
     const ref = React.useRef()
@@ -33,14 +33,18 @@ const badge = ({ size=32, style, children }) => {
         // style it
         style.fillOpacity = 0.5
         style.strokeOpacity = 0.5
+        // all done
+        return
     }
     // when the shape is highlighted
     const emph = () => {
         // get the style of the shape container
-        const style = ref.current
+        const style = ref.current.style
         // style it
         style.fillOpacity = 1
         style.strokeOpacity = 1
+        // all done
+        return
     }
     // map the controls to mouse events
     const controls = {
