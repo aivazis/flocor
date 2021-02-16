@@ -5,6 +5,7 @@
 
 
 // publish
+export Badge from './badge'
 export Colophon from './colophon'
 export Compass from './compass'
 export Flame from './flame'
