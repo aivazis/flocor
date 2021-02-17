@@ -15,34 +15,53 @@ import { Badge } from '~/widgets'
 import styles from './styles'
 
 
-// kill the server
+// the base activity rendering mechanics
+// an activity is a {Link} that presents a {shape} inside a {Badge}
+// {shape} is typically an SVG fragment
+
+// activities can be { "engaged", "available", "disabled" }
+// currently, there is no use case for a disabled activity, so the logic may need to change
+
 const activity = ({ size=32, url, children, style }) => {
     // get the current location
     const location = useLocation().pathname
-
-    // if this the currently active page, mix a highlight
-    const highlight = location.startsWith(url) ?
-                      { ...styles.active, ...style?.active } :
-                      {}
+    // check whether this is the current activity
+    const state = location.startsWith(url) ? "engaged" : "available"
 
     // mix my paint
     const activityStyle = {
         // for the badge
-        badge: {
-            // the explict styling
-            ...styles.badge, ...style?.badge,
-            // and the highlight
-            ...highlight,
-        },
-
+        badge: { ...styles.badge, ...style?.badge },
         // for the shape
         shape: { ...styles.shape, ...style?.shape },
+
+        // for disabled activities
+        disabled: {
+            // for the badge
+            badge: { ...styles.disabled.badge, ...style?.disabled?.badge },
+            // for the shape
+            shape: { ...styles.disabled.shape, ...style?.disabled?.shape },
+        },
+        // for engaged activities
+        engaged: {
+            // for the badge
+            badge: { ...styles.engaged.badge, ...style?.engaged?.badge },
+            // for the shape
+            shape: { ...styles.engaged.shape, ...style?.engaged?.shape },
+        },
+        // when answering the question whether an activity is available
+        available: {
+            // for the badge
+            badge: { ...styles.available.badge, ...style?.available?.badge },
+            // for the shape
+            shape: { ...styles.available.shape, ...style?.available?.shape },
+        },
     }
 
     // paint me
     return (
         <Link to={url} >
-            <Badge size={size} style={activityStyle} >
+            <Badge name={url} size={size} state={state} style={activityStyle} >
                 {children}
             </Badge >
         </Link >
