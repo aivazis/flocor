@@ -10,13 +10,44 @@ import { theme } from '~/palette'
 
 // publish
 export default {
-
-    // styling for the badge
+    // the container
     badge: {
     },
 
-    // styling for the shape
+    // the shape
     shape: {
+    },
+
+    // state dependent overrides
+    // when this is the current activity
+    engaged: {
+        // for the badge
+        badge: {
+        },
+        // for the shape
+        shape: {
+        },
+    },
+
+    // when exploring whether this acivity is available
+    // e.g. when the cursor hovers over its badge
+    available: {
+        // for the badge
+        badge: {
+        },
+        // for the shape
+        shape: {
+        },
+    },
+
+    // when the activity is not available
+    disabled: {
+        // for the badge
+        badge: {
+        },
+        // for the shape
+        shape: {
+        },
     },
 }
 
