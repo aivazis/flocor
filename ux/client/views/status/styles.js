@@ -17,11 +17,11 @@ export default {
 
         // my box
         flex: "none",
-        margin: "auto 0.5rem 0.0rem 0.5rem",
-        padding: "0.25rem",
+        margin: "auto 0.0rem 0.0rem 0.0rem",
+        padding: "0.25rem 0.5rem",
 
         // styling
-        backgroundColor: theme.colophon.background,
+        backgroundColor: theme.statusbar.background,
         // borderTop: `1px solid ${theme.colophon.separator}`,
 
         // my children
