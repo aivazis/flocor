@@ -12,8 +12,6 @@ import { theme } from '~/palette'
 export default {
     // the container
     badge: {
-        // this should probably live with whatever user container has a bunch of these...
-        padding: "0.75rem",
     },
 
     // the shape
