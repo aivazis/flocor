@@ -15,7 +15,7 @@ const badge = ({ size=32, style, children }) => {
     // mix my paint
     // for the container
     const badgeStyle = {
-        ...style?.badge, ...styles.badge,
+        ...styles.badge, ...style?.badge,
         width: size,
         height: size,
     }

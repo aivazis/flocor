@@ -12,7 +12,7 @@ import { theme } from '~/palette'
 export default {
     // the container
     badge: {
-        margin: "0.75rem",
+        padding: "0.75rem",
     },
 
     // the shape
