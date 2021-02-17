@@ -12,13 +12,44 @@ import { theme } from '~/palette'
 export default {
     // the container
     badge: {
+        // this should probably live with whatever user container has a bunch of these...
         padding: "0.75rem",
     },
 
     // the shape
     shape: {
-        fillOpacity: 0.5,
-        strokeOpacity: 0.5,
+    },
+
+    // state dependent overrides
+    // when this is the current activity
+    engaged: {
+        // for the badge
+        badge: {
+        },
+        // for the shape
+        shape: {
+        },
+    },
+
+    // when exploring whether this acivity is available
+    // e.g. when the cursor hovers over its badge
+    available: {
+        // for the badge
+        badge: {
+        },
+        // for the shape
+        shape: {
+        },
+    },
+
+    // when the activity is not available
+    disabled: {
+        // for the badge
+        badge: {
+        },
+        // for the shape
+        shape: {
+        },
     },
 }
 
