@@ -42,7 +42,7 @@ const wheel = {
 const dark = {
     // the page
     page: {
-        background: "hsl(0deg, 0%, 7%)",
+        background: "hsl(0deg, 0%, 5%)",
         appversion: "hsl(0deg, 0%, 25%)",
     },
 
@@ -62,11 +62,14 @@ const dark = {
         },
     },
 
-    // the footer
-    colophon: {
+    statusbar: {
         // overall styling
-        background: "hsl(0deg, 0%, 7%)",
+        background: "hsl(0deg, 0%, 15%)",
         separator: "hsl(0deg, 0%, 15%)",
+    },
+
+    // app metadata
+    colophon: {
         // contents
         copyright: "hsl(0deg, 0%, 30%)",
         author: "hsl(0deg, 0%, 40%)",
