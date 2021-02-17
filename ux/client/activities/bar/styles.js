@@ -25,7 +25,7 @@ export default {
     engaged: {
         // for the badge
         badge: {
-            borderLeft: "2px solid red",
+            borderLeft: `2px solid ${theme.banner.name}`,
         },
         // for the shape
         shape: {
