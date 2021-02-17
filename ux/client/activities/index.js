@@ -5,8 +5,12 @@
 
 
 // publish
+// the activity bar
+export ActivityBar from './bar'
+
 // the base component
 export Activity from './activity'
+
 // activities
 export About from './about'
 export Archive from './archive'
