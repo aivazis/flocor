@@ -18,18 +18,10 @@ import styles from './styles'
 
 
 // sandbox for experimenting with new features
-const activity = ({ size=32, style }) => {
-    // mix my paint
-    const activityStyle = {
-        // for the badge
-        badge: { ...styles.badge, ...style?.badge },
-        // for the shape
-        shape: { ...styles.shape, ...style?.shape },
-    }
-
+const activity = ({ size, style }) => {
     // paint me
     return (
-        <Activity size={size} url="/experiment" style={activityStyle} >
+        <Activity size={size} url="/experiment" barStyle={style} style={styles} >
             <Hammer />
         </Activity >
     )

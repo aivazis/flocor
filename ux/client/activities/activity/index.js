@@ -22,7 +22,7 @@ import styles from './styles'
 // activities can be { "engaged", "available", "disabled" }
 // currently, there is no use case for a disabled activity, so the logic may need to change
 
-const activity = ({ size=32, url, children, style }) => {
+const activity = ({ size, url, children, barStyle, style }) => {
     // get the current location
     const location = useLocation().pathname
     // check whether this is the current activity
@@ -31,30 +31,62 @@ const activity = ({ size=32, url, children, style }) => {
     // mix my paint
     const activityStyle = {
         // for the badge
-        badge: { ...styles.badge, ...style?.badge },
+        badge: {
+            ...styles.badge,
+            ...barStyle?.badge,
+            ...style?.badge,
+        },
         // for the shape
-        shape: { ...styles.shape, ...style?.shape },
+        shape: {
+            ...styles.shape,
+            ...barStyle?.shape,
+            ...style?.shape,
+        },
 
         // for disabled activities
         disabled: {
             // for the badge
-            badge: { ...styles.disabled.badge, ...style?.disabled?.badge },
+            badge: {
+                ...styles.disabled.badge,
+                ...barStyle?.disabled?.badge,
+                ...style?.disabled?.badge,
+            },
             // for the shape
-            shape: { ...styles.disabled.shape, ...style?.disabled?.shape },
+            shape: {
+                ...styles.disabled.shape,
+                ...barStyle?.disabled?.shape,
+                ...style?.disabled?.shape,
+            },
         },
         // for engaged activities
         engaged: {
             // for the badge
-            badge: { ...styles.engaged.badge, ...style?.engaged?.badge },
+            badge: {
+                ...styles.engaged.badge,
+                 ...barStyle?.engaged?.badge,
+                 ...style?.engaged?.badge,
+                 },
             // for the shape
-            shape: { ...styles.engaged.shape, ...style?.engaged?.shape },
+            shape: {
+                ...styles.engaged.shape,
+                ...barStyle?.engaged?.shape,
+                ...style?.engaged?.shape,
+            },
         },
         // when answering the question whether an activity is available
         available: {
             // for the badge
-            badge: { ...styles.available.badge, ...style?.available?.badge },
+            badge: {
+                ...styles.available.badge,
+                ...barStyle?.available?.badge,
+                ...style?.available?.badge,
+            },
             // for the shape
-            shape: { ...styles.available.shape, ...style?.available?.shape },
+            shape: {
+                ...styles.available.shape,
+                ...barStyle?.available?.shape,
+                ...style?.available?.shape,
+            },
         },
     }
 
