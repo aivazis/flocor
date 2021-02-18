@@ -19,10 +19,11 @@ export default {
     },
 
     placeholder: {
-        position: "fixed",
+        position: "relative",
         top: "50%",
         left: "50%",
-        width: "100%",
+        width: "400px",
+        height: "400px",
         textAlign: "center",
         transform: "translate(-50%, -50%)",
     },
