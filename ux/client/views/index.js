@@ -14,7 +14,9 @@ export Flo2d from './flo2d'
 // sandboxes
 export Flex from './flex'
 
-// tne page rendered when {suspense} is waiting
+// not yet implemented
+export NYI from './nyi'
+// while {suspense} is waiting
 export Loading from './loading'
 // the page rendered when the user kills the server
 export Stop from './stop'
