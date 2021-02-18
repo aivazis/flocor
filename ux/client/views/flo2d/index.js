@@ -12,10 +12,12 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 // locals
 import styles from './styles'
-// widgets
-import { Flex } from '~/widgets'
+// view
+import { NYI } from '~/views'
 // activities
 import { ActivityBar } from '~/activities'
+// widgets
+import { Flex } from '~/widgets'
 
 
 // the main app working area
@@ -42,7 +44,7 @@ const Panel = () => {
                 <div style={styles.sidebar} >sidebar</div>
 
                 {/* the activity specific workarea */}
-                <div style={styles.canvas} >workarea</div>
+                <NYI />
 
             </Flex>
         </section>
