@@ -23,7 +23,7 @@ const bar = () => {
 
     // paint me
     return (
-        <Toolbar direction="column">
+        <Toolbar direction="column" style={styles} >
             <Compose size={size} style={styles} />
             <Deploy size={size} style={styles} />
             <Visualize size={size} style={styles} />
