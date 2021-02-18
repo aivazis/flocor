@@ -14,6 +14,9 @@ export default {
     badge: {
         //  styling
         padding: "0.75rem",
+        // make a transparent border of the correctwidth so the badges don't move around
+        // when the corresponding activity is engaged
+        borderLeft: `2px solid hsl(0deg, 0%, 0%, 0)`,
     },
 
     // and shapes
