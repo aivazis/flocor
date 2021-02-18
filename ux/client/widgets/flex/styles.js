@@ -44,8 +44,8 @@ export default {
 
         // state dependent styling
         colors: {
-            hidden: "hsl(0deg, 0%, 15%, 0)",
-            visible: "hsl(0deg, 0%, 15%, 0.5)",
+            hidden: "hsl(0deg, 0%, 25%, 0)",
+            visible: "hsl(28deg, 30%, 25%, 0.5)",
         },
     },
 

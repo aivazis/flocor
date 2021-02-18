@@ -64,14 +64,14 @@ const dark = {
 
     statusbar: {
         // overall styling
-        background: "hsl(0deg, 0%, 15%)",
+        background: "hsl(0deg, 0%, 31%)",
         separator: "hsl(0deg, 0%, 15%)",
     },
 
     // app metadata
     colophon: {
         // contents
-        copyright: "hsl(0deg, 0%, 30%)",
+        copyright: "hsl(0deg, 0%, 40%)",
         author: "hsl(0deg, 0%, 40%)",
     },
 
