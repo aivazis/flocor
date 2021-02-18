@@ -21,7 +21,9 @@ const colophon = ({ author, link, span, style }) => {
     return (
         <div style={boxStyle}>
             <span style={copynoteStyle}>
-                &copy; {span}
+                {span}
+                &nbsp;
+                &copy;
                 &nbsp;
                 <a style={authorStyle} href={link}>
                     {author}
