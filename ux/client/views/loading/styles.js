@@ -30,13 +30,20 @@ export default {
     logo: {
         // placement
         margin: "1.0em auto",
-        width: "216px",
-        height: "301px",
+        width: "300px",
+        height: "300px",
 
         // animation
         animationName: "fadeInOut",
         animationDuration: "3s",
         animationIterationCount: "infinite",
+    },
+
+    shape: {
+        icon: {
+            fill: "none",
+            strokeWidth: "5px",
+        },
     },
 
     message: {
