@@ -5,41 +5,46 @@
 
 
 // externals
+// framework
 import React from 'react'
-import { graphql, useFragment, useLazyLoadQuery } from 'react-relay/hooks'
+// routing
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
 // locals
-import { Compass } from '~/widgets'
 import styles from './styles'
+// widgets
+import { Flex } from '~/widgets'
+// activities
+import { ActivityBar } from '~/activities'
 
 
-// the hex sandbox
+// the main app working area
+// the layout is simple: the activity bar and activity dependent routing
 const Panel = () => {
-    // make a reference for the section
-    const viewRef = React.useRef(null)
+    // configure a flex container with two panels
+    const columns = [
+        // the sider bar
+        [ 200, Infinity ],
+        // the work area
+        [ 400, Infinity ],
+    ]
 
-    // load a query
-    const data = useLazyLoadQuery(
-        graphql`
-            query flo2dQuery {
-                catalog {
-                    producers {
-                        family
-                    }
-                    specifications {
-                        family
-                    }
-                }
-            }`
-    )
 
     // build the container and return it
     return (
-        <section ref={viewRef} style={styles.panel} >
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" {...styles.canvas}>
-                <g transform="translate(200 200) scale(100)" >
-                    <Compass />
-                </g>
-            </svg>
+        <section style={styles.panel} >
+            {/* navigation bar */}
+            <ActivityBar style={styles.activitybar} />
+
+            {/* a flex container with two panels */}
+            <Flex direction="row" hints={columns} style={styles.flex} >
+                {/* the activity specific sidebar */}
+                <div style={styles.sidebar} >sidebar</div>
+
+                {/* the activity specific workarea */}
+                <div style={styles.canvas} >workarea</div>
+
+            </Flex>
         </section>
     )
 }
