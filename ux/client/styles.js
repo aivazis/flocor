@@ -11,7 +11,7 @@ import { theme } from '~/palette'
 // styling for the page container
 export default {
     // the top level flex container
-    layout : {
+    page : {
         // placement
         width: "100%",
         height: "100%",
