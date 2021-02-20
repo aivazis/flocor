@@ -11,13 +11,17 @@ import React  from 'react'
 // hooks
 import { useEvent } from '~/hooks'
 // my parts
+import { Provider, useDirection } from './context'
 import Panel from './panel'
 import Separator from './separator'
 // styles
 import styles from './styles'
 
 
-const flex = ({direction, hints=[], style, children, debug}) => {
+const Flex = ({hints=[], style, children, debug}) => {
+    // get the flexbox direction and parity
+    const { direction, isRow, isReversed } = useDirection()
+
     // mix my paint
     // for the container
     const boxStyle = {...styles.box, ...style?.box, flexDirection: direction}
@@ -39,7 +43,6 @@ const flex = ({direction, hints=[], style, children, debug}) => {
         return (
             <div style={boxStyle}>
                 <Panel idx={0}
-                       isRow={isRow} isReversed={isReversed}
                        hint={hint}
                        style={panelStyle} debug={debug} >
                     {children}
@@ -47,11 +50,6 @@ const flex = ({direction, hints=[], style, children, debug}) => {
             </div>
         )
     }
-
-    // deduce the main axis
-    const isRow = direction.startsWith("row")
-    // and the order, which affects the correlation between mouse movement and extent update
-    const isReversed = direction.endsWith("-reverse")
 
     // the box extent we manipulate is determined by the direction
     const dim = isRow ? "width" : "height"
@@ -284,7 +282,6 @@ const flex = ({direction, hints=[], style, children, debug}) => {
         // every child is placed in a panel
         const panel = (
             <Panel ref={ref} key={`panel.${idx}`} idx={idx}
-                   isRow={isRow} isReversed={isReversed}
                    hint={hint}
                    style={panelStyle} debug={debug} >
                 {child}
@@ -311,8 +308,15 @@ const inactiveSeparator = {
 }
 
 
-// publish
-export default flex
+// turn flex into a context provider and publish
+export default ({direction, ...rest}) => {
+    // set up the context provider
+    return (
+        <Provider direction={direction} >
+            <Flex {...rest} />
+        </Provider >
+    )
+}
 
 
 // end of file

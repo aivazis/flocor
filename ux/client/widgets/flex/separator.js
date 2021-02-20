@@ -8,11 +8,16 @@
 import React  from 'react'
 
 // locals
+// context
+import { useDirection } from './context'
 // styles
 import styles from './styles'
 
 // the separator inserted between consecutive items in a flex panel
-const separator = ({idx, isRow, isReversed, style, controls}) => {
+const separator = ({idx, style, controls}) => {
+    // access the flex direction
+    const { isRow } = useDirection()
+
     // direction dependent settings
     let dirRuleStyle = {}
     let dirHandleStyle = {}

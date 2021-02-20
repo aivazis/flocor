@@ -10,11 +10,15 @@ import React  from 'react'
 // locals
 // hooks
 import { useResizeObserver } from '~/hooks'
+// context
+import { useDirection } from './context'
 // styles
 import styles from './styles'
 
 // a container for client children
-const panel = React.forwardRef(({idx, isRow, isReversed, hint, style, children, debug}, ref) => {
+const panel = React.forwardRef(({idx, hint, style, children, debug}, ref) => {
+    // get my direction
+    const { isRow } = useDirection()
     // unpack the hint
     const [min, max] = hint
 
