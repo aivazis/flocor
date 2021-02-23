@@ -107,15 +107,6 @@ export const Provider = ({
 }
 
 
-// access the flexbox direction
-export const useDirection = () => {
-    // pull the values from the context
-    const { direction, isRow, parity } = React.useContext(Context)
-    // and make them available
-    return { direction, isRow, parity }
-}
-
-
 // access to the styling attributes whose names and values depend on the flexbox direction
 export const useExtent = () => {
     // pull the values from the context

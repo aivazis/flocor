@@ -11,7 +11,9 @@ import React from 'react'
 // hooks
 import { useEvent } from '~/hooks'
 // context
-import { Provider, useDirection, useFlex } from './context'
+import { Provider, useFlex } from './context'
+// hooks
+import useDirection from './useDirection'
 // styles
 import styles from './styles'
 

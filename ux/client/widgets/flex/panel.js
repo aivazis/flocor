@@ -11,7 +11,7 @@ import React from 'react'
 // hooks
 import { useResizeObserver } from '~/hooks'
 // context
-import { useDirection, useExtent, useRegisterPanel } from './context'
+import { useExtent, useRegisterPanel } from './context'
 // my separator
 import Separator from './separator'
 // styles
