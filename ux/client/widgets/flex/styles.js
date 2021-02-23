@@ -35,11 +35,11 @@ export default {
             flex: "0 0 auto",
             overflow: "visible",
             backgroundColor: "hsl(0deg, 0%, 15%, 0.5)",
+            zIndex: 1,
         },
 
         // the handle
         handle: {
-            zIndex: 1,
         },
 
         // state dependent styling
