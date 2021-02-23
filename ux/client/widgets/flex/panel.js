@@ -5,59 +5,64 @@
 
 
 // externals
-import React  from 'react'
+import React from 'react'
 
 // locals
 // hooks
 import { useResizeObserver } from '~/hooks'
 // context
-import { useDirection } from './context'
+import { useDirection, useExtent, useRegisterPanel } from './context'
+// my separator
+import Separator from './separator'
 // styles
 import styles from './styles'
 
 // a container for client children
-const panel = React.forwardRef(({idx, hint, style, children, debug}, ref) => {
-    // get my direction
-    const { isRow } = useDirection()
-    // unpack the hint
-    const [min, max] = hint
+const panel = ({ min = 0, max = Infinity, style, children, debug }) => {
+    // make a ref for my contents
+    const ref = React.useRef(null)
+    // get the direction dependent extent names
+    const { minExtent, maxExtent } = useExtent()
 
-    // deduce the extent
-    const extent = isRow ? "Width" : "Height"
+    // register this panel
+    const flexingProps = useRegisterPanel(ref, min, max)
 
     // storage for the size dependent styling
     let sizeStyle = {}
     // if i have a minimum size
     if (min > 0) {
-        // make it the minimum value
-        sizeStyle[`min${extent}`] = `${min}px`
+        // attach it to my style object; make the units explicit so there is no confusion
+        sizeStyle[minExtent] = `${min}px`
     }
     // if i have a maximum size
     if (max < Infinity) {
-        // make it the maximum value
-        sizeStyle[`max${extent}`] = `${max}px`
+        // attach it to my style object; make the units explicit so there is no confusion
+        sizeStyle[maxExtent] = `${max}px`
     }
 
-    // mix my styles
-    const panelStyle = { ...styles.panel, ...sizeStyle, ...style }
+    // mix my paint
+    const panelStyle = { ...styles.panel, ...sizeStyle, ...style?.panel }
 
     // during normal execution, my content is my {children}
     let content = children
     // however, in debugging mode
     if (debug) {
         // get my extent
-        const { extent } = useResizeObserver({ref})
+        const { extent } = useResizeObserver({ ref })
         // and render it as my content
         content = <span>{extent.width}x{extent.height}</span>
     }
 
     // paint me
     return (
-        <div ref={ref} style={panelStyle} >
-            {content}
-        </div>
+        <>
+            <div ref={ref} style={panelStyle} >
+                {content}
+            </div>
+            <Separator {...flexingProps} style={style.separator} />
+        </>
     )
-})
+}
 
 
 // publish

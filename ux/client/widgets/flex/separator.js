@@ -5,49 +5,30 @@
 
 
 // externals
-import React  from 'react'
+import React from 'react'
 
 // locals
 // context
-import { useDirection } from './context'
+import { useExtent } from './context'
 // styles
 import styles from './styles'
 
 // the separator inserted between consecutive items in a flex panel
-const separator = ({idx, style, controls}) => {
+const separator = ({ beginFlex, style }) => {
     // access the flex direction
-    const { isRow } = useDirection()
+    const { mainExtent, crossExtent, transform, cursor } = useExtent()
 
     // direction dependent settings
-    let dirRuleStyle = {}
-    let dirHandleStyle = {}
-
-    // configure a vertical separator
-    if (isRow) {
-        // for the rule
-        dirRuleStyle = {
-            width: "1px",
-            cursor: "col-resize",
-        }
-        // for the handle
-        dirHandleStyle = {
-            width: "9px",
-            height: "100%",
-            transform: "translate(-50%, 0)",
-        }
-    // configure a horizontal separator
-    } else {
-        // for the rule
-        dirRuleStyle = {
-            height: "1px",
-            cursor: "row-resize",
-        }
-        // for the handle
-        dirHandleStyle = {
-            width: "100%",
-            height: "9px",
-            transform: "translate(0, -50%)",
-        }
+    // for the rule
+    let dirRuleStyle = {
+        cursor,
+        [mainExtent]: "1px"
+    }
+    // for the handle
+    let dirHandleStyle = {
+        transform,
+        [mainExtent]: "9px",
+        [crossExtent]: "100%",
     }
 
     // mix my paint
@@ -79,6 +60,8 @@ const separator = ({idx, style, controls}) => {
     const onMouseLeave = (evt) => {
         // stop this event from bubbling up
         evt.stopPropagation()
+        // quash any side effects
+        evt.preventDefault()
         // get the handle
         const handle = ref.current
         // if the handle has rendered
@@ -94,8 +77,11 @@ const separator = ({idx, style, controls}) => {
     const onMouseDown = (evt) => {
         // stop this event from bubbling up
         evt.stopPropagation()
+        // quash any side effects
+        evt.preventDefault()
         // let the flex wrapper know that i was clicked
-        controls?.start?.({separator: idx, x: evt.clientX, y: evt.clientY})
+        // the panel that is flexing was encoded in {beginFlex} at construction time
+        beginFlex({ x: evt.clientX, y: evt.clientY })
         // all done
         return
     }
