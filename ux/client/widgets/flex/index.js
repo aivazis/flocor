@@ -5,10 +5,8 @@
 
 
 // pull
-import flex from './flex'
-
-// and publish
-export default flex
+export { default as Box } from './box'
+export { default as Panel } from './panel'
 
 
 // end of file
