@@ -11,18 +11,21 @@ import React from 'react'
 // hooks
 import { useResizeObserver } from '~/hooks'
 // context
-import { useExtent, useRegisterPanel } from './context'
+import { useRegisterPanel } from './context'
+// hooks
+import useDirectionalAttributes from './useDirectionalAttributes'
 // my separator
 import Separator from './separator'
 // styles
 import styles from './styles'
+
 
 // a container for client children
 const panel = ({ min = 0, max = Infinity, style, children, debug }) => {
     // make a ref for my contents
     const ref = React.useRef(null)
     // get the direction dependent extent names
-    const { minExtent, maxExtent } = useExtent()
+    const { minExtent, maxExtent } = useDirectionalAttributes()
 
     // register this panel
     const flexingProps = useRegisterPanel(ref, min, max)

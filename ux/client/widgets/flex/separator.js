@@ -8,15 +8,15 @@
 import React from 'react'
 
 // locals
-// context
-import { useExtent } from './context'
+// hooks
+import useDirectionalAttributes from './useDirectionalAttributes'
 // styles
 import styles from './styles'
 
 // the separator inserted between consecutive items in a flex panel
 const separator = ({ beginFlex, style }) => {
     // access the flex direction
-    const { mainExtent, crossExtent, transform, cursor } = useExtent()
+    const { mainExtent, crossExtent, transform, cursor } = useDirectionalAttributes()
 
     // direction dependent settings
     // for the rule

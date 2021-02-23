@@ -107,17 +107,6 @@ export const Provider = ({
 }
 
 
-// access to the styling attributes whose names and values depend on the flexbox direction
-export const useExtent = () => {
-    // pull the values from the context
-    const {
-        mainExtent, crossExtent, minExtent, maxExtent, cursor, transform
-    } = React.useContext(Context)
-    // and make them available
-    return { mainExtent, crossExtent, minExtent, maxExtent, cursor, transform }
-}
-
-
 // register a panel
 export const useRegisterPanel = (ref, min, max) => {
     // grab the state mutator
