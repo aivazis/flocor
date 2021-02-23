@@ -25,6 +25,8 @@ import { environment } from '~/context'
 import {
     // the main page
     Flo2d,
+    // the flex sandbox
+    Flex,
     // boilerplate
     Loading, Stop,
     // layout
@@ -48,6 +50,8 @@ const FloApp = () => {
                 {/* the page to render while waiting for data to arrive */}
                 <Route path="/loading" component={Loading} />
 
+                {/* the flex sandbox */}
+                <Route path="/flex" component={Flex} />
                 {/* show the app */}
                 <Route path="/" component={Flo2d} />
             </Switch>
