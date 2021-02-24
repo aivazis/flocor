@@ -26,25 +26,13 @@ const Box = ({ style, children }) => {
     const { endFlex } = useEndFlex()
     const { flexingPanel, separatorLocation, doFlex } = useFlex()
 
-    // make an event handler for {doFlex}
-    const onFlex = (evt) => {
-        // stop this event from bubbling up
-        evt.stopPropagation()
-        // an quash any side effects
-        evt.preventDefault()
-        // invoke the flex handler
-        doFlex({ x: evt.clientX, y: evt.clientY })
-        // all done
-        return
-    }
-
     // make a ref for my container
     const ref = React.useRef(null)
     // install our event listeners
     useEvent({ name: "mouseup", listener: endFlex, client: ref })
     useEvent({ name: "mouseleave", listener: endFlex, client: ref })
     useEvent({
-        name: "mousemove", listener: onFlex, client: ref,
+        name: "mousemove", listener: doFlex, client: ref,
         triggers: [flexingPanel, separatorLocation]
     })
 
