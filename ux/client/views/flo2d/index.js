@@ -23,31 +23,27 @@ import { Flex } from '~/widgets'
 // the main app working area
 // the layout is simple: the activity bar and activity dependent routing
 const Panel = () => {
-    // configure a flex container with two panels
-    const columns = [
-        // the sider bar
-        [ 200, Infinity ],
-        // the work area
-        [ 400, Infinity ],
-    ]
-
-
-    // build the container and return it
+    // lay out the main page
     return (
         <section style={styles.panel} >
             {/* navigation bar */}
             <ActivityBar style={styles.activitybar} />
 
             {/* a flex container with two panels */}
-            <Flex direction="row" hints={columns} style={styles.flex} >
+            <Flex.Box direction="row" style={styles.flex} >
+
                 {/* the activity specific sidebar */}
-                <div style={styles.sidebar} >sidebar</div>
+                <Flex.Panel min={200} style={styles.flex} >
+                    <div style={styles.sidebar} >sidebar</div>
+                </Flex.Panel>
 
                 {/* the activity specific workarea */}
-                <NYI />
+                <Flex.Panel min={400} style={styles.flex} >
+                    <NYI />
+                </Flex.Panel>
 
-            </Flex>
-        </section>
+            </Flex.Box>
+        </section >
     )
 }
 
