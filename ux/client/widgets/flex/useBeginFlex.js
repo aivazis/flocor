@@ -28,7 +28,7 @@ export default ({ panel }) => {
         // get the panel refs
         const refs = Array.from(panels.keys())
         // find the index of the active panel
-        const idx = refs.indexOf(ref)
+        const idx = refs.indexOf(panel)
         // use it to extract all the downstream panels
         const downstream = refs.slice(idx + 1)
 
@@ -36,7 +36,7 @@ export default ({ panel }) => {
         // if there are no downstream panels
         if (downstream !== []) {
             // record the panel that is flexing
-            setFlexingPanel(ref)
+            setFlexingPanel(panel)
             // and the downstream ones
             setDownstreamPanels(downstream)
             // save the current mouse coordinates
