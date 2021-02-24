@@ -73,24 +73,11 @@ const separator = ({ beginFlex, style }) => {
         return
     }
 
-    // on click
-    const onMouseDown = (evt) => {
-        // stop this event from bubbling up
-        evt.stopPropagation()
-        // quash any side effects
-        evt.preventDefault()
-        // let the flex wrapper know that i was clicked
-        // the panel that is flexing was encoded in {beginFlex} at construction time
-        beginFlex({ x: evt.clientX, y: evt.clientY })
-        // all done
-        return
-    }
-
     // assemble the handle controls
     const handleControls = {
         onMouseEnter,
         onMouseLeave,
-        onMouseDown,
+        onMouseDown: beginFlex,
     }
 
     // paint me

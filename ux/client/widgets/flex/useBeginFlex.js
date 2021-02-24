@@ -24,7 +24,15 @@ export default ({ panel }) => {
     } = React.useContext(Context)
 
     // when a panel starts flexing
-    const beginFlex = (location) => {
+    const beginFlex = (evt) => {
+        // stop this event from bubbling up
+        evt.stopPropagation()
+        // quash any side effects
+        evt.preventDefault()
+
+        // unpack the cursor location
+        const location = { x: evt.clientX, y: evt.clientY }
+
         // get the panel refs
         const refs = Array.from(panels.keys())
         // find the index of the active panel
