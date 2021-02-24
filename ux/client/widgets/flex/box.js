@@ -13,6 +13,7 @@ import { useEvent } from '~/hooks'
 // context
 import { Provider, useFlex } from './context'
 // hooks
+import useEndFlex from './useEndFlex'
 import useDirection from './useDirection'
 // styles
 import styles from './styles'
@@ -22,7 +23,8 @@ const Box = ({ style, children }) => {
     // get the flexbox direction
     const { direction } = useDirection()
     // get the flex support
-    const { flexingPanel, separatorLocation, doFlex, endFlex } = useFlex()
+    const { endFlex } = useEndFlex()
+    const { flexingPanel, separatorLocation, doFlex } = useFlex()
 
     // make an event handler for {doFlex}
     const onFlex = (evt) => {
@@ -36,23 +38,11 @@ const Box = ({ style, children }) => {
         return
     }
 
-    // make an event handler for {beginFlex}
-    const onEndFlex = (evt) => {
-        // stop this event from bubbling up
-        evt.stopPropagation()
-        // an quash any side effects
-        evt.preventDefault()
-        // invoke the flex handler
-        endFlex()
-        // all done
-        return
-    }
-
     // make a ref for my container
     const ref = React.useRef(null)
     // install our event listeners
-    useEvent({ name: "mouseup", listener: onEndFlex, client: ref })
-    useEvent({ name: "mouseleave", listener: onEndFlex, client: ref })
+    useEvent({ name: "mouseup", listener: endFlex, client: ref })
+    useEvent({ name: "mouseleave", listener: endFlex, client: ref })
     useEvent({
         name: "mousemove", listener: onFlex, client: ref,
         triggers: [flexingPanel, separatorLocation]

@@ -120,16 +120,6 @@ export const useFlex = () => {
         separatorLocation, setSeparatorLocation,
     } = React.useContext(Context)
 
-    // when flexing ends
-    const endFlex = () => {
-        // reset the flexing panel
-        setFlexingPanel(null)
-        // and the pile of downstream panels
-        setDownstreamPanels([])
-        // all done
-        return
-    }
-
     // while we are flexing
     const doFlex = ({ x, y }) => {
         // if no panel is flexing
@@ -235,9 +225,6 @@ export const useFlex = () => {
         separatorLocation,
         // compute a resize solution
         doFlex,
-        // end a panel resize sequence
-        endFlex,
-        //
     }
 }
 
