@@ -10,9 +10,9 @@ import React from 'react'
 // locals
 // hooks
 import { useResizeObserver } from '~/hooks'
-// context
-import { useRegisterPanel } from './context'
 // hooks
+import useBeginFlex from './useBeginFlex'
+import useRegisterPanel from './useRegisterPanel'
 import useDirectionalAttributes from './useDirectionalAttributes'
 // my separator
 import Separator from './separator'
@@ -22,13 +22,12 @@ import styles from './styles'
 
 // a container for client children
 const panel = ({ min = 0, max = Infinity, style, children, debug }) => {
-    // make a ref for my contents
-    const ref = React.useRef(null)
+    // register this panel and make a {ref} for it
+    const ref = useRegisterPanel({ min, max })
+    // get support for initiating flexing
+    const flexProps = useBeginFlex({ panel: ref })
     // get the direction dependent extent names
     const { minExtent, maxExtent } = useDirectionalAttributes()
-
-    // register this panel
-    const flexingProps = useRegisterPanel(ref, min, max)
 
     // storage for the size dependent styling
     let sizeStyle = {}
@@ -62,7 +61,7 @@ const panel = ({ min = 0, max = Infinity, style, children, debug }) => {
             <div ref={ref} style={panelStyle} >
                 {content}
             </div>
-            <Separator {...flexingProps} style={style.separator} />
+            <Separator {...flexProps} style={style.separator} />
         </>
     )
 }
