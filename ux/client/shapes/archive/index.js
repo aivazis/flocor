@@ -26,37 +26,23 @@ C 739.1995 623.1511 776.3163 586.2923 803.9939 541.6637
 C 835.3713 491.1453 850 438.18695 850 374.98895
 C 849.96 281.4819 813.5431 193.60468 747.4488 127.50676
 Z
-M 499.96 647.6803
-C 349.6129 647.6803 227.29337 525.3742 227.29337 374.99895
-C 227.29337 224.6237 349.6029 102.29756 499.96 102.29756
-C 650.3171 102.29756 772.6566 224.6137 772.6566 374.99895
-C 772.6566 525.3342 650.3171 647.6803 499.96 647.6803
-Z`
-
+`
 
 // render the shape
 const shape = ({ style }) => {
-    // mix my paint
-    const ico = { ...styles.icon, ...style?.icon }
-    const deco = { ...styles.decoration, ...style?.decoration }
+        // mix my paint
+        const ico = { ...styles.icon, ...style?.icon }
+        const deco = { ...styles.decoration, ...style?.decoration }
 
-    // paint me
-    return (
-        <>
-            <path d={pin} style={ico} />
-
-            <circle style={deco}
-                    cx="400" cy="300" r="50" />
-            <circle style={deco}
-                    cx="400" cy="450" r="50" />
-            <circle style={deco}
-                    cx="600" cy="375" r="50" />
-            <path style={deco}
-                  d="M 450 300 L 500 300 L 550 350" />
-            <path style={deco}
-                  d="M 450 450 L 500 450 L 550 400" />
-        </>
-    )
+        // paint me
+        return (
+                <>
+                        <path d={pin} style={ico} />
+                        <circle style={deco}
+                                cx="500" cy="400" r="200"
+                        />
+                </>
+        )
 }
 
 
