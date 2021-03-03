@@ -21,6 +21,9 @@
 #include <pybind11/stl.h>
 #include <pybind11/stl_bind.h>
 
+// libampcor
+#include <flocor/products.h>
+
 
 // type aliases
 namespace flocor::py {
