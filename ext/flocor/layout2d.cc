@@ -8,21 +8,6 @@
 #include "external.h"
 // namespace setup
 #include "forward.h"
-// libflocor
-#include <flocor/products.h>
-
-
-// type aliases
-namespace flocor::py {
-    // 2d layouts
-    using layout2d_t = products::layout_t<2>;
-    // the corresponding shape
-    using shape2d_t = layout2d_t::shape_type;
-    // order
-    using order2d_t = layout2d_t::order_type;
-    // and index
-    using index2d_t = layout2d_t::index_type;
-}
 
 
 // add bindings for the grid layouts used in this package
@@ -92,6 +77,24 @@ flocor::py::layout2d(py::module & m)
         &layout2d_t::nudge,
         // the docstring
         "get my nudge");
+
+    // sizes of things: number of pixels
+    layoutCls.def_property_readonly(
+        "cells",
+        // the getter
+        &layout2d_t::cells,
+        // the docstring
+        "the number of pixels in the raster");
+
+    // extract a portion of a layout
+    layoutCls.def(
+        "box",
+        // the handler
+        &layout2d_t::box,
+        // the signature
+        "origin"_a, "shape"_a,
+        // the docstring
+        "carve a portion of a layout");
 
     // indexing
     // get the index that corresponds to a given offset

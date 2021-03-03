@@ -8,17 +8,6 @@
 #include "external.h"
 // namespace setup
 #include "forward.h"
-// libflocor
-#include <flocor/products.h>
-
-
-// type aliases
-namespace flocor::py {
-    // 2d layout
-    using layout2d_t = products::layout_t<2>;
-    // and its order
-    using order2d_t = layout2d_t::order_type;
-}
 
 
 // add bindings for the grid layouts used in this package
@@ -55,7 +44,7 @@ flocor::py::order2d(py::module & m)
         // the name of the method
         "__getitem__",
         // the getter
-        [](const order2d_t & order, int idx) { return order [idx]; },
+        [](const order2d_t & order, int idx) { return order[idx]; },
         // the signature
         "order"_a,
         // the docstring

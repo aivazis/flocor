@@ -8,17 +8,6 @@
 #include "external.h"
 // namespace setup
 #include "forward.h"
-// libflocor
-#include <flocor/products.h>
-
-
-// type aliases
-namespace flocor::py {
-    // 2d layouts
-    using layout2d_t = products::layout_t<2>;
-    // and its shape
-    using shape2d_t = layout2d_t::shape_type;
-}
 
 
 // add bindings for the grid layouts used in this package
@@ -64,7 +53,7 @@ flocor::py::shape2d(py::module & m)
         // the name of the method
         "__getitem__",
         // the getter
-        [](const shape2d_t & shape, int idx) { return shape [idx]; },
+        [](const shape2d_t & shape, int idx) { return shape[idx]; },
         // the signature
         "index"_a,
         // the docstring

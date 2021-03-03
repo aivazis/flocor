@@ -8,17 +8,6 @@
 #include "external.h"
 // namespace setup
 #include "forward.h"
-// libflocor
-#include <flocor/products.h>
-
-
-// type aliases
-namespace flocor::py {
-    // 2d layout
-    using layout2d_t = products::layout_t<2>;
-    // and its index
-    using index2d_t = layout2d_t::index_type;
-}
 
 
 // add bindings for the grid layouts used in this package
