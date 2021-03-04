@@ -1,0 +1,115 @@
+;
+; michael a.g. aïvázis <michael.aivazis@para-sim.com>
+; parasim
+; (c) 1998-2021 all rights reserved
+;
+
+
+; workflow configuration
+LA:
+    ; reference raster
+    reference = slc#20061231
+    ; secondary raster
+    secondary = slc#20070215
+    ; the output data product
+    offsetMap = offsets#single
+    ; the factory
+    correlator = mga#tiles.large
+
+
+; inputs
+; the reference raster
+20061231:
+    ; shape
+    shape = 36864,10344
+    ; pfs path to the data file
+    data = ../../data/alos/20061231.slc
+
+; the secondary raster
+20070215:
+    ; shape
+    shape = 36864,10344
+    ; pfs path to the data file
+    data = ../../data/alos/20070215.slc
+
+; output
+; a dense tiling
+dense:
+    ; shape
+    shape = 128, 32
+    ; pfs path to the file; currently left in the working directory
+    data = offsets_dense.dat
+
+
+; a sparse tiling
+sparse:
+    ; shape
+    shape = 8,2
+    ; pfs path to the file; currently left in the working directory
+    data = offsets_sparse.dat
+
+
+; 4 tiles
+quad:
+    ; shape
+    shape = 2,2
+    ; pfs path to the file; currently left in the working directory
+    data = offsets_single.dat
+
+
+; a single tile
+single:
+    ; shape
+    shape = 1,1
+    ; pfs path to the file; currently left in the working directory
+    data = offsets_single.dat
+
+
+; correlator that uses large chips
+tiles.large:
+    ; reference chip size
+    chip = 128, 128
+    ; padding used to form the search window in the secondary raster
+    padding = 32, 32
+    ; the refinement factor
+    refineFactor = 4
+    ; the refinement margin
+    refineMargin = 8
+    ; the zoom factor
+    zoomFactor = 8
+    ; configure the cover generator; values taken from the inputs to insarflow.offsetprf
+    cover.functor.shift = -111, 256
+
+; correlator that uses small chips
+tiles.small:
+    ; reference chip size
+    chip = 32, 32
+    ; padding used to form the search window in the secondary raster
+    padding = 16, 16
+    ; the refinement factor
+    refineFactor = 2
+    ; the refinement margin
+    refineMargin = 4
+    ; the zoom factor
+    zoomFactor = 2
+    ; configure the cover generator; values taken from the inputs to insarflow.offsetprf
+    cover.functor.shift = -111, 256
+
+
+; correlator that uses tiny chips; used for sanity checks
+tiles.tiny:
+    ; reference chip size
+    chip = 8, 8
+    ; padding used to form the search window in the secondary raster
+    padding = 2, 2
+    ; the refinement factor
+    refineFactor = 2
+    ; the refinement margin
+    refineMargin = 0
+    ; the zoom factor
+    zoomFactor = 1
+    ; configure the cover generator; values taken from the inputs to insarflow.offsetprf
+    cover.functor.shift = -111, 256
+
+
+; end of file
