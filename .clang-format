@@ -1,7 +1,6 @@
 # -*- yaml -*-
-
 ---
-Language:        Cpp
+Language: Cpp
 AccessModifierOffset: -4
 AlignAfterOpenBracket: AlwaysBreak
 AlignConsecutiveAssignments: false
@@ -51,7 +50,7 @@ BreakConstructorInitializers: AfterColon
 BreakInheritanceList: AfterColon
 BreakStringLiterals: true
 ColumnLimit: 100
-CommentPragmas: ''
+CommentPragmas: ""
 CompactNamespaces: true
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 4
@@ -61,7 +60,7 @@ DeriveLineEnding: false
 DerivePointerAlignment: false
 DisableFormat: false
 FixNamespaceComments: false
-ForEachMacros: [ foreach, Q_FOREACH, BOOST_FOREACH ]
+ForEachMacros: [foreach, Q_FOREACH, BOOST_FOREACH]
 IncludeBlocks: Preserve
 IndentCaseBlocks: false
 IndentCaseLabels: true
@@ -72,8 +71,8 @@ IndentWidth: 4
 IndentWrappedFunctionNames: false
 InsertTrailingCommas: None
 KeepEmptyLinesAtTheStartOfBlocks: true
-MacroBlockBegin: ''
-MacroBlockEnd:   ''
+MacroBlockBegin: ""
+MacroBlockEnd: ""
 MaxEmptyLinesToKeep: 2
 NamespaceIndentation: All
 PenaltyBreakAssignment: 1
@@ -111,4 +110,3 @@ SpacesInSquareBrackets: false
 Standard: c++20
 TabWidth: 4
 UseTab: Never
-...
