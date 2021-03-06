@@ -14,7 +14,7 @@ import styles from './styles'
 
 
 // the area
-const loading = () => (
+const nyi = () => (
     <section style={styles.loading}>
         <div style={styles.placeholder}>
             <svg style={styles.icon} version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +31,7 @@ const loading = () => (
 
 
 // publish
-export default loading
+export default nyi
 
 
 // end of file
