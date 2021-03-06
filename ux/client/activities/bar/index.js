@@ -16,7 +16,7 @@ import { Toolbar, Spacer } from '~/widgets'
 import styles from './styles'
 
 
-// teh activity bar
+// the activity bar
 const bar = () => {
     // decide on a size
     const size = 32
