@@ -8,11 +8,13 @@
 // framework
 import React from 'react'
 // routing
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
 // locals
 import styles from './styles'
-// view
+// sidebars
+import { NodeLibrary } from '~/views'
+// canvases
 import { NYI } from '~/views'
 // activities
 import { ActivityBar } from '~/activities'
@@ -23,6 +25,9 @@ import { Flex } from '~/widgets'
 // the main app working area
 // the layout is simple: the activity bar and activity dependent routing
 const Panel = () => {
+    // get the current activity
+    const match = useRouteMatch()
+
     // lay out the main page
     return (
         <section style={styles.panel} >
@@ -33,8 +38,12 @@ const Panel = () => {
             <Flex.Box direction="row" style={styles.flex} >
 
                 {/* the activity specific sidebar */}
-                <Flex.Panel min={200} style={styles.flex} >
-                    <div style={styles.sidebar} >sidebar</div>
+                <Flex.Panel min={200} style={{ ...styles.flex, ...styles.sidebar }} >
+                    <Switch>
+                        <Route path={`${match.path}compose`} >
+                            <NodeLibrary />
+                        </Route>
+                    </Switch>
                 </Flex.Panel>
 
                 {/* the activity specific workarea */}
