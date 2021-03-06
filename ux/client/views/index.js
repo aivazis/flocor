@@ -11,6 +11,10 @@ export Status from './status'
 
 // the main page
 export Flo2d from './flo2d'
+
+// sidebars
+export NodeLibrary from './nodelib'
+
 // sandboxes
 export Flex from './flex'
 
