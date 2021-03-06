@@ -27,7 +27,7 @@ const separator = ({ beginFlex, style }) => {
     // for the handle
     let dirHandleStyle = {
         transform,
-        [mainExtent]: "9px",
+        [mainExtent]: "7px",
         [crossExtent]: "100%",
     }
 
