@@ -14,5 +14,8 @@ export Help from './help'
 export Play from './play'
 export Skull from './skull'
 
+// flow nodes
+export Product from './product'
+
 
 // end of file
