@@ -47,7 +47,7 @@ const Panel = () => {
                 </Flex.Panel>
 
                 {/* the activity specific workarea */}
-                <Flex.Panel min={400} style={styles.flex} >
+                <Flex.Panel min={400} style={{ ...styles.flex, ...styles.canvas }} >
                     <NYI />
                 </Flex.Panel>
 
