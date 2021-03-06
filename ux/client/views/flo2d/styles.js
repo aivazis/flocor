@@ -29,11 +29,6 @@ export default {
             backgroundColor: "hsl(0deg, 0%, 10%)",
         },
 
-        // individual panels
-        panel: {
-            backgroundColor: "hsl(0deg, 0%, 5%, 1)",
-        },
-
         // the inter-panel separator
         separator: {
             // the line
@@ -52,27 +47,19 @@ export default {
         // THE ActivityBar DOES NOT PARTICIPATE IN PAINT MIXING
     },
 
+    // individual panels
+    // the side bar
     sidebar: {
-        // size me
-        width: "100%",
-        height: "100%",
-        // paint
-        backgroundColor: "hsl(0deg, 0%, 15%, 1)",
-        // shift me a bit
-        paddingLeft: "0.25rem",
+        panel: {
+            // default sizing
+            flex: "0 0 300px",
+        },
     },
 
+    // the main area
     canvas: {
-        // paint
-        backgroundColor: "hsl(0deg, 0%, 5%, 1)",
-        // occupy all available space
-        width: "100%",
-        height: "100%",
-        // let me strech, initially
-        // flex: "4 1 auto",
-
-        // shift me a bit
-        paddingLeft: "0.25rem",
+        panel: {
+        },
     },
 }
 
