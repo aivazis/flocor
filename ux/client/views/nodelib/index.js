@@ -7,7 +7,7 @@
 // externals
 import React from 'react'
 // locals
-import { Tray, Node } from '~/trays'
+import { Traits, Tray, Node } from '~/trays'
 // styles
 import styles from './styles'
 
@@ -20,11 +20,7 @@ const nodelib = ({ style }) => {
     // paint me
     return (
         <section style={boxStyle}>
-            <Tray title="pyre traits" >
-                <Node family="str" />
-                <Node family="int" />
-                <Node family="float" />
-            </Tray>
+            <Traits />
             <Tray title="application variables" >
                 <Node family="str" />
                 <Node family="int" />
