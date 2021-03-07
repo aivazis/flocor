@@ -12,4 +12,8 @@ export Node from './node'
 export Tray from './tray'
 
 
+// the tray with all the base traits from pyre
+export Traits from './traits'
+
+
 // end of file
