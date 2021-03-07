@@ -4,7 +4,6 @@
 // (c) 1998-2021 all rights reserved
 
 
-import 'regenerator-runtime'
 // the component framework
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
