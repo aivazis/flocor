@@ -6,6 +6,7 @@
 
 // externals
 import React from 'react'
+import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
 
 // locals
 import { Tray, Node } from '~/trays'
@@ -15,13 +16,20 @@ import styles from './styles'
 
 // a tray with a flow node
 const tray = () => {
+    // get the computational environment from the server
+    const { traits } = useLazyLoadQuery(
+        graphql`query traitsQuery {
+            traits {
+                schema
+                category
+            }
+        }`
+    )
 
     // paint me
     return (
         <Tray title="pyre traits">
-            <Node family="str" />
-            <Node family="int" />
-            <Node family="float" />
+            {traits.map(trait => <Node key={trait.schema} family={trait.schema} />)}
         </Tray >
     )
 }
