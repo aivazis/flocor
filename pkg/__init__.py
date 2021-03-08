@@ -37,6 +37,7 @@ from . import ext            # cpu and gpu acceleration
 # user interfaces
 from . import shells         # the supported application shells
 from . import cli            # the command line interface
+from . import gql            # graphql queries
 from . import ux             # support for the web client
 # protocols for products and factories
 from . import specs
