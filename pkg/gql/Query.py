@@ -9,6 +9,7 @@ import graphene
 
 # local types
 from .Catalog import Catalog
+from .Trait import Trait
 from .Version import Version
 
 
@@ -19,7 +20,11 @@ class Query(graphene.ObjectType):
     """
 
     # the fields
+    # server version info
     version = graphene.Field(Version, required=True)
+    # basic trait types from {pyre.schemata}
+    traits = graphene.List(graphene.NonNull(Trait))
+    # factories and products from a package
     catalog = graphene.Field(Catalog, required=True,
                              package=graphene.String(default_value="flocor"))
 
@@ -29,6 +34,12 @@ class Query(graphene.ObjectType):
     def resolve_version(root, info):
         # prep an empty context for the {version} resolution
         return {}
+
+
+    # basic trait types from {pyre.schemata}
+    def resolve_traits(root, info):
+        # the type definition has a method that builds a list
+        return list(Trait.resolve())
 
 
     # catalog
