@@ -47,25 +47,12 @@ class GraphQL:
         # chain up
         super().__init__(**kwds)
 
-        # load my schema
-        from .schema import schema
-        # and attach it
-        self.schema = schema
-
-        # get the package metadata
-        meta = flocor.meta
-        # build the version info
-        version = {
-            "major": meta.major,
-            "minor": meta.minor,
-            "micro": meta.micro,
-            "revid": meta.revision,
-        }
+        # load my schema and attach it
+        self.schema = flocor.gql.schema
 
         # set up the execution context
         self.context = {
             "nameserver": panel.pyre_nameserver,
-            "version": version
         }
 
         # all done
