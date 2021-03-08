@@ -12,6 +12,10 @@ schema {
 type Query {
   # server version information
   version: Version
+
+  # the set of simple trait types
+  traits: [Trait!]!
+
   # the set of protocols for products and factories in a given package
   catalog(package: String = "flocor"): Catalog
 }
@@ -23,6 +27,12 @@ type Version {
   minor: Int!
   micro: Int!
   revid: String!
+}
+
+# the set of simple trait types
+type Trait {
+  schema: String!
+  category: String!
 }
 
 
