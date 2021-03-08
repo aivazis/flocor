@@ -20,8 +20,7 @@ export default () => {
         // the registered panels
         panels,
         // flexing support
-        flexingPanel, setFlexingPanel,
-        downstreamPanels, setDownstreamPanels,
+        flexingPanel, downstreamPanels,
         separatorLocation, setSeparatorLocation,
     } = React.useContext(Context)
 

@@ -14,7 +14,7 @@ import { Context } from './context'
 // support for terminating a flex
 export default () => {
     // flexing support
-    const { setFlexingPanel, setDownstreamPanels, } = React.useContext(Context)
+    const { setFlexingPanel, setDownstreamPanels } = React.useContext(Context)
 
     // when flexing ends
     const endFlex = (evt) => {
