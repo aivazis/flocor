@@ -8,8 +8,6 @@
 import React from 'react'
 
 // locals
-// shapes
-import { Product } from '~/shapes'
 // styles
 import styles from './styles'
 
