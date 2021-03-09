@@ -12,6 +12,8 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
 // locals
 import styles from './styles'
+// my context
+import { Provider } from './context'
 // sidebars
 import { NodeLibrary } from '~/views'
 // canvases
@@ -57,8 +59,15 @@ const Panel = () => {
 }
 
 
-// publish
-export default Panel
+// turn the panel into a context provider
+export default () => {
+    // set up the context provider
+    return (
+        <Provider >
+            <Panel />
+        </Provider>
+    )
+}
 
 
 // end of file
