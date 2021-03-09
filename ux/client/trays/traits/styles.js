@@ -11,16 +11,19 @@ import { theme } from '~/palette'
 // publish
 export default {
     // the overall container
-    box: {
-    },
+    box: {},
 
     // the tray title
-    title: {
-    },
+    title: {},
 
     // the entries
-    items: {
-    },
+    items: {},
+
+    // the container of my icon
+    node: {},
+
+    // and its shape
+    shape: {},
 
 }
 
