@@ -14,9 +14,9 @@ export default {
     box: {
         // fonts
         fontFamily: "inconsolata",
-        fontSize: "80%",
+        fontSize: "65%",
         // sizes
-        padding: "0.25rem 0.0rem 0.25rem 0.75rem",
+        padding: "0.125rem 0.0rem 0.125rem 0.75rem",
         // for my children
         display: "flex",
         flexDirection: "row",
@@ -27,14 +27,6 @@ export default {
 
     // the trait family name
     family: {
-    },
-
-    // the shape container
-    node: {
-    },
-
-    // the shape itself
-    shape: {
     },
 
     // state dependent styling

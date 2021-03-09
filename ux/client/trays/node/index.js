@@ -15,7 +15,7 @@ import styles from './styles'
 
 
 // a tray with a single flow node
-const node = ({ family, shape, size = 24, style }) => {
+const node = ({ family, shape, style }) => {
     // my current state
     const [state, setState] = React.useState("normal")
 
@@ -31,29 +31,15 @@ const node = ({ family, shape, size = 24, style }) => {
 
     // mix my paint
     const familyStyle = { ...styles.family, ...style?.family }
-    const shapeStyle = { ...styles.shape, ...style?.shape }
-    const nodeStyle = { ...styles.node, ...style?.node }
     const stateStyle = { ...styles.state[state], ...style?.state[state] }
     const boxStyle = { ...styles.box, ...style?.box, ...stateStyle }
-
-    // resize the shape; my shapes are all drawn in a (1k, 1k) box
-    const shrink = `scale(${size / 1000})`
 
     // paint me
     return (
         <div style={boxStyle} {...boxControls}>
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-                width={size} height={size} style={nodeStyle}>
-                <g transform={shrink}>
-                    <Product style={shapeStyle} />
-                </g>
-            </svg>
-
+            {shape}
             <span>&nbsp;:&nbsp;</span>
-
-            <span style={familyStyle}>
-                {family}
-            </span>
+            <span style={familyStyle}>{family}</span>
         </div>
     )
 }
