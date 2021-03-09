@@ -33,7 +33,7 @@ const server = ({ style }) => {
 
     // get the time
     const now = new Date()
-    // use it to make a timestamp
+    // use it to make a time stamp
     const title = `last checked on ${now.toString()}`
 
     // mark
