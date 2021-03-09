@@ -38,20 +38,14 @@ const separator = ({ beginFlex, style }) => {
     // and the state dependent coloring
     const stateStyle = { ...styles.separator.colors, ...style?.colors }
 
-    // make a ref for the handle
-    const ref = React.useRef(null)
-
     // when the mouse enters my space
     const onMouseEnter = (evt) => {
         // stop this event from bubbling up
         evt.stopPropagation()
         // get the handle
-        const handle = ref.current
-        // if the handle has rendered
-        if (handle) {
-            // paint it
-            handle.style.backgroundColor = stateStyle.visible
-        }
+        const handle = evt.target
+        // paint it
+        handle.style.backgroundColor = stateStyle.visible
         // all done
         return
     }
@@ -63,12 +57,9 @@ const separator = ({ beginFlex, style }) => {
         // quash any side effects
         evt.preventDefault()
         // get the handle
-        const handle = ref.current
-        // if the handle has rendered
-        if (handle) {
-            // paint it
-            handle.style.backgroundColor = stateStyle.hidden
-        }
+        const handle = evt.target
+        // paint it
+        handle.style.backgroundColor = stateStyle.hidden
         // all done
         return
     }
@@ -83,7 +74,7 @@ const separator = ({ beginFlex, style }) => {
     // paint me
     return (
         <div style={ruleStyle} >
-            <div ref={ref} style={handleStyle} {...handleControls} />
+            <div style={handleStyle} {...handleControls} />
         </div>
     )
 }
