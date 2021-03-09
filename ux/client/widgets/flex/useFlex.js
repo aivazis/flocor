@@ -26,16 +26,16 @@ export default () => {
 
     // while we are flexing
     const doFlex = (evt) => {
-        // stop this event from bubbling up
-        evt.stopPropagation()
-        // an quash any side effects
-        evt.preventDefault()
-
         // if no panel is flexing
         if (flexingPanel == null) {
             // nothing to do
             return
         }
+
+        // stop this event from bubbling up
+        evt.stopPropagation()
+        // and quash any side effects
+        evt.preventDefault()
 
         // unpack the cursor position
         const { clientX: x, clientY: y } = evt

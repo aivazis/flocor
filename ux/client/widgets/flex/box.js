@@ -29,12 +29,22 @@ const Box = ({ style, children }) => {
 
     // make a ref for my container
     const ref = React.useRef(null)
+
     // install our event listeners
-    useEvent({ name: "mouseup", listener: endFlex, client: ref })
-    useEvent({ name: "mouseleave", listener: endFlex, client: ref })
+    // flex while the mouse is moving
     useEvent({
         name: "mousemove", listener: doFlex, client: ref,
         triggers: [flexingPanel, separatorLocation]
+    })
+    // stop flexing when the mouse is released
+    useEvent({
+        name: "mouseup", listener: endFlex, client: ref,
+        triggers: [flexingPanel]
+    })
+    // stop flexing when the mouse leaves my client area
+    useEvent({
+        name: "mouseleave", listener: endFlex, client: ref,
+        triggers: [flexingPanel]
     })
 
     // mix my paint

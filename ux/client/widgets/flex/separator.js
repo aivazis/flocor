@@ -40,8 +40,6 @@ const separator = ({ beginFlex, style }) => {
 
     // when the mouse enters my space
     const onMouseEnter = (evt) => {
-        // stop this event from bubbling up
-        evt.stopPropagation()
         // get the handle
         const handle = evt.target
         // paint it
@@ -52,10 +50,6 @@ const separator = ({ beginFlex, style }) => {
 
     // when the mouse leaves my space
     const onMouseLeave = (evt) => {
-        // stop this event from bubbling up
-        evt.stopPropagation()
-        // quash any side effects
-        evt.preventDefault()
         // get the handle
         const handle = evt.target
         // paint it

@@ -14,13 +14,19 @@ import { Context } from './context'
 // support for terminating a flex
 export default () => {
     // flexing support
-    const { setFlexingPanel, setDownstreamPanels } = React.useContext(Context)
+    const { flexingPanel, setFlexingPanel, setDownstreamPanels } = React.useContext(Context)
 
     // when flexing ends
     const endFlex = (evt) => {
+        // if no panel is flexing
+        if (flexingPanel == null) {
+            // nothing to do
+            return
+        }
+
         // stop this event from bubbling up
         evt.stopPropagation()
-        // an quash any side effects
+        // and quash any side effects
         evt.preventDefault()
 
         // reset the flexing panel
