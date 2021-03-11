@@ -8,8 +8,6 @@
 import React from 'react'
 
 // locals
-// hooks
-import { useEvent } from '~/hooks'
 // styles
 import styles from './styles'
 
