@@ -10,19 +10,11 @@ import { theme } from '~/palette'
 
 // publish
 export default {
-    panel: {
+    // the overall container
+    box: {
     },
 
-    north: {
-        // stroke
-        stroke: "hsl(0deg,0%,20%)",
-        // exclude the stroke from any transforms
-        vectorEffect: "non-scaling-stroke",
-
-        // fill
-        fill: "none",
-    },
-
+    // the x axis
     east: {
         // stroke
         stroke: "hsl(0deg,0%,20%)",
@@ -33,9 +25,10 @@ export default {
         fill: "none",
     },
 
-    needle: {
+    // the y axis
+    north: {
         // stroke
-        stroke: "hsl(0deg,50%,20%)",
+        stroke: "hsl(0deg,0%,20%)",
         // exclude the stroke from any transforms
         vectorEffect: "non-scaling-stroke",
 
@@ -43,7 +36,18 @@ export default {
         fill: "none",
     },
 
-    needletip: {
+    // the compass face
+    face: {
+        // stroke
+        stroke: "hsl(0deg,0%,20%)",
+        // exclude the stroke from any transforms
+        vectorEffect: "non-scaling-stroke",
+
+        // fill
+        fill: "none",
+    },
+
+    needle: {
         // stroke
         stroke: "none",
         // just in case we ever stroke this
