@@ -8,7 +8,7 @@
 import React from 'react'
 // local
 // widgets
-import { Compass } from '~/widgets'
+import { Compass, Camera } from '~/widgets'
 // styles
 import styles from './styles'
 
@@ -22,7 +22,9 @@ export const Flogram = () => {
     return (
         <section ref={ref} style={styles.panel} >
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" {...styles.canvas}>
-                <Compass />
+                <Camera ref={ref} >
+                    <Compass />
+                </Camera >
             </svg>
         </section>
     )
