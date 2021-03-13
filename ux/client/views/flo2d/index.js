@@ -25,6 +25,8 @@ import { NodeLibrary } from '~/views'
 import { NYI } from '~/views'
 // activities
 import { ActivityBar } from '~/activities'
+// editors
+import { Flogram } from '~/flogram'
 // widgets
 import { Flex, Shadow } from '~/widgets'
 
@@ -87,7 +89,14 @@ const Panel = () => {
 
                 {/* the activity specific workarea */}
                 <Flex.Panel min={400} style={{ ...styles.flex, ...styles.canvas }} >
-                    <NYI />
+                    <Switch>
+                        <Route path={`${match.path}compose`} >
+                            <Flogram />
+                        </Route>
+                        <Route >
+                            <NYI />
+                        </Route>
+                    </Switch>
                 </Flex.Panel>
 
             </Flex.Box>
