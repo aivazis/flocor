@@ -11,8 +11,7 @@ import React from 'react'
 import { Context } from './context'
 
 
-// register a component to display at the current mouse coordinates while the user
-// is dragging a flow node form the tray onto the canvas
+// hook that controls the positioning of the cursor shadow relative to the mouse coordinates
 export default ({ offset }) => {
     // grab the shadow offset and its mutator
     const { shadowOffset, setShadowOffset } = React.useContext(Context)

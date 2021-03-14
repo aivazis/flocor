@@ -12,6 +12,7 @@ import React from 'react'
 export const Context = React.createContext(
     // the default value that consumers see when accessing the context outside a provider
     {
+        // NYI: add a default object here once the context structure settles
     }
 )
 
