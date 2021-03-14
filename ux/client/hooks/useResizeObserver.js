@@ -13,7 +13,7 @@ import { debounce, throttle } from 'lodash'
 const useResizeObserver = ({
     // a reference to the component whose size we care about; if {null}, a new one will be made
     ref = null,
-    // an optional call back to invoke on size changes
+    // an optional callback to invoke on size changes
     onResize = null,
     // {mode} is either "debounce" or "throttle"; see the {lodash} docs for {options}
     limiter = { mode: null, wait: 0, options: null }
