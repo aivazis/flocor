@@ -23,6 +23,7 @@ const compass = ({ style, ...xforms }) => {
       // and the needle
       const needleStyle = { ...styles.needle, ...style?.needle }
 
+      // paint me
       return (
             <g {...boxStyle} {...xforms}>
                   {/* the x axis */}
