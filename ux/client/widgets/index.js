@@ -13,7 +13,7 @@ export Flame from './flame'
 export * as Flex from './flex'
 export Kill from './kill'
 export Server from './server'
-export Shadow from './shadow'
+export { Shadow } from './shadow'
 export Spacer from './spacer'
 export Toolbar from './toolbar'
 
