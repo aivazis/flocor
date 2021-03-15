@@ -6,12 +6,41 @@
 
 // externals
 import React from 'react'
+// project
+// hooks
+import { useEvent } from '~/hooks'
 // locals
+// styling
 import styles from './styles'
 
 
-// a container that displays an SVG image at a specific cursor location
-const shadow = ({ location, offset, style, children }) => {
+// a container that displays an SVG image at a specific cursor location within a client area
+export const Shadow = React.forwardRef(({ shadow, offset, style }, clientRef) => {
+    // state for tacking the cursor location
+    const [location, setLocation] = React.useState({ x: 0, y: 0 })
+
+    // event handler to track and record the cursor location
+    const trackLocation = (evt) => {
+        // extract the cursor location
+        const location = { x: evt.clientX, y: evt.clientY }
+        // record it
+        setLocation(location)
+        // all done
+        return
+    }
+
+    // install the location tracker
+    useEvent({
+        name: "mousemove", listener: trackLocation, client: clientRef,
+        triggers: []
+    })
+
+    // if there is no shadow
+    if (shadow == null) {
+        // don't render anything
+        return null
+    }
+
     // mix my paint
     const shadowStyle = {
         // from me
@@ -26,14 +55,10 @@ const shadow = ({ location, offset, style, children }) => {
     // paint me
     return (
         <div style={shadowStyle} >
-            {children}
+            {shadow}
         </div>
     )
-}
-
-
-// publish
-export default shadow
+})
 
 
 // end of file
