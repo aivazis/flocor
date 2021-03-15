@@ -12,7 +12,7 @@ import { Context } from './context'
 
 
 // access to the cursor shadow, a decoration that reminds the user of what they are dragging
-export default ({ shape }) => {
+export default (shape = null) => {
     // grab the shadow and its mutator
     const { shadow, setShadow } = React.useContext(Context)
 

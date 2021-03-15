@@ -20,9 +20,9 @@ const node = ({ family, shape, size, style }) => {
     // my current state
     const [state, setState] = React.useState("normal")
     // make a callback that sets the cursor shadow when initiating node drag
-    const { attachShadow } = useShadow({ shape })
+    const { attachShadow } = useShadow(shape)
     // make a call back that shifts the cursor shadow so it's visible
-    const { attachShadowOffset } = useShadowOffset({ offset: { x: -size.x, y: -size.y } })
+    const { attachShadowOffset } = useShadowOffset({ x: -size.x, y: -size.y })
 
     // to select me
     const select = () => {
