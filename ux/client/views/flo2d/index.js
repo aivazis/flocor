@@ -18,7 +18,6 @@ import styles from './styles'
 import { Provider } from './context'
 import useShadow from './useShadow'
 import useShadowOffset from './useShadowOffset'
-import useCursorLocation from './useCursorLocation'
 // sidebars
 import { NodeLibrary } from '~/views'
 // canvases
@@ -39,35 +38,21 @@ const Panel = () => {
     // get the current activity
     const match = useRouteMatch()
     // make a callback that resets the cursor shadow when the mouse is released
-    const { shadow, attachShadow: clearShadow } = useShadow({ shadow: null })
-    // keep track of the cursor location
-    const { cursorLocation, trackCursorLocation } = useCursorLocation()
+    const { shadow, attachShadow: clearShadow } = useShadow()
     // and the current shadow offset
     const { shadowOffset } = useShadowOffset({ x: 0, y: 0 })
 
     // install the event listeners
-    // track the location of the cursor while the mouse is moving
-    useEvent({
-        name: "mousemove", listener: trackCursorLocation, client: ref,
-        triggers: [cursorLocation, shadowOffset]
-    })
     // clear the cursor shadow when the mouse is released
     useEvent({
         name: "mouseup", listener: clearShadow, client: ref,
-        triggers: [shadow]
+        triggers: []
     })
     // also, clear the cursor shadow when the mouse leaves my client area
     useEvent({
         name: "mouseleave", listener: clearShadow, client: ref,
-        triggers: [shadow]
+        triggers: []
     })
-
-    // the cursor shadow
-    const cursorShadow = (
-        shadow
-            ? <Shadow location={cursorLocation} offset={shadowOffset} >{shadow}</Shadow>
-            : null
-    )
 
     // lay out the main page
     return (
@@ -102,7 +87,7 @@ const Panel = () => {
             </Flex.Box>
 
             {/* if there is a shadow, place a shape at the cursor location */}
-            {cursorShadow}
+            <Shadow ref={ref} shadow={shadow} offset={shadowOffset} />
         </section >
     )
 }
