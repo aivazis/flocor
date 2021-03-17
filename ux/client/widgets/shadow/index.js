@@ -21,6 +21,8 @@ export const Shadow = React.forwardRef(({ shadow, offset, style }, clientRef) =>
 
     // event handler to track and record the cursor location
     const trackLocation = (evt) => {
+        // turn side effects off
+        evt.preventDefault()
         // extract the cursor location
         const location = { x: evt.clientX, y: evt.clientY }
         // record it
