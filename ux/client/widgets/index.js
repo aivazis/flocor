@@ -5,17 +5,19 @@
 
 
 // publish
+// simple widgets
 export Badge from './badge'
-export { Camera } from './camera'
 export Colophon from './colophon'
 export Compass from './compass'
 export Flame from './flame'
-export * as Flex from './flex'
 export Kill from './kill'
 export Server from './server'
-export { Shadow } from './shadow'
 export Spacer from './spacer'
 export Toolbar from './toolbar'
 
+// composites
+export { Camera } from './camera'
+export * as Flex from './flex'
+export { Shadow } from './shadow'
 
 // end of file
