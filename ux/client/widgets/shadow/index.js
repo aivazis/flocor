@@ -5,7 +5,13 @@
 
 
 // publish
+// the component
 export { Shadow } from './shadow'
+
+// the hooks
+export { useShadow } from './useShadow'
+export { useClearShadow } from './useClearShadow'
+export { useAttachShadow } from './useAttachShadow'
 
 
 // end of file
