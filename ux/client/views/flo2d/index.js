@@ -16,8 +16,6 @@ import { useEvent } from '~/hooks'
 import styles from './styles'
 // my context
 import { Provider } from './context'
-import useShadow from './useShadow'
-import useShadowOffset from './useShadowOffset'
 // sidebars
 import { NodeLibrary } from '~/views'
 // canvases
@@ -37,22 +35,6 @@ const Panel = () => {
     const ref = React.useRef(null)
     // get the current activity
     const match = useRouteMatch()
-    // make a callback that resets the cursor shadow when the mouse is released
-    const { shadow, attachShadow: clearShadow } = useShadow()
-    // and the current shadow offset
-    const { shadowOffset } = useShadowOffset({ x: 0, y: 0 })
-
-    // install the event listeners
-    // clear the cursor shadow when the mouse is released
-    useEvent({
-        name: "mouseup", listener: clearShadow, client: ref,
-        triggers: []
-    })
-    // also, clear the cursor shadow when the mouse leaves my client area
-    useEvent({
-        name: "mouseleave", listener: clearShadow, client: ref,
-        triggers: []
-    })
 
     // lay out the main page
     return (
@@ -65,11 +47,13 @@ const Panel = () => {
 
                 {/* the activity specific sidebar */}
                 <Flex.Panel min={200} style={{ ...styles.flex, ...styles.sidebar }} >
-                    <Switch>
-                        <Route path={`${match.path}compose`} >
-                            <NodeLibrary />
-                        </Route>
-                    </Switch>
+                    <Shadow ref={ref} >
+                        <Switch>
+                            <Route path={`${match.path}compose`} >
+                                <NodeLibrary />
+                            </Route>
+                        </Switch>
+                    </Shadow>
                 </Flex.Panel>
 
                 {/* the activity specific work area */}
@@ -86,8 +70,6 @@ const Panel = () => {
 
             </Flex.Box>
 
-            {/* if there is a shadow, place a shape at the cursor location */}
-            <Shadow ref={ref} shadow={shadow} offset={shadowOffset} />
         </section >
     )
 }
