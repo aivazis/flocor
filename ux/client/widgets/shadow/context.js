@@ -8,11 +8,16 @@
 import React from 'react'
 
 
-// setup the flex context
+// setup the shadow context
 export const Context = React.createContext(
     // the default value that consumers see when accessing the context outside a provider
     {
-        // NYI: add a default object here once the context structure settles
+        // for the sprite
+        shadow: null,
+        setShadow: () => { throw new Error("setShadow: no context provider") },
+        // and its location
+        offset: { x: 0, y: 0 },
+        setOffset: () => { throw new Error("setOffset: no context provider") }
     }
 )
 
