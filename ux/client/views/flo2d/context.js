@@ -19,18 +19,8 @@ export const Context = React.createContext(
 
 // the provider factory
 export const Provider = ({ children }) => {
-    // the component to render at the mouse coordinates when dragging flow nodes
-    // from { nodelib } to the { canvas }
-    const [shadow, setShadow] = React.useState(null)
-    // and its offset relative to the cursor position
-    const [shadowOffset, setShadowOffset] = React.useState({ x: 0, y: 0 })
-
     // build the current value of the context
     const context = {
-        // shadow
-        shadow, setShadow,
-        // and its offset
-        shadowOffset, setShadowOffset,
     }
 
     // provide for my children
