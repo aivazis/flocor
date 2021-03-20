@@ -13,8 +13,13 @@ import flocor
 # application engine
 class Panel(flocor.shells.command, family="flocor.cli.ux"):
     """
-    Select application behavior that is mapped to the capabilities of the web client
+    Select application behavior that is specialized to the capabilities of the web client
     """
+
+
+    # user configurable state
+    flow = flocor.specs.flow()
+    flow.doc = "the workflow to interact with"
 
 
 # end of file
