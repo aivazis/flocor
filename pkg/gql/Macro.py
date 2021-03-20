@@ -21,10 +21,4 @@ class Macro(graphene.ObjectType):
     family = graphene.String(required=True)
 
 
-    @classmethod
-    def resolve(cls, plexus, **kwds):
-        # make an empty list, for now
-        return []
-
-
 # end of file

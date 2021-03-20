@@ -43,8 +43,12 @@ class Flow(graphene.ObjectType):
 
 
     def resolve_macros(flow, info, **kwds):
-        # return the {flow} macros
-        return []
+        # go through the nodes in {flow}
+        for node in flow.nodes:
+            # serialize it
+            yield Macro(id=node.pyre_id, name=node.pyre_name, family=node.pyre_schema.typename)
+        # and done
+        return
 
 
 # end of file
