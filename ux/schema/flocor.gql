@@ -10,24 +10,39 @@ schema {
 
 # the top level query
 type Query {
-  # server version information
-  version: Version
-
-  # the set of simple trait types
-  traits: [Trait!]!
+  # the active flow
+  flow(name: String = ""): Flow
 
   # the set of protocols for products and factories in a given package
   catalog(package: String = "flocor"): Catalog
+  # the set of simple trait types
+  traits: [Trait!]!
+  # server version information
+  version: Version
+}
+
+# the flow
+type Flow {
+  # flow identification
+  id: ID!
+  # the name of the flow
+  name: String!
+  # and its type
+  family: String!
+
+  # the set of macros
+  macros: [Macro!]!
 }
 
 
-# server version
-type Version {
-  major: Int!
-  minor: Int!
-  micro: Int!
-  revid: String!
+# a macor is a named+typed variable
+type Macro {
+  id: ID!
+  name: String!
+  family: String!
 }
+
+
 
 # the set of simple trait types
 type Trait {
@@ -64,5 +79,13 @@ type Producer {
   outputs: [Specification!]!
 }
 
+
+# server version
+type Version {
+  major: Int!
+  minor: Int!
+  micro: Int!
+  revid: String!
+}
 
 # end of file
