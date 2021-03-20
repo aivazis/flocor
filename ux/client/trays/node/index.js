@@ -7,24 +7,28 @@
 // externals
 import React from 'react'
 
-// locals
-// context
+// project
+// hooks
 import { useAttachShadow } from '~/widgets/shadow'
+// locals
 // styles
 import styles from './styles'
 
 
 // a tray with a single flow node
 const node = ({ family, shape, size, style }) => {
-    // my current state
-    const [state, setState] = React.useState("normal")
-    // make a callback that sets the cursor shadow when initiating node drag
+    // make a callback that sets the cursor shadow when initiating node drag; clearing
+    // the shadow is done by my parent when the mouse is released anywhere in its client area,
+    // including within me
     const attachShadow = useAttachShadow(shape, { x: -size.x, y: -size.y })
 
+    // my current state: normal, selected, highlighted
+    const [state, setState] = React.useState("normal")
     // to turn highlighting on
     const highlightOn = () => setState("highlighted")
     // to turn highlighting off
     const highlightOff = () => setState("normal")
+
     // box controls
     const boxControls = {
         onMouseDown: attachShadow,
