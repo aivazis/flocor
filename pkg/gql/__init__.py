@@ -11,7 +11,11 @@ import graphene
 from .Query import Query
 # the top level types
 from .Catalog import Catalog
+from .Flow import Flow
 from .Version import Version
+
+# flow nodes
+from .Macro import Macro
 
 
 # build the schema
@@ -20,10 +24,14 @@ schema = graphene.Schema(
     query=Query,
     # the concrete types in the schema
     types=[
-        # administrative
-        Version,
+        # the flow
+        Flow,
+        # flow nodes
+        Macro,
         # factories and products from specific packages
         Catalog,
+        # administrative
+        Version,
     ]
 )
 
