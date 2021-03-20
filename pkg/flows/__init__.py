@@ -5,7 +5,11 @@
 
 
 # publish
+# the container
 from .Flow import Flow as flow
+
+# atoms
+from .Macro import Macro as macro
 
 
 # end of file
