@@ -6,7 +6,9 @@
 
 // externals
 import React from 'react'
-// local
+import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
+
+// locals
 // widgets
 import { Compass, Camera } from '~/widgets'
 // styles
@@ -15,6 +17,26 @@ import styles from './styles'
 
 // the flow graph display
 export const Flogram = () => {
+    // ask the server for the flow diagram
+    const { flow } = useLazyLoadQuery(
+        graphql`query flogramQuery {
+            flow {
+                id
+                name
+                family
+
+                macros {
+                    id
+                    name
+                    family
+                }
+            }
+        }`
+    )
+
+    // show me
+    console.log("flogram")
+
     // make a reference to my container so we can measure it and install listeners
     const ref = React.useRef(null)
 
