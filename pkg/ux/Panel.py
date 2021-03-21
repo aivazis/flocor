@@ -22,4 +22,14 @@ class Panel(flocor.shells.command, family="flocor.cli.ux"):
     flow.doc = "the workflow to interact with"
 
 
+    # metamethods
+    def __init__(self, **kwds):
+        # chain up
+        super().__init__(**kwds)
+        # initialize the graph layout
+        self.layout = {}
+        # all done
+        return
+
+
 # end of file
