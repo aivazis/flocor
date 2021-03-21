@@ -9,6 +9,7 @@ import graphene
 
 # local
 from .Macro import Macro
+from .Position import Position
 
 
 # trait types from {pyre.schemata}
@@ -27,26 +28,42 @@ class Flow(graphene.ObjectType):
 
 
     # resolvers
-    def resolve_id(flow, info, **kwds):
+    def resolve_id(panel, info, **kwds):
+        # unpack
+        flow = panel.flow
         # return the {flow} id
         return flow.pyre_id
 
 
-    def resolve_name(flow, info, **kwds):
+    def resolve_name(panel, info, **kwds):
+        # unpack
+        flow = panel.flow
         # return the {flow} name
         return flow.pyre_name
 
 
-    def resolve_family(flow, info, **kwds):
+    def resolve_family(panel, info, **kwds):
+        # unpack
+        flow = panel.flow
         # return the {flow} family name
         return flow.pyre_family()
 
 
-    def resolve_macros(flow, info, **kwds):
+    def resolve_macros(panel, info, **kwds):
+        # unpack
+        flow = panel.flow
+        layout = panel.layout
+
         # go through the nodes in {flow}
         for node in flow.nodes:
+            # get its id
+            guid = node.pyre_id
+            # look up its position
+            x, y = layout[guid]
             # serialize it
-            yield Macro(id=node.pyre_id, name=node.pyre_name, family=node.pyre_schema.typename)
+            yield Macro(id=guid, name=node.pyre_name, family=node.pyre_schema.typename,
+                        position=Position(x=x, y=y))
+
         # and done
         return
 

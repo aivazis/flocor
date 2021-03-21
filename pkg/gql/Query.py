@@ -40,10 +40,10 @@ class Query(graphene.ObjectType):
         """
         Generate a representation of the current workflow
         """
-        # build the {root} context for the {flow} resolvers
-        flow = info.context["panel"].flow
+        # get the panel
+        panel = info.context["panel"]
         # and pass it on
-        return flow
+        return panel
 
 
     # basic trait types from {pyre.schemata}
