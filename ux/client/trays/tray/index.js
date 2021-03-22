@@ -13,7 +13,7 @@ import styles from './styles'
 
 
 // a tray with a flow node
-const tray = ({ title, style, children }) => {
+export const Tray = ({ title, style, children }) => {
     // mix my paint
     const boxStyle = { ...styles.box, ...style?.box }
     const titleStyle = { ...styles.title, ...style?.title }
@@ -29,10 +29,6 @@ const tray = ({ title, style, children }) => {
         </section>
     )
 }
-
-
-// publish
-export default tray
 
 
 // end of file
