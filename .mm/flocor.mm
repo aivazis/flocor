@@ -7,7 +7,7 @@
 # flocor consists of a python package
 flocor.packages := flocor.pkg
 # libraries
-flocor.libraries := flocor.lib ${call extern.if.available,cuda,flocor_cuda.lib}
+flocor.libraries := flocor.lib #${call extern.if.available,cuda,flocor_cuda.lib}
 # python extensions
 flocor.extensions := flocor.ext
 # a ux bundle
