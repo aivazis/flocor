@@ -7,32 +7,17 @@
 # externals
 import graphene
 
-# the query
+# query
 from .Query import Query
-# the top level types
-from .Catalog import Catalog
-from .Flow import Flow
-from .Version import Version
-
-# flow nodes
-from .Macro import Macro
+# mutation
+from .Mutation import Mutation
 
 
 # build the schema
 schema = graphene.Schema(
     # supported operations
-    query=Query,
-    # the concrete types in the schema
-    types=[
-        # the flow
-        Flow,
-        # flow nodes
-        Macro,
-        # factories and products from specific packages
-        Catalog,
-        # administrative
-        Version,
-    ]
+    query = Query,
+    mutation = Mutation,
 )
 
 
