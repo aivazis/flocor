@@ -19,13 +19,13 @@ import styles from './styles'
 
 
 // a tray with a flow node
-const tray = ({ style }) => {
+export const Traits = ({ style }) => {
     // get the set of basic traits from the server
     const { traits } = useLazyLoadQuery(
         graphql`query traitsQuery {
             traits {
-                schema
                 category
+                schema
             }
         }`
     )
@@ -54,15 +54,13 @@ const tray = ({ style }) => {
     return (
         <Tray title="pyre traits" >
             {traits.map(trait => (
-                <Node key={trait.schema} family={trait.schema} shape={shape} size={box} />
+                <Node key={trait.schema}
+                    category={trait.category} family={trait.schema}
+                    shape={shape} size={box} />
             ))}
         </Tray >
     )
 }
-
-
-// publish
-export default tray
 
 
 // end of file
