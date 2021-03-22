@@ -5,21 +5,40 @@
 
 schema {
   query: Query
+  mutation: Mutation
 }
 
 
 # the top level query
 type Query {
   # the active flow
-  flow(name: String = ""): Flow
+  flow(name: String = ""): Flow!
 
   # the set of protocols for products and factories in a given package
   catalog(package: String = "flocor"): Catalog
   # the set of simple trait types
   traits: [Trait!]!
   # server version information
-  version: Version
+  version: Version!
 }
+
+
+# mutations
+type Mutation {
+  # place a new node in the flow
+  createNode(nodeinfo: NodeInfoInput!): FlowNode!
+}
+
+input NodeInfoInput {
+  # the kind of node
+  category: String!
+  # its family name
+  family: String!
+  # and its location on diagram
+  x: Int!
+  y: Int!
+}
+
 
 # the flow
 type Flow {
@@ -35,12 +54,18 @@ type Flow {
 }
 
 
+# an undifferentiated node
+type FlowNode {
+  # the node id
+  id: ID!
+}
+
 # a macro is a named+typed variable
 type Macro {
   id: ID!
   name: String!
   family: String!
-  position:  Position!
+  position: Position!
 }
 
 
