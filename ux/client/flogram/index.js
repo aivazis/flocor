@@ -6,8 +6,12 @@
 
 // externals
 import React from 'react'
-import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
+import { graphql, useLazyLoadQuery, useMutation } from 'react-relay/hooks'
 
+// project
+// hooks
+import { useEvent } from '~/hooks'
+import { useNewNode, useClearNewNode } from '~/views/flo2d'
 // locals
 // widgets
 import { Compass, Camera } from '~/widgets'
@@ -18,27 +22,39 @@ import styles from './styles'
 // the flow graph display
 export const Flogram = () => {
     // ask the server for the flow diagram
-    const { flow } = useLazyLoadQuery(
-        graphql`query flogramQuery {
-            flow {
-                id
-                name
-                family
+    const { flow } = useLazyLoadQuery(flogramQuery)
 
-                macros {
-                    id
-                    name
-                    family
+    // placing a new node on the diagram requires node info and a mutation
+    // {trays} register type information with {flo2d} in order to place new nodes on the canvas
+    const newNode = useNewNode()
+    // the mutation sends the node info along with location information to the server
+    const [commit, isInFlight] = useMutation(newNodeMutation)
+
+    // assemble the callback that registers the new node
+    const createNode = (evt) => {
+        // assemble the node info and commit the change
+        commit({
+            variables: {
+                info: {
+                    category: newNode.category,
+                    family: newNode.family,
+                    x: evt.clientX,
+                    y: evt.clientY,
                 }
             }
-        }`
-    )
-
-    // show me
-    console.log("flogram")
+        })
+        // all done
+        return
+    }
 
     // make a reference to my container so we can measure it and install listeners
     const ref = React.useRef(null)
+
+    // when the mouse is released in my area
+    useEvent({
+        name: "mouseup", listener: createNode, client: ref,
+        triggers: [newNode]
+    })
 
     // build the container and return it
     return (
@@ -51,6 +67,36 @@ export const Flogram = () => {
         </section>
     )
 }
+
+
+// the flow query
+const flogramQuery = graphql`query flogramQuery {
+    flow {
+        # flow metadata
+        id
+        name
+        family
+        # atoms
+        macros {
+            id
+            name
+            family
+            position {
+                x
+                y
+            }
+       }
+   }
+}`
+
+
+// the mutation that adds a new node to the diagram
+const newNodeMutation = graphql`mutation flogramNewNodeMutation($info: NodeInfoInput!) {
+    createNode(nodeinfo: $info) {
+        # the id of the newly created node
+        id
+    }
+}`
 
 
 // end of file
