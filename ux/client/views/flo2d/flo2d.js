@@ -12,7 +12,6 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
 // locals
 // hooks
-import { useEvent } from '~/hooks'
 import styles from './styles'
 // my context
 import { Provider } from './context'
