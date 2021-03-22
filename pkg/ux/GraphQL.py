@@ -25,9 +25,13 @@ class GraphQL:
         payload = json.loads(b'\n'.join(request.payload))
         # get the query
         query = payload.get("query")
+        # extract the variables
+        variables = payload.get("variables")
         # there are also other fields that we don't care about just yet
         # operation = payload.get("operation")
-        # variables = payload.get("variables")
+
+        # show me
+        # print(f"{query=}, {variables=}")
 
         # get my context and make a copy of it
         context = dict(self.context)
@@ -37,7 +41,7 @@ class GraphQL:
         context["request"] = request
 
         # execute the query
-        result = self.schema.execute(query, context=context)
+        result = self.schema.execute(query, context=context, variables=variables)
 
         # assemble the resulting document
         doc = { "data": result.data }
