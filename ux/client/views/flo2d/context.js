@@ -19,8 +19,13 @@ export const Context = React.createContext(
 
 // the provider factory
 export const Provider = ({ children }) => {
+    // non-null indicates that we are adding a node to the flow
+    const [newNode, setNewNode] = React.useState(null)
+
     // build the current value of the context
     const context = {
+        // new node management
+        newNode, setNewNode,
     }
 
     // provide for my children
