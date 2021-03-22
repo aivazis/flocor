@@ -9,6 +9,7 @@ import React from 'react'
 
 // project
 // hooks
+import { useSetNewNode } from '~/views/flo2d'
 import { useAttachShadow } from '~/widgets/shadow'
 // locals
 // styles
@@ -16,11 +17,23 @@ import styles from './styles'
 
 
 // a tray with a single flow node
-const node = ({ family, shape, size, style }) => {
+export const Node = ({ category, family, shape, size, style }) => {
     // make a callback that sets the cursor shadow when initiating node drag; clearing
     // the shadow is done by my parent when the mouse is released anywhere in its client area,
     // including within me
     const attachShadow = useAttachShadow(shape, { x: -size.x, y: -size.y })
+    // the other thing that has to happen when i get clicked is to register the type of node
+    // i generate
+    const registerNode = useSetNewNode({ category, family })
+    // assemble the selection callback
+    const select = () => {
+        // register the node info
+        registerNode()
+        // attach the cursor shadow
+        attachShadow()
+        // all done
+        return
+    }
 
     // my current state: normal, selected, highlighted
     const [state, setState] = React.useState("normal")
@@ -31,7 +44,7 @@ const node = ({ family, shape, size, style }) => {
 
     // box controls
     const boxControls = {
-        onMouseDown: attachShadow,
+        onMouseDown: select,
         onMouseEnter: highlightOn,
         onMouseLeave: highlightOff,
     }
@@ -50,10 +63,6 @@ const node = ({ family, shape, size, style }) => {
         </div>
     )
 }
-
-
-// publish
-export default node
 
 
 // end of file
