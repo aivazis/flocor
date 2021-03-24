@@ -48,14 +48,14 @@ class GraphQL:
         # in addition, if something went wrong
         if result.errors:
             # inform the client by placing the error messages in the resulting payload
-            doc["errors"] = [ {"message": error.message} for error in result.errors ]
+            doc["errors"] = [ {"message": str(error)} for error in result.errors ]
 
             # grab my channel
             channel = self.error
             # and generate a report for my console by going through the errors
             for error in result.errors:
                 # and reporting each one
-                channel.line(error.message)
+                channel.line(error)
             # flush
             channel.log()
 
@@ -81,7 +81,7 @@ class GraphQL:
         self.error = journal.error("flocor.gql.graphql")
         # make sure it's not fatal; skip for now so i don't have to kill
         # the server manually during debugging
-        # self.error.fatal = False
+        self.error.fatal = False
 
         # all done
         return
