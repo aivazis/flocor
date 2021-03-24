@@ -55,11 +55,12 @@ class Flow(graphene.ObjectType):
         layout = panel.layout
 
         # go through the nodes in {flow}
-        for node in flow.nodes:
-            # get its id
-            guid = node.pyre_id
+        for guid, node in flow.nodes.items():
             # look up its position
-            x, y = layout[guid]
+            position = layout[guid]
+            # unpack
+            x = position["x"]
+            y = position["y"]
             # serialize it
             yield Macro(id=guid, name=node.pyre_name, family=node.pyre_schema.typename,
                         position=Position(x=x, y=y))
