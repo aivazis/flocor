@@ -20,7 +20,7 @@ class Macro(graphene.ObjectType):
 
     # the fields
     id = graphene.ID()
-    name = graphene.String(required=True)
+    name = graphene.String(required=False)
     family = graphene.String(required=True)
 
     # representation
