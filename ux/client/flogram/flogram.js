@@ -15,6 +15,8 @@ import { useNewNode, useClearNewNode } from '~/views/flo2d'
 // locals
 // widgets
 import { Compass, Camera } from '~/widgets'
+// diagram nodes
+import { Macros } from './macros'
 // styles
 import styles from './styles'
 
@@ -74,6 +76,7 @@ export const Flogram = () => {
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" {...styles.canvas}>
                 <Camera ref={ref} >
                     <Compass />
+                    <Macros nodes={flow.macros} />
                 </Camera >
             </svg>
         </section>
@@ -90,14 +93,8 @@ const flogramQuery = graphql`query flogramQuery {
         family
         # atoms
         macros {
-            id
-            name
-            family
-            position {
-                x
-                y
-            }
-       }
+            ...macrosFragment_nodes
+        }
    }
 }`
 
