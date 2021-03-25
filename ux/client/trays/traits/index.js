@@ -36,7 +36,7 @@ export const Traits = ({ style }) => {
     // turn it into a box
     const box = { x: size, y: size }
     // build the transform to resize my shape
-    const shrink = `scale(${size / 1000})`
+    const shrink = `scale(${size}) translate(0.5 0.5)`
     // mix my paint
     const nodeStyle = { ...styles.node, ...style?.node }
     const shapeStyle = { ...styles.shape, ...style?.shape }
