@@ -17,8 +17,7 @@ const shape = ({ style }) => {
 
     // paint me
     return (
-        <circle cx="500" cy="500" r="300"
-            style={ico} />
+        <circle cx="0" cy="0" r=".3" style={ico} />
     )
 }
 
