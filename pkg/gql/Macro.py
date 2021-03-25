@@ -7,7 +7,9 @@
 # externals
 import graphene
 
-# local types
+# my interface
+from .Node import Node
+# field types
 from .Position import Position
 
 
@@ -17,6 +19,9 @@ class Macro(graphene.ObjectType):
     A basic named node
     """
 
+    class Meta:
+        # register my interface
+        interfaces = Node,
 
     # the fields
     id = graphene.ID()
