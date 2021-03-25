@@ -26,7 +26,7 @@ type Query {
 # mutations
 type Mutation {
   # place a new node in the flow
-  createNode(nodeinfo: NodeInfoInput!): FlowNode!
+  createNode(nodeinfo: NodeInfoInput!): CreateNode!
 }
 
 input NodeInfoInput {
@@ -39,6 +39,10 @@ input NodeInfoInput {
   y: Int!
 }
 
+type CreateNode {
+  # return the newly created node
+  selection: Node!
+}
 
 # the flow
 type Flow {
@@ -55,15 +59,15 @@ type Flow {
 
 
 # an undifferentiated node
-type FlowNode {
+interface Node {
   # the node id
   id: ID!
 }
 
 # a macro is a named+typed variable
-type Macro {
+type Macro implements Node {
   id: ID!
-  name: String!
+  name: String
   family: String!
   position: Position!
 }
