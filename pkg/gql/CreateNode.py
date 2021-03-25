@@ -7,8 +7,12 @@
 import graphene
 # package
 import flocor
+
+# the node interface
+from .Node import Node
 # local types
 from .Position import Position
+from .Macro import Macro
 from .NodeInfoInput import NodeInfoInput
 
 
@@ -25,8 +29,7 @@ class CreateNode(graphene.Mutation):
 
 
     # fields
-    id = graphene.ID()
-    position = graphene.Field(Position, required=True)
+    selection = graphene.Field(Node, required=True)
 
 
     def mutate(root, info, nodeinfo):
@@ -52,8 +55,10 @@ class CreateNode(graphene.Mutation):
             flow.addNode(node=macro)
             # and the layout
             layout[macro.pyre_id] = {"x": x, "y": y}
-            # make a node and return it
-            return CreateNode(id=macro.pyre_id, position=Position(x=x, y=y))
+            # make a macro node
+            macro = Macro(id=macro.pyre_id, position=Position(x=x, y=y))
+            # attach it and return it
+            return CreateNode(selection=macro)
 
         # if we get this far, there is something wrong
         raise Exception("unknown node category")
