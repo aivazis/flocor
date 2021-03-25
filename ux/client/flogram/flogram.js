@@ -26,9 +26,11 @@ export const Flogram = () => {
     // make a reference to my container so we can measure it and install listeners
     const ref = React.useRef(null)
 
+    // set up state to manage query refreshing until we set up subscriptions
+    const [refreshOptions, setRefreshOptions] = React.useState(null)
+
     // ask the server for the flow diagram
-    const { flow } = useLazyLoadQuery(flogramQuery)
-    console.log(flow)
+    const { flow } = useLazyLoadQuery(flogramQuery, {}, refreshOptions)
 
     // placing a new node on the diagram requires node info and a mutation
     // {trays} register type information with {flo2d} in order to place new nodes on the canvas
@@ -57,8 +59,15 @@ export const Flogram = () => {
                 }
             }
         })
-        // and clear the new node indicator
+
+        // clear the new node indicator
         clearNode()
+
+        // and refresh the query
+        setRefreshOptions(prev => ({
+            fetchKey: (prev?.fetchKey ?? 0) + 1,
+            fetchPolicy: 'network-only',
+        }))
 
         // all done
         return
@@ -102,8 +111,10 @@ const flogramQuery = graphql`query flogramQuery {
 // the mutation that adds a new node to the diagram
 const newNodeMutation = graphql`mutation flogramNewNodeMutation($info: NodeInfoInput!) {
     createNode(nodeinfo: $info) {
-        # the id of the newly created node
-        id
+        # a description of the newly created node
+        selection {
+            id
+        }
     }
 }`
 
