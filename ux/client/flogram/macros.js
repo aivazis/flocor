@@ -18,16 +18,18 @@ export const Macros = ({ nodes }) => {
     // show me
     console.log(macros)
 
-    const style = {
-        fill: "none",
-        stroke: "red",
-        strokeWith: "3",
-        vectorEffect: "non-scaling-stroke",
-    }
-
     // render
     return (
-        <circle cx="0" cy="0" r="5" style={style} />
+        <>
+            {
+                macros.map((macro, idx) => (
+                    <g key={macro.id} transform={`translate(${idx} ${idx})`} >
+                        {console.log(macro.position)}
+                        <Product />
+                    </g>
+                ))
+            }
+        </>
     )
 }
 
