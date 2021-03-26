@@ -84,7 +84,9 @@ export const Flogram = () => {
         <section ref={ref} style={styles.panel} >
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" {...styles.canvas}>
                 <Camera ref={ref} >
+                    {/* the origin/orientation marker */}
                     <Compass />
+                    {/* macros */}
                     <Macros nodes={flow.macros} />
                 </Camera >
             </svg>
