@@ -6,14 +6,10 @@
 
 // externals
 import React from 'react'
+
 // locals
 // hooks
 import { useCamera } from './useCamera'
-import { useKeypad } from './useKeypad'
-import { useWheel } from './useWheel'
-// event listeners
-import { keypad } from './keypad'
-import { wheel } from './wheel'
 // styling
 import styles from './styles'
 
@@ -23,11 +19,7 @@ import styles from './styles'
 // content to a number of view port pixels
 export const camera = React.forwardRef(({ scale = 25, style, children }, viewRef) => {
     // the camera factory
-    const [camera, remote] = useCamera()
-    // install the {keypad} bindings to the top level window
-    useKeypad(keypad(remote))
-    // and the {wheel} bindings to my view
-    useWheel(wheel(remote), viewRef)
+    const camera = useCamera(viewRef)
 
     // pan
     const panXform = `translate(${scale * camera.x} ${scale * camera.y})`
