@@ -5,7 +5,7 @@
 
 
 // externals
-import { useReducer } from 'react'
+import React from 'react'
 // camera actions
 import { dispatcher, newCamera } from './reducer'
 
@@ -19,7 +19,7 @@ import { dispatcher, newCamera } from './reducer'
 // the units of these settings are up to the client
 export const useCamera = (init) => {
     // initialize a camera and its controls and make them available
-    return useReducer(dispatcher, newCamera(), init)
+    return React.useReducer(dispatcher, newCamera(), init)
 }
 
 
