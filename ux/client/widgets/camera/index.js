@@ -5,7 +5,7 @@
 
 
 // publish the component
-export { camera as Camera } from './camera'
+export { Camera } from './camera'
 
 
 // end of file

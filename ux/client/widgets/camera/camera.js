@@ -17,7 +17,7 @@ import styles from './styles'
 // a passive transformation to the user's coordinate system (UCS)
 // {scale} is a length scale that is intrinsic to the contents; it converts a unit length in
 // content to a number of view port pixels
-export const camera = React.forwardRef(({ scale = 25, style, children }, viewRef) => {
+export const Camera = React.forwardRef(({ scale = 25, style, children }, viewRef) => {
     // the camera factory
     const camera = useCamera(viewRef)
 
