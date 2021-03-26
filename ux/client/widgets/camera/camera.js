@@ -5,7 +5,7 @@
 
 
 // externals
-import React, { useEffect } from 'react'
+import React from 'react'
 // locals
 // hooks
 import { useCamera } from './useCamera'
@@ -14,17 +14,14 @@ import { useWheel } from './useWheel'
 // event listeners
 import { keypad } from './keypad'
 import { wheel } from './wheel'
-// get the {pan} action from the reducer so we can initialize the view
-import { pan } from './reducer'
 // styling
 import styles from './styles'
 
 
-// a scale and orientation indicator
-export const camera = React.forwardRef(({ style, children }, viewRef) => {
-    // conversion from the diagram intrinsic length scale to view port pixels
-    const scale = 25
-
+// a passive transformation to the user's coordinate system (UCS)
+// {scale} is a length scale that is intrinsic to the contents; it converts a unit length in
+// content to a number of view port pixels
+export const camera = React.forwardRef(({ scale = 25, style, children }, viewRef) => {
     // the camera factory
     const [camera, remote] = useCamera()
     // install the {keypad} bindings to the top level window
