@@ -6,15 +6,13 @@
 
 // externals
 import React from 'react'
-import { graphql, useLazyLoadQuery, useMutation } from 'react-relay/hooks'
+import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
 
-// project
-// hooks
-import { useEvent } from '~/hooks'
-import { useNewNode, useClearNewNode } from '~/views/flo2d'
 // locals
 // widgets
 import { Compass, Camera } from '~/widgets'
+// behaviors
+import { Behaviors } from './behaviors'
 // diagram nodes
 import { Macros } from './macros'
 // styles
@@ -28,62 +26,16 @@ export const Flogram = () => {
 
     // set up state to manage query refreshing until we set up subscriptions
     const [refreshOptions, setRefreshOptions] = React.useState(null)
-
     // ask the server for the flow diagram
     const { flow } = useLazyLoadQuery(flogramQuery, {}, refreshOptions)
-
-    // placing a new node on the diagram requires node info and a mutation
-    // {trays} register type information with {flo2d} in order to place new nodes on the canvas
-    const newNode = useNewNode()
-    // the mutation sends the node info along with location information to the server
-    const [commit, isInFlight] = useMutation(newNodeMutation)
-    // and then we have to clear the new node indicator
-    const clearNode = useClearNewNode()
-
-    // assemble the callback that registers the new node
-    const createNode = (evt) => {
-        // check whether there is a new node marker
-        if (newNode === null) {
-            // and bail if not
-            return
-        }
-
-        // otherwise, assemble the node info and commit the change
-        commit({
-            variables: {
-                info: {
-                    category: newNode.category,
-                    family: newNode.family,
-                    x: evt.clientX,
-                    y: evt.clientY,
-                }
-            }
-        })
-
-        // clear the new node indicator
-        clearNode()
-
-        // and refresh the query
-        setRefreshOptions(prev => ({
-            fetchKey: (prev?.fetchKey ?? 0) + 1,
-            fetchPolicy: 'network-only',
-        }))
-
-        // all done
-        return
-    }
-
-    // when the mouse is released in my area
-    useEvent({
-        name: "mouseup", listener: createNode, client: ref,
-        triggers: [newNode]
-    })
 
     // build the container and return it
     return (
         <section ref={ref} style={styles.panel} >
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" {...styles.canvas}>
                 <Camera ref={ref} >
+                    {/* diagram behaviors */}
+                    <Behaviors ref={ref} refresh={setRefreshOptions} />
                     {/* the origin/orientation marker */}
                     <Compass />
                     {/* macros */}
@@ -107,17 +59,6 @@ const flogramQuery = graphql`query flogramQuery {
             ...macrosFragment_nodes
         }
    }
-}`
-
-
-// the mutation that adds a new node to the diagram
-const newNodeMutation = graphql`mutation flogramNewNodeMutation($info: NodeInfoInput!) {
-    createNode(nodeinfo: $info) {
-        # a description of the newly created node
-        selection {
-            id
-        }
-    }
 }`
 
 
