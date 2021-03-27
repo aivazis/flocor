@@ -67,7 +67,7 @@ const updateLocation = (camera, { pan }) => ({
 const updateOrientation = (camera, { angle }) => ({
     // copy the current camera state
     ...camera,
-    // update the z coordinate
+    // update the camera orientation
     phi: camera.phi + angle,
 })
 
