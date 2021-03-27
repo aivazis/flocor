@@ -8,6 +8,8 @@
 import React from 'react'
 
 // locals
+// context
+import { Provider } from './context'
 // hooks
 import { useCamera } from './useCamera'
 // styling
@@ -17,9 +19,9 @@ import styles from './styles'
 // a passive transformation to the user's coordinate system (UCS)
 // {scale} is a length scale that is intrinsic to the contents; it converts a unit length in
 // content to a number of view port pixels
-export const Camera = React.forwardRef(({ scale = 25, style, children }, viewRef) => {
+const Lens = ({ scale, style, children }) => {
     // the camera factory
-    const camera = useCamera(viewRef)
+    const { camera } = useCamera()
 
     // pan
     const panXform = `translate(${scale * camera.x} ${scale * camera.y})`
@@ -39,7 +41,20 @@ export const Camera = React.forwardRef(({ scale = 25, style, children }, viewRef
             {children}
         </g>
     )
-})
+}
 
+
+// turn it a context provider and publish
+export const Camera = React.forwardRef(({ scale = 25, style, children }, viewRef) => {
+    // set up he context provider and install the lens
+    return (
+        <Provider ref={viewRef} >
+            <Lens scale={scale} style={style} >
+                {children}
+            </Lens>
+        </Provider>
+    )
+
+})
 
 // end of file
