@@ -11,6 +11,8 @@ import { useMutation } from 'react-relay/hooks'
 // project
 // hooks
 import { useEvent } from '~/hooks'
+import { useCamera } from '~/widgets/camera'
+// locals
 import { useNewNode, useClearNewNode } from '~/views/flo2d'
 // locals
 
@@ -25,6 +27,9 @@ export const Behaviors = React.forwardRef(({ refresh }, viewRef) => {
     // and then we have to clear the new node indicator
     const clearNode = useClearNewNode()
 
+    // we also need access to the camera state
+    const { camera, els } = useCamera()
+
     // assemble the callback that registers the new node
     const createNode = (evt) => {
         // check whether there is a new node marker
@@ -33,14 +38,35 @@ export const Behaviors = React.forwardRef(({ refresh }, viewRef) => {
             return
         }
 
+        // get the mouse coordinates
+        const mx = evt.clientX
+        const my = evt.clientY
+        // get the origin of my view
+        const { left, top } = viewRef.current?.getBoundingClientRect()
+        // transform the mouse coordinates to a diagram coordinate system parallel to the view
+        const rx = (mx - left - els * camera.x) / (els / camera.z)
+        const ry = (my - top - els * camera.y) / (els / camera.z)
+        // compute the length of this vector
+        const r = (rx ** 2 + ry ** 2) ** 0.5
+        // and its angle with the x-axis
+        const phi = Math.atan2(ry, rx)
+        // from that, we can compute its angle with the rotated diagram x-axis
+        const theta = phi - Math.PI / 180 * camera.phi
+
+        // now use the camera angle to project to the actual diagram coordinates
+        const x = r * Math.cos(theta)
+        const y = r * Math.sin(theta)
+
+        console.log({ camera, rx, ry })
+
         // otherwise, assemble the node info and commit the change
         commit({
             variables: {
                 info: {
                     category: newNode.category,
                     family: newNode.family,
-                    x: evt.clientX,
-                    y: evt.clientY,
+                    x,
+                    y,
                 }
             }
         })
