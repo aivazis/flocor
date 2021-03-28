@@ -13,6 +13,8 @@
 
 // publish the component
 export { Camera } from './camera'
+// and the public hooks
+export { useCamera } from './useCamera'
 
 
 // end of file
