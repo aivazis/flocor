@@ -33,8 +33,8 @@ export const Context = React.createContext(
 
 // the provider factory
 export const Provider = React.forwardRef(({ scale, children }, clientRef) => {
-    //  make storage for the external length scale
-    const [els, setEls] = React.useState(scale)
+    // save the external length scale
+    const els = scale
     // initialize a camera and its controls and make them available
     const [camera, remote] = React.useReducer(dispatcher, newCamera())
 
@@ -44,9 +44,24 @@ export const Provider = React.forwardRef(({ scale, children }, clientRef) => {
     useWheel(wheel(remote), clientRef)
 
     // build the transformation from view port to diagram coordinates
-    const toICS = (x, y) => {
-        // all done
-        return
+    const toICS = (vx, vy) => {
+        // get the origin of my view
+        const { left, top } = clientRef.current?.getBoundingClientRect()
+        // transform the mouse coordinates to a diagram coordinate system parallel to the view
+        const rx = (vx - left - els * camera.x) / (els / camera.z)
+        const ry = (vy - top - els * camera.y) / (els / camera.z)
+        // compute the length of this vector
+        const r = (rx ** 2 + ry ** 2) ** 0.5
+        // and its angle with the x-axis
+        const phi = Math.atan2(ry, rx)
+        // from that, we can compute its angle with the rotated diagram x-axis
+        const theta = phi - Math.PI / 180 * camera.phi
+
+        // now use the camera angle to project to the actual diagram coordinates
+        const x = r * Math.cos(theta)
+        const y = r * Math.sin(theta)
+        // and return them
+        return { x, y }
     }
 
     // build the current value of the context

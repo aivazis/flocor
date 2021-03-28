@@ -14,10 +14,10 @@ import { Context } from './context'
 
 // publish the current camera state
 export const useCamera = () => {
-    // grab the camera state and publish it
-    const { camera, els } = React.useContext(Context)
+    // grab the camera state and the coordinate transformations
+    const { camera, els, toICS } = React.useContext(Context)
     // and publish it
-    return { camera, els }
+    return { camera, els, toICS }
 }
 
 
