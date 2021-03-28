@@ -16,7 +16,7 @@ import { useCamera } from './useCamera'
 import styles from './styles'
 
 
-// a passive transformation to the user's coordinate system (UCS)
+// a passive transformation to the intrinsic coordinate system (ICS) of the diagram
 // {scale} is a length scale that is intrinsic to the contents; it converts a unit length in
 // content to a number of view port pixels
 const Lens = ({ style, children }) => {
@@ -29,7 +29,7 @@ const Lens = ({ style, children }) => {
     const zoomXform = `scale(${els / camera.z})`
     // orient
     const twistXform = `rotate(${camera.phi})`
-    // assemble the net transform
+    // assemble the transform
     const pov = panXform + " " + zoomXform + " " + twistXform
 
     // mix my paint
@@ -44,7 +44,7 @@ const Lens = ({ style, children }) => {
 }
 
 
-// turn it a context provider and publish
+// turn it into a context provider and publish it
 export const Camera = React.forwardRef(({ scale = 25, style, children }, viewRef) => {
     // set up he context provider and install the lens
     return (
