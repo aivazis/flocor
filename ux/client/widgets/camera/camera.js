@@ -19,14 +19,14 @@ import styles from './styles'
 // a passive transformation to the user's coordinate system (UCS)
 // {scale} is a length scale that is intrinsic to the contents; it converts a unit length in
 // content to a number of view port pixels
-const Lens = ({ scale, style, children }) => {
+const Lens = ({ style, children }) => {
     // the camera factory
-    const { camera } = useCamera()
+    const { camera, els } = useCamera()
 
     // pan
-    const panXform = `translate(${scale * camera.x} ${scale * camera.y})`
+    const panXform = `translate(${els * camera.x} ${els * camera.y})`
     // zoom
-    const zoomXform = `scale(${scale / camera.z})`
+    const zoomXform = `scale(${els / camera.z})`
     // orient
     const twistXform = `rotate(${camera.phi})`
     // assemble the net transform
@@ -48,8 +48,8 @@ const Lens = ({ scale, style, children }) => {
 export const Camera = React.forwardRef(({ scale = 25, style, children }, viewRef) => {
     // set up he context provider and install the lens
     return (
-        <Provider ref={viewRef} >
-            <Lens scale={scale} style={style} >
+        <Provider ref={viewRef} scale={scale}>
+            <Lens scale={scale} >
                 {children}
             </Lens>
         </Provider>

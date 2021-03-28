@@ -32,7 +32,9 @@ export const Context = React.createContext(
 
 
 // the provider factory
-export const Provider = React.forwardRef(({ children }, clientRef) => {
+export const Provider = React.forwardRef(({ scale, children }, clientRef) => {
+    //  make storage for the external length scale
+    const [els, setEls] = React.useState(scale)
     // initialize a camera and its controls and make them available
     const [camera, remote] = React.useReducer(dispatcher, newCamera())
 
@@ -42,13 +44,15 @@ export const Provider = React.forwardRef(({ children }, clientRef) => {
     useWheel(wheel(remote), clientRef)
 
     // build the transformation from view port to diagram coordinates
-    const toICS = () => {
+    const toICS = (x, y) => {
         // all done
         return
     }
 
     // build the current value of the context
     const context = {
+        // the external length scale
+        els,
         // the current camera value
         camera,
         // the transformer from mouse coordinates to user coordinates
