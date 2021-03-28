@@ -9,7 +9,7 @@ import React from 'react'
 
 // locals
 // hooks
-import { useEvent, useResizeObserver } from '~/hooks'
+import { useResizeObserver } from '~/hooks'
 // widgets
 import { Flex } from '~/widgets'
 // styles
