@@ -15,16 +15,14 @@ import { Product } from '~/shapes'
 export const Macros = ({ nodes }) => {
     // specify what data we care about
     const macros = useFragment(macrosFragment, nodes)
-    // show me
-    console.log(macros)
 
     // render
     return (
         <>
             {
                 macros.map((macro, idx) => (
-                    <g key={macro.id} transform={`translate(${idx} ${idx})`} >
-                        {console.log(macro.position)}
+                    <g key={macro.id}
+                        transform={`translate(${macro.position.x} ${macro.position.y})`} >
                         <Product />
                     </g>
                 ))
