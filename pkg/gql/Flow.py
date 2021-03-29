@@ -7,7 +7,9 @@
 # externals
 import graphene
 
-# local
+# my interface
+from .Node import Node
+# local types
 from .Macro import Macro
 from .Position import Position
 
@@ -18,6 +20,10 @@ class Flow(graphene.ObjectType):
     The container of products, factories, and their bindings
     """
 
+    # {graphene} metadata
+    class Meta:
+        # register my interface
+        interfaces = Node,
 
     # the fields
     id = graphene.ID(required=True)
