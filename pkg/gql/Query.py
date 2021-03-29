@@ -8,6 +8,8 @@
 import graphene
 import journal
 
+# the basic node interface
+from .Node import Node
 # local types
 from .Catalog import Catalog
 from .Flow import Flow
@@ -21,7 +23,10 @@ class Query(graphene.ObjectType):
     The top level query
     """
 
+
     # the fields
+    # node lookup
+    node = Node.Field()
     # the flow graph
     flow = graphene.Field(Flow, required=True,
                           name=graphene.String(default_value=""))
