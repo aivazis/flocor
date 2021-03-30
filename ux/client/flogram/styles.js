@@ -24,6 +24,22 @@ export default {
         height: "100%",
     },
 
+    cell: {
+        // stroke
+        stroke: "hsl(0deg, 0%, 15%)",
+        strokeWidth: "1",
+        vectorEffect: "non-scaling-stroke",
+        // fill
+        fill: "none",
+    },
+
+    spot: {
+        // stroke
+        stroke: "none",
+        vectorEffect: "non-scaling-stroke",
+        // fill
+        fill: "url(#gridGlow)",
+    },
 }
 
 

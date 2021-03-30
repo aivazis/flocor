@@ -11,8 +11,12 @@ import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
 // locals
 // widgets
 import { Compass, Camera } from '~/widgets'
+// global definitions
+import { Globals } from './globals'
 // behaviors
 import { Behaviors } from './behaviors'
+// the grid
+import { Grid } from './grid'
 // diagram nodes
 import { Macros } from './macros'
 // styles
@@ -33,9 +37,14 @@ export const Flogram = () => {
     return (
         <section ref={ref} style={styles.panel} >
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" {...styles.canvas}>
+                {/* global defs */}
+                <Globals />
+                {/* everything that is in ICS */}
                 <Camera ref={ref} >
                     {/* diagram behaviors */}
                     <Behaviors ref={ref} refresh={setRefreshOptions} />
+                    {/* the grid */}
+                    <Grid ref={ref} />
                     {/* the origin/orientation marker */}
                     <Compass />
                     {/* macros */}
