@@ -26,10 +26,10 @@ type Query {
 # mutations
 type Mutation {
   # place a new node in the flow
-  createNode(nodeinfo: NodeInfoInput!): CreateNode!
+  createNode(nodeinfo: CreateNodeInput!): CreateNode!
 }
 
-input NodeInfoInput {
+input CreateNodeInput {
   # the kind of node
   category: String!
   # its family name

@@ -13,7 +13,7 @@ from .Node import Node
 # local types
 from .Position import Position
 from .Macro import Macro
-from .NodeInfoInput import NodeInfoInput
+from .CreateNodeInput import CreateNodeInput
 
 
 # a mutation that adds a new node to the flow
@@ -25,7 +25,7 @@ class CreateNode(graphene.Mutation):
 
     # inputs
     class Arguments:
-        nodeinfo = NodeInfoInput(required=True)
+        nodeinfo = CreateNodeInput(required=True)
 
 
     # fields

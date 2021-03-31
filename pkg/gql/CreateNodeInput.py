@@ -9,7 +9,7 @@ import graphene
 
 
 # node input
-class NodeInfoInput(graphene.InputObjectType):
+class CreateNodeInput(graphene.InputObjectType):
     """
     Node input information
     """

@@ -75,7 +75,7 @@ export const Behaviors = React.forwardRef(({ refresh }, viewRef) => {
 
 
 // the mutation that adds a new node to the diagram
-const newNodeMutation = graphql`mutation behaviorsNewNodeMutation($info: NodeInfoInput!) {
+const newNodeMutation = graphql`mutation behaviorsNewNodeMutation($info: CreateNodeInput!) {
     createNode(nodeinfo: $info) {
         # a description of the newly created node
         selection {
