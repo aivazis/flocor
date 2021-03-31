@@ -58,8 +58,8 @@ export const Provider = React.forwardRef(({ scale, children }, clientRef) => {
         const theta = phi - Math.PI / 180 * camera.phi
 
         // now use the camera angle to project to the actual diagram coordinates
-        const x = r * Math.cos(theta)
-        const y = r * Math.sin(theta)
+        const x = Math.round(r * Math.cos(theta))
+        const y = Math.round(r * Math.sin(theta))
         // and return them
         return { x, y }
     }
