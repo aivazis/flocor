@@ -16,17 +16,21 @@ import { wheel } from './wheel'
 // user interaction
 import { useKeypad } from './useKeypad'
 import { useWheel } from './useWheel'
-
+import { useTrackMouse } from './useTrackMouse'
 
 
 // set up the camera context
 export const Context = React.createContext(
     // the default value that consumers see when outside the provider
     {
+        // the external length scale
+        els: 1,
         // the camera
         camera: null,
         // transformation from the view port to the user coordinate system
-        toICS: () => { throw new Error('no camera context provider') },
+        cursorPosition: null,
+        // the transform to diagram coordinates
+        toICS: null,
     }
 )
 
@@ -42,27 +46,8 @@ export const Provider = React.forwardRef(({ scale, children }, clientRef) => {
     useKeypad(keypad(remote))
     // and the {wheel} bindings to my view
     useWheel(wheel(remote), clientRef)
-
-    // build the transformation from view port to diagram coordinates
-    const toICS = (vx, vy) => {
-        // get the origin of my view
-        const { left, top } = clientRef.current?.getBoundingClientRect()
-        // transform the mouse coordinates to a diagram coordinate system parallel to the view
-        const rx = (vx - left - els * camera.x) / (els / camera.z)
-        const ry = (vy - top - els * camera.y) / (els / camera.z)
-        // compute the length of this vector
-        const r = (rx ** 2 + ry ** 2) ** 0.5
-        // and its angle with the x-axis
-        const phi = Math.atan2(ry, rx)
-        // from that, we can compute its angle with the rotated diagram x-axis
-        const theta = phi - Math.PI / 180 * camera.phi
-
-        // now use the camera angle to project to the actual diagram coordinates
-        const x = Math.round(r * Math.cos(theta))
-        const y = Math.round(r * Math.sin(theta))
-        // and return them
-        return { x, y }
-    }
+    // keep track of mouse movement and convert it to diagram coordinates
+    const { cursorPosition, toICS } = useTrackMouse(els, camera, clientRef)
 
     // build the current value of the context
     const context = {
@@ -70,7 +55,9 @@ export const Provider = React.forwardRef(({ scale, children }, clientRef) => {
         els,
         // the current camera value
         camera,
-        // the transformer from mouse coordinates to user coordinates
+        // the current cursor coordinates in ICS
+        cursorPosition,
+        // the transform to diagram coordinates
         toICS,
     }
 
