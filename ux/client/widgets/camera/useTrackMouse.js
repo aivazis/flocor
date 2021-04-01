@@ -20,7 +20,7 @@ export const useTrackMouse = (els, camera, clientRef) => {
     // build the transform from from view port coordinates to ICS
     const toICS = (vx, vy) => {
         // get the origin of my view
-        const { left, top } = clientRef.current?.getBoundingClientRect()
+        const { left, top } = clientRef.current.getBoundingClientRect()
         // transform the mouse coordinates to a diagram coordinate system parallel to the view
         const rx = (vx - left - els * camera.x) / (els / camera.z)
         const ry = (vy - top - els * camera.y) / (els / camera.z)
