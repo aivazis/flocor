@@ -43,8 +43,8 @@ export const Flogram = () => {
                 <Camera ref={ref} >
                     {/* diagram behaviors */}
                     <Behaviors ref={ref} refresh={setRefreshOptions} />
-                    {/* the grid */}
-                    <Grid ref={ref} />
+                    {/* the current cell highlighter, an experiment in not rendering a grid */}
+                    <Grid />
                     {/* the origin/orientation marker */}
                     <Compass />
                     {/* macros */}
