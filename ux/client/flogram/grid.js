@@ -9,63 +9,52 @@ import React from 'react'
 
 // project
 // hooks
-import { useEvent } from '~/hooks'
 import { useCamera } from '~/widgets/camera'
 // local
 import styles from './styles'
 
 
-// render the flow nodes that are macros
-export const Grid = React.forwardRef(({ }, viewRef) => {
-    // make some room to store the diagram coordinates of the mouse cursor
-    const [position, setPosition] = React.useState(null)
-    // get the coordinate transform
-    const { camera, toICS } = useCamera()
+// highlight the grid cell that's under the cursor
+// N.B.: this component renders whenever either the cursor position or the camera changes
+//       on mouse move, we highlight the current cell
+//       on camera changes, we hide the highlight; it will show up next time the cursor moves
+export const Grid = () => {
+    // set aside some storage so we can remember the previous values
+    const ref = React.useRef(null)
+    // get the current camera and cursor position
+    const { camera, cursorPosition } = useCamera()
+    // get the camera setting from our last render
+    const prevCamera = ref.current
+    // decide whether we should highlight the current cell
+    const highlight = (cursorPosition !== null) && (camera === prevCamera)
+    // record the new camera settings
+    ref.current = camera
 
-    // make a callback that displays the cursor position
-    const track = (evt) => {
-        // record the location
-        setPosition(toICS(evt.clientX, evt.clientY))
-        // all done
-        return
-    }
-    // and one the clear the tracking of the cursor
-    const clear = () => {
-        // by setting the position to null
-        setPosition(null)
-        // all done
-        return
-    }
-
-    // while the mouse is moving within my client's area
-    useEvent({
-        name: "mousemove", listener: track, client: viewRef,
-        triggers: [camera]
-    })
-    // when it leaves
-    useEvent({
-        name: "mouseleave", listener: clear, client: viewRef,
-        triggers: []
-    })
-
-    // if we don't have a record of where the cursor is
-    if (position === null) {
+    // show me
+    console.log(highlight)
+    // if we are not highlighting
+    if (highlight == false) {
         // there is nothing to render
-        return null
+        // return null
+        return (
+            <circle cx={x} cy={y} r=".3" style={styles.spot} />
+        )
     }
 
     // otherwise, unpack the cursor location
-    const { x, y } = position
+    const { x, y } = cursorPosition
 
     // and make a mark
+    // this one is a rectangle highlighting the current cell
     return (
         <rect x={x - 0.5} y={y - 0.5} width={1} height={1} style={styles.cell} />
     )
 
+    // this is a dot at the center of the current cell
     // return (
-    // <circle cx={x} cy={y} r=".3" style={styles.spot} />
+    //     <circle cx={x} cy={y} r=".3" style={styles.spot} />
     // )
-})
+}
 
 
 // end of file
