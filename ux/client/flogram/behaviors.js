@@ -20,19 +20,12 @@ export const Behaviors = React.forwardRef(({ refresh }, viewRef) => {
     // to create a new node
     const { newNodeInfo, createNode } = useNodeCreate(refresh)
 
-    // to track the cursor location
-    const track = (position) => {
-        console.log(position)
-    }
-
     // get help from the {camera} to convert mouse coordinates to the ICS
     const { toICS } = useCamera()
     // assemble the {mouseup} behaviors
     const mouseUp = (evt) => {
         // convert the cursor location to ICS
         const position = toICS(evt.clientX, evt.clientY)
-        // track the cursor
-        track(position)
         // node creation
         createNode(position)
         // all done
