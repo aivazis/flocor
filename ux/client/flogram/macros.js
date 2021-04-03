@@ -8,7 +8,7 @@
 import React from 'react'
 import { graphql, useFragment } from 'react-relay/hooks'
 // local
-import { Product } from '~/shapes'
+import { Macro } from './macro'
 
 
 // render the flow nodes that are macros
@@ -20,11 +20,8 @@ export const Macros = ({ nodes }) => {
     return (
         <>
             {
-                macros.map((macro, idx) => (
-                    <g key={macro.id}
-                        transform={`translate(${macro.position.x} ${macro.position.y})`} >
-                        <Product />
-                    </g>
+                macros.map(macro => (
+                    <Macro key={macro.id} macro={macro} />
                 ))
             }
         </>
