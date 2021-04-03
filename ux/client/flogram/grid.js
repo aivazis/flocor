@@ -32,7 +32,6 @@ export const Grid = () => {
 
     // if we are not highlighting
     if (!highlight) {
-        console.log(ref.current)
         // there is nothing to render
         return null
     }
