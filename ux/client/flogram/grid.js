@@ -19,10 +19,10 @@ import styles from './styles'
 //       on mouse move, we highlight the current cell
 //       on camera changes, we hide the highlight; it will show up next time the cursor moves
 export const Grid = () => {
-    // set aside some storage so we can remember the previous values
-    const ref = React.useRef(null)
     // get the current camera and cursor position
     const { camera, cursorPosition } = useCamera()
+    // set aside some storage so we can remember the previous values
+    const ref = React.useRef(camera)
     // get the camera setting from our last render
     const prevCamera = ref.current
     // decide whether we should highlight the current cell
@@ -30,15 +30,11 @@ export const Grid = () => {
     // record the new camera settings
     ref.current = camera
 
-    // show me
-    console.log(highlight)
     // if we are not highlighting
-    if (highlight == false) {
+    if (!highlight) {
+        console.log(ref.current)
         // there is nothing to render
-        // return null
-        return (
-            <circle cx={x} cy={y} r=".3" style={styles.spot} />
-        )
+        return null
     }
 
     // otherwise, unpack the cursor location
