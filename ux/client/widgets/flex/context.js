@@ -8,6 +8,8 @@
 import React from 'react'
 
 
+// the error message that consumers see when accessing the context outside a provider
+const complaint = "while accessing the 'flex' context: no provider"
 // setup the flex context
 export const Context = React.createContext(
     // the default value that consumers see when accessing the context outside a provider
@@ -27,13 +29,13 @@ export const Context = React.createContext(
         transform: "translate(-50%, 0%)",
         // panel management
         panels: null,
-        addPanel: () => { throw new Error('no context provider') },
+        addPanel: () => { throw new Error(complaint) },
         // the flexing panel when a separator gets activated
         flexingPanel: null,
-        setFlexingPanel: () => { throw new Error('no context provider') },
+        setFlexingPanel: () => { throw new Error(complaint) },
         // the set of panels downstream from the flexing one
         downstreamPanels: null,
-        setDownstreamPanels: () => { throw new Error('no context provider') },
+        setDownstreamPanels: () => { throw new Error(complaint) },
     }
 )
 
