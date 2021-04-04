@@ -27,6 +27,13 @@ type Query {
 type Mutation {
   # place a new node in the flow
   createNode(nodeinfo: CreateNodeInput!): CreateNode!
+  # move an existing n ode
+  moveNode(nodeinfo: MoveNodeInput!): MoveNode!
+}
+
+type CreateNode {
+  # return the newly created node
+  selection: Node!
 }
 
 input CreateNodeInput {
@@ -34,15 +41,25 @@ input CreateNodeInput {
   category: String!
   # its family name
   family: String!
-  # and its location on diagram
+  # and its location on the diagram
   x: Int!
   y: Int!
 }
 
-type CreateNode {
-  # return the newly created node
+
+type MoveNode {
+  # return the moved node
   selection: Node!
 }
+
+input MoveNodeInput {
+  # the id of the moving node
+  id: ID!
+  # and its new location on the diagram
+  x: Int!
+  y: Int!
+}
+
 
 # the flow
 type Flow implements Node {
@@ -125,6 +142,8 @@ type Version {
 interface Node {
   # the node id
   id: ID!
+  # and its position
+  position: Position
 }
 
 # end of file
