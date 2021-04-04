@@ -8,16 +8,18 @@
 import React from 'react'
 
 
+// the error message that consumers see when accessing the context outside a provider
+const complaint = "while accessing the 'shadow' context: no provider"
 // setup the shadow context
 export const Context = React.createContext(
     // the default value that consumers see when accessing the context outside a provider
     {
         // for the sprite
         shadow: null,
-        setShadow: () => { throw new Error("setShadow: no context provider") },
+        setShadow: () => { throw new Error(complaint) },
         // and its location
         offset: { x: 0, y: 0 },
-        setOffset: () => { throw new Error("setOffset: no context provider") }
+        setOffset: () => { throw new Error(complaint) }
     }
 )
 
