@@ -13,12 +13,15 @@ import { useEvent } from '~/hooks'
 import { useCamera } from '~/widgets/camera'
 // local
 import { useNodeCreate } from './useNodeCreate'
+import { useClearMovingNode } from './useClearMovingNode'
 
 
 // attach event listeners to the diagram
 export const Behaviors = React.forwardRef(({ refresh }, viewRef) => {
     // to create a new node
     const { newNodeInfo, createNode } = useNodeCreate(refresh)
+    // to clear the moving node candidate
+    const clearMovingNode = useClearMovingNode()
 
     // get help from the {camera} to convert mouse coordinates to the ICS
     const { toICS } = useCamera()
@@ -26,8 +29,10 @@ export const Behaviors = React.forwardRef(({ refresh }, viewRef) => {
     const mouseUp = (evt) => {
         // convert the cursor location to ICS
         const position = toICS(evt.clientX, evt.clientY)
-        // node creation
+        // check whether we are expected to make a new node
         createNode(position)
+        // clear the moving node candidate
+        clearMovingNode()
         // all done
         return
     }
