@@ -14,16 +14,22 @@ import { Context } from './context'
 // callback factory that clears the moving node state
 export const useClearMovingNode = () => {
     // grab the new node mutator
-    const { setMovingNode } = React.useContext(Context)
+    const { movingNode, setMovingNode } = React.useContext(Context)
 
     // make a callback that will clear the registered moving node
     const cancel = () => {
-        // register the new node
+        // if we don't have a node marked as a moving candidate
+        if (movingNode === null) {
+            // bail
+            return
+        }
+        // otherwise, register the new node
         setMovingNode(null)
         // all done
         return
     }
 
+    // publish the callback
     return cancel
 }
 
