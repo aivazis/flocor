@@ -8,9 +8,13 @@
 import React from 'react'
 import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
 
-// locals
+// project
 // widgets
 import { Compass, Camera } from '~/widgets'
+
+// locals
+// context
+import { Provider } from './context'
 // global definitions
 import { Globals } from './globals'
 // behaviors
@@ -24,7 +28,7 @@ import styles from './styles'
 
 
 // the flow graph display
-export const Flogram = () => {
+const Diagram = () => {
     // make a reference to my container so we can measure it and install listeners
     const ref = React.useRef(null)
 
@@ -69,6 +73,17 @@ const flogramQuery = graphql`query flogramQuery {
         }
    }
 }`
+
+
+// turn the diagram into a context provider
+export const Flogram = () => {
+    // set up the context provider
+    return (
+        <Provider>
+            <Diagram />
+        </Provider>
+    )
+}
 
 
 // end of file
