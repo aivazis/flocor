@@ -7,16 +7,37 @@
 // externals
 import React from 'react'
 
+// local
+// hooks
+import { useSetMovingNode } from './useSetMovingNode'
+
 
 // render the flow nodes that are macros
-export const Node = ({ position, children }) => {
+export const Node = ({ id, position, children }) => {
     // unpack the position of the node
     const { x, y } = position
     // build the positioning transform
     const xform = `translate(${x} ${y})`
+
+    // make a callback that marks me as a candidate for moving
+    const maybeMoveNode = useSetMovingNode(id)
+
+    // when i'm clicked
+    const select = () => {
+        // mark me as a candidate for movement
+        maybeMoveNode()
+        // all done
+        return
+    }
+
+    // node controls
+    const nodeControls = {
+        onMouseDown: select,
+    }
+
     // render
     return (
-        <g transform={xform} >
+        <g transform={xform} {...nodeControls} >
             {children}
         </g>
     )
