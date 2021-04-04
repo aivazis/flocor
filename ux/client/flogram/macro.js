@@ -16,7 +16,7 @@ import { Node } from './node'
 export const Macro = ({ macro }) => {
     // render
     return (
-        <Node position={macro.position} >
+        <Node id={macro.id} position={macro.position} >
             <Product />
         </Node>
     )
