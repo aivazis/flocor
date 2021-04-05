@@ -44,9 +44,6 @@ export const useNodeMove = (refresh) => {
             }
         })
 
-        // clear the new node indicator
-        clearMovingNode()
-
         // and refresh the query
         refresh(prev => ({
             fetchKey: (prev?.fetchKey ?? 0) + 1,
