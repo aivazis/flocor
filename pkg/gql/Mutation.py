@@ -9,6 +9,7 @@ import graphene
 
 # the mutations
 from .CreateNode import CreateNode
+from .MoveNode import MoveNode
 
 
 # the mutation anchor
@@ -19,6 +20,8 @@ class Mutation(graphene.ObjectType):
 
     # add a new node to the flow
     createNode = CreateNode.Field()
+    # move an existing node
+    moveNode = MoveNode.Field()
 
 
 # end of file
