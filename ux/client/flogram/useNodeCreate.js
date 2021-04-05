@@ -67,7 +67,7 @@ export const useNodeCreate = (refresh) => {
 const createNodeMutation = graphql`mutation useNodeCreateMutation($info: CreateNodeInput!) {
     createNode(nodeinfo: $info) {
         # a description of the newly created node
-        selection {
+        node {
             id
         }
     }

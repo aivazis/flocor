@@ -37,7 +37,7 @@ export const useNodeMove = (refresh) => {
             variables: {
                 info: {
                     // type info
-                    id: movingNodeInfo.id,
+                    id: movingNodeInfo,
                     // the new position
                     ...position
                 }
@@ -65,9 +65,11 @@ export const useNodeMove = (refresh) => {
 // the mutation that adds a new node to the diagram
 const moveNodeMutation = graphql`mutation useNodeMoveMutation($info: MoveNodeInput!) {
     moveNode(nodeinfo: $info) {
-        # get back the id of the moving node
-        selection {
+        #  refresh the info of the moving node
+        node {
+            # based on its id
             id
+            # update its position
             position {
                 x
                 y
