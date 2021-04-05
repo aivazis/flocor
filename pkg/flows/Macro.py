@@ -19,8 +19,10 @@ class Macro:
         # chain up
         super().__init__(**kwds)
 
-        # build my id
-        self.pyre_id = uuid.uuid1()
+        # make a uuid
+        gid = uuid.uuid1()
+        # build my id by folding in my type
+        self.pyre_id = f"Macro:${gid}"
         # attach my name
         self.pyre_name = name
         # look up my type
