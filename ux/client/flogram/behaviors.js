@@ -67,12 +67,12 @@ export const Behaviors = React.forwardRef(({ refresh }, viewRef) => {
     // when the mouse is released in my area
     useEvent({
         name: "mouseup", listener: mouseUp, client: viewRef,
-        triggers: [newNodeInfo]
+        triggers: [newNodeInfo, movingNodeInfo]
     })
     // when the mouse leaves my area
     useEvent({
         name: "mouseleave", listener: mouseLeave, client: viewRef,
-        triggers: []
+        triggers: [movingNodeInfo]
     })
 
 
