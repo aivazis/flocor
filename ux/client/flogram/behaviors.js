@@ -14,12 +14,16 @@ import { useCamera } from '~/widgets/camera'
 // local
 import { useNodeCreate } from './useNodeCreate'
 import { useClearMovingNode } from './useClearMovingNode'
+import { useNodeMove } from './useNodeMove'
 
 
 // attach event listeners to the diagram
 export const Behaviors = React.forwardRef(({ refresh }, viewRef) => {
     // to create a new node
     const { newNodeInfo, createNode } = useNodeCreate(refresh)
+
+    // to move a node
+    const { moveNode, movingNodeInfo } = useNodeMove(refresh)
     // to clear the moving node candidate
     const clearMovingNode = useClearMovingNode()
 
@@ -37,11 +41,40 @@ export const Behaviors = React.forwardRef(({ refresh }, viewRef) => {
         return
     }
 
+    // assemble the {mousemove} behaviors
+    const mouseMove = (evt) => {
+        // convert the cursor location to ICS
+        const position = toICS(evt.clientX, evt.clientY)
+        // show me
+        moveNode(position)
+        // all done
+        return
+    }
+
+    // assemble the {mouseleave} behaviors
+    const mouseLeave = () => {
+        // clear the moving node candidate
+        clearMovingNode()
+        // all done
+        return
+    }
+
+    // when the mouse is moved in my area
+    useEvent({
+        name: "mousemove", listener: mouseMove, client: viewRef,
+        triggers: [movingNodeInfo]
+    })
     // when the mouse is released in my area
     useEvent({
         name: "mouseup", listener: mouseUp, client: viewRef,
         triggers: [newNodeInfo]
     })
+    // when the mouse leaves my area
+    useEvent({
+        name: "mouseleave", listener: mouseLeave, client: viewRef,
+        triggers: []
+    })
+
 
     // build the container and return it
     return null
