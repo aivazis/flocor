@@ -33,7 +33,7 @@ type Mutation {
 
 type CreateNode {
   # return the newly created node
-  selection: Node!
+  node: Node!
 }
 
 input CreateNodeInput {
@@ -48,8 +48,8 @@ input CreateNodeInput {
 
 
 type MoveNode {
-  # return the moved node
-  selection: Node!
+  # refresh the information of the moving node
+  node: Node!
 }
 
 input MoveNodeInput {
