@@ -15,7 +15,7 @@ export const wheel = (remote) => (event) => {
     event.preventDefault()
 
     // unpack
-    const { deltaX, deltaY, ctrlKey, metaKey } = event
+    const { deltaX, deltaY, ctrlKey, shiftKey } = event
 
     // scrolling with <ctrl> pressed
     if (ctrlKey) {
@@ -25,8 +25,8 @@ export const wheel = (remote) => (event) => {
         return
     }
 
-    // scrolling with <meta> pressed
-    if (metaKey) {
+    // scrolling with <shift> pressed
+    if (shiftKey) {
         // is a rotation by a small angle in a sense determined by whether
         // we are scrolling up or down
         const dphi = (deltaY > 0 ? -1 : 1) * 1
