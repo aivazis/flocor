@@ -22,7 +22,7 @@ class Macro:
         # make a uuid
         gid = uuid.uuid1()
         # build my id by folding in my type
-        self.pyre_id = f"Macro:${gid}"
+        self.pyre_id = f"Macro:{gid}"
         # attach my name
         self.pyre_name = name
         # look up my type
