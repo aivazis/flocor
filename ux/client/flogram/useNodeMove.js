@@ -10,7 +10,6 @@ import { useMutation } from 'react-relay/hooks'
 // project
 // hooks
 import { useMovingNode } from './useMovingNode'
-import { useClearMovingNode } from './useClearMovingNode'
 
 
 // the last step in moving a flow node is sending a mutation to the server
@@ -21,8 +20,6 @@ export const useNodeMove = (refresh) => {
     const movingNodeInfo = useMovingNode()
     // the mutation sends the new location information to the server
     const [commitMoveNode, isInFlight] = useMutation(moveNodeMutation)
-    // and then we have to clear the new node indicator
-    const clearMovingNode = useClearMovingNode()
 
     // to create a new node
     const moveNode = (position) => {
