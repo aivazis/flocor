@@ -20,8 +20,8 @@ export default {
         fontSize: "60%",
         padding: "0.25rem 0.0rem 0.25rem 0.75rem",
         // colors
-        color: "hsl(0deg, 0%, 80%, 1)",
-        backgroundColor: "hsl(0deg, 0%, 31%, 1)",
+        color: "hsl(0deg, 0%, 60%, 1)",
+        backgroundColor: "hsl(0deg, 0%, 25%, 1)",
 
         // for my children
         display: "flex",
