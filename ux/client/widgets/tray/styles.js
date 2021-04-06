@@ -12,6 +12,10 @@ import { theme } from '~/palette'
 export default {
     // the overall container
     box: {
+        // for my children
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
     },
 
     // the tray header
@@ -22,6 +26,8 @@ export default {
         // colors
         color: "hsl(0deg, 0%, 60%, 1)",
         backgroundColor: "hsl(0deg, 0%, 25%, 1)",
+        // don't stretch me
+        flex: "0",
 
         // for my children
         display: "flex",
@@ -38,6 +44,12 @@ export default {
 
     // the container of the children
     items: {
+        // i stretch
+        flex: "1",
+        // for my children
+        display: "flex",
+        flexDirection: "column",
+        overflow: "auto",
     },
 }
 
