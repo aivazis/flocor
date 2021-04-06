@@ -21,14 +21,7 @@ import styles from './styles'
 // a tray with a flow node
 export const Traits = ({ style }) => {
     // get the set of basic traits from the server
-    const { traits } = useLazyLoadQuery(
-        graphql`query traitsQuery {
-            traits {
-                category
-                schema
-            }
-        }`
-    )
+    const { traits } = useLazyLoadQuery(traitsQuery)
 
     // build a graphical representation of my items:
     // pick a size for my icon
@@ -61,6 +54,15 @@ export const Traits = ({ style }) => {
         </Tray >
     )
 }
+
+
+// the query text
+const traitsQuery = graphql`query traitsQuery {
+    traits {
+        category
+        schema
+    }
+}`
 
 
 // end of file
