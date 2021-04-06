@@ -19,5 +19,6 @@ export Toolbar from './toolbar'
 export { Camera } from './camera'
 export * as Flex from './flex'
 export { Shadow } from './shadow'
+export { Tray } from './tray'
 
 // end of file
