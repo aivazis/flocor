@@ -9,9 +9,10 @@ import React from 'react'
 import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
 
 // locals
-// hooks
-// i am a tray of nodes
-import { Tray, Node } from '~/trays'
+// i am a tray
+import { Tray } from '~/widgets'
+// of nodes
+import { Node } from '~/trays'
 // that are products
 import { Product } from '~/shapes'
 // styles
