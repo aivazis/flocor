@@ -18,10 +18,14 @@ export default {
     header: {
         // style
         fontSize: "60%",
-        padding: "0.5rem 0.0rem 0.5rem 0.75rem",
+        padding: "0.25rem 0.0rem 0.25rem 0.75rem",
         // colors
         color: "hsl(0deg, 0%, 80%, 1)",
         backgroundColor: "hsl(0deg, 0%, 31%, 1)",
+
+        // for my children
+        display: "flex",
+        alignItems: "center",
     },
 
     // the tray title
@@ -29,6 +33,7 @@ export default {
         // style
         fontFamily: "rubik",
         textTransform: "uppercase",
+        padding: "0.0rem 0.0rem 0.0rem 0.5rem",
     },
 
     // the container of the children
