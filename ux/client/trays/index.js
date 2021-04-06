@@ -8,11 +8,11 @@
 
 // the base node
 export { Node } from './node'
-// the base tray
-export { Tray } from './tray'
 
 // the tray with all the base traits from pyre
 export { Traits } from './traits'
+// the tray with the {calc} factories
+export { Calc } from './calc'
 
 
 // end of file
