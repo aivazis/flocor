@@ -12,18 +12,15 @@ import { Macro } from './macro'
 
 
 // render the flow nodes that are macros
-export const Macros = ({ nodes }) => {
-    // specify what data we care about
-    const macros = useFragment(macrosFragment, nodes)
-
-    return null
-
+export const Macros = ({ flow }) => {
+    // extract the list of macros
+    const { macros } = useFragment(macrosFragment, flow)
     // render
     return (
         <>
             {
-                macros.map(macro => (
-                    <Macro key={macro.id} macro={macro} />
+                macros.edges.map(edge => (
+                    <Macro key={edge.node.id} macro={edge.node} />
                 ))
             }
         </>
@@ -33,8 +30,8 @@ export const Macros = ({ nodes }) => {
 
 //  the query fragment that fetches macros
 const macrosFragment = graphql`
-    fragment macrosFragment_edges on Flow {
-        macros(first: 100) @connection(key: "macrosFragment_macros") {
+    fragment macros_flow on Flow {
+        macros(first: 10000) @connection(key: "macrosFragment_macros") {
             edges {
                 node {
                     id

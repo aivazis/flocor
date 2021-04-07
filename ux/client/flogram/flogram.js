@@ -37,8 +37,6 @@ const Diagram = () => {
     // ask the server for the flow diagram
     const { flow } = useLazyLoadQuery(flogramQuery, {}, refreshOptions)
 
-    console.log(flow)
-
     // build the container and return it
     return (
         <section ref={ref} style={styles.panel} >
@@ -54,7 +52,7 @@ const Diagram = () => {
                     {/* the origin/orientation marker */}
                     <Compass />
                     {/* macros */}
-                    <Macros nodes={flow.macros} />
+                    <Macros flow={flow} />
                 </Camera >
             </svg>
         </section>
@@ -70,7 +68,7 @@ const flogramQuery = graphql`query flogramQuery {
         name
         family
         # macro connection
-        ...macrosFragment_edges
+        ...macros_flow
    }
 }`
 
