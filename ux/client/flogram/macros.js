@@ -16,6 +16,8 @@ export const Macros = ({ nodes }) => {
     // specify what data we care about
     const macros = useFragment(macrosFragment, nodes)
 
+    return null
+
     // render
     return (
         <>
@@ -31,13 +33,20 @@ export const Macros = ({ nodes }) => {
 
 //  the query fragment that fetches macros
 const macrosFragment = graphql`
-    fragment macrosFragment_nodes on Macro @relay(plural:true) {
-        id
-        name
-        family
-        position {
-            x
-            y
+    fragment macrosFragment_edges on Flow {
+        macros(first: 100) @connection(key: "macrosFragment_macros") {
+            edges {
+                node {
+                    id
+                    name
+                    family
+                    position {
+                        x
+                        y
+                    }
+                }
+                cursor
+            }
         }
     }
 `
