@@ -37,6 +37,8 @@ const Diagram = () => {
     // ask the server for the flow diagram
     const { flow } = useLazyLoadQuery(flogramQuery, {}, refreshOptions)
 
+    console.log(flow)
+
     // build the container and return it
     return (
         <section ref={ref} style={styles.panel} >
@@ -67,10 +69,8 @@ const flogramQuery = graphql`query flogramQuery {
         id
         name
         family
-        # atoms
-        macros {
-            ...macrosFragment_nodes
-        }
+        # macro connection
+        ...macrosFragment_edges
    }
 }`
 
