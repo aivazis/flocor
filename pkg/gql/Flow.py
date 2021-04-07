@@ -9,9 +9,11 @@ import graphene
 
 # my interface
 from .Node import Node
-# local types
+# local basic types
 from .Macro import Macro
 from .Position import Position
+# connections
+from .MacroConnection import MacroConnection
 
 
 # trait types from {pyre.schemata}
@@ -29,8 +31,8 @@ class Flow(graphene.ObjectType):
     id = graphene.ID(required=True)
     name = graphene.String(required=True)
     family = graphene.String(required=True)
-
-    macros = graphene.List(graphene.NonNull(Macro), required=True)
+    # the list of nodes
+    macros = graphene.relay.ConnectionField(MacroConnection)
 
 
     # resolvers
@@ -60,6 +62,9 @@ class Flow(graphene.ObjectType):
         flow = panel.flow
         layout = panel.layout
 
+        # make a pile
+        macros = []
+
         # go through the nodes in {flow}
         for guid, node in flow.nodes.items():
             # look up its position
@@ -67,12 +72,14 @@ class Flow(graphene.ObjectType):
             # unpack
             x = position["x"]
             y = position["y"]
-            # serialize it
-            yield Macro(id=guid, name=node.pyre_name, family=node.pyre_schema.typename,
+            # represent
+            macro = Macro(id=guid, name=node.pyre_name, family=node.pyre_schema.typename,
                         position=Position(x=x, y=y))
+            # and add to the pile
+            macros.append(macro)
 
-        # and done
-        return
+        # return the pile
+        return macros
 
 
 # end of file
