@@ -32,10 +32,8 @@ const Diagram = () => {
     // make a reference to my container so we can measure it and install listeners
     const ref = React.useRef(null)
 
-    // set up state to manage query refreshing until we set up subscriptions
-    const [refreshOptions, setRefreshOptions] = React.useState(null)
     // ask the server for the flow diagram
-    const { flow } = useLazyLoadQuery(flogramQuery, {}, refreshOptions)
+    const { flow } = useLazyLoadQuery(flogramQuery, {})
 
     // build the container and return it
     return (
@@ -46,7 +44,7 @@ const Diagram = () => {
                 {/* everything that is in ICS */}
                 <Camera ref={ref} >
                     {/* diagram behaviors */}
-                    <Behaviors ref={ref} refresh={setRefreshOptions} />
+                    <Behaviors ref={ref} />
                     {/* the current cell highlighter, an experiment in not rendering a grid */}
                     <Grid />
                     {/* the origin/orientation marker */}

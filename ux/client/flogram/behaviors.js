@@ -18,12 +18,12 @@ import { useNodeMove } from './useNodeMove'
 
 
 // attach event listeners to the diagram
-export const Behaviors = React.forwardRef(({ refresh }, viewRef) => {
+export const Behaviors = React.forwardRef(({ }, viewRef) => {
     // to create a new node
-    const { newNodeInfo, createNode } = useNodeCreate(refresh)
+    const { newNodeInfo, createNode } = useNodeCreate()
 
     // to move a node
-    const { moveNode, movingNodeInfo } = useNodeMove(refresh)
+    const { moveNode, movingNodeInfo } = useNodeMove()
     // to clear the moving node candidate
     const clearMovingNode = useClearMovingNode()
 

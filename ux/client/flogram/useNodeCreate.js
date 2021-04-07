@@ -15,7 +15,7 @@ import { useNewNode, useClearNewNode } from '~/views/flo2d'
 // the last step in adding a new node to the diagram is sending a mutation to the server
 // this hook reads the new node information that was left behind in the {flo2d} context when
 // the dragging operation started and uses it to build a callback that commits the mutation
-export const useNodeCreate = (refresh) => {
+export const useNodeCreate = () => {
     // placing a new node on the diagram requires node info and a mutation
     // the {trays} register type information with {flo2d} in order to place new nodes on the canvas
     const newNodeInfo = useNewNode()
@@ -47,12 +47,6 @@ export const useNodeCreate = (refresh) => {
 
         // clear the new node indicator
         clearNode()
-
-        // and refresh the query
-        refresh(prev => ({
-            fetchKey: (prev?.fetchKey ?? 0) + 1,
-            fetchPolicy: 'network-only',
-        }))
 
         // all done
         return
