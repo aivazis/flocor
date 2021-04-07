@@ -20,6 +20,9 @@ type Query {
   traits: [Trait!]!
   # server version information
   version: Version!
+
+  # fetch a node given its id
+  node(id: ID!): Node
 }
 
 
@@ -71,7 +74,7 @@ type Flow implements Node {
   family: String!
 
   # the set of macros
-  macros: [Macro!]!
+  macros(after: String, first: Int, before: String, last: Int): MacroConnection!
 }
 
 
@@ -83,6 +86,16 @@ type Macro implements Node {
   position: Position!
 }
 
+# support for macro connections
+type MacroConnection {
+  edges: [MacroEdge]
+  pageInfo: PageInfo!
+}
+
+type MacroEdge {
+  node: Macro
+  cursor: String!
+}
 
 # the set of simple trait types
 type Trait {
@@ -144,6 +157,15 @@ interface Node {
   id: ID!
   # and its position
   position: Position
+}
+
+
+# builer plate for connections
+type PageInfo {
+  startCursor: String
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
 }
 
 # end of file
