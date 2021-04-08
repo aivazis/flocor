@@ -15,9 +15,10 @@ const shape = ({ style }) => {
     // mix my paint
     const ico = { ...styles.icon, ...style?.icon }
 
-    // paint me
+    // paint me; don't forget we are using a quarter cell grid,
+    // i.e.a diagram cell is four grid cells
     return (
-        <circle cx="0" cy="0" r=".3" style={ico} />
+        <circle cx="0" cy="0" r=".4" style={ico} />
     )
 }
 

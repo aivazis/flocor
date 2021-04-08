@@ -39,16 +39,11 @@ export const Grid = () => {
     // otherwise, unpack the cursor location
     const { x, y } = cursorPosition
 
-    // and make a mark
-    // this one is a rectangle highlighting the current cell
+    // and make a mark; don't forget we are in a quarter cell grid, so the highlight marks
+    // the four grid cells around the current coordinate
     return (
-        <rect x={x - 0.5} y={y - 0.5} width={1} height={1} style={styles.cell} />
+        <rect x={x - 1} y={y - 1} width={2} height={2} style={styles.cell} />
     )
-
-    // this is a dot at the center of the current cell
-    // return (
-    //     <circle cx={x} cy={y} r=".3" style={styles.spot} />
-    // )
 }
 
 

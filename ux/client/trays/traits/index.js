@@ -26,11 +26,13 @@ export const Traits = ({ style }) => {
 
     // build a graphical representation of my items:
     // pick a size for my icon
-    const size = 16
+    const size = 24
     // turn it into a box
     const box = { x: size, y: size }
-    // build the transform to resize my shape
-    const shrink = `scale(${size}) translate(0.5 0.5)`
+    // build the transform to resize my shape; don't forget that the diagram shapes are rendered
+    // assuming a quarter cell grid, which means that they occupy the box ((-1,-1), (1,1)) in
+    // their intrinsic coordinates
+    const shrink = `scale(${size / 2}) translate(1 1)`
     // mix my paint
     const nodeStyle = { ...styles.node, ...style?.node }
     const shapeStyle = { ...styles.shape, ...style?.shape }
