@@ -57,7 +57,7 @@ class CreateNode(graphene.Mutation):
             layout[macro.pyre_id] = {"x": x, "y": y}
 
             # make a macro node
-            macro = Macro(id=macro.pyre_id, position=Position(x=x, y=y))
+            macro = Macro(id=macro.pyre_id, family=family, position=Position(x=x, y=y))
             # attach it and return it
             return CreateNode(node=macro)
 
