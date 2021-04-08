@@ -1,0 +1,37 @@
+// -*- c++ -*-
+//
+// michael a.g. aïvázis <michael.aivazis@para-sim.com>
+// (c) 1998-2021 all rights reserved
+
+// code guard
+#if !defined(flocor_meta_h)
+#define flocor_meta_h
+
+
+// repository metadata
+#define FLOCOR_date "@TODAY@"
+#define FLOCOR_major @MAJOR @
+#define FLOCOR_minor @MINOR @
+#define FLOCOR_micro @MICRO @
+#define FLOCOR_revision "@REVISION@"
+
+
+// externals
+#include <string>
+#include <tuple>
+
+
+// declarations
+namespace flocor::meta {
+    // type aliases
+    using string_t = std::string_t;
+    using version_t = std::tuple<int, int, int, string_t>;
+
+    // version info
+    auto version() -> version_t;
+    // compilation date
+    auto date() -> string_t;
+}
+
+
+//  end of file

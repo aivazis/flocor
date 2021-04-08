@@ -1,0 +1,32 @@
+// -*- c++ -*-
+//
+// michael a.g. aïvázis <michael.aivazis@para-sim.com>
+// (c) 1998-2021 all rights reserved
+
+
+// get the declarations
+#include "meta.h"
+
+
+// version info
+auto
+flocor::cuda::meta::
+version() -> version_t
+{
+    return version_t {
+        FLOCOR_CUDA_major, FLOCOR_CUDA_minor, FLOCOR_CUDA_micro,
+        FLOCOR_CUDA_revision
+    };
+}
+
+
+// compilation date
+auto
+flocor::cuda::meta::
+date() -> string_t
+{
+    return FLOCOR_CUDA_date;
+}
+
+
+// end of file
