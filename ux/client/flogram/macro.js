@@ -6,6 +6,7 @@
 
 // externals
 import React from 'react'
+import { graphql, useFragment } from 'react-relay/hooks'
 // project
 import { Product } from '~/shapes'
 // local
@@ -13,7 +14,19 @@ import { Node } from './node'
 
 
 // render the flow nodes that are macros
-export const Macro = ({ macro }) => {
+export const Macro = (props) => {
+    const macro = useFragment(graphql`
+        fragment macro_macro on Macro {
+            id
+            name
+            family
+            position {
+                x
+                y
+            }
+        }
+    `, props.macro)
+
     // render
     return (
         <Node id={macro.id} position={macro.position} >
