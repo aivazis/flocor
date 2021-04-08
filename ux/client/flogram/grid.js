@@ -8,6 +8,8 @@
 import React from 'react'
 
 // project
+// widgets
+import { Compass } from '~/widgets'
 // hooks
 import { useCamera } from '~/widgets/camera'
 // local
@@ -38,11 +40,16 @@ export const Grid = () => {
 
     // otherwise, unpack the cursor location
     const { x, y } = cursorPosition
+    // build the translation that positions the shape
+    const xform = `translate(${x} ${y})`
 
     // and make a mark; don't forget we are in a quarter cell grid, so the highlight marks
     // the four grid cells around the current coordinate
     return (
-        <rect x={x - 1} y={y - 1} width={2} height={2} style={styles.cell} />
+        <>
+            <Compass transform={xform} />
+            <rect x={x - 1} y={y - 1} width={2} height={2} style={styles.cell} />
+        </>
     )
 }
 
