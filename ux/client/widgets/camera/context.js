@@ -45,7 +45,7 @@ export const Provider = React.forwardRef(({ scale, children }, clientRef) => {
     // install the {keypad} bindings to the top level window
     useKeypad(keypad(remote))
     // and the {wheel} bindings to my view
-    useWheel(wheel(remote), clientRef)
+    useWheel(wheel(els, remote), clientRef)
     // keep track of mouse movement and convert it to diagram coordinates
     const { cursorPosition, toICS } = useTrackMouse(els, camera, clientRef)
 

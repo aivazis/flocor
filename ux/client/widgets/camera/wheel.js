@@ -10,7 +10,7 @@ import { pan, zoom, rotate } from './reducer'
 
 // a callback that maps {wheel} events to camera actions
 // it takes a camera remote control and return an event listener bound to the remote
-export const wheel = (remote) => (event) => {
+export const wheel = (els, remote) => (event) => {
     // ask the agent to ignore any overloads of this event
     event.preventDefault()
 
@@ -20,7 +20,7 @@ export const wheel = (remote) => (event) => {
     // scrolling with <ctrl> pressed
     if (ctrlKey) {
         // is a pan
-        remote(pan(-deltaX, -deltaY))
+        remote(pan(-deltaX / els, -deltaY / els))
         // all done
         return
     }
