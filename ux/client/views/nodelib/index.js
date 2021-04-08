@@ -7,7 +7,7 @@
 // externals
 import React from 'react'
 // locals
-import { Traits } from '~/trays'
+import { Traits, Calc } from '~/trays'
 // styles
 import styles from './styles'
 
@@ -21,6 +21,7 @@ const nodelib = ({ style }) => {
     return (
         <section style={boxStyle}>
             <Traits />
+            <Calc />
         </section>
     )
 }
