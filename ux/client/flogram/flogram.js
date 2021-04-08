@@ -44,7 +44,7 @@ const Diagram = () => {
                 {/* everything that is in ICS */}
                 <Camera ref={ref} >
                     {/* diagram behaviors */}
-                    <Behaviors ref={ref} />
+                    <Behaviors ref={ref} flow={flow.id} />
                     {/* the current cell highlighter, an experiment in not rendering a grid */}
                     <Grid />
                     {/* the origin/orientation marker */}

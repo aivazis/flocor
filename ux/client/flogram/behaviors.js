@@ -18,9 +18,9 @@ import { useNodeMove } from './useNodeMove'
 
 
 // attach event listeners to the diagram
-export const Behaviors = React.forwardRef(({ }, viewRef) => {
+export const Behaviors = React.forwardRef(({ flow }, viewRef) => {
     // to create a new node
-    const { newNodeInfo, createNode } = useNodeCreate()
+    const { newNodeInfo, createNode } = useNodeCreate(flow)
 
     // to move a node
     const { moveNode, movingNodeInfo } = useNodeMove()
