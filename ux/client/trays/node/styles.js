@@ -14,9 +14,9 @@ export default {
     box: {
         // fonts
         fontFamily: "inconsolata",
-        fontSize: "65%",
+        fontSize: "75%",
         // sizes
-        padding: "0.125rem 0.0rem 0.125rem 0.75rem",
+        padding: "0.0rem 0.0rem 0.0rem 0.5rem",
         // for my children
         display: "flex",
         flexDirection: "row",
