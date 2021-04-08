@@ -6,6 +6,7 @@
 
 // externals
 import { useMutation } from 'react-relay/hooks'
+import { ConnectionHandler } from 'relay-runtime'
 
 // project
 // hooks
@@ -15,7 +16,7 @@ import { useNewNode, useClearNewNode } from '~/views/flo2d'
 // the last step in adding a new node to the diagram is sending a mutation to the server
 // this hook reads the new node information that was left behind in the {flo2d} context when
 // the dragging operation started and uses it to build a callback that commits the mutation
-export const useNodeCreate = () => {
+export const useNodeCreate = (flow) => {
     // placing a new node on the diagram requires node info and a mutation
     // the {trays} register type information with {flo2d} in order to place new nodes on the canvas
     const newNodeInfo = useNewNode()
@@ -42,6 +43,31 @@ export const useNodeCreate = () => {
                     // position
                     ...position
                 }
+            },
+            updater: (store) => {
+                const result = store.getRootField("createNode")
+                // if we don't have one yet
+                if (!result) {
+                    // bail
+                    return
+                }
+
+                // get a proxy to the connection that should own the new node
+                const allMacros = ConnectionHandler.getConnection(
+                    store.get(flow),
+                    "macrosFragment_macros"
+                )
+
+                // grab a reference to the node we created
+                const newMacro = result.getLinkedRecord('node')
+
+                // create an edge with the product we just made
+                const edge = ConnectionHandler.createEdge(store, allMacros, newMacro, 'MacroEdge')
+                // and the new edge to the connection
+                ConnectionHandler.insertEdgeAfter(allMacros, edge)
+
+                // all done
+                return
             }
         })
 
@@ -63,6 +89,7 @@ const createNodeMutation = graphql`mutation useNodeCreateMutation($info: CreateN
         # a description of the newly created node
         node {
             id
+            ...macro_macro
         }
     }
 }`
