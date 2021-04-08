@@ -35,12 +35,7 @@ const macrosFragment = graphql`
             edges {
                 node {
                     id
-                    name
-                    family
-                    position {
-                        x
-                        y
-                    }
+                    ...macro_macro
                 }
                 cursor
             }
