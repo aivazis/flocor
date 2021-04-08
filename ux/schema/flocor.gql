@@ -114,21 +114,11 @@ type Catalog {
   producers: [Producer!]!
 }
 
-
-# basic types
-type Position {
-  # the diagram coordinates of a node
-  x: Int!
-  y: Int!
-}
-
-
 # the protocol implemented by data products
 type Specification {
   # specifications have family names
   family: String!
 }
-
 
 # the protocol implemented by factories
 type Producer {
@@ -160,12 +150,20 @@ interface Node {
 }
 
 
-# builer plate for connections
+# basic types
+type Position {
+  # the diagram coordinates of a node
+  x: Int!
+  y: Int!
+}
+
+# boilerplate for connections
 type PageInfo {
   startCursor: String
   endCursor: String
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!
 }
+
 
 # end of file
