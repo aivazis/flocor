@@ -39,7 +39,7 @@ export const Traits = ({ style }) => {
     // draw my shape
     const shape = (
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-            width={size} height={size} style={nodeStyle}>
+            width={box.x} height={box.y} style={nodeStyle}>
             <g transform={shrink}>
                 <Product style={shapeStyle} />
             </g>
