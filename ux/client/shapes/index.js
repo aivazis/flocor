@@ -17,6 +17,7 @@ export Skull from './skull'
 
 
 // flow nodes
+export { Factory } from './factory'
 export { Product } from './product'
 
 
