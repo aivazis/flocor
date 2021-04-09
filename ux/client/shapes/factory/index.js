@@ -7,7 +7,7 @@
 // externals
 import React from 'react'
 // locals
-import { Terminal } from '~/shapes'
+import { Plex, Terminal } from '~/shapes'
 import styles from './styles'
 
 // render the shape
@@ -16,24 +16,18 @@ export const Factory = ({ inputs = [], outputs = [], style }) => {
     const ico = { ...styles.icon, ...style?.icon }
     const deco = { ...styles.decoration, ...style?.decoration }
 
-    const plex = (
-        <rect style={ico} x="-0.125" y="-0.125" width="0.25" height="0.25" />
-    )
     // input multiplexing
     const inplex = (
         <g transform="translate(-2 0)">
-            {inputs.length ? plex : <Terminal />}
+            {inputs.length ? <Plex /> : <Terminal />}
         </g>
     )
     // output multiplexing
     const outplex = (
         <g transform="translate(2 0)">
-            {outputs.length ? plex : <Terminal />}
+            {outputs.length ? <Plex /> : <Terminal />}
         </g>
     )
-
-    //
-
 
     // paint me; don't forget we are using a quarter cell grid,
     // i.e.a diagram cell is four grid cells
