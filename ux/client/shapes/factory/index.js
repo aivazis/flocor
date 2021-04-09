@@ -7,6 +7,7 @@
 // externals
 import React from 'react'
 // locals
+import { Terminal } from '~/shapes'
 import styles from './styles'
 
 // render the shape
@@ -14,28 +15,20 @@ export const Factory = ({ inputs = [], outputs = [], style }) => {
     // mix my paint
     const ico = { ...styles.icon, ...style?.icon }
     const deco = { ...styles.decoration, ...style?.decoration }
-    const term = { ...styles.terminal, ...style?.terminal }
 
-    // product multiplexing
-    const terminal = (
-        <>
-            <circle style={term} cx="0" cy="0" r="0.5" />
-            <path style={term} d="M -0.25 -0.25 L 0.25 0.25 M -0.25 0.25 L 0.25 -0.25" />
-        </>
-    )
     const plex = (
         <rect style={ico} x="-0.125" y="-0.125" width="0.25" height="0.25" />
     )
     // input multiplexing
     const inplex = (
         <g transform="translate(-2 0)">
-            {inputs.length ? plex : terminal}
+            {inputs.length ? plex : <Terminal />}
         </g>
     )
     // output multiplexing
     const outplex = (
         <g transform="translate(2 0)">
-            {outputs.length ? plex : terminal}
+            {outputs.length ? plex : <Terminal />}
         </g>
     )
 

@@ -38,17 +38,6 @@ export default {
         // fill
         fill: "none",
     },
-
-    // terminal marker
-    terminal: {
-        // inherit
-        ...style.decoration,
-        // stroke
-        stroke: "hsl(0deg, 70%, 40%)",
-        strokeWidth: 1,
-        // fill
-        fill: "hsl(0deg, 40%, 20%)",
-    },
 }
 
 
