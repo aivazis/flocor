@@ -33,7 +33,7 @@ export const Calc = ({ style }) => {
     const size = 24
 
     // turn it into a box
-    const box = { x: 3 * size, y: 2 * size }
+    const box = { x: 4 * size, y: 3 * size }
     // build the transform to resize my shape; don't forget that the diagram shapes are rendered
     // assuming a quarter cell grid, which means that they occupy the box ((-1,-1), (1,1)) in
     // their intrinsic coordinates
@@ -41,16 +41,26 @@ export const Calc = ({ style }) => {
     // mix my paint
     const nodeStyle = { ...styles.node, ...style?.node }
     const shapeStyle = { ...styles.shape, ...style?.shape }
+
+    // my factory's inputs
+    const inputs = [
+        { label: "op1", family: "", bound: false },
+        { label: "op2", family: "", bound: false },
+    ]
+    // and outputs
+    const outputs = [
+        { label: "value", family: "", bound: false },
+    ]
+
     // draw my shape
     const shape = (
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
             width={box.x} height={box.y} style={nodeStyle}>
             <g transform={shrink}>
-                <Factory style={shapeStyle} />
+                <Factory inputs={inputs} outputs={outputs} style={shapeStyle} />
             </g>
         </svg>
     )
-
 
 
     // paint me
