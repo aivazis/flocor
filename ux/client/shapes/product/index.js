@@ -11,7 +11,7 @@ import styles from './styles'
 
 
 // render the shape
-const shape = ({ style }) => {
+export const Product = ({ style }) => {
     // mix my paint
     const ico = { ...styles.icon, ...style?.icon }
 
@@ -21,10 +21,6 @@ const shape = ({ style }) => {
         <circle cx="0" cy="0" r=".5" style={ico} />
     )
 }
-
-
-// publish
-export default shape
 
 
 // end of file

@@ -17,7 +17,7 @@ export Skull from './skull'
 
 
 // flow nodes
-export Product from './product'
+export { Product } from './product'
 
 
 // end of file
