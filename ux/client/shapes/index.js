@@ -16,10 +16,12 @@ export Play from './play'
 export Skull from './skull'
 
 
+// flow node decorations
+export { Plex } from './plex'
+export { Terminal } from './terminal'
 // flow nodes
 export { Factory } from './factory'
 export { Product } from './product'
-export { Terminal } from './terminal'
 
 
 // end of file
