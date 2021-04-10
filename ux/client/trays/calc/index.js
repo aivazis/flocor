@@ -37,7 +37,7 @@ export const Calc = ({ style }) => {
     // build the transform to resize my shape; don't forget that the diagram shapes are rendered
     // assuming a quarter cell grid, which means that they occupy the box ((-1,-1), (1,1)) in
     // their intrinsic coordinates
-    const shrink = `scale(${size / 2}) translate(3 3)`
+    const shrink = `scale(${size / 2}) translate(4 3)`
     // mix my paint
     const nodeStyle = { ...styles.node, ...style?.node }
     const shapeStyle = { ...styles.shape, ...style?.shape }
