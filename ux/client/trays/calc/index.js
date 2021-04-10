@@ -14,7 +14,7 @@ import { Tray } from '~/widgets'
 // of nodes
 import { Node } from '~/trays'
 // that are factories
-import { Factory } from '~/shapes'
+import { Factory } from '~/flogram'
 // styles
 import styles from './styles'
 
