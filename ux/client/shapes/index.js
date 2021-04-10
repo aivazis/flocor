@@ -18,6 +18,7 @@ export Skull from './skull'
 
 // flow node decorations
 export { Plex } from './plex'
+export { Slot } from './slot'
 export { Terminal } from './terminal'
 // flow nodes
 export { Factory } from './factory'
