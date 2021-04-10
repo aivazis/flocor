@@ -40,6 +40,16 @@ export default {
         // fill
         fill: "url(#gridGlow)",
     },
+
+    // the binding lines
+    binding: {
+        // stroke
+        stroke: "hsl(0deg, 0%, 35%)",
+        strokeWidth: 2,
+        vectorEffect: "non-scaling-stroke",
+        // fill
+        fill: "none",
+    },
 }
 
 
