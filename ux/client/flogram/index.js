@@ -8,5 +8,8 @@
 // the flogram
 export { Flogram } from './flogram'
 
+// individual renderers
+export { Factory } from './factory'
+
 
 // end of file
