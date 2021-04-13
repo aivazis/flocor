@@ -27,6 +27,7 @@ export default {
 
     // the trait family name
     family: {
+        userSelect: "none"
     },
 
     // state dependent styling
