@@ -37,16 +37,18 @@ export const Calc = ({ els, style }) => {
                     x: 8,
                     y: Math.max(6, 2 * Math.max(op.inputs.length, op.outputs.length)),
                 }
-                // in pixels
+                // in pixels, for sizing the {svg} viewport
                 const width = els * box.x
                 const height = els * box.y
+                // for the cursor shadow offset
+                const offset = box
                 // build the transform to resize my shape; don't forget that the diagram
                 // shapes are rendered assuming a quarter cell grid
                 const place = `scale(${els}) translate(${box.x / 2} ${box.y / 2})`
                 // paint
                 return (
                     <Node key={op.family} category={op.category} family={op.family}
-                        els={els} size={box} >
+                        els={els} size={offset} >
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                             width={width} height={height} style={nodeStyle}>
                             <g transform={place}>
