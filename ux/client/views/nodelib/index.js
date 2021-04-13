@@ -13,22 +13,22 @@ import styles from './styles'
 
 
 // the area
-const nodelib = ({ style }) => {
+export const NodeLibrary = ({ style }) => {
+    // pick a length scale; this is the pixel size of a grid cell and it sets the dimensions
+    // of tray items
+    const els = 10
+
     // mix my paint
     const boxStyle = { ...styles.box, ...style?.box }
 
     // paint me
     return (
         <section style={boxStyle}>
-            <Traits />
-            <Calc />
+            <Traits els={els} />
+            <Calc els={els} />
         </section>
     )
 }
-
-
-// publish
-export default nodelib
 
 
 // end of file
