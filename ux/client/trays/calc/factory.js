@@ -14,14 +14,16 @@ import { Factory as FactoryShape, Plex, Slot, Terminal } from '~/shapes'
 import styles from './styles'
 
 // render the shape
-export const Factory = ({ inputs = [], outputs = [], style }) => {
-    // make a narrow factory
-    const cell = 1
+export const Factory = ({ factory, style }) => {
+    // unpack the factory metadata
+    const { inputs, outputs } = factory
     // get the number of inputs
     const nInputs = inputs.length
     // and the number of outputs
     const nOutputs = outputs.length
 
+    // make a narrow factory, i.e. one where the binding lines terminate on the base cell
+    const cell = 1
     // input multiplexing
     const inplex = (
         <g transform={`translate(${-cell} 0)`}>
@@ -35,8 +37,6 @@ export const Factory = ({ inputs = [], outputs = [], style }) => {
         </g>
     )
 
-
-
     // paint me
     return (
         <>
@@ -47,7 +47,7 @@ export const Factory = ({ inputs = [], outputs = [], style }) => {
                 const y = 2 * idx + 1 - nInputs
                 // render
                 return (
-                    <g key={product.label} >
+                    <g key={product} >
                         <path d={`M ${x} ${y} L ${x + 1} ${y} L -1 0`} style={styles.binding} />
                         <g transform={`translate(${x} ${y})`}>
                             <Slot />
@@ -62,7 +62,7 @@ export const Factory = ({ inputs = [], outputs = [], style }) => {
                 const y = 2 * idx + 1 - nOutputs
                 // render
                 return (
-                    <g key={product.label} >
+                    <g key={product} >
                         <path d={`M ${x} ${y} L ${x - 1} ${y} L 1 0`} style={styles.binding} />
                         <g transform={`translate(${x} ${y})`}>
                             <Slot />
