@@ -42,6 +42,8 @@ class GraphQL:
 
         # execute the query
         result = self.schema.execute(query, context=context, variables=variables)
+        # show me
+        # print(f"{result.data=}")
 
         # assemble the resulting document
         doc = { "data": result.data }
