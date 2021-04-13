@@ -40,6 +40,8 @@ export default {
         fontFamily: "rubik",
         textTransform: "uppercase",
         padding: "0.0rem 0.0rem 0.0rem 0.5rem",
+        // disable text selection
+        userSelect: "none",
     },
 
     // the container of the children
