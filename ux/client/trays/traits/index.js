@@ -26,7 +26,7 @@ export const Traits = ({ els, style }) => {
 
     // build a graphical representation of my items
     // we are in a quad cell grid
-    const box = { x: 2 * els, y: 2 * els }
+    const box = { x: 2, y: 2 }
     // build the transform to resize my shape; don't forget that the diagram shapes are rendered
     // assuming a quarter cell grid, which means that they occupy the box ((-1,-1), (1,1)) in
     // their intrinsic coordinates
@@ -38,7 +38,7 @@ export const Traits = ({ els, style }) => {
     // draw my shape
     const shape = (
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-            width={box.x} height={box.y} style={nodeStyle}>
+            width={els * box.x} height={els * box.y} style={nodeStyle}>
             <g transform={shrink}>
                 <Product style={shapeStyle} />
             </g>
@@ -50,7 +50,7 @@ export const Traits = ({ els, style }) => {
         <Tray title="pyre traits" >
             {traits.map(trait => (
                 <Node key={trait.schema} category={trait.category} family={trait.schema}
-                    size={box}>
+                    els={els} size={box}>
                     {shape}
                 </Node>
             ))}
