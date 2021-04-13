@@ -17,11 +17,11 @@ import styles from './styles'
 
 
 // a tray with a single flow node
-export const Node = ({ category, family, size, style, children }) => {
+export const Node = ({ category, family, els, size, style, children }) => {
     // make a callback that sets the cursor shadow when initiating node drag; clearing
     // the shadow is done by my parent when the mouse is released anywhere in its client area,
     // including within me
-    const attachShadow = useAttachShadow(children, { x: -size.x, y: -size.y })
+    const attachShadow = useAttachShadow(children, { x: -els * size.x, y: -els * size.y })
     // the other thing that has to happen when i get clicked is to register the type of node
     // i generate
     const registerNode = useSetNewNode({ category, family })
@@ -58,8 +58,7 @@ export const Node = ({ category, family, size, style, children }) => {
     return (
         <div style={boxStyle} {...boxControls}>
             {children}
-            <span>&nbsp;:&nbsp;</span>
-            <span style={familyStyle}>{family}</span>
+            <span style={familyStyle}>&nbsp;:&nbsp;{family}</span>
         </div>
     )
 }
