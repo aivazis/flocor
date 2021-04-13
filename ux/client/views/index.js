@@ -13,7 +13,7 @@ export Status from './status'
 export { Flo2d } from './flo2d'
 
 // sidebars
-export NodeLibrary from './nodelib'
+export { NodeLibrary } from './nodelib'
 
 // sandboxes
 export Flex from './flex'
