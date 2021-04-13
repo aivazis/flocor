@@ -36,6 +36,7 @@ export const Traits = ({ style }) => {
     // mix my paint
     const nodeStyle = { ...styles.node, ...style?.node }
     const shapeStyle = { ...styles.shape, ...style?.shape }
+
     // draw my shape
     const shape = (
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -50,9 +51,10 @@ export const Traits = ({ style }) => {
     return (
         <Tray title="pyre traits" >
             {traits.map(trait => (
-                <Node key={trait.schema}
-                    category={trait.category} family={trait.schema}
-                    shape={shape} size={box} />
+                <Node key={trait.schema} category={trait.category} family={trait.schema}
+                    size={box}>
+                    {shape}
+                </Node>
             ))}
         </Tray >
     )
