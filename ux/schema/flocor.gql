@@ -18,6 +18,9 @@ type Query {
   catalog(package: String = "flocor"): Catalog
   # the set of simple trait types
   traits: [Trait!]!
+  # the set of known factories
+  operators: [Operator!]!
+
   # server version information
   version: Version!
 
@@ -101,6 +104,15 @@ type MacroEdge {
 type Trait {
   schema: String!
   category: String!
+}
+
+
+# basic calc operators
+type Operator {
+  category: String!
+  family: String!
+  inputs: [String!]
+  outputs: [String!]
 }
 
 
