@@ -14,6 +14,7 @@ from .Node import Node
 from .Catalog import Catalog
 from .Flow import Flow
 from .Trait import Trait
+from .Operator import Operator
 from .Version import Version
 
 
@@ -30,8 +31,12 @@ class Query(graphene.ObjectType):
     # the flow graph
     flow = graphene.Field(Flow, required=True,
                           name=graphene.String(default_value=""))
+
     # basic trait types from {pyre.schemata}
     traits = graphene.List(graphene.NonNull(Trait))
+    # basic operators from {pyre.calc}
+    operators = graphene.List(graphene.NonNull(Operator))
+
     # factories and products from a package
     catalog = graphene.Field(Catalog, required=True,
                              package=graphene.String(default_value="flocor"))
@@ -58,6 +63,15 @@ class Query(graphene.ObjectType):
         """
         # the type definition has a method that builds a list
         return list(Trait.resolve())
+
+
+    # operators types from {pyre.calc}
+    def resolve_operators(root, info, **kwds):
+        """
+        Generate a list of all known operators
+        """
+        # the type definition has a method that builds a list
+        return list(Operator.resolve())
 
 
     # catalog
