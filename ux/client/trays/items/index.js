@@ -5,8 +5,11 @@
 
 
 // publish
-// renderer of a tray item
+// tray item
 export { Item } from './item'
+
+// factory
+export { Factory } from './factory'
 
 
 // end of file
