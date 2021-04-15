@@ -27,7 +27,7 @@ export const Calc = ({ els, style }) => {
         <Tray title="calc operators" >
             {operators.map(op => (
                 <Factory key={op.family} factory={op} els={els} />
-            )}
+            ))}
         </Tray >
     )
 }
