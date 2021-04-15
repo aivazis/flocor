@@ -10,6 +10,12 @@ import { theme } from '~/palette'
 
 // publish
 export default {
+    // the container of my icon
+    node: {},
+
+    // and its shape
+    shape: {},
+
     // the binding lines
     binding: {
         // stroke
