@@ -11,8 +11,10 @@ import flocor
 # the node interface
 from .Node import Node
 # local types
-from .Position import Position
+from .Eval import Eval
 from .Macro import Macro
+from .Position import Position
+# the class that holds the new node metadata that is input to the mutation
 from .CreateNodeInput import CreateNodeInput
 
 
@@ -57,9 +59,22 @@ class CreateNode(graphene.Mutation):
             layout[macro.pyre_id] = {"x": x, "y": y}
 
             # make a macro node
-            macro = Macro(id=macro.pyre_id, family=family, position=Position(x=x, y=y))
+            node = Macro(id=macro.pyre_id, family=family, position=Position(x=x, y=y))
             # attach it and return it
-            return CreateNode(node=macro)
+            return CreateNode(node=node)
+
+        if category == "operator":
+            # make an operator node
+            op = flocor.flows.operator(family=family)
+            # add it to the flow
+            flow.addNode(node=op)
+            # and the layout
+            layout[op.pyre_id] = {"x": x, "y": y}
+
+            # make an operator node
+            node = Eval(id=op.pyre_id, family=family, position=Position(x=x, y=y))
+            # attach it and return it
+            return CreateNode(node=node)
 
         # if we get this far, there is something wrong
         raise Exception("unknown node category")
