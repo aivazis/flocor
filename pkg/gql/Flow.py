@@ -10,9 +10,11 @@ import graphene
 # my interface
 from .Node import Node
 # local basic types
+from .Eval import Eval
 from .Macro import Macro
 from .Position import Position
 # connections
+from .EvalConnection import EvalConnection
 from .MacroConnection import MacroConnection
 
 
@@ -27,12 +29,14 @@ class Flow(graphene.ObjectType):
         # register my interface
         interfaces = Node,
 
-    # the fields
+    # metadata
     id = graphene.ID(required=True)
     name = graphene.String(required=True)
     family = graphene.String(required=True)
-    # the list of nodes
+    # products
     macros = graphene.relay.ConnectionField(MacroConnection)
+    # factories
+    evaluators = graphene.relay.ConnectionField(EvalConnection)
 
 
     # resolvers
@@ -55,6 +59,14 @@ class Flow(graphene.ObjectType):
         flow = panel.flow
         # return the {flow} family name
         return flow.pyre_family()
+
+
+    def resolve_evaluators(panel, info, **kwds):
+        # unpack
+        flow = panel.flow
+        layout = panel.layout
+        # return an empty pile, for now
+        return []
 
 
     def resolve_macros(panel, info, **kwds):
