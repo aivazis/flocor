@@ -11,10 +11,8 @@ import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
 // project
 // i'm a tray
 import { Tray } from '~/widgets'
-// of nodes
-import { Node } from '~/trays'
-// that are factories
-import { Factory } from './factory'
+// of nodes that are factories
+import { Node, Factory } from '~/trays'
 // styles
 import styles from './styles'
 
