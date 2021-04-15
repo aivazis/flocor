@@ -12,7 +12,7 @@ import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
 // i am a tray
 import { Tray } from '~/widgets'
 // of nodes
-import { Node } from '~/trays'
+import { Item } from '~/trays'
 // that are products
 import { Product } from '~/shapes'
 // styles
@@ -49,10 +49,10 @@ export const Traits = ({ els, style }) => {
     return (
         <Tray title="calc variables" >
             {traits.map(trait => (
-                <Node key={trait.schema} category={trait.category} family={trait.schema}
+                <Item key={trait.schema} category={trait.category} family={trait.schema}
                     els={els} size={box}>
                     {shape}
-                </Node>
+                </Item>
             ))}
         </Tray >
     )
