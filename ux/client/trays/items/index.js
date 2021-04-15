@@ -5,8 +5,8 @@
 
 
 // publish
-// the base node renderer
-export { Node } from './node'
+// renderer of a tray item
+export { Item } from './item'
 
 
 // end of file
