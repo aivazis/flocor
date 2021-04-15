@@ -47,7 +47,7 @@ export const Traits = ({ els, style }) => {
 
     // paint me
     return (
-        <Tray title="pyre traits" >
+        <Tray title="calc variables" >
             {traits.map(trait => (
                 <Node key={trait.schema} category={trait.category} family={trait.schema}
                     els={els} size={box}>
