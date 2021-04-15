@@ -10,6 +10,8 @@ from .Flow import Flow as flow
 
 # atoms
 from .Macro import Macro as macro
+# factories
+from .Operator import Operator as operator
 
 
 # end of file
