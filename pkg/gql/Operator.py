@@ -27,15 +27,15 @@ class Operator(graphene.ObjectType):
         """
         Fetch all of them and put them in a pile
         """
-        # the basic arithmetic operators
-        yield Operator(family="pyre.calc.add", category="operator",
-                       inputs=["op1", "op2"], outputs=["value"])
-        yield Operator(family="pyre.calc.sub", category="operator",
-                       inputs=["op1", "op2"], outputs=["value"])
-        yield Operator(family="pyre.calc.mul", category="operator",
-                       inputs=["op1", "op2"], outputs=["value"])
-        yield Operator(family="pyre.calc.div", category="operator",
-                       inputs=["op1", "op2"], outputs=["value"])
+        # make some up
+        names = "add", "sub", "mul", "div"
+
+        # turn each name
+        for name in names:
+            # into a binary operator
+            yield Operator(
+                family=f"pyre.calc.{name}", category="operator",
+                inputs=["op1", "op2"], outputs=["value"])
 
         # all done
         return
