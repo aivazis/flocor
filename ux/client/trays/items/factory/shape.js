@@ -8,13 +8,13 @@
 import React from 'react'
 // project
 // shapes
-import { Factory as FactoryShape, Plex, Slot, Terminal } from '~/shapes'
+import { Factory, Plex, Slot, Terminal } from '~/shapes'
 // local
 // styling
 import styles from './styles'
 
 // render the shape
-export const Factory = ({ factory, style }) => {
+export const Shape = ({ factory, style }) => {
     // unpack the factory metadata
     const { inputs, outputs } = factory
     // get the number of inputs
@@ -70,7 +70,7 @@ export const Factory = ({ factory, style }) => {
                     </g>
                 )
             })}
-            <FactoryShape cell={cell} />
+            <Factory cell={cell} />
             {inplex}
             {outplex}
         </>
