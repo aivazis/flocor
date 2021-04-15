@@ -19,7 +19,6 @@ class Macro(graphene.ObjectType):
     A basic named node
     """
 
-
     # {graphene} metadata
     class Meta:
         # register my interface
