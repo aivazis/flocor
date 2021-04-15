@@ -6,8 +6,8 @@
 
 // publish
 
-// the base node
-export { Node, Factory } from './items'
+// the entities that make up tray entries
+export { Item, Factory } from './items'
 
 // the tray with all the base traits from pyre
 export { Traits } from './traits'
