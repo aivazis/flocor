@@ -78,6 +78,7 @@ type Flow implements Node {
 
   # the set of macros
   macros(after: String, first: Int, before: String, last: Int): MacroConnection!
+  evaluators(after: String, first: Int, before: String, last: Int): EvalConnection!
 }
 
 
@@ -100,14 +101,34 @@ type MacroEdge {
   cursor: String!
 }
 
-# the set of simple trait types
+
+# a eval node is produces output given some inputs
+type Eval implements Node {
+  id: ID!
+  name: String
+  family: String!
+  position: Position!
+}
+
+# support for macro connections
+type EvalConnection {
+  edges: [MacroEdge]
+  pageInfo: PageInfo!
+}
+
+type EvalEdge {
+  node: Eval
+  cursor: String!
+}
+
+
+# known product types
 type Trait {
   schema: String!
   category: String!
 }
 
-
-# basic calc operators
+# known factory types
 type Operator {
   category: String!
   family: String!
