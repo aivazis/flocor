@@ -8,10 +8,5 @@
 // the view
 export { Flo2d } from './flo2d'
 
-// its hooks
-export { useNewNode } from './useNewNode'
-export { useSetNewNode } from './useSetNewNode'
-export { useClearNewNode } from './useClearNewNode'
-
 
 // end of file
