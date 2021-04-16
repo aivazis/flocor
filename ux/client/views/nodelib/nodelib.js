@@ -7,6 +7,9 @@
 // externals
 import React from 'react'
 // project
+// hooks
+import { useInteractionContainer } from '~/views/flo2d'
+// widgets
 import { Shadow } from '~/widgets'
 // locals
 // context
@@ -19,12 +22,12 @@ import styles from './styles'
 
 // the trays
 const Trays = ({ style }) => {
+    // grab the app interaction element
+    const appContainerRef = useInteractionContainer()
+
     // pick a length scale; this is the pixel size of a grid cell and it sets the dimensions
     // of tray items
     const els = 10
-
-    // make a ref for my cursor shadow
-    const ref = React.useRef(null)
 
     // mix my paint
     const boxStyle = { ...styles.box, ...style?.box }
@@ -32,7 +35,7 @@ const Trays = ({ style }) => {
     // paint me
     return (
         <section style={boxStyle}>
-            <Shadow ref={ref} >
+            <Shadow ref={appContainerRef} >
                 <Traits els={els} />
                 <Calc els={els} />
             </Shadow>
@@ -50,5 +53,6 @@ export const NodeLibrary = () => {
         </Provider>
     )
 }
+
 
 // end of file
