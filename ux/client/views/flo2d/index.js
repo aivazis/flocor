@@ -8,5 +8,8 @@
 // the view
 export { Flo2d } from './flo2d'
 
+// the hooks
+export { useInteractionContainer } from './useInteractionContainer'
+
 
 // end of file
