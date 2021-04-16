@@ -13,8 +13,6 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom'
 // locals
 // hooks
 import styles from './styles'
-// my context
-import { Provider } from './context'
 // sidebars
 import { NodeLibrary } from '~/views'
 // canvases
@@ -24,14 +22,12 @@ import { ActivityBar } from '~/activities'
 // editors
 import { Flogram } from '~/flogram'
 // widgets
-import { Flex, Shadow } from '~/widgets'
+import { Flex } from '~/widgets'
 
 
 // the main app working area
 // the layout is simple: the activity bar and activity dependent routing
-const Panel = () => {
-    // make a ref for my top level element
-    const ref = React.useRef(null)
+export const Flo2d = () => {
     // get the current activity
     const match = useRouteMatch()
 
@@ -46,13 +42,11 @@ const Panel = () => {
 
                 {/* the activity specific sidebar */}
                 <Flex.Panel min={200} style={{ ...styles.flex, ...styles.sidebar }} >
-                    <Shadow ref={ref} >
-                        <Switch>
-                            <Route path={`${match.path}compose`} >
-                                <NodeLibrary />
-                            </Route>
-                        </Switch>
-                    </Shadow>
+                    <Switch>
+                        <Route path={`${match.path}compose`} >
+                            <NodeLibrary />
+                        </Route>
+                    </Switch>
                 </Flex.Panel>
 
                 {/* the activity specific work area */}
@@ -70,17 +64,6 @@ const Panel = () => {
             </Flex.Box>
 
         </section >
-    )
-}
-
-
-// turn the panel into a context provider
-export const Flo2d = () => {
-    // set up the context provider
-    return (
-        <Provider >
-            <Panel />
-        </Provider>
     )
 }
 
