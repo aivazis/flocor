@@ -9,7 +9,7 @@ import React from 'react'
 
 // project
 // hooks
-import { useSetNewNode } from '~/views/flo2d'
+import { useSetNewNode } from '~/views/nodelib'
 import { useAttachShadow } from '~/widgets/shadow'
 // locals
 // styles
