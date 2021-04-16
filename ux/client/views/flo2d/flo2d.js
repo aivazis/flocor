@@ -10,9 +10,7 @@ import React from 'react'
 // routing
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
-// locals
-// hooks
-import styles from './styles'
+// project
 // sidebars
 import { NodeLibrary } from '~/views'
 // canvases
@@ -23,17 +21,25 @@ import { ActivityBar } from '~/activities'
 import { Flogram } from '~/flogram'
 // widgets
 import { Flex } from '~/widgets'
-
+// local
+// context
+import { Provider } from './context'
+// hooks
+import { useInteractionContainer } from './useInteractionContainer'
+// styles
+import styles from './styles'
 
 // the main app working area
 // the layout is simple: the activity bar and activity dependent routing
-export const Flo2d = () => {
+const Panel = () => {
     // get the current activity
     const match = useRouteMatch()
+    // get the ref to the interaction container
+    const containerRef = useInteractionContainer()
 
     // lay out the main page
     return (
-        <section ref={ref} style={styles.panel} >
+        <section ref={containerRef} style={styles.panel} >
             {/* navigation bar */}
             <ActivityBar style={styles.activitybar} />
 
@@ -64,6 +70,17 @@ export const Flo2d = () => {
             </Flex.Box>
 
         </section >
+    )
+}
+
+
+// turn it into a context provider and export it
+export const Flo2d = () => {
+    // set up the context provider
+    return (
+        <Provider>
+            <Panel />
+        </Provider>
     )
 }
 
