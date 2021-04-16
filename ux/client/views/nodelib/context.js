@@ -9,7 +9,7 @@ import React from 'react'
 
 
 // the error message that consumers see when accessing the context outside a provider
-const complaint = "while accessing the 'flo2d' context: no provider"
+const complaint = "while accessing the 'nodelib' context: no provider"
 // setup the flex context
 export const Context = React.createContext(
     // the default value that consumers see when accessing the context outside a provider
