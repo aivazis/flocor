@@ -11,11 +11,11 @@ import React from 'react'
 import { useInteractionContainer } from '~/views/flo2d'
 // widgets
 import { Shadow } from '~/widgets'
+// trays
+import { Traits, Calc } from '~/trays'
 // locals
 // context
 import { Provider } from './context'
-// trays
-import { Traits, Calc } from '~/trays'
 // styles
 import styles from './styles'
 
@@ -48,7 +48,7 @@ const Trays = ({ style }) => {
 export const NodeLibrary = () => {
     // set up the context provider
     return (
-        <Provider>
+        <Provider >
             <Trays />
         </Provider>
     )
