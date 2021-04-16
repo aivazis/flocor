@@ -13,10 +13,8 @@ import { Context } from './context'
 
 // callback factory that clears the shadow by binding the mutators with null arguments
 export const useClearShadow = () => {
-    // grab the shadow mutator
-    const { setShadow } = React.useContext(Context)
-    // and the offset mutator
-    const { setOffset } = React.useContext(Context)
+    // grab the shadow and offset mutators
+    const { setShadow, setOffset } = React.useContext(Context)
 
     // make a callback that will attach the given shadow and offset
     const clear = () => {

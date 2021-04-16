@@ -13,11 +13,8 @@ import { Context } from './context'
 
 // access to the cursor shadow, a decoration that reminds the user of what they are dragging
 export const useShadow = () => {
-    // grab the shadow
-    const { shadow } = React.useContext(Context)
-    // and its offset
-    const { offset } = React.useContext(Context)
-
+    // grab the shadow and its offset
+    const { shadow, offset } = React.useContext(Context)
     // and make them available
     return { shadow, offset }
 }
