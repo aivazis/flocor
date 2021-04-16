@@ -12,9 +12,9 @@ import React from 'react'
 import { useEvent } from '~/hooks'
 import { useCamera } from '~/widgets/camera'
 // local
+import { useNodeMove } from './useNodeMove'
 import { useNodeCreate } from './useNodeCreate'
 import { useClearMovingNode } from './useClearMovingNode'
-import { useNodeMove } from './useNodeMove'
 
 
 // attach event listeners to the diagram
