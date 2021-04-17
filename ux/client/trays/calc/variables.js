@@ -21,13 +21,13 @@ import styles from './styles'
 // a tray with product nodes
 export const Variables = ({ els, style }) => {
     // get the set of basic traits from the server
-    const { traits } = useLazyLoadQuery(varQuery)
+    const { calcVariables } = useLazyLoadQuery(varQuery)
 
     // paint me
     return (
         <Tray title="calc variables" >
-            {traits.map(trait => (
-                <Product key={trait.schema} product={trait} els={els} style={style} />
+            {calcVariables.map(trait => (
+                <Product key={trait.family} product={trait} els={els} style={style} />
             ))}
         </Tray >
     )
@@ -36,9 +36,9 @@ export const Variables = ({ els, style }) => {
 
 // the query text
 const varQuery = graphql`query variablesQuery {
-    traits {
+    calcVariables {
         category
-        schema
+        family
     }
 }`
 

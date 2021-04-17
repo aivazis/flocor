@@ -21,12 +21,12 @@ import styles from './styles'
 // a tray with factory nodes
 export const Operators = ({ els, style }) => {
     // get the set of basic {calc} operators
-    const { operators } = useLazyLoadQuery(opQuery)
+    const { calcOperators } = useLazyLoadQuery(opQuery)
 
     // paint me
     return (
         <Tray title="calc operators" >
-            {operators.map(op => (
+            {calcOperators.map(op => (
                 <Factory key={op.family} factory={op} els={els} style={style} />
             ))}
         </Tray >
@@ -36,7 +36,7 @@ export const Operators = ({ els, style }) => {
 
 // the query string
 const opQuery = graphql`query operatorsQuery {
-    operators {
+    calcOperators {
         category
         family
         inputs
