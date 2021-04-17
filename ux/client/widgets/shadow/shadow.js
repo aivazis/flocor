@@ -31,6 +31,9 @@ const Sprite = React.forwardRef(({ style }, clientRef) => {
 
     // event handler to track and record the cursor location
     const trackLocation = (evt) => {
+        // on safari, it appears that this eliminates the text selection of whatever
+        // widgets initiates the cursro {shadow}
+        evt.preventDefault()
         // extract the cursor location
         const location = { x: evt.clientX, y: evt.clientY }
         // record it
