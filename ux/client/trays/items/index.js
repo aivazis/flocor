@@ -8,8 +8,9 @@
 // tray item
 export { Item } from './item'
 
-// factory
+// flow nodes
 export { Factory } from './factory'
+export { Product } from './product'
 
 
 // end of file
