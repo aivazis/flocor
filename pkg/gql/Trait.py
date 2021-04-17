@@ -16,7 +16,7 @@ class Trait(graphene.ObjectType):
 
 
     # the fields
-    schema = graphene.String(required=True)
+    family = graphene.String(required=True)
     category = graphene.String(required=True)
 
 
@@ -29,23 +29,23 @@ class Trait(graphene.ObjectType):
         import pyre.schemata
 
         # the basic
-        yield Trait(schema=pyre.schemata.bool.typename, category="basic")
-        yield Trait(schema=pyre.schemata.str.typename, category="basic")
-        yield Trait(schema=pyre.schemata.int.typename, category="basic")
-        yield Trait(schema=pyre.schemata.float.typename, category="basic")
-        yield Trait(schema=pyre.schemata.complex.typename, category="basic")
+        yield Trait(family=pyre.schemata.bool.typename, category="basic")
+        yield Trait(family=pyre.schemata.str.typename, category="basic")
+        yield Trait(family=pyre.schemata.int.typename, category="basic")
+        yield Trait(family=pyre.schemata.float.typename, category="basic")
+        yield Trait(family=pyre.schemata.complex.typename, category="basic")
 
         # composites
-        yield Trait(schema=pyre.schemata.path.typename, category="composite")
-        yield Trait(schema=pyre.schemata.dimensional.typename, category="composite")
-        yield Trait(schema=pyre.schemata.date.typename, category="composite")
-        yield Trait(schema=pyre.schemata.time.typename, category="composite")
-        yield Trait(schema=pyre.schemata.timestamp.typename, category="composite")
+        yield Trait(family=pyre.schemata.path.typename, category="composite")
+        yield Trait(family=pyre.schemata.dimensional.typename, category="composite")
+        yield Trait(family=pyre.schemata.date.typename, category="composite")
+        yield Trait(family=pyre.schemata.time.typename, category="composite")
+        yield Trait(family=pyre.schemata.timestamp.typename, category="composite")
 
         # higher level types
-        yield Trait(schema=pyre.schemata.istream.typename, category="host")
-        yield Trait(schema=pyre.schemata.ostream.typename, category="host")
-        yield Trait(schema=pyre.schemata.envvar.typename, category="host")
+        yield Trait(family=pyre.schemata.istream.typename, category="host")
+        yield Trait(family=pyre.schemata.ostream.typename, category="host")
+        yield Trait(family=pyre.schemata.envvar.typename, category="host")
 
         # all done
         return
