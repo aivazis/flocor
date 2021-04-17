@@ -17,11 +17,7 @@ import styles from './styles'
 
 // a tray item with a factory
 export const Factory = ({ factory, els, style }) => {
-    // mix my paint
-    const nodeStyle = { ...styles.node, ...style?.node }
-    const shapeStyle = { ...styles.shape, ...style?.shape }
-
-    // build the bounding box of the factor shape in grid cells
+    // build the bounding box of the factory shape in grid cells
     const box = {
         x: 8,
         y: Math.max(6, 2 * Math.max(factory.inputs.length, factory.outputs.length)),
@@ -35,13 +31,15 @@ export const Factory = ({ factory, els, style }) => {
     // shapes are rendered assuming a quarter cell grid
     const place = `scale(${els}) translate(${box.x / 2} ${box.y / 2})`
 
+    // mix my paint
+    const nodeStyle = { ...styles.node, ...style?.node }
     // paint me
     return (
         <Item category={factory.category} family={factory.family} els={els} size={offset} >
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                 width={width} height={height} style={nodeStyle}>
                 <g transform={place}>
-                    <Shape factory={factory} style={shapeStyle} />
+                    <Shape factory={factory} style={style} />
                 </g>
             </svg>
         </Item>

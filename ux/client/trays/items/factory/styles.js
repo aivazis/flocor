@@ -17,7 +17,7 @@ export default {
     shape: {},
 
     // the binding lines
-    binding: {
+    bindings: {
         // stroke
         stroke: "hsl(0deg, 0%, 35%)",
         strokeWidth: 2,

@@ -37,6 +37,10 @@ export const Shape = ({ factory, style }) => {
         </g>
     )
 
+    // mix my paint
+    const shapeStyle = { ...styles.shape, ...style?.shape }
+    const bindingsStyle = { ...styles.bindings, ...style?.bindings }
+
     // paint me
     return (
         <>
@@ -48,7 +52,7 @@ export const Shape = ({ factory, style }) => {
                 // render
                 return (
                     <g key={product} >
-                        <path d={`M ${x} ${y} L ${x + 1} ${y} L -1 0`} style={styles.binding} />
+                        <path d={`M ${x} ${y} L ${x + 1} ${y} L -1 0`} style={bindingsStyle} />
                         <g transform={`translate(${x} ${y})`}>
                             <Slot />
                         </g>
@@ -63,14 +67,14 @@ export const Shape = ({ factory, style }) => {
                 // render
                 return (
                     <g key={product} >
-                        <path d={`M ${x} ${y} L ${x - 1} ${y} L 1 0`} style={styles.binding} />
+                        <path d={`M ${x} ${y} L ${x - 1} ${y} L 1 0`} style={bindingsStyle} />
                         <g transform={`translate(${x} ${y})`}>
                             <Slot />
                         </g>
                     </g>
                 )
             })}
-            <Factory cell={cell} />
+            <Factory cell={cell} style={shapeStyle} />
             {inplex}
             {outplex}
         </>
