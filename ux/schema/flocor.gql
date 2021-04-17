@@ -17,9 +17,9 @@ type Query {
   # the set of protocols for products and factories in a given package
   catalog(package: String = "flocor"): Catalog
   # the set of simple trait types
-  traits: [Trait!]!
+  calcVariables: [Trait!]!
   # the set of known factories
-  operators: [Operator!]!
+  calcOperators: [Operator!]!
 
   # server version information
   version: Version!
@@ -124,8 +124,8 @@ type EvalEdge {
 
 # known product types
 type Trait {
-  schema: String!
   category: String!
+  family: String!
 }
 
 # known factory types
