@@ -13,11 +13,12 @@ import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
 import { Tray } from '~/widgets'
 // of nodes that are factories
 import { Factory } from '~/trays'
+// locals
 // styles
 import styles from './styles'
 
 
-// a tray with a flow node
+// a tray with factory nodes
 export const Calc = ({ els, style }) => {
     // get the set of basic {calc} operators
     const { operators } = useLazyLoadQuery(calcQuery)
@@ -26,7 +27,7 @@ export const Calc = ({ els, style }) => {
     return (
         <Tray title="calc operators" >
             {operators.map(op => (
-                <Factory key={op.family} factory={op} els={els} />
+                <Factory key={op.family} factory={op} els={els} style={style} />
             ))}
         </Tray >
     )
