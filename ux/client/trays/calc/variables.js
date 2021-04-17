@@ -19,9 +19,9 @@ import styles from './styles'
 
 
 // a tray with product nodes
-export const Traits = ({ els, style }) => {
+export const Variables = ({ els, style }) => {
     // get the set of basic traits from the server
-    const { traits } = useLazyLoadQuery(traitsQuery)
+    const { traits } = useLazyLoadQuery(varQuery)
 
     // paint me
     return (
@@ -35,7 +35,7 @@ export const Traits = ({ els, style }) => {
 
 
 // the query text
-const traitsQuery = graphql`query traitsQuery {
+const varQuery = graphql`query variablesQuery {
     traits {
         category
         schema

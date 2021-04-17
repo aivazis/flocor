@@ -4,45 +4,12 @@
 // (c) 1998-2021 all rights reserved
 
 
-// externals
-import React from 'react'
-import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
+// publish
 
-// project
-// i'm a tray
-import { Tray } from '~/widgets'
-// of nodes that are factories
-import { Factory } from '~/trays'
-// locals
-// styles
-import styles from './styles'
+// the tray with the calc variables
+export { Variables } from './variables'
+// the tray with the {calc} factories
+export { Operators } from './operators'
 
-
-// a tray with factory nodes
-export const Calc = ({ els, style }) => {
-    // get the set of basic {calc} operators
-    const { operators } = useLazyLoadQuery(calcQuery)
-
-    // paint me
-    return (
-        <Tray title="calc operators" >
-            {operators.map(op => (
-                <Factory key={op.family} factory={op} els={els} style={style} />
-            ))}
-        </Tray >
-    )
-}
-
-
-// the query string
-const calcQuery = graphql`query calcQuery {
-    operators {
-        category
-        family
-        inputs
-        outputs
-    }
-}
-`
 
 // end of file
