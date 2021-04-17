@@ -12,7 +12,7 @@ import { useInteractionContainer } from '~/views/flo2d'
 // widgets
 import { Shadow } from '~/widgets'
 // trays
-import { Traits, Calc } from '~/trays'
+import { Operators, Variables } from '~/trays/calc'
 // locals
 // context
 import { Provider } from './context'
@@ -36,8 +36,8 @@ const Trays = ({ style }) => {
     return (
         <section style={boxStyle}>
             <Shadow ref={appContainerRef} >
-                <Traits els={els} />
-                <Calc els={els} />
+                <Variables els={els} />
+                <Operators els={els} />
             </Shadow>
         </section>
     )
