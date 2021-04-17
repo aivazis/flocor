@@ -9,10 +9,8 @@
 // the entities that make up tray entries
 export { Item, Factory, Product } from './items'
 
-// the tray with all the base traits from pyre
-export { Traits } from './traits'
-// the tray with the {calc} factories
-export { Calc } from './calc'
+// the trays with the {calc} variables and operators
+export { Variables, Operators } from './calc'
 
 
 // end of file
