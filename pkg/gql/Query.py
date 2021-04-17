@@ -33,9 +33,9 @@ class Query(graphene.ObjectType):
                           name=graphene.String(default_value=""))
 
     # basic trait types from {pyre.schemata}
-    traits = graphene.List(graphene.NonNull(Trait))
+    calcVariables = graphene.List(graphene.NonNull(Trait))
     # basic operators from {pyre.calc}
-    operators = graphene.List(graphene.NonNull(Operator))
+    calcOperators = graphene.List(graphene.NonNull(Operator))
 
     # factories and products from a package
     catalog = graphene.Field(Catalog, required=True,
@@ -57,7 +57,7 @@ class Query(graphene.ObjectType):
 
 
     # basic trait types from {pyre.schemata}
-    def resolve_traits(root, info, **kwds):
+    def resolve_calcVariables(root, info, **kwds):
         """
         Generate a list of all trait types that the client can compute with
         """
@@ -66,7 +66,7 @@ class Query(graphene.ObjectType):
 
 
     # operators types from {pyre.calc}
-    def resolve_operators(root, info, **kwds):
+    def resolve_calcOperators(root, info, **kwds):
         """
         Generate a list of all known operators
         """
