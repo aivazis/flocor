@@ -143,9 +143,17 @@ type Producer {
   # producers have family names
   family: String!
   # inputs
-  inputs: [Specification!]!
+  inputs: [Slot!]!
   # and outputs
-  outputs: [Specification!]!
+  outputs: [Slot!]!
+}
+
+# a slot is a paring of a specification with a label; used in laying out producers
+type Slot {
+  # the name of the slot
+  name: String!
+  # and its type
+  spec: Specification!
 }
 
 
