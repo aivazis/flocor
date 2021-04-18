@@ -37,7 +37,6 @@ export const Variables = ({ els, style }) => {
 // the query text
 const varQuery = graphql`query variablesQuery {
     calcVariables {
-        category
         family
     }
 }`

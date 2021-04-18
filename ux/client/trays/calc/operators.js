@@ -37,7 +37,6 @@ export const Operators = ({ els, style }) => {
 // the query string
 const opQuery = graphql`query operatorsQuery {
     calcOperators {
-        category
         family
         inputs
         outputs

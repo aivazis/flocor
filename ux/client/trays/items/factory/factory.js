@@ -35,7 +35,7 @@ export const Factory = ({ factory, els, style }) => {
     const nodeStyle = { ...styles.node, ...style?.node }
     // paint me
     return (
-        <Item category={factory.category} family={factory.family} els={els} size={offset} >
+        <Item family={factory.family} els={els} size={offset} >
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                 width={width} height={height} style={nodeStyle}>
                 <g transform={place}>

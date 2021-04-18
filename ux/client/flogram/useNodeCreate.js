@@ -38,7 +38,6 @@ export const useNodeCreate = (flow) => {
             variables: {
                 info: {
                     // type info
-                    category: newNodeInfo.category,
                     family: newNodeInfo.family,
                     // position
                     ...position

@@ -43,8 +43,6 @@ type CreateNode {
 }
 
 input CreateNodeInput {
-  # the kind of node
-  category: String!
   # its family name
   family: String!
   # and its location on the diagram
@@ -124,13 +122,11 @@ type EvalEdge {
 
 # known product types
 type Trait {
-  category: String!
   family: String!
 }
 
 # known factory types
 type Operator {
-  category: String!
   family: String!
   inputs: [String!]
   outputs: [String!]

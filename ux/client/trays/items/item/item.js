@@ -18,14 +18,14 @@ import styles from './styles'
 
 // a tray item
 // it renders the graphic representation in {children}, followed by a {label}
-export const Item = ({ category, family, els, size, style, children }) => {
+export const Item = ({ family, els, size, style, children }) => {
     // make a callback that sets the cursor shadow when initiating node drag; clearing
     // the shadow is done by my parent when the mouse is released anywhere in its client area,
     // including within me
     const attachShadow = useAttachShadow(children, { x: -els * size.x, y: -els * size.y })
     // the other thing that has to happen when i get clicked is to register the type of node
     // i generate
-    const registerNode = useSetNewNode({ category, family })
+    const registerNode = useSetNewNode({ family })
     // assemble the selection callback
     const select = () => {
         // register the node info
