@@ -16,10 +16,12 @@ type Query {
 
   # the set of protocols for products and factories in a given package
   catalog(package: String = "flocor"): Catalog
-  # the set of simple trait types
-  calcVariables: [Trait!]!
-  # the set of known factories
-  calcOperators: [Operator!]!
+
+  # basic node from {pyre.calc}
+  # variables
+  calcVariables: [Specification!]!
+  # and operators
+  calcOperators: [Producer!]!
 
   # server version information
   version: Version!
@@ -117,19 +119,6 @@ type EvalConnection {
 type EvalEdge {
   node: Eval
   cursor: String!
-}
-
-
-# known product types
-type Trait {
-  family: String!
-}
-
-# known factory types
-type Operator {
-  family: String!
-  inputs: [String!]
-  outputs: [String!]
 }
 
 
