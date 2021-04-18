@@ -6,6 +6,9 @@
 
 # externals
 import graphene
+# local types
+from .Slot import Slot
+from .Specification import Specification
 
 
 # factory protocol
@@ -16,11 +19,8 @@ class Producer(graphene.ObjectType):
 
     # the fields
     family = graphene.String(required=True)
-
-    # the resolvers
-    def resolve_family(producer, info, **kwds):
-        # easy enough
-        return producer.pyre_family()
+    inputs = graphene.List(graphene.NonNull(Slot))
+    outputs = graphene.List(graphene.NonNull(Slot))
 
 
 # end of file
