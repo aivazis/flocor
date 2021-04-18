@@ -44,14 +44,14 @@ export const Shape = ({ factory, style }) => {
     // paint me
     return (
         <>
-            {inputs.map((product, idx) => {
+            {inputs.map((slot, idx) => {
                 // the x coordinate of the slot
                 const x = -(cell + 2)
                 // and the y coordinate
                 const y = 2 * idx + 1 - nInputs
                 // render
                 return (
-                    <g key={product} >
+                    <g key={slot.name} >
                         <path d={`M ${x} ${y} L ${x + 1} ${y} L -1 0`} style={bindingsStyle} />
                         <g transform={`translate(${x} ${y})`}>
                             <Slot />
@@ -59,14 +59,14 @@ export const Shape = ({ factory, style }) => {
                     </g>
                 )
             })}
-            {outputs.map((product, idx) => {
+            {outputs.map((slot, idx) => {
                 // the x coordinate of the slot
                 const x = cell + 2
                 // and the y coordinate
                 const y = 2 * idx + 1 - nOutputs
                 // render
                 return (
-                    <g key={product} >
+                    <g key={slot.name} >
                         <path d={`M ${x} ${y} L ${x - 1} ${y} L 1 0`} style={bindingsStyle} />
                         <g transform={`translate(${x} ${y})`}>
                             <Slot />
