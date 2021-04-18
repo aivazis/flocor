@@ -36,7 +36,7 @@ class Query(graphene.ObjectType):
     flow = graphene.Field(Flow, required=True,
                           name=graphene.String(default_value=""))
 
-    # basic flow nodes from {pyre.calcj}
+    # basic flow nodes from {pyre.calc}
     # variables
     calcVariables = graphene.List(graphene.NonNull(Specification))
     # operators
