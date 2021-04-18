@@ -11,11 +11,15 @@ import journal
 # the basic node interface
 from .Node import Node
 # local types
-from .Catalog import Catalog
-from .Flow import Flow
-from .Trait import Trait
-from .Operator import Operator
+# server version tag
 from .Version import Version
+# flow nodes
+from .Flow import Flow
+from .Specification import Specification
+from .Producer import Producer
+from .Slot import Slot
+# flow aware packages
+from .Catalog import Catalog
 
 
 # the query
@@ -32,10 +36,11 @@ class Query(graphene.ObjectType):
     flow = graphene.Field(Flow, required=True,
                           name=graphene.String(default_value=""))
 
-    # basic trait types from {pyre.schemata}
-    calcVariables = graphene.List(graphene.NonNull(Trait))
-    # basic operators from {pyre.calc}
-    calcOperators = graphene.List(graphene.NonNull(Operator))
+    # basic flow nodes from {pyre.calcj}
+    # variables
+    calcVariables = graphene.List(graphene.NonNull(Specification))
+    # operators
+    calcOperators = graphene.List(graphene.NonNull(Producer))
 
     # factories and products from a package
     catalog = graphene.Field(Catalog, required=True,
@@ -56,22 +61,66 @@ class Query(graphene.ObjectType):
         return panel
 
 
-    # basic trait types from {pyre.schemata}
+    # variables from {pyre.calc}
     def resolve_calcVariables(root, info, **kwds):
         """
-        Generate a list of all trait types that the client can compute with
+        Generate a list of {pyre.calc} variables
         """
-        # the type definition has a method that builds a list
-        return list(Trait.resolve())
+        # get {schemata} from pyre
+        import pyre.schemata
+        # make a list of the basic variable types from {pyre.calc}
+        variables = [
+            # the basic
+            Specification(family=f"pyre.calc.{pyre.schemata.bool.typename}"),
+            Specification(family=f"pyre.calc.{pyre.schemata.str.typename}"),
+            Specification(family=f"pyre.calc.{pyre.schemata.int.typename}"),
+            Specification(family=f"pyre.calc.{pyre.schemata.float.typename}"),
+            Specification(family=f"pyre.calc.{pyre.schemata.complex.typename}"),
+            # composites
+            Specification(family=f"pyre.calc.{pyre.schemata.path.typename}"),
+            Specification(family=f"pyre.calc.{pyre.schemata.dimensional.typename}"),
+            Specification(family=f"pyre.calc.{pyre.schemata.date.typename}"),
+            Specification(family=f"pyre.calc.{pyre.schemata.time.typename}"),
+            Specification(family=f"pyre.calc.{pyre.schemata.timestamp.typename}"),
+            # higher level types
+            Specification(family=f"pyre.calc.{pyre.schemata.istream.typename}"),
+            Specification(family=f"pyre.calc.{pyre.schemata.ostream.typename}"),
+            Specification(family=f"pyre.calc.{pyre.schemata.envvar.typename}"),
+        ]
+
+        # and return them
+        return variables
 
 
-    # operators types from {pyre.calc}
+    # operators from {pyre.calc}
     def resolve_calcOperators(root, info, **kwds):
         """
-        Generate a list of all known operators
+        Generate a list of {pyre.calc} operators
         """
-        # the type definition has a method that builds a list
-        return list(Operator.resolve())
+        # pick some names
+        names = "add", "sub", "mul", "div"
+
+        # and make a pile
+        operators = [
+            # of producers
+            Producer(
+                # with a type derived form their name
+                family=f"pyre.calc.{name}",
+                # that are binary operators
+                inputs=[
+                    Slot(name="op1", spec=Specification(family="pyre.calc.object")),
+                    Slot(name="op2", spec=Specification(family="pyre.calc.object"))
+                ],
+                # that return a single value
+                outputs = [
+                    Slot(name="value", spec=Specification(family="pyre.calc.object"))
+                ]
+            )
+            # out of their names
+            for name in names
+        ]
+        # and return it
+        return operators
 
 
     # catalog
