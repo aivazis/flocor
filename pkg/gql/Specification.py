@@ -17,10 +17,5 @@ class Specification(graphene.ObjectType):
     # the fields
     family = graphene.String(required=True)
 
-    # the resolvers
-    def resolve_family(specification, info, **kwds):
-        # easy enough
-        return specification.pyre_family()
-
 
 # end of file
