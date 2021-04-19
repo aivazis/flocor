@@ -35,6 +35,11 @@ type Query {
 type Mutation {
   # place a new node in the flow
   createNode(nodeinfo: CreateNodeInput!): CreateNode!
+
+  # {calc} nodes
+  addCalcVariable(info: NewNodeInput!): NewNodeInfo!
+  addCalcOperator(info: NewNodeInput!): NewNodeInfo!
+
   # move an existing n ode
   moveNode(nodeinfo: MoveNodeInput!): MoveNode!
 }
@@ -50,6 +55,24 @@ input CreateNodeInput {
   # and its location on the diagram
   x: Int!
   y: Int!
+}
+
+
+input NewNodeInput {
+  # the flow to which it belongs
+  flow: ID!
+  # the family name of the node
+  family: String!
+  # and its location in the diagram
+  x: Int!
+  y: Int!
+}
+
+type NewNodeInfo {
+  # the flow that owns the new node
+  flow: ID!
+  # and the node that was added
+  node: Node!
 }
 
 
