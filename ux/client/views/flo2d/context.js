@@ -16,6 +16,10 @@ export const Context = React.createContext(
     {
         // a ref to the interaction container
         containerRef: null,
+        // the mutator that adds a new node to the diagram
+        newNode: null,
+        setNewNode: () => { throw new Error('setNewNode: ' + complaint) }
+
     }
 )
 
@@ -24,11 +28,15 @@ export const Context = React.createContext(
 export const Provider = ({ children }) => {
     // make a ref
     const containerRef = React.useRef()
+    // the node mutator
+    const [newNode, setNewNode] = React.useState(null)
 
     // build the current value of the context
     const context = {
         // the interaction container
         containerRef,
+        // the node mutator
+        newNode, setNewNode,
     }
 
     // provide for my children
