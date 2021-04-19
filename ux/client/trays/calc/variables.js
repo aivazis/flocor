@@ -11,8 +11,8 @@ import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
 // project
 // i am a tray
 import { Tray } from '~/widgets'
-// of nodes that are products
-import { Product } from '~/trays'
+// of nodes that are variables
+import { Variable } from './variable'
 // locals
 // styles
 import styles from './styles'
@@ -26,8 +26,8 @@ export const Variables = ({ els, style }) => {
     // paint me
     return (
         <Tray title="calc variables" >
-            {calcVariables.map(trait => (
-                <Product key={trait.family} product={trait} els={els} style={style} />
+            {calcVariables.map(variable => (
+                <Variable key={variable.family} variable={variable} els={els} style={style} />
             ))}
         </Tray >
     )
