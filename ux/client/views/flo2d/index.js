@@ -13,6 +13,8 @@ export { Flo2d } from './flo2d'
 export { useNewNode } from './useNewNode'
 export { useSetNewNode } from './useSetNewNode'
 export { useClearNewNode } from './useClearNewNode'
+export { useCreateNewNode } from './useCreateNewNode'
+
 export { useInteractionContainer } from './useInteractionContainer'
 
 
