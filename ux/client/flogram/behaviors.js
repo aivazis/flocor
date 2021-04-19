@@ -11,16 +11,16 @@ import React from 'react'
 // hooks
 import { useEvent } from '~/hooks'
 import { useCamera } from '~/widgets/camera'
+import { useCreateNewNode } from '~/views/flo2d'
 // local
 import { useNodeMove } from './useNodeMove'
-import { useNodeCreate } from './useNodeCreate'
 import { useClearMovingNode } from './useClearMovingNode'
 
 
 // attach event listeners to the diagram
 export const Behaviors = React.forwardRef(({ flow }, viewRef) => {
-    // to create a new node
-    const { newNodeInfo, createNode } = useNodeCreate(flow)
+    // grab the creator of new node
+    const { newNode, createNode } = useCreateNewNode(flow)
 
     // to move a node
     const { moveNode, movingNodeInfo } = useNodeMove()
@@ -67,7 +67,7 @@ export const Behaviors = React.forwardRef(({ flow }, viewRef) => {
     // when the mouse is released in my area
     useEvent({
         name: "mouseup", listener: mouseUp, client: viewRef,
-        triggers: [newNodeInfo, movingNodeInfo]
+        triggers: [newNode, movingNodeInfo]
     })
     // when the mouse leaves my area
     useEvent({
