@@ -16,7 +16,7 @@ import styles from './styles'
 
 
 // a tray item with a factory
-export const Product = ({ product, els, style }) => {
+export const Product = ({ product, selector, els, style }) => {
     // build the bounding box of the product shape in grid cells
     const box = { x: 2, y: 2 }
     // in pixels, for sizing the {svg} viewport
@@ -32,7 +32,7 @@ export const Product = ({ product, els, style }) => {
     const nodeStyle = { ...styles.node, ...style?.node }
     // paint me
     return (
-        <Item family={product.family} els={els} size={offset} >
+        <Item family={product.family} selector={selector} els={els} size={offset} >
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                 width={width} height={height} style={nodeStyle}>
                 <g transform={place}>

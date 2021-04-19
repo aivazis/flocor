@@ -9,7 +9,6 @@ import React from 'react'
 
 // project
 // hooks
-import { useSetNewNode } from '~/views/nodelib'
 import { useAttachShadow } from '~/widgets/shadow'
 // locals
 // styles
@@ -18,18 +17,16 @@ import styles from './styles'
 
 // a tray item
 // it renders the graphic representation in {children}, followed by a {label}
-export const Item = ({ family, els, size, style, children }) => {
+// the selector is a function that registers a diagram mutator whenever i get clicked
+export const Item = ({ family, selector, els, size, style, children }) => {
     // make a callback that sets the cursor shadow when initiating node drag; clearing
     // the shadow is done by my parent when the mouse is released anywhere in its client area,
     // including within me
     const attachShadow = useAttachShadow(children, { x: -els * size.x, y: -els * size.y })
-    // the other thing that has to happen when i get clicked is to register the type of node
-    // i generate
-    const registerNode = useSetNewNode({ family })
     // assemble the selection callback
     const select = () => {
-        // register the node info
-        registerNode()
+        // invoke the selector
+        selector?.()
         // attach the cursor shadow
         attachShadow()
         // all done

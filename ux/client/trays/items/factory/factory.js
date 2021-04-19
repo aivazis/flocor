@@ -16,7 +16,7 @@ import styles from './styles'
 
 
 // a tray item with a factory
-export const Factory = ({ factory, els, style }) => {
+export const Factory = ({ factory, selector, els, style }) => {
     // build the bounding box of the factory shape in grid cells
     const box = {
         x: 8,
@@ -35,7 +35,7 @@ export const Factory = ({ factory, els, style }) => {
     const nodeStyle = { ...styles.node, ...style?.node }
     // paint me
     return (
-        <Item family={factory.family} els={els} size={offset} >
+        <Item family={factory.family} selector={selector} els={els} size={offset} >
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                 width={width} height={height} style={nodeStyle}>
                 <g transform={place}>
