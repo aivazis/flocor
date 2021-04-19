@@ -14,14 +14,12 @@ import { Shadow } from '~/widgets'
 // trays
 import { Operators, Variables } from '~/trays/calc'
 // locals
-// context
-import { Provider } from './context'
 // styles
 import styles from './styles'
 
 
 // the trays
-const Trays = ({ style }) => {
+export const NodeLibrary = ({ style }) => {
     // grab the app interaction element
     const appContainerRef = useInteractionContainer()
 
@@ -40,17 +38,6 @@ const Trays = ({ style }) => {
                 <Operators els={els} />
             </Shadow>
         </section>
-    )
-}
-
-
-// convert the tray section into a context provider
-export const NodeLibrary = () => {
-    // set up the context provider
-    return (
-        <Provider >
-            <Trays />
-        </Provider>
     )
 }
 
