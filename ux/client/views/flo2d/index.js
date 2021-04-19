@@ -9,6 +9,10 @@
 export { Flo2d } from './flo2d'
 
 // the hooks
+// its hooks
+export { useNewNode } from './useNewNode'
+export { useSetNewNode } from './useSetNewNode'
+export { useClearNewNode } from './useClearNewNode'
 export { useInteractionContainer } from './useInteractionContainer'
 
 

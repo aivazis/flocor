@@ -8,10 +8,5 @@
 // the view
 export { NodeLibrary } from './nodelib'
 
-// its hooks
-export { useNewNode } from './useNewNode'
-export { useSetNewNode } from './useSetNewNode'
-export { useClearNewNode } from './useClearNewNode'
-
 
 // end of file
