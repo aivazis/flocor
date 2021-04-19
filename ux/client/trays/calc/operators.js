@@ -11,8 +11,8 @@ import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
 // project
 // i'm a tray
 import { Tray } from '~/widgets'
-// of nodes that are factories
-import { Factory } from '~/trays'
+// of nodes that are operators
+import { Operator } from './operator'
 // locals
 // styles
 import styles from './styles'
@@ -26,8 +26,8 @@ export const Operators = ({ els, style }) => {
     // paint me
     return (
         <Tray title="calc operators" >
-            {calcOperators.map(op => (
-                <Factory key={op.family} factory={op} els={els} style={style} />
+            {calcOperators.map(operator => (
+                <Operator key={operator.family} operator={operator} els={els} style={style} />
             ))}
         </Tray >
     )
