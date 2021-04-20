@@ -19,10 +19,10 @@ import styles from './styles'
 
 // a tray with factory nodes
 export const Operator = ({ operator, els, style }) => {
+    // pull the handler that clears the new node info
+    const clearNode = useClearNewNode()
     // info
     const info = operator.family
-    // pull
-    const clearNode = useClearNewNode()
     // the mutator
     const mutator = (flow, position) => {
         // unpack the position
@@ -31,8 +31,10 @@ export const Operator = ({ operator, els, style }) => {
         console.log(`flow '${flow}': adding '${operator.family}' at (${x}, ${y})`)
         // clear the new node marker
         clearNode()
+        // all done
+        return
     }
-    // install
+    // install the pair as the item selector
     const selector = useSetNewNode({ info, mutator })
     // paint
     return (

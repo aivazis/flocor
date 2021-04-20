@@ -11,7 +11,7 @@ import React from 'react'
 // i'm a product
 import { Product } from '~/trays'
 // grab the new node context management gooks
-import { useSetNewNode } from '~/views/flo2d'
+import { useSetNewNode, useClearNewNode } from '~/views/flo2d'
 // locals
 // styles
 import styles from './styles'
@@ -19,6 +19,8 @@ import styles from './styles'
 
 // a tray with factory nodes
 export const Variable = ({ variable, els, style }) => {
+    // pull the handler that clears the new node info
+    const clearNode = useClearNewNode()
     // info
     const info = variable.family
     // the mutator
@@ -27,8 +29,12 @@ export const Variable = ({ variable, els, style }) => {
         const { x, y } = position
         // say something
         console.log(`flow '${flow}': adding '${variable.family}' at (${x}, ${y})`)
+        // clear the new node marker
+        clearNode()
+        // all done
+        return
     }
-    // install
+    // install the pair as the item selector
     const selector = useSetNewNode({ info, mutator })
     // paint
     return (
