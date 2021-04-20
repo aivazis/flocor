@@ -13,18 +13,10 @@ import { Context } from './context'
 
 // callback factory that clears the new node state
 export const useClearNewNode = () => {
-    // grab the new node mutator
-    const { setNewNode } = React.useContext(Context)
-
-    // make a callback that will clear the registered new node
-    const cancel = () => {
-        // register the new node
-        setNewNode(null)
-        // all done
-        return
-    }
-
-    return cancel
+    // grab the handler that resets the new node information
+    const { clearNewNode } = React.useContext(Context)
+    // and return it
+    return clearNewNode
 }
 
 

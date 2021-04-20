@@ -18,8 +18,8 @@ export const Context = React.createContext(
         containerRef: null,
         // the mutator that adds a new node to the diagram
         newNode: null,
-        setNewNode: () => { throw new Error('setNewNode: ' + complaint) }
-
+        setNewNode: () => { throw new Error('setNewNode: ' + complaint) },
+        clearNewNode: () => { throw new Error('clearNewNode: ' + complaint) },
     }
 )
 
@@ -30,13 +30,15 @@ export const Provider = ({ children }) => {
     const containerRef = React.useRef()
     // the node mutator
     const [newNode, setNewNode] = React.useState(null)
+    // build a handler that clear the new node info
+    const clearNewNode = () => { setNewNode(null) }
 
     // build the current value of the context
     const context = {
         // the interaction container
         containerRef,
         // the node mutator
-        newNode, setNewNode,
+        newNode, setNewNode, clearNewNode,
     }
 
     // provide for my children
