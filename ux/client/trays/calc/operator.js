@@ -11,7 +11,7 @@ import React from 'react'
 // i'm a factory
 import { Factory } from '~/trays'
 // grab the new node context management gooks
-import { useSetNewNode } from '~/views/flo2d'
+import { useSetNewNode, useClearNewNode } from '~/views/flo2d'
 // locals
 // styles
 import styles from './styles'
@@ -21,12 +21,16 @@ import styles from './styles'
 export const Operator = ({ operator, els, style }) => {
     // info
     const info = operator.family
+    // pull
+    const clearNode = useClearNewNode()
     // the mutator
     const mutator = (flow, position) => {
         // unpack the position
         const { x, y } = position
         // say something
         console.log(`flow '${flow}': adding '${operator.family}' at (${x}, ${y})`)
+        // clear the new node marker
+        clearNode()
     }
     // install
     const selector = useSetNewNode({ info, mutator })
