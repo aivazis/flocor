@@ -37,8 +37,8 @@ type Mutation {
   createNode(nodeinfo: CreateNodeInput!): CreateNode!
 
   # {calc} nodes
-  addCalcVariable(info: NewNodeInput!): NewNodeInfo!
-  addCalcOperator(info: NewNodeInput!): NewNodeInfo!
+  addCalcVariable(nodeinfo: NewNodeInput!): NewNodeInfo!
+  addCalcOperator(nodeinfo: NewNodeInput!): NewNodeInfo!
 
   # move an existing n ode
   moveNode(nodeinfo: MoveNodeInput!): MoveNode!
