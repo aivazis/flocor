@@ -8,9 +8,10 @@
 # the container
 from .Flow import Flow as flow
 
-# atoms
-from .Macro import Macro as macro
-# factories
+# calc
+# variables
+from .Variable import Variable as var
+# and operators
 from .Operator import Operator as operator
 
 
