@@ -31,8 +31,8 @@ class Flow(flocor.flow.workflow, family="flocor.flows.flow", implements=flocor.s
         """
         Attach a name to {node}
         """
-        # make an entry for {node} in my {macros
-        self.macros[node.pyre_name] = node
+        # make an entry for {node} in my table
+        self.nodes[node.pyre_name] = node
         # all done
         return
 
@@ -44,9 +44,9 @@ class Flow(flocor.flow.workflow, family="flocor.flows.flow", implements=flocor.s
         # discard from the node pile
         del self.nodes[node]
         # and if it has a name
-        if node.pyre_name in self.macros:
+        if node.pyre_name in self.nodes:
             # remove it from there as well
-            del self.macros[node.pyre_name]
+            del self.nodes[node.pyre_name]
         # all done
         return
 
@@ -60,8 +60,6 @@ class Flow(flocor.flow.workflow, family="flocor.flows.flow", implements=flocor.s
 
         # initialize the set of nodes
         self.nodes = {}
-        # initialize my node model, i.e the set of named nodes
-        self.macros = {}
 
         # all done
         return
