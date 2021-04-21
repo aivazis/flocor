@@ -12,7 +12,7 @@ import React from 'react'
 import { useSetMovingNode } from './useSetMovingNode'
 
 
-// render the flow nodes that are macros
+// position a node on  the diagram and add its behavior
 export const Node = ({ id, position, children }) => {
     // unpack the position of the node
     const { x, y } = position

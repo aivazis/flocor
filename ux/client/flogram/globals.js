@@ -8,7 +8,8 @@
 import React from 'react'
 
 
-// render the flow nodes that are macros
+// definitions that are global to the diagram rendering context
+// currently unused, now that there is a better way to mark the current cell
 export const Globals = () => {
     // set up some global definitions
     return (
