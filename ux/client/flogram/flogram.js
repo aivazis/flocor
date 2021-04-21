@@ -66,8 +66,6 @@ const flogramQuery = graphql`query flogramQuery {
     flow {
         # flow metadata
         id
-        name
-        family
         # product connection
         ...products_flow
         # factory connection
