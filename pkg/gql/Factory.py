@@ -14,7 +14,7 @@ from .Position import Position
 
 
 # operators from {pyre.calc}
-class Eval(graphene.ObjectType):
+class Factory(graphene.ObjectType):
     """
     An operator from {pyre.calc}
     """
@@ -31,7 +31,6 @@ class Eval(graphene.ObjectType):
 
     # representation
     position = graphene.Field(Position, required=True)
-
 
 
 # end of file

@@ -10,11 +10,11 @@ import graphene
 # my interface
 from .Node import Node
 # local basic types
-from .Eval import Eval
+from .Factory import Factory
 from .Product import Product
 from .Position import Position
 # connections
-from .EvalConnection import EvalConnection
+from .FactoryConnection import FactoryConnection
 from .ProductConnection import ProductConnection
 
 
@@ -36,7 +36,7 @@ class Flow(graphene.ObjectType):
     # products
     products = graphene.relay.ConnectionField(ProductConnection)
     # factories
-    evaluators = graphene.relay.ConnectionField(EvalConnection)
+    factories = graphene.relay.ConnectionField(FactoryConnection)
 
 
     # resolvers
@@ -61,7 +61,7 @@ class Flow(graphene.ObjectType):
         return flow.pyre_family()
 
 
-    def resolve_evaluators(panel, info, **kwds):
+    def resolve_factories(panel, info, **kwds):
         # unpack
         flow = panel.flow
         layout = panel.layout

@@ -8,11 +8,11 @@
 import graphene
 
 # my node type
-from .Eval import Eval
+from .Factory import Factory
 
 
 # a flow node that represents an operator:w
-class EvalConnection(graphene.relay.Connection):
+class FactoryConnection(graphene.relay.Connection):
     """
     A connection to a list of operators
     """
@@ -21,7 +21,7 @@ class EvalConnection(graphene.relay.Connection):
     # {graphene} metadata
     class Meta:
         # register my node type
-        node = Eval
+        node = Factory
 
 
 # end of file
