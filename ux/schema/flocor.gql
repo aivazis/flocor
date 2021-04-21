@@ -99,28 +99,28 @@ type Flow implements Node {
   # and its type
   family: String!
 
-  # the set of macros
-  macros(after: String, first: Int, before: String, last: Int): MacroConnection!
+  # the set of products
+  products(after: String, first: Int, before: String, last: Int): ProductConnection!
   evaluators(after: String, first: Int, before: String, last: Int): EvalConnection!
 }
 
 
-# a macro is a named+typed variable
-type Macro implements Node {
+# a product is a named+typed variable
+type Product implements Node {
   id: ID!
   name: String
   family: String!
   position: Position!
 }
 
-# support for macro connections
-type MacroConnection {
-  edges: [MacroEdge]
+# support for product connections
+type ProductConnection {
+  edges: [ProductEdge]
   pageInfo: PageInfo!
 }
 
-type MacroEdge {
-  node: Macro
+type ProductEdge {
+  node: Product
   cursor: String!
 }
 
@@ -133,9 +133,9 @@ type Eval implements Node {
   position: Position!
 }
 
-# support for macro connections
+# support for product connections
 type EvalConnection {
-  edges: [MacroEdge]
+  edges: [ProductEdge]
   pageInfo: PageInfo!
 }
 
