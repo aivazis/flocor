@@ -90,7 +90,7 @@ type Flow implements Node {
 
   # the set of products
   products(after: String, first: Int, before: String, last: Int): ProductConnection!
-  evaluators(after: String, first: Int, before: String, last: Int): EvalConnection!
+  factories(after: String, first: Int, before: String, last: Int): FactoryConnection!
 }
 
 
@@ -115,7 +115,7 @@ type ProductEdge {
 
 
 # factories
-type Eval implements Node {
+type Factory implements Node {
   id: ID!
   name: String
   family: String!
@@ -123,13 +123,13 @@ type Eval implements Node {
 }
 
 # support for factory connections
-type EvalConnection {
-  edges: [ProductEdge]
+type FactoryConnection {
+  edges: [FactoryEdge]
   pageInfo: PageInfo!
 }
 
-type EvalEdge {
-  node: Eval
+type FactoryEdge {
+  node: Factory
   cursor: String!
 }
 
