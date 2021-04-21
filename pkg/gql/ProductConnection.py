@@ -8,20 +8,20 @@
 import graphene
 
 # my node type
-from .Macro import Macro
+from .Product import Product
 
 
 # a flow node that represents a typed+named variable
-class MacroConnection(graphene.relay.Connection):
+class ProductConnection(graphene.relay.Connection):
     """
-    A connection to a list of macros
+    A connection to a list of products
     """
 
 
     # {graphene} metadata
     class Meta:
         # register my node type
-        node = Macro
+        node = Product
 
 
 # end of file

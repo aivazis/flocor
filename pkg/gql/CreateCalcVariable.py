@@ -11,7 +11,7 @@ import flocor
 # the node interface
 from .Node import Node
 # local types
-from .Macro import Macro
+from .Product import Product
 from .Position import Position
 # the class that holds the new node metadata that is input to the mutation
 from .NewNodeInput import NewNodeInput
@@ -48,15 +48,15 @@ class CreateCalcVariable(graphene.Mutation):
         # and its {layout}
         layout = panel.layout
 
-        # make a {macro}; we don't have a name for it yet
+        # make a {product}; we don't have a name for it yet
         var = flocor.flows.var(family=family)
         # add it to the flow
         flow.addNode(node=var)
         # and the layout
         layout[var.pyre_id] = {"x": x, "y": y}
 
-        # make a macro node
-        node = Macro(id=var.pyre_id, family=family, position=Position(x=x, y=y))
+        # make a product node
+        node = Product(id=var.pyre_id, family=family, position=Position(x=x, y=y))
         # attach it and return it
         return CreateCalcVariable(node=node)
 

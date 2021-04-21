@@ -11,11 +11,11 @@ import graphene
 from .Node import Node
 # local basic types
 from .Eval import Eval
-from .Macro import Macro
+from .Product import Product
 from .Position import Position
 # connections
 from .EvalConnection import EvalConnection
-from .MacroConnection import MacroConnection
+from .ProductConnection import ProductConnection
 
 
 # trait types from {pyre.schemata}
@@ -34,7 +34,7 @@ class Flow(graphene.ObjectType):
     name = graphene.String(required=True)
     family = graphene.String(required=True)
     # products
-    macros = graphene.relay.ConnectionField(MacroConnection)
+    products = graphene.relay.ConnectionField(ProductConnection)
     # factories
     evaluators = graphene.relay.ConnectionField(EvalConnection)
 
@@ -69,13 +69,13 @@ class Flow(graphene.ObjectType):
         return []
 
 
-    def resolve_macros(panel, info, **kwds):
+    def resolve_products(panel, info, **kwds):
         # unpack
         flow = panel.flow
         layout = panel.layout
 
         # make a pile
-        macros = []
+        products = []
 
         # go through the nodes in {flow}
         for guid, node in flow.nodes.items():
@@ -85,13 +85,13 @@ class Flow(graphene.ObjectType):
             x = position["x"]
             y = position["y"]
             # represent
-            macro = Macro(id=guid, name=node.pyre_name, family=node.pyre_schema.typename,
+            product = Product(id=guid, name=node.pyre_name, family=node.pyre_schema.typename,
                         position=Position(x=x, y=y))
             # and add to the pile
-            macros.append(macro)
+            products.append(product)
 
         # return the pile
-        return macros
+        return products
 
 
 # end of file

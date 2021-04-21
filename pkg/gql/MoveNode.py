@@ -12,7 +12,7 @@ import flocor
 # the node interface
 from .Node import Node
 # local types
-from .Macro import Macro
+from .Product import Product
 from .Position import Position
 from .MoveNodeInput import MoveNodeInput
 
@@ -53,9 +53,9 @@ class MoveNode(graphene.Mutation):
         type, _ = id.split(':')
 
         # build the correct return type
-        if type == "Macro":
-            # build a macro
-            node = Macro(id=id, position=Position(x=x, y=y))
+        if type == "Product":
+            # build a product
+            node = Product(id=id, position=Position(x=x, y=y))
         # anything else
         else:
             # get the journal

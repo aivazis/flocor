@@ -14,7 +14,7 @@ from .Position import Position
 
 
 # a flow node that represents a typed+named variable
-class Macro(graphene.ObjectType):
+class Product(graphene.ObjectType):
     """
     A basic named node
     """
