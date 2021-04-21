@@ -23,6 +23,7 @@ import { Behaviors } from './behaviors'
 import { Grid } from './grid'
 // diagram nodes
 import { Products } from './products'
+import { Factories } from './factories'
 // styles
 import styles from './styles'
 
@@ -51,6 +52,8 @@ const Diagram = () => {
                     <Compass />
                     {/* products */}
                     <Products flow={flow} />
+                    {/* factories */}
+                    <Factories flow={flow} />
                 </Camera >
             </svg>
         </section>
@@ -67,6 +70,8 @@ const flogramQuery = graphql`query flogramQuery {
         family
         # product connection
         ...products_flow
+        # factory connection
+        ...factories_flow
    }
 }`
 
