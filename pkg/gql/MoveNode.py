@@ -12,6 +12,7 @@ import flocor
 # the node interface
 from .Node import Node
 # local types
+from .Factory import Factory
 from .Product import Product
 from .Position import Position
 from .MoveNodeInput import MoveNodeInput
@@ -52,10 +53,17 @@ class MoveNode(graphene.Mutation):
         # extract the type of the node
         type, _ = id.split(':')
 
-        # build the correct return type
+        # buld the position
+        position = Position(x=x, y=y)
+
+        # build the correct return type; for products
         if type == "Product":
             # build a product
-            node = Product(id=id, position=Position(x=x, y=y))
+            node = Product(id=id, position=position)
+        # for facrories
+        elif type == "Factory":
+            # build a factory
+            node = Factory(id=id, position=position)
         # anything else
         else:
             # get the journal
