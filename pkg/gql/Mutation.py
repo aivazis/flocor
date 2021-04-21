@@ -8,8 +8,11 @@
 import graphene
 
 # the mutations
-from .MoveNode import MoveNode
+# adding calc nodes to the flow
+from .CreateCalcOperator import CreateCalcOperator
 from .CreateCalcVariable import CreateCalcVariable
+# node movement
+from .MoveNode import MoveNode
 
 
 # the mutation anchor
@@ -18,9 +21,11 @@ class Mutation(graphene.ObjectType):
     The mutation registrar
     """
 
-    # mutations that add calc nodes to a flow
+    # calc
+    # add a variable
     addCalcVariable = CreateCalcVariable.Field()
-
+    # add an operator
+    addCalcOperator = CreateCalcOperator.Field()
 
     # move an existing node
     moveNode = MoveNode.Field()

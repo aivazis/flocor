@@ -65,8 +65,25 @@ class Flow(graphene.ObjectType):
         # unpack
         flow = panel.flow
         layout = panel.layout
-        # return an empty pile, for now
-        return []
+
+        # make a pile
+        factories = []
+
+        # go through the factories in {flow}
+        for guid, node in flow.factories.items():
+            # look up its position
+            position = layout[guid]
+            # unpack
+            x = position["x"]
+            y = position["y"]
+            # represent
+            factory = Factory(id=guid, name=node.pyre_name, family=node.pyre_family,
+                        position=Position(x=x, y=y))
+            # and add to the pile
+            factories.append(factory)
+
+        # return the pile
+        return factories
 
 
     def resolve_products(panel, info, **kwds):
@@ -77,8 +94,8 @@ class Flow(graphene.ObjectType):
         # make a pile
         products = []
 
-        # go through the nodes in {flow}
-        for guid, node in flow.nodes.items():
+        # go through the products in {flow}
+        for guid, node in flow.products.items():
             # look up its position
             position = layout[guid]
             # unpack
