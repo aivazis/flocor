@@ -33,8 +33,6 @@ type Query {
 
 # mutations
 type Mutation {
-  # place a new node in the flow
-  createNode(nodeinfo: CreateNodeInput!): CreateNode!
 
   # {calc} nodes
   addCalcVariable(nodeinfo: NewNodeInput!): NewNodeInfo!
@@ -44,20 +42,8 @@ type Mutation {
   moveNode(nodeinfo: MoveNodeInput!): MoveNode!
 }
 
-type CreateNode {
-  # return the newly created node
-  node: Node!
-}
 
-input CreateNodeInput {
-  # its family name
-  family: String!
-  # and its location on the diagram
-  x: Int!
-  y: Int!
-}
-
-
+# the input payload to the mutation that adds nodes to the diagram
 input NewNodeInput {
   # the flow to which it belongs
   flow: ID!
@@ -68,6 +54,7 @@ input NewNodeInput {
   y: Int!
 }
 
+# the result payload for the mutation that adds nodes to the diagram
 type NewNodeInfo {
   # the flow that owns the new node
   flow: ID!
@@ -76,11 +63,7 @@ type NewNodeInfo {
 }
 
 
-type MoveNode {
-  # refresh the information of the moving node
-  node: Node!
-}
-
+# the input payload to the mutation that moves nodes around
 input MoveNodeInput {
   # the id of the moving node
   id: ID!
@@ -89,6 +72,12 @@ input MoveNodeInput {
   y: Int!
 }
 
+
+# the result payload for the mutation that moves nodes around
+type MoveNode {
+  # refresh the information of the moving node
+  node: Node!
+}
 
 # the flow
 type Flow implements Node {
@@ -125,7 +114,7 @@ type ProductEdge {
 }
 
 
-# a eval node is produces output given some inputs
+# factories
 type Eval implements Node {
   id: ID!
   name: String
@@ -133,7 +122,7 @@ type Eval implements Node {
   position: Position!
 }
 
-# support for product connections
+# support for factory connections
 type EvalConnection {
   edges: [ProductEdge]
   pageInfo: PageInfo!
@@ -189,6 +178,14 @@ type Version {
 }
 
 
+# basic types
+type Position {
+  # the diagram coordinates of a node
+  x: Int!
+  y: Int!
+}
+
+
 # interfaces
 # the flow node interface
 interface Node {
@@ -198,13 +195,6 @@ interface Node {
   position: Position
 }
 
-
-# basic types
-type Position {
-  # the diagram coordinates of a node
-  x: Int!
-  y: Int!
-}
 
 # boilerplate for connections
 type PageInfo {
