@@ -15,14 +15,14 @@ class Operator:
 
 
     # metamethods
-    def __init__(self, name=None, family="int", **kwds):
+    def __init__(self, name=None, family=None, **kwds):
         # chain up
         super().__init__(**kwds)
 
         # make a uuid
         gid = uuid.uuid1()
         # build my id by folding in my type
-        self.pyre_id = f"Eval:{gid}"
+        self.pyre_id = f"Factory:{gid}"
         # attach my name
         self.pyre_name = name
         # look up my type
