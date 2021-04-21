@@ -24,8 +24,8 @@ class Variable:
 
         # make a uuid
         gid = uuid.uuid1()
-        # build my id by folding in my type
-        self.pyre_id = f"Variable:{gid}"
+        # build my id by folding in my type; i'm a product
+        self.pyre_id = f"Product:{gid}"
         # attach my name
         self.pyre_name = name
         # look up my type
