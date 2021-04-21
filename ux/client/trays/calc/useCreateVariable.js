@@ -39,13 +39,18 @@ export const useCreateVariable = (product) => {
             // the {updater} that adjusts the {relay} store on successful commit
             updater: (store) => {
                 const result = store.getRootField("addCalcVariable")
-                // tell me
-                console.log("adjusting the store:", store)
                 // if we don't have one yet
                 if (!result) {
                     // bail
                     return
                 }
+
+                // MGA
+                // update the store
+                // tell me
+                console.log("adjusting the store:", store)
+                //
+
                 // all done
                 return
             }

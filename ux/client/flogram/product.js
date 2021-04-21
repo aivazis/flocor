@@ -8,29 +8,27 @@
 import React from 'react'
 import { graphql, useFragment } from 'react-relay/hooks'
 // project
-import { Product } from '~/shapes'
+import { Product as Shape } from '~/shapes'
 // local
 import { Node } from './node'
 
 
-// render the flow nodes that are macros
-export const Macro = (props) => {
-    const macro = useFragment(graphql`
-        fragment macro_macro on Macro {
+// render the flow nodes that are products
+export const Product = (props) => {
+    const product = useFragment(graphql`
+        fragment product_product on Product {
             id
-            name
-            family
             position {
                 x
                 y
             }
         }
-    `, props.macro)
+    `, props.product)
 
     // render
     return (
-        <Node id={macro.id} position={macro.position} >
-            <Product />
+        <Node id={product.id} position={product.position} >
+            <Shape />
         </Node>
     )
 }
