@@ -33,8 +33,7 @@ class Query(graphene.ObjectType):
     # node lookup
     node = Node.Field()
     # the flow graph
-    flow = graphene.Field(Flow, required=True,
-                          name=graphene.String(default_value=""))
+    flow = graphene.Field(Flow, required=True, name=graphene.String(default_value=""))
 
     # basic flow nodes from {pyre.calc}
     # variables
