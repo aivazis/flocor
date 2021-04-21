@@ -19,7 +19,7 @@ import styles from './styles'
 
 // a tray with factory nodes
 export const Variable = ({ variable, els, style }) => {
-    // install the pair as the item selector
+    // buld the item selector
     const selector = useCreateVariable(variable)
     // paint
     return (
