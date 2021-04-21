@@ -21,7 +21,8 @@ export const useCreateVariable = (product) => {
     // build the mutation that sends the new node info to the server
     const [commitCreateVariable, isInFlight] = useMutation(createVariableMutation)
 
-    // make a mutator
+    // make the mutator; {flow} is redundant and can be used to do a consistency check
+    // that the server added the node to the correct flow
     const mutator = (flow, position) => {
         // that commits the new node to its flow
         commitCreateVariable({
@@ -38,6 +39,7 @@ export const useCreateVariable = (product) => {
             },
             // the {updater} that adjusts the {relay} store on successful commit
             updater: (store) => {
+                // get the result payload
                 const result = store.getRootField("addCalcVariable")
                 // if we don't have one yet
                 if (!result) {
@@ -45,21 +47,26 @@ export const useCreateVariable = (product) => {
                     return
                 }
 
-                // MGA
-                // update the store
-                // tell me
-                console.log("adjusting the store:", store)
-                //
+                // grab the flow that owns the new node
+                const owner = result.getValue("flow")
+                // extract the new node
+                const node = result.getLinkedRecord("node")
+
+                // get a proxy to the connection that will own the new product
+                const products = ConnectionHandler.getConnection(
+                    store.get(owner),
+                    "productsFragment_products"
+                )
+
+                // create an edge with the product we just made
+                const edge = ConnectionHandler.createEdge(store, products, node, 'ProductEdge')
+                // and the new edge to the connection
+                ConnectionHandler.insertEdgeAfter(products, edge)
 
                 // all done
                 return
             }
         })
-
-        // unpack the position
-        const { x, y } = position
-        // say something
-        console.log(`new flow '${flow}': adding '${info.family}' at (${x}, ${y})`)
 
         // clear the new node marker
         clearNode()
@@ -86,7 +93,10 @@ mutation useCreateVariableMutation($info: NewNodeInput!) {
         # a description of the newly created node
         node {
             id
-            # i need to ask for more stuff here
+            position {
+                x
+                y
+            }
         }
     }
 }`
