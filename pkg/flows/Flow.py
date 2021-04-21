@@ -16,37 +16,52 @@ class Flow(flocor.flow.workflow, family="flocor.flows.flow", implements=flocor.s
     An undifferentiated container for flow nodes
     """
 
-
-    def addNode(self, node):
+    # factoriies
+    def addFactory(self, node):
         """
         Add a new {node} to the set
         """
         # easy enough
-        self.nodes[node.pyre_id] = node
+        self.factories[node.pyre_id] = node
         # all done
         return
 
 
-    def nameNode(self, node):
-        """
-        Attach a name to {node}
-        """
-        # make an entry for {node} in my table
-        self.nodes[node.pyre_name] = node
-        # all done
-        return
-
-
-    def removeNode(self, node):
+    def removeFactory(self, node):
         """
         Remove {node} from the environment
         """
         # discard from the node pile
-        del self.nodes[node]
+        del self.factories[node]
         # and if it has a name
-        if node.pyre_name in self.nodes:
+        if node.pyre_name in self.factories:
             # remove it from there as well
-            del self.nodes[node.pyre_name]
+            del self.factories[node.pyre_name]
+        # all done
+        return
+
+
+    # products
+    def addProduct(self, node):
+        """
+        Add a new {node} to the set
+        """
+        # easy enough
+        self.products[node.pyre_id] = node
+        # all done
+        return
+
+
+    def removeProduct(self, node):
+        """
+        Remove {node} from the environment
+        """
+        # discard from the node pile
+        del self.products[node]
+        # and if it has a name
+        if node.pyre_name in self.products:
+            # remove it from there as well
+            del self.products[node.pyre_name]
         # all done
         return
 
@@ -58,8 +73,9 @@ class Flow(flocor.flow.workflow, family="flocor.flows.flow", implements=flocor.s
         # set my uuid
         self.pyre_id = uuid.uuid1()
 
-        # initialize the set of nodes
-        self.nodes = {}
+        # initialize the sets of nodes
+        self.factories = {}
+        self.products = {}
 
         # all done
         return
