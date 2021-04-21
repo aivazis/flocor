@@ -36,14 +36,15 @@ class CreateCalcVariable(graphene.Mutation):
 
     def mutate(root, info, nodeinfo):
         # unpack the node info
-        flow = nodeinfo["flow"]
+        owner = nodeinfo["flow"]
         family = nodeinfo["family"]
         x = nodeinfo["x"]
         y = nodeinfo["y"]
 
         # get the panel
         panel = info.context["panel"]
-        # so we can grab the {flow}
+        # so we can grab the {flow}; we can use {owner} to do a consistency check that
+        # the node is being added to the correct graph
         flow = panel.flow
         # and its {layout}
         layout = panel.layout
@@ -58,7 +59,7 @@ class CreateCalcVariable(graphene.Mutation):
         # make a product node
         node = Product(id=var.pyre_id, family=family, position=Position(x=x, y=y))
         # attach it and return it
-        return CreateCalcVariable(node=node)
+        return CreateCalcVariable(flow=owner, node=node)
 
 
 # end of file
