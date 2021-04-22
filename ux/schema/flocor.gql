@@ -31,54 +31,6 @@ type Query {
 }
 
 
-# mutations
-type Mutation {
-
-  # {calc} nodes
-  addCalcVariable(nodeinfo: NewNodeInput!): NewNodeInfo!
-  addCalcOperator(nodeinfo: NewNodeInput!): NewNodeInfo!
-
-  # move an existing n ode
-  moveNode(nodeinfo: MoveNodeInput!): MoveNode!
-}
-
-
-# the input payload to the mutation that adds nodes to the diagram
-input NewNodeInput {
-  # the flow to which it belongs
-  flow: ID!
-  # the family name of the node
-  family: String!
-  # and its location in the diagram
-  x: Int!
-  y: Int!
-}
-
-# the result payload for the mutation that adds nodes to the diagram
-type NewNodeInfo {
-  # the flow that owns the new node
-  flow: ID!
-  # and the node that was added
-  node: Node!
-}
-
-
-# the input payload to the mutation that moves nodes around
-input MoveNodeInput {
-  # the id of the moving node
-  id: ID!
-  # and its new location on the diagram
-  x: Int!
-  y: Int!
-}
-
-
-# the result payload for the mutation that moves nodes around
-type MoveNode {
-  # refresh the information of the moving node
-  node: Node!
-}
-
 # the flow
 type Flow implements Node {
   # flow identification
@@ -178,7 +130,57 @@ type Version {
 }
 
 
+# mutations
+type Mutation {
+
+  # {calc} nodes
+  addCalcVariable(nodeinfo: NewNodeInput!): NewNodeInfo!
+  addCalcOperator(nodeinfo: NewNodeInput!): NewNodeInfo!
+
+  # move an existing n ode
+  moveNode(nodeinfo: MoveNodeInput!): MoveNode!
+}
+
+
+# the input payload to the mutation that adds nodes to the diagram
+input NewNodeInput {
+  # the flow to which it belongs
+  flow: ID!
+  # the family name of the node
+  family: String!
+  # and its location in the diagram
+  x: Int!
+  y: Int!
+}
+
+# the result payload for the mutation that adds nodes to the diagram
+type NewNodeInfo {
+  # the flow that owns the new node
+  flow: ID!
+  # and the node that was added
+  node: Node!
+}
+
+
+# the input payload to the mutation that moves nodes around
+input MoveNodeInput {
+  # the id of the moving node
+  id: ID!
+  # and its new location on the diagram
+  x: Int!
+  y: Int!
+}
+
+
+# the result payload for the mutation that moves nodes around
+type MoveNode {
+  # refresh the information of the moving node
+  node: Node!
+}
+
+
 # basic types
+# node position
 type Position {
   # the diagram coordinates of a node
   x: Int!
