@@ -38,12 +38,8 @@ export const Operators = ({ els, style }) => {
 const opQuery = graphql`query operatorsQuery {
     calcOperators {
         family
-        inputs {
-            name
-        }
-        outputs {
-            name
-        }
+        inputs
+        outputs
     }
 }
 `
