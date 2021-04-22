@@ -42,7 +42,10 @@ type Flow implements Node {
 
   # the set of products
   products(after: String, first: Int, before: String, last: Int): ProductConnection!
+  # the set of factories
   factories(after: String, first: Int, before: String, last: Int): FactoryConnection!
+  # the set of unbound product slots
+  # slots(after: String, first: Int, before: String, last: Int): SlotConnection!
 }
 
 
@@ -107,9 +110,9 @@ type Producer {
   # producers have family names
   family: String!
   # inputs
-  inputs: [Slot!]!
+  inputs: [String!]!
   # and outputs
-  outputs: [Slot!]!
+  outputs: [String!]!
 }
 
 # a slot is a paring of a specification with a label; used in laying out producers
@@ -117,7 +120,7 @@ type Slot {
   # the name of the slot
   name: String!
   # and its type
-  spec: Specification!
+  family: String!
 }
 
 
