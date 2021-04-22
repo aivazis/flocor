@@ -7,7 +7,6 @@
 # externals
 import graphene
 # local types
-from .Slot import Slot
 from .Specification import Specification
 
 
@@ -19,8 +18,8 @@ class Producer(graphene.ObjectType):
 
     # the fields
     family = graphene.String(required=True)
-    inputs = graphene.List(graphene.NonNull(Slot))
-    outputs = graphene.List(graphene.NonNull(Slot))
+    inputs = graphene.List(graphene.NonNull(graphene.String))
+    outputs = graphene.List(graphene.NonNull(graphene.String))
 
 
 # end of file

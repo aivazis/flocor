@@ -17,7 +17,6 @@ from .Version import Version
 from .Flow import Flow
 from .Specification import Specification
 from .Producer import Producer
-from .Slot import Slot
 # flow aware packages
 from .Catalog import Catalog
 
@@ -107,12 +106,12 @@ class Query(graphene.ObjectType):
                 family=f"pyre.calc.{name}",
                 # that are binary operators
                 inputs=[
-                    Slot(name="op1", spec=Specification(family="pyre.calc.object")),
-                    Slot(name="op2", spec=Specification(family="pyre.calc.object"))
+                    "op1",
+                    "op2",
                 ],
                 # that return a single value
                 outputs = [
-                    Slot(name="value", spec=Specification(family="pyre.calc.object"))
+                    "value",
                 ]
             )
             # out of their names
