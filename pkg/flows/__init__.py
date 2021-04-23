@@ -12,6 +12,7 @@ from .Flow import Flow as flow
 # the nodes
 from .Product import Product
 
+
 # calc
 # variables
 def var(family):
@@ -26,8 +27,30 @@ def var(family):
     return product
 
 
+def calcVariables():
+    """
+    Enumerate the accessible schemata for {pyre.calc} variables
+    """
+    # grab the known {pyre} types
+    import pyre.schemata
+    # the types of interest
+    types = [
+        "str",
+        "bool", "int", "float", "complex",
+        "path", "dimensional", "date", "time", "timestamp",
+        "istream", "ostream", "envvar",
+    ]
+    # go through them
+    for typename in types:
+        # look up the schema
+        schema = getattr(pyre.schemata, typename)
+        # convert it into a family name and make it available
+        yield f"pyre.calc.{schema.typename}"
+    # all done
+    return
 
-# and operators
+
+# calc operators
 from .Operator import Operator as operator
 
 
