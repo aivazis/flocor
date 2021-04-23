@@ -8,6 +8,9 @@
 import graphene
 import journal
 
+# framework
+import flocor
+
 # the basic node interface
 from .Node import Node
 # local types
@@ -64,26 +67,9 @@ class Query(graphene.ObjectType):
         """
         Generate a list of {pyre.calc} variables
         """
-        # get {schemata} from pyre
-        import pyre.schemata
         # make a list of the basic variable types from {pyre.calc}
         variables = [
-            # the basic
-            Specification(family=f"pyre.calc.{pyre.schemata.bool.typename}"),
-            Specification(family=f"pyre.calc.{pyre.schemata.str.typename}"),
-            Specification(family=f"pyre.calc.{pyre.schemata.int.typename}"),
-            Specification(family=f"pyre.calc.{pyre.schemata.float.typename}"),
-            Specification(family=f"pyre.calc.{pyre.schemata.complex.typename}"),
-            # composites
-            Specification(family=f"pyre.calc.{pyre.schemata.path.typename}"),
-            Specification(family=f"pyre.calc.{pyre.schemata.dimensional.typename}"),
-            Specification(family=f"pyre.calc.{pyre.schemata.date.typename}"),
-            Specification(family=f"pyre.calc.{pyre.schemata.time.typename}"),
-            Specification(family=f"pyre.calc.{pyre.schemata.timestamp.typename}"),
-            # higher level types
-            Specification(family=f"pyre.calc.{pyre.schemata.istream.typename}"),
-            Specification(family=f"pyre.calc.{pyre.schemata.ostream.typename}"),
-            Specification(family=f"pyre.calc.{pyre.schemata.envvar.typename}"),
+            Specification(family=family) for family in flocor.flows.calcVariables()
         ]
 
         # and return them
