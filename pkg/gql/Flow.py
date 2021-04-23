@@ -106,7 +106,7 @@ class Flow(graphene.ObjectType):
             x = position["x"]
             y = position["y"]
             # represent
-            product = Product(id=guid, name=node.pyre_name, family=node.pyre_schema.typename,
+            product = Product(id=guid, name=node.pyre_name, family=node.pyre_family,
                         position=Position(x=x, y=y))
             # and add to the pile
             products.append(product)
