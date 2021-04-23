@@ -11,7 +11,7 @@ import flocor
 
 
 # a simple node
-class Variable:
+class Product:
 
 
     # metamethods
@@ -19,17 +19,14 @@ class Variable:
         # chain up
         super().__init__(**kwds)
 
-        # extract the schema
-        schema = family.split('.')[-1]
-
         # make a uuid
         gid = uuid.uuid1()
-        # build my id by folding in my type; i'm a product
+        # build my id by folding in my type
         self.pyre_id = f"Product:{gid}"
         # attach my name
         self.pyre_name = name
         # look up my type
-        self.pyre_schema = getattr(flocor.schemata, schema)
+        self.pyre_family = family
 
         # all done
         return
