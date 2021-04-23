@@ -7,15 +7,14 @@
 // externals
 import React from 'react'
 import { graphql, useFragment } from 'react-relay/hooks'
+// local
+import { Slot } from './slot'
 
 
 // render the flow nodes that are products
 export const Slots = ({ flow }) => {
     // extract the list of products
     const { slots } = useFragment(slotsFragment, flow)
-    console.log(slots)
-    // render
-    return null
     // render
     return (
         <>
@@ -36,7 +35,8 @@ const slotsFragment = graphql`
             edges {
                 node {
                     id
-                    # ...slot_slot
+                    # the slot
+                    ...slot_slot
                 }
                 cursor
             }
