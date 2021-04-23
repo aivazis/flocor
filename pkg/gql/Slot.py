@@ -6,8 +6,11 @@
 
 # externals
 import graphene
-# local types
-from .Specification import Specification
+
+# my interface
+from .Node import Node
+# field types
+from .Position import Position
 
 
 # a factory slot
@@ -16,9 +19,18 @@ class Slot(graphene.ObjectType):
     {Slot} captures the relationship between a {product} and its named slot in a {factory}
     """
 
+    # {graphene} metadata
+    class Meta:
+        # register my interface
+        interfaces = Node,
+
     # the fields
+    id = graphene.ID()
     name = graphene.String(required=True)
-    spec = graphene.Field(Specification, required=True)
+    family = graphene.String(required=True)
+
+    # representation
+    position = graphene.Field(Position, required=True)
 
 
 # end of file
