@@ -123,6 +123,11 @@ class Flow(graphene.ObjectType):
         # make a pile
         slots = []
 
+        # make a slot
+        slot = Slot(id="Slot:temp", name="op", family="pyre.calc.int", position=Position(x=7, y=7))
+        # add it to the pile
+        slots.append(slot)
+
         # return the pile
         return slots
 
