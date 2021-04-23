@@ -12,10 +12,12 @@ from .Node import Node
 # local basic types
 from .Factory import Factory
 from .Product import Product
+from .Slot import Slot
 from .Position import Position
 # connections
 from .FactoryConnection import FactoryConnection
 from .ProductConnection import ProductConnection
+from .SlotConnection import SlotConnection
 
 
 # trait types from {pyre.schemata}
@@ -37,6 +39,8 @@ class Flow(graphene.ObjectType):
     products = graphene.relay.ConnectionField(ProductConnection)
     # factories
     factories = graphene.relay.ConnectionField(FactoryConnection)
+    # slots
+    slots = graphene.relay.ConnectionField(SlotConnection)
 
 
     # resolvers
@@ -109,6 +113,18 @@ class Flow(graphene.ObjectType):
 
         # return the pile
         return products
+
+
+    def resolve_slots(panel, info, **kwds):
+        # unpack
+        flow = panel.flow
+        layout = panel.layout
+
+        # make a pile
+        slots = []
+
+        # return the pile
+        return slots
 
 
 # end of file
