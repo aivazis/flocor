@@ -45,7 +45,7 @@ type Flow implements Node {
   # the set of factories
   factories(after: String, first: Int, before: String, last: Int): FactoryConnection!
   # the set of unbound product slots
-  # slots(after: String, first: Int, before: String, last: Int): SlotConnection!
+  slots(after: String, first: Int, before: String, last: Int): SlotConnection!
 }
 
 
@@ -89,6 +89,26 @@ type FactoryEdge {
 }
 
 
+# a slot is a paring of a specification with a label; used in laying out producers
+type Slot implements Node {
+  id: ID!
+  name: String!
+  family: String!
+  position: Position!
+}
+
+# support for slot connections
+type SlotConnection {
+  edges: [SlotEdge]
+  pageInfo: PageInfo!
+}
+
+type SlotEdge {
+  node: Slot
+  cursor: String!
+}
+
+
 # the full set of known specifications and producers in a given package
 type Catalog {
   # the package name
@@ -113,14 +133,6 @@ type Producer {
   inputs: [String!]!
   # and outputs
   outputs: [String!]!
-}
-
-# a slot is a paring of a specification with a label; used in laying out producers
-type Slot {
-  # the name of the slot
-  name: String!
-  # and its type
-  family: String!
 }
 
 
