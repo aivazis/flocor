@@ -12,9 +12,13 @@ import flocor
 # the node interface
 from .Node import Node
 # local types
+# flow nodes
 from .Factory import Factory
 from .Product import Product
+from .Slot import Slot
+# basic types
 from .Position import Position
+# mutation payload
 from .MoveNodeInput import MoveNodeInput
 
 
@@ -60,10 +64,14 @@ class MoveNode(graphene.Mutation):
         if type == "Product":
             # build a product
             node = Product(id=id, position=position)
-        # for facrories
+        # for factories
         elif type == "Factory":
             # build a factory
             node = Factory(id=id, position=position)
+        # for slots
+        elif type == "Slot":
+            # build a slot
+            node = Slot(id=id, position=position)
         # anything else
         else:
             # get the journal
