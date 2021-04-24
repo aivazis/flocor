@@ -10,6 +10,7 @@ import flocor
 # the container
 from .Flow import Flow as flow
 # the nodes
+from .Factory import Factory
 from .Product import Product
 
 
@@ -19,10 +20,8 @@ def var(family):
     # extract the schema from the family name and look up the type descriptor
     schema = getattr(flocor.schemata, family.split('.')[-1])
     # hold on to the schema until we are ready to build a variable
-
     # in the meantime, make a product
-    product = Product()
-
+    product = Product(family=family)
     # and return it
     return product
 
@@ -51,7 +50,30 @@ def calcVariables():
 
 
 # calc operators
-from .Operator import Operator as operator
+def operator(family):
+    # extract the operator type from the family name
+    opname = family.split('.')[-1]
+    # hold on to it until we are ready to create the node
+    # in the meantime, make a factory
+    factory = Factory(family=family)
+    # and return it
+    return factory
+
+
+def calcOperators():
+    """
+    Enumerate the accessible {pyre.calc} operators
+    """
+    # the binary operators
+    binary = [
+        "add", "sub", "mul", "div",
+    ]
+    # go through them
+    for opname in binary:
+        # convert each one into a family name and make it available
+        yield f"pyre.calc.{opname}", ["op1", "op2"], ["value"]
+    # all done
+    return
 
 
 # end of file
