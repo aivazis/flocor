@@ -4,32 +4,19 @@
 # (c) 1998-2021 all rights reserved
 
 
-# externals
-import uuid
-# framework
-import flocor
+# superclass
+from .Node import Node
 
 
-# a simple node
-class Product:
 
+# base class for products
+class Product(Node):
+    """
+    The base class for {flow} products
+    """
 
-    # metamethods
-    def __init__(self, name=None, family=None, **kwds):
-        # chain up
-        super().__init__(**kwds)
-
-        # make a uuid
-        gid = uuid.uuid1()
-        # build my id by folding in my type
-        self.pyre_id = f"Product:{gid}"
-        # attach my name
-        self.pyre_name = name
-        # look up my type
-        self.pyre_family = family
-
-        # all done
-        return
+    # constants
+    typename = "Product"
 
 
 # end of file
