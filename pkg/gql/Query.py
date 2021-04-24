@@ -71,7 +71,6 @@ class Query(graphene.ObjectType):
         variables = [
             Specification(family=family) for family in flocor.flows.calcVariables()
         ]
-
         # and return them
         return variables
 
@@ -81,27 +80,12 @@ class Query(graphene.ObjectType):
         """
         Generate a list of {pyre.calc} operators
         """
-        # pick some names
-        names = "add", "sub", "mul", "div"
-
-        # and make a pile
+        # make a pile
         operators = [
             # of producers
-            Producer(
-                # with a type derived form their name
-                family=f"pyre.calc.{name}",
-                # that are binary operators
-                inputs=[
-                    "op1",
-                    "op2",
-                ],
-                # that return a single value
-                outputs = [
-                    "value",
-                ]
-            )
-            # out of their names
-            for name in names
+            Producer(family=family, inputs=inputs, outputs=outputs)
+            # from  the supported {calc} operators
+            for family, inputs, outputs in flocor.flows.calcOperators()
         ]
         # and return it
         return operators
