@@ -11,7 +11,7 @@ import flocor
 
 
 # a simple node
-class Operator:
+class Factory:
 
 
     # metamethods
