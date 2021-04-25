@@ -6,6 +6,7 @@
 
 # externals
 import graphene
+import itertools
 
 # my interface
 from .Node import Node
@@ -72,7 +73,6 @@ class Flow(graphene.ObjectType):
 
         # make a pile
         factories = []
-
         # go through the factories in {flow}
         for node in flow.factories:
             # get the is
@@ -100,7 +100,6 @@ class Flow(graphene.ObjectType):
 
         # make a pile
         products = []
-
         # go through the products in {flow}
         for node in flow.products:
             # grab its id
@@ -128,11 +127,27 @@ class Flow(graphene.ObjectType):
 
         # make a pile
         slots = []
-
-        # make a slot
-        slot = Slot(id="Slot:temp", name="op", family="pyre.calc.int", position=Position(x=7, y=7))
-        # add it to the pile
-        slots.append(slot)
+        # slots are the unbound traits of factories, so go through all known factories
+        for node in flow.factories:
+            # grab all their relevant traits
+            traits = itertools.chain(node.pyre_inputTraits, node.pyre_outputTraits)
+            # and go through them
+            for trait in traits:
+                # get the trait slot
+                slot = node.pyre_inventory[trait]
+                # get the id
+                guid = slot.pyre_id
+                # look up its position
+                position = layout[guid]
+                # unpack
+                x = position["x"]
+                y = position["y"]
+                # represent
+                rep = Slot(id=f"Slot:{guid}",
+                           name=trait.name, family=trait.typename,
+                           position=Position(x=x, y=y))
+                # and add it to the pile
+                slots.append(rep)
 
         # return the pile
         return slots
