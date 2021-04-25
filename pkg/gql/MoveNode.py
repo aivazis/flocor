@@ -55,7 +55,7 @@ class MoveNode(graphene.Mutation):
         layout[id] = {"x": x, "y": y}
 
         # extract the type of the node
-        type, _ = id.split(':')
+        type, *_ = id.split(":")
 
         # buld the position
         position = Position(x=x, y=y)
