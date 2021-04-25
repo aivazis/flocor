@@ -53,11 +53,12 @@ class MoveNode(graphene.Mutation):
         layout = panel.layout
 
         # extract the type of the node and its {pyre_id}
-        typename, guid = id.split(":")
-
-        # adjust the position of the node
+        typename, nodeid = id.split(":")
+        # convert the string into a {uuid}
+        guid = uuid.UUID(hex=nodeid)
+        # use it to adjust the position of the node
         layout[guid] = {"x": x, "y": y}
-        # build the new position to return to the client
+        # and build the new position to return to the client
         position = Position(x=x, y=y)
 
         # deduce the correct return type; for products
