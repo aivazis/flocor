@@ -74,7 +74,9 @@ class Flow(graphene.ObjectType):
         factories = []
 
         # go through the factories in {flow}
-        for guid, node in flow.factories.items():
+        for node in flow.factories:
+            # get the is
+            guid = node.pyre_id
             # look up its position
             position = layout[guid]
             # unpack
@@ -82,7 +84,7 @@ class Flow(graphene.ObjectType):
             y = position["y"]
             # represent
             factory = Factory(id=f"Factory:{guid}",
-                        name=node.pyre_name, family=node.pyre_family,
+                        name=node.pyre_name, family=node.pyre_family(),
                         position=Position(x=x, y=y))
             # and add to the pile
             factories.append(factory)
@@ -100,7 +102,9 @@ class Flow(graphene.ObjectType):
         products = []
 
         # go through the products in {flow}
-        for guid, node in flow.products.items():
+        for node in flow.products:
+            # grab its id
+            guid = node.pyre_id
             # look up its position
             position = layout[guid]
             # unpack
@@ -108,7 +112,7 @@ class Flow(graphene.ObjectType):
             y = position["y"]
             # represent
             product = Product(id=f"Product:{guid}",
-                        name=node.pyre_name, family=node.pyre_family,
+                        name=node.pyre_name, family=node.pyre_family(),
                         position=Position(x=x, y=y))
             # and add to the pile
             products.append(product)

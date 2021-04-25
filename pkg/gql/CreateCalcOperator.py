@@ -52,7 +52,7 @@ class CreateCalcOperator(graphene.Mutation):
         # make a {factory}; we don't have a name for it yet
         op = flocor.flows.operator(family=family)
         # add it to the flow
-        flow.addFactory(node=op)
+        flow.factories.add(op)
         # and the layout
         layout[op.pyre_id] = {"x": x, "y": y}
 
