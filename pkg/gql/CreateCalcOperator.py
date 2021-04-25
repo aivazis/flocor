@@ -56,8 +56,10 @@ class CreateCalcOperator(graphene.Mutation):
         # and the layout
         layout[op.pyre_id] = {"x": x, "y": y}
 
+        # make a position
+        position = Position(x=x, y=y)
         # make a factory node
-        node = Factory(id=op.pyre_id, family=family, position=Position(x=x, y=y))
+        node = Factory(id=f"Factory:{op.pyre_id}", family=family, position=position)
         # attach it and return it
         return CreateCalcOperator(flow=owner, node=node)
 

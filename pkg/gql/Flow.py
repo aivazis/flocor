@@ -48,7 +48,7 @@ class Flow(graphene.ObjectType):
         # unpack
         flow = panel.flow
         # return the {flow} id
-        return flow.pyre_id
+        return f"Flow:{flow.pyre_id}"
 
 
     def resolve_name(panel, info, **kwds):
@@ -81,7 +81,8 @@ class Flow(graphene.ObjectType):
             x = position["x"]
             y = position["y"]
             # represent
-            factory = Factory(id=guid, name=node.pyre_name, family=node.pyre_family,
+            factory = Factory(id=f"Factory:{guid}",
+                        name=node.pyre_name, family=node.pyre_family,
                         position=Position(x=x, y=y))
             # and add to the pile
             factories.append(factory)
@@ -106,7 +107,8 @@ class Flow(graphene.ObjectType):
             x = position["x"]
             y = position["y"]
             # represent
-            product = Product(id=guid, name=node.pyre_name, family=node.pyre_family,
+            product = Product(id=f"Product:{guid}",
+                        name=node.pyre_name, family=node.pyre_family,
                         position=Position(x=x, y=y))
             # and add to the pile
             products.append(product)

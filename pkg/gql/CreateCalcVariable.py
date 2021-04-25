@@ -56,8 +56,10 @@ class CreateCalcVariable(graphene.Mutation):
         # and the layout
         layout[var.pyre_id] = {"x": x, "y": y}
 
+        # make a position
+        position = Position(x=x, y=y)
         # make a product node
-        node = Product(id=var.pyre_id, family=family, position=Position(x=x, y=y))
+        node = Product(id=f"Product:{var.pyre_id}", family=family, position=position)
         # attach it and return it
         return CreateCalcVariable(flow=owner, node=node)
 
