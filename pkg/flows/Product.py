@@ -4,16 +4,27 @@
 # (c) 1998-2021 all rights reserved
 
 
-# superclass
-from .Node import Node
+# externals
+import uuid
+# framework
+import flocor
 
 
-
-# base class for products
-class Product(Node):
+# base class for local products
+class Product(flocor.flow.product, family="flocor.products.product"):
     """
     The base class for {flow} products
     """
+
+
+    # metamethods
+    def __init__(self, **kwds):
+        # chain up
+        super().__init__(**kwds)
+        # make my node id
+        self.pyre_id = uuid.uuid1()
+        # all done
+        return
 
 
 # end of file
