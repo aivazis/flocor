@@ -51,25 +51,25 @@ class MoveNode(graphene.Mutation):
         panel = info.context["panel"]
         # and the flow {layout}
         layout = panel.layout
+
+        # extract the type of the node and its {pyre_id}
+        typename, guid = id.split(":")
+
         # adjust the position of the node
-        layout[id] = {"x": x, "y": y}
-
-        # extract the type of the node
-        type, *_ = id.split(":")
-
-        # buld the position
+        layout[guid] = {"x": x, "y": y}
+        # build the new position to return to the client
         position = Position(x=x, y=y)
 
-        # build the correct return type; for products
-        if type == "Product":
+        # deduce the correct return type; for products
+        if typename == "Product":
             # build a product
             node = Product(id=id, position=position)
         # for factories
-        elif type == "Factory":
+        elif typename == "Factory":
             # build a factory
             node = Factory(id=id, position=position)
         # for slots
-        elif type == "Slot":
+        elif typename == "Slot":
             # build a slot
             node = Slot(id=id, position=position)
         # anything else
@@ -79,7 +79,7 @@ class MoveNode(graphene.Mutation):
             # make a channel
             channel = journal.firewall("flocor.gql.schema")
             # and complain
-            channel.log(f"while moving node '{id}': unknown type '{type}")
+            channel.log(f"while moving node '{id}': unknown type '{typename}")
 
         # return the node info
         return MoveNode(node=node)
