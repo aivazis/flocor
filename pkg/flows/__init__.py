@@ -15,11 +15,16 @@ from .Product import Product
 
 # the known variable types
 from . import variables
+# and the known operators
+from . import operators
 
 
 # calc
 # variables
 def var(family):
+    """
+    Resolve the {family} name into a variable instance
+    """
     # lookup the associated class
     cls = variables.index[family]
     # instantiate
@@ -40,11 +45,13 @@ def calcVariables():
 
 # calc operators
 def operator(family):
-    # extract the operator type from the family name
-    opname = family.split('.')[-1]
-    # hold on to it until we are ready to create the node
-    # in the meantime, make a factory
-    factory = Factory(family=family)
+    """
+    Resolve the {family} name into an operator instance
+    """
+    # lookup the associated class
+    cls = operators.index[family]
+    # instantiate
+    factory = cls()
     # and return it
     return factory
 
@@ -53,14 +60,15 @@ def calcOperators():
     """
     Enumerate the accessible {pyre.calc} operators
     """
-    # the binary operators
-    binary = [
-        "add", "sub", "mul", "div",
-    ]
-    # go through them
-    for opname in binary:
-        # convert each one into a family name and make it available
-        yield f"pyre.calc.{opname}", ["op1", "op2"], ["value"]
+    # grab all items from the {operators} index
+    for name, cls in operators.index.items():
+        # look up the names of my inputs
+        inputs = [ trait.name for trait in cls.pyre_inputTraits]
+        # and my outputs
+        outputs = [ trait.name for trait in cls.pyre_outputTraits]
+        # send the required info off
+        yield name, inputs, outputs
+        print(name, inputs, outputs)
     # all done
     return
 
