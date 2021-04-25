@@ -49,19 +49,37 @@ export const useCreateOperator = (factory) => {
 
                 // grab the flow that owns the new node
                 const owner = result.getValue("flow")
-                // extract the new node
-                const node = result.getLinkedRecord("node")
 
+                // add the new factory to the store
+                // extract the new node
+                const newFactory = result.getLinkedRecord("node")
                 // get a proxy to the connection that will own the new factory
                 const factories = ConnectionHandler.getConnection(
                     store.get(owner),
                     "factoriesFragment_factories"
                 )
-
                 // create an edge with the factory we just made
-                const edge = ConnectionHandler.createEdge(store, factories, node, 'FactoryEdge')
-                // and the new edge to the connection
-                ConnectionHandler.insertEdgeAfter(factories, edge)
+                const factoryEdge = ConnectionHandler.createEdge(
+                    store, factories, newFactory, "FactoryEdge")
+                // and add the new edge to the connection
+                ConnectionHandler.insertEdgeAfter(factories, factoryEdge)
+
+                // add the new slots to the store
+                // extact the pils
+                const newSlots = result.getLinkedRecords("slots")
+                // get a proxy to the connection that will own the new slots
+                const slots = ConnectionHandler.getConnection(
+                    store.get(owner),
+                    "slotsFragment_slots"
+                )
+                // go through the new slots and for each one
+                newSlots.forEach(newSlot => {
+                    // create an edge with the new slot
+                    const slotEdge = ConnectionHandler.createEdge(
+                        store, slots, newSlot, "SlotEdge")
+                    // add it to the connection
+                    ConnectionHandler.insertEdgeAfter(slots, slotEdge)
+                })
 
                 // all done
                 return
@@ -92,6 +110,13 @@ mutation useCreateOperatorMutation($info: NewNodeInput!) {
         flow
         # a description of the newly created node
         node {
+            id
+            position {
+                x
+                y
+            }
+        }
+        slots {
             id
             position {
                 x
