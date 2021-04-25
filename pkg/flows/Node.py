@@ -14,10 +14,6 @@ import flocor
 class Node:
 
 
-    # constants
-    typename = "Node"
-
-
     # metamethods
     def __init__(self, name=None, family=None, **kwds):
         # chain up

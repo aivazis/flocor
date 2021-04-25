@@ -15,8 +15,5 @@ class Product(Node):
     The base class for {flow} products
     """
 
-    # constants
-    typename = "Product"
-
 
 # end of file

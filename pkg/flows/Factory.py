@@ -14,8 +14,5 @@ class Factory(Node):
     The base class for {flow} factories
     """
 
-    # constants
-    typename = "Factory"
-
 
 # end of file
