@@ -17,14 +17,4 @@ class Flow(flocor.flow.dynamic, family="flocor.flows.flow", implements=flocor.sp
     """
 
 
-    # metamethods
-    def __init__(self, **kwds):
-        # chain up
-        super().__init__(**kwds)
-        # set my uuid
-        self.pyre_id = uuid.uuid1()
-        # all done
-        return
-
-
 # end of file

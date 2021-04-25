@@ -17,14 +17,4 @@ class Factory(flocor.flow.factory, family="flocor.factories.factory"):
     """
 
 
-    # metamethods
-    def __init__(self, **kwds):
-        # chain up
-        super().__init__(**kwds)
-        # make my node id
-        self.pyre_id = uuid.uuid1()
-        # all done
-        return
-
-
 # end of file
