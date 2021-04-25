@@ -68,7 +68,6 @@ def calcOperators():
         outputs = [ trait.name for trait in cls.pyre_outputTraits]
         # send the required info off
         yield name, inputs, outputs
-        print(name, inputs, outputs)
     # all done
     return
 
