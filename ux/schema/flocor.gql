@@ -149,8 +149,8 @@ type Version {
 type Mutation {
 
   # {calc} nodes
-  addCalcVariable(nodeinfo: NewNodeInput!): NewNodeInfo!
-  addCalcOperator(nodeinfo: NewNodeInput!): NewNodeInfo!
+  addCalcVariable(nodeinfo: NewNodeInput!): NewProductInfo!
+  addCalcOperator(nodeinfo: NewNodeInput!): NewFactoryInfo!
 
   # move an existing n ode
   moveNode(nodeinfo: MoveNodeInput!): MoveNode!
@@ -168,8 +168,19 @@ input NewNodeInput {
   y: Int!
 }
 
-# the result payload for the mutation that adds nodes to the diagram
-type NewNodeInfo {
+# the result payload for the mutation that adds factories to the diagram
+type NewFactoryInfo {
+  # the flow that owns the new node
+  flow: ID!
+  # the node that was added
+  node: Node!
+  # and the list of unbound products
+  slots: [Node!]!
+}
+
+
+# the result payload for the mutation that adds products to the diagram
+type NewProductInfo {
   # the flow that owns the new node
   flow: ID!
   # and the node that was added
