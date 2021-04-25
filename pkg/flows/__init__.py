@@ -13,15 +13,17 @@ from .Flow import Flow as flow
 from .Factory import Factory
 from .Product import Product
 
+# the known variable types
+from . import variables
+
 
 # calc
 # variables
 def var(family):
-    # extract the schema from the family name and look up the type descriptor
-    schema = getattr(flocor.schemata, family.split('.')[-1])
-    # hold on to the schema until we are ready to build a variable
-    # in the meantime, make a product
-    product = Product(family=family)
+    # lookup the associated class
+    cls = variables.index[family]
+    # instantiate
+    product = cls()
     # and return it
     return product
 
@@ -30,21 +32,8 @@ def calcVariables():
     """
     Enumerate the accessible schemata for {pyre.calc} variables
     """
-    # grab the known {pyre} types
-    import pyre.schemata
-    # the types of interest
-    types = [
-        "str",
-        "bool", "int", "float", "complex",
-        "path", "dimensional", "date", "time", "timestamp",
-        "istream", "ostream", "envvar",
-    ]
-    # go through them
-    for typename in types:
-        # look up the schema
-        schema = getattr(pyre.schemata, typename)
-        # convert it into a family name and make it available
-        yield f"pyre.calc.{schema.typename}"
+    # publish the set of known variable type names
+    yield from variables.index.keys()
     # all done
     return
 
