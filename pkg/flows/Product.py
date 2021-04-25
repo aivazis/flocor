@@ -13,7 +13,7 @@ import flocor
 # base class for local products
 class Product(flocor.flow.product, family="flocor.products.product"):
     """
-    The base class for {flow} products
+    The base class for {flocor} products
     """
 
 
