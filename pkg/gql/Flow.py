@@ -11,11 +11,13 @@ import itertools
 # my interface
 from .Node import Node
 # local basic types
+from .Binding import Binding
 from .Factory import Factory
 from .Product import Product
 from .Slot import Slot
 from .Position import Position
 # connections
+from .BindingConnection import BindingConnection
 from .FactoryConnection import FactoryConnection
 from .ProductConnection import ProductConnection
 from .SlotConnection import SlotConnection
@@ -42,6 +44,8 @@ class Flow(graphene.ObjectType):
     factories = graphene.relay.ConnectionField(FactoryConnection)
     # slots
     slots = graphene.relay.ConnectionField(SlotConnection)
+    # connectors
+    bindings = graphene.relay.ConnectionField(BindingConnection)
 
 
     # resolvers
@@ -162,6 +166,39 @@ class Flow(graphene.ObjectType):
 
         # return the pile
         return slots
+
+
+    def resolve_bindings(panel, info, **kwds):
+        # unpack
+        flow = panel.flow
+        layout = panel.layout
+        connectivity = panel.bindings
+
+        # make a pile
+        bindings = []
+        # all bindings involve a factory, so run through them
+        for factory in flow.factories:
+            # get its guid
+            fuid = factory.pyre_id
+            # and its location
+            fpos = layout[fuid]
+            # build a rep for its position
+            factoryAt = Position(x=fpos["x"], y=fpos["y"])
+            # go through all the products it is connected to
+            for puid, direction in connectivity[fuid].items():
+                # get their location
+                ppos = layout[puid]
+                # build a rep for this
+                productAt = Position(x=ppos["x"], y=ppos["y"])
+                # construct the binding id
+                buid = f"Binding:{fuid}|{puid}"
+                # build the rep
+                rep = Binding(id=buid, inp=direction, factoryAt=factoryAt, productAt=productAt)
+                # and add it to the pile
+                bindings.append(rep)
+
+        # return the pile
+        return bindings
 
 
 # end of file
