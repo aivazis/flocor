@@ -110,18 +110,10 @@ mutation useCreateOperatorMutation($info: NewNodeInput!) {
         flow
         # a description of the newly created node
         node {
-            id
-            position {
-                x
-                y
-            }
+            ... factory_factory
         }
         slots {
-            id
-            position {
-                x
-                y
-            }
+            ... slot_slot
         }
     }
 }`
