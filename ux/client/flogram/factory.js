@@ -8,7 +8,8 @@
 import React from 'react'
 import { graphql, useFragment } from 'react-relay/hooks'
 // project
-import { Factory as Shape } from '~/shapes'
+// shapes
+import { Factory as Shape, Plex, Terminal } from '~/shapes'
 // local
 import { Node } from './node'
 
@@ -18,6 +19,8 @@ export const Factory = (props) => {
     const factory = useFragment(graphql`
         fragment factory_factory on Factory {
             id
+            inputs
+            outputs
             position {
                 x
                 y
@@ -25,10 +28,27 @@ export const Factory = (props) => {
         }
     `, props.factory)
 
+    // make a narrow factory, i.e. one where the binding lines terminate on the base cell
+    const cell = 1
+    // input terminal
+    const inplex = (
+        <g transform={`translate(${-cell} 0)`}>
+            {factory.inputs ? <Plex /> : <Terminal />}
+        </g>
+    )
+    // output terminal
+    const outplex = (
+        <g transform={`translate(${cell} 0)`}>
+            {factory.outputs ? <Plex /> : <Terminal />}
+        </g>
+    )
+
     // render
     return (
         <Node id={factory.id} position={factory.position} >
             <Shape />
+            {inplex}
+            {outplex}
         </Node>
     )
 }
