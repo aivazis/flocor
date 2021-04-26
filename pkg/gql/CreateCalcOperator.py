@@ -14,6 +14,8 @@ from .Node import Node
 from .Factory import Factory
 from .Position import Position
 from .Slot import Slot
+# connectors
+from .Binding import Binding
 # the class that holds the new node metadata that is input to the mutation
 from .NewNodeInput import NewNodeInput
 
@@ -33,7 +35,8 @@ class CreateCalcOperator(graphene.Mutation):
     # fields
     flow = graphene.ID()
     node = graphene.Field(Factory, required=True)
-    slots = graphene.List(graphene.NonNull(Node), required=True)
+    slots = graphene.List(graphene.NonNull(Slot), required=True)
+    bindings = graphene.List(graphene.NonNull(Binding), required=True)
 
 
     def mutate(root, info, nodeinfo):
@@ -48,8 +51,10 @@ class CreateCalcOperator(graphene.Mutation):
         # so we can grab the {flow}; we can use {owner} to do a consistency check that
         # the node is being added to the correct graph
         flow = panel.flow
-        # and its {layout}
+        # grab the {layout}
         layout = panel.layout
+        # and the connectivity matrix
+        connectivity = panel.bindings
 
         # make a {factory}; we don't have a name for it yet
         op = flocor.flows.operator(family=family)
@@ -75,9 +80,12 @@ class CreateCalcOperator(graphene.Mutation):
                        inputs=nInputs, outputs=nOutputs,
                        position=position)
 
-        # assemble the slots
-        # make a pile
+        # assemble the slots and their connetors
+        # make a pile for slots
         slots = []
+        # and one for bindings
+        bindings = []
+
         # for each input
         for idx, trait in enumerate(inputs):
             # get the slot
@@ -97,12 +105,22 @@ class CreateCalcOperator(graphene.Mutation):
             sy = y + 2*idx + 1 - nInputs
             # add the node to the diagram layout
             layout[guid] = {"x": sx, "y": sy}
+            # update the connectivity matrix
+            connectivity[op.pyre_id][guid] = True
+            connectivity[guid][op.pyre_id] = True
             # build its position rep
-            position = Position(x=sx, y=sy)
+            slotPosition = Position(x=sx, y=sy)
             # build the rep
-            rep = Slot(id=f"Slot:{guid}", name=name, family=family, position=position)
+            slotRep = Slot(id=f"Slot:{guid}", name=name, family=family, position=slotPosition)
             # and add it to the pile
-            slots.append(rep)
+            slots.append(slotRep)
+            # build the binding uid
+            bid = f"Binding:{op.pyre_id}|{guid}"
+            # build the binding rep
+            bindingRep = Binding(id=bid, inp=True, factoryAt=position, productAt=slotPosition)
+            # and add to its pile
+            bindings.append(bindingRep)
+
         # for each one
         for idx, trait in enumerate(outputs):
             # get the slot
@@ -122,15 +140,24 @@ class CreateCalcOperator(graphene.Mutation):
             sy = y + 2*idx + 1 - nOutputs
             # add the slot to the diagram layout
             layout[guid] = {"x": sx, "y": sy}
+            # update the connectivity matrix
+            connectivity[op.pyre_id][guid] = False
+            connectivity[guid][op.pyre_id] = False
             # build its position rep
-            position = Position(x=sx, y=sy)
+            slotPosition = Position(x=sx, y=sy)
             # build the rep
-            rep = Slot(id=f"Slot:{guid}", name=name, family=family, position=position)
+            rep = Slot(id=f"Slot:{guid}", name=name, family=family, position=slotPosition)
             # and add it to the pile
             slots.append(rep)
+            # build the binding uid
+            bid = f"Binding:{op.pyre_id}|{guid}"
+            # build the binding rep
+            bindingRep = Binding(id=bid, inp=False, factoryAt=position, productAt=slotPosition)
+            # and add to its pile
+            bindings.append(bindingRep)
 
-        # build the payload an return it
-        return CreateCalcOperator(flow=owner, node=node, slots=slots)
+        # build the payload and return it
+        return CreateCalcOperator(flow=owner, node=node, slots=slots, bindings=bindings)
 
 
 # end of file
