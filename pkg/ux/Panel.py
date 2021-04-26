@@ -28,6 +28,8 @@ class Panel(flocor.shells.command, family="flocor.cli.ux"):
         super().__init__(**kwds)
         # initialize the graph layout
         self.layout = {}
+        # and the connectors
+        self.bindings = flocor.patterns.vivify(levels=2, atom=bool)
         # all done
         return
 
