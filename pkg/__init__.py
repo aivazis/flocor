@@ -19,7 +19,7 @@ from pyre import (
     # shells
     application, plexus,
     # miscellaneous
-    primitives, tracking, units, weaver
+    patterns, primitives, tracking, units, weaver
     )
 
 
