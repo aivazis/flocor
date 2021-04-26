@@ -75,6 +75,8 @@ type Factory implements Node {
   name: String
   family: String!
   position: Position!
+  inputs: Int!
+  outputs: Int!
 }
 
 # support for factory connections
@@ -173,7 +175,7 @@ type NewFactoryInfo {
   # the flow that owns the new node
   flow: ID!
   # the node that was added
-  node: Node!
+  node: Factory!
   # and the list of unbound products
   slots: [Node!]!
 }
