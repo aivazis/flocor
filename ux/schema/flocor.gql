@@ -228,6 +228,7 @@ input MoveNodeInput {
 type MoveNode {
   # refresh the information of the moving node
   node: Node!
+  bindings: [Binding!]!
 }
 
 
