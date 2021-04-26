@@ -32,7 +32,7 @@ class CreateCalcOperator(graphene.Mutation):
 
     # fields
     flow = graphene.ID()
-    node = graphene.Field(Node, required=True)
+    node = graphene.Field(Factory, required=True)
     slots = graphene.List(graphene.NonNull(Node), required=True)
 
 
@@ -53,6 +53,15 @@ class CreateCalcOperator(graphene.Mutation):
 
         # make a {factory}; we don't have a name for it yet
         op = flocor.flows.operator(family=family)
+        # get the inputs
+        inputs = op.pyre_inputTraits
+        # find out how many there are
+        nInputs = len(inputs)
+        # now, the outputs
+        outputs = op.pyre_outputTraits
+        # find out how many there are
+        nOutputs = len(outputs)
+
         # add it to the flow
         flow.factories.add(op)
         # and the layout
@@ -62,15 +71,13 @@ class CreateCalcOperator(graphene.Mutation):
         # make a position
         position = Position(x=x, y=y)
         # make a factory node
-        node = Factory(id=f"Factory:{op.pyre_id}", family=family, position=position)
+        node = Factory(id=f"Factory:{op.pyre_id}", family=family,
+                       inputs=nInputs, outputs=nOutputs,
+                       position=position)
 
         # assemble the slots
         # make a pile
         slots = []
-        # go through the inputs
-        inputs = op.pyre_inputTraits
-        # find out how many there are
-        nInputs = len(inputs)
         # for each input
         for idx, trait in enumerate(inputs):
             # get the slot
@@ -96,10 +103,6 @@ class CreateCalcOperator(graphene.Mutation):
             rep = Slot(id=f"Slot:{guid}", name=name, family=family, position=position)
             # and add it to the pile
             slots.append(rep)
-        # now, the outputs
-        outputs = op.pyre_outputTraits
-        # find out how many there are
-        nOutputs = len(outputs)
         # for each one
         for idx, trait in enumerate(outputs):
             # get the slot

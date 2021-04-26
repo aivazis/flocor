@@ -75,8 +75,18 @@ class Flow(graphene.ObjectType):
         factories = []
         # go through the factories in {flow}
         for node in flow.factories:
-            # get the is
+            # get the id
             guid = node.pyre_id
+
+            # get the inputs
+            inputs = node.pyre_inputTraits
+            # find out how many there are
+            nInputs = len(inputs)
+            # now, the outputs
+            outputs = node.pyre_outputTraits
+            # find out how many there are
+            nOutputs = len(outputs)
+
             # look up its position
             position = layout[guid]
             # unpack
@@ -85,6 +95,7 @@ class Flow(graphene.ObjectType):
             # represent
             factory = Factory(id=f"Factory:{guid}",
                         name=node.pyre_name, family=node.pyre_family(),
+                        inputs=nInputs, outputs=nOutputs,
                         position=Position(x=x, y=y))
             # and add to the pile
             factories.append(factory)
