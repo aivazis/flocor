@@ -11,7 +11,7 @@ import graphene
 from .Slot import Slot
 
 
-# a flow node that represents a typed+named variable
+# a slot connection
 class SlotConnection(graphene.relay.Connection):
     """
     A connection to a list of slots

@@ -11,7 +11,7 @@ import graphene
 from .Product import Product
 
 
-# a flow node that represents a typed+named variable
+# a product connection
 class ProductConnection(graphene.relay.Connection):
     """
     A connection to a list of products

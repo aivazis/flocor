@@ -11,7 +11,7 @@ import graphene
 from .Factory import Factory
 
 
-# a flow node that represents an operator:w
+# a factory connection
 class FactoryConnection(graphene.relay.Connection):
     """
     A connection to a list of operators
