@@ -65,7 +65,7 @@ export const useCreateOperator = (factory) => {
                 ConnectionHandler.insertEdgeAfter(factories, factoryEdge)
 
                 // add the new slots to the store
-                // extact the pils
+                // extact the slots
                 const newSlots = result.getLinkedRecords("slots")
                 // get a proxy to the connection that will own the new slots
                 const slots = ConnectionHandler.getConnection(
@@ -79,6 +79,23 @@ export const useCreateOperator = (factory) => {
                         store, slots, newSlot, "SlotEdge")
                     // add it to the connection
                     ConnectionHandler.insertEdgeAfter(slots, slotEdge)
+                })
+
+                // add the new slots to the store
+                // extact the bindings
+                const newBindings = result.getLinkedRecords("bindings")
+                // get a proxy to the connection that will own the new slots
+                const bindings = ConnectionHandler.getConnection(
+                    store.get(owner),
+                    "bindingsFragment_bindings"
+                )
+                // go through the new slots and for each one
+                newBindings.forEach(newBinding => {
+                    // create an edge with the new slot
+                    const bindingEdge = ConnectionHandler.createEdge(
+                        store, bindings, newBinding, "BindingEdge")
+                    // add it to the connection
+                    ConnectionHandler.insertEdgeAfter(bindings, bindingEdge)
                 })
 
                 // all done
@@ -114,6 +131,9 @@ mutation useCreateOperatorMutation($info: NewNodeInput!) {
         }
         slots {
             ... slot_slot
+        }
+        bindings {
+            ... binding_binding
         }
     }
 }`
