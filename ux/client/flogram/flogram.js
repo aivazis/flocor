@@ -51,12 +51,12 @@ const Diagram = () => {
                     <Grid />
                     {/* the origin/orientation marker */}
                     <Compass />
-                    {/* products */}
-                    <Products flow={flow} />
-                    {/* factories */}
-                    <Factories flow={flow} />
                     {/* slots */}
                     <Slots flow={flow} />
+                    {/* factories */}
+                    <Factories flow={flow} />
+                    {/* products */}
+                    <Products flow={flow} />
                 </Camera >
             </svg>
         </section>
