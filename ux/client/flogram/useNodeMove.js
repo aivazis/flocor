@@ -63,6 +63,10 @@ const moveNodeMutation = graphql`mutation useNodeMoveMutation($info: MoveNodeInp
                 y
             }
         }
+        # updated connectivity information
+        bindings {
+            ...binding_binding
+        }
     }
 }`
 
