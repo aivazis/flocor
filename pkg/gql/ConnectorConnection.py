@@ -11,7 +11,7 @@ import graphene
 from .Connector import Connector
 
 
-# a connection of bindings
+# a connection for the diagram connectors
 class ConnectorConnection(graphene.relay.Connection):
     """
     A connection to a list of products

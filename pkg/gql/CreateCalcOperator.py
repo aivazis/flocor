@@ -15,7 +15,7 @@ from .Factory import Factory
 from .Position import Position
 from .Slot import Slot
 # connectors
-from .Binding import Binding
+from .Connector import Connector
 # the class that holds the new node metadata that is input to the mutation
 from .NewNodeInput import NewNodeInput
 
@@ -36,7 +36,7 @@ class CreateCalcOperator(graphene.Mutation):
     flow = graphene.ID()
     node = graphene.Field(Factory, required=True)
     slots = graphene.List(graphene.NonNull(Slot), required=True)
-    bindings = graphene.List(graphene.NonNull(Binding), required=True)
+    connectors = graphene.List(graphene.NonNull(Connector), required=True)
 
 
     def mutate(root, info, nodeinfo):
@@ -54,7 +54,7 @@ class CreateCalcOperator(graphene.Mutation):
         # grab the {layout}
         layout = panel.layout
         # and the connectivity matrix
-        connectivity = panel.bindings
+        connectivity = panel.connectors
 
         # make a {factory}; we don't have a name for it yet
         op = flocor.flows.operator(family=family)
@@ -83,8 +83,8 @@ class CreateCalcOperator(graphene.Mutation):
         # assemble the slots and their connetors
         # make a pile for slots
         slots = []
-        # and one for bindings
-        bindings = []
+        # and one for connectors
+        connectors = []
 
         # for each input
         for idx, trait in enumerate(inputs):
@@ -114,12 +114,12 @@ class CreateCalcOperator(graphene.Mutation):
             slotRep = Slot(id=f"Slot:{guid}", name=name, family=family, position=slotPosition)
             # and add it to the pile
             slots.append(slotRep)
-            # build the binding uid
-            bid = f"Binding:{op.pyre_id}|{guid}"
-            # build the binding rep
-            bindingRep = Binding(id=bid, inp=True, factoryAt=position, productAt=slotPosition)
+            # build the connector uid
+            bid = f"Connector:{op.pyre_id}|{guid}"
+            # build the connector rep
+            connectorRep = Connector(id=bid, inp=True, factoryAt=position, productAt=slotPosition)
             # and add to its pile
-            bindings.append(bindingRep)
+            connectors.append(connectorRep)
 
         # for each one
         for idx, trait in enumerate(outputs):
@@ -149,15 +149,15 @@ class CreateCalcOperator(graphene.Mutation):
             rep = Slot(id=f"Slot:{guid}", name=name, family=family, position=slotPosition)
             # and add it to the pile
             slots.append(rep)
-            # build the binding uid
-            bid = f"Binding:{op.pyre_id}|{guid}"
-            # build the binding rep
-            bindingRep = Binding(id=bid, inp=False, factoryAt=position, productAt=slotPosition)
+            # build the connector uid
+            bid = f"Connector:{op.pyre_id}|{guid}"
+            # build the connector rep
+            connectorRep = Connector(id=bid, inp=False, factoryAt=position, productAt=slotPosition)
             # and add to its pile
-            bindings.append(bindingRep)
+            connectors.append(connectorRep)
 
         # build the payload and return it
-        return CreateCalcOperator(flow=owner, node=node, slots=slots, bindings=bindings)
+        return CreateCalcOperator(flow=owner, node=node, slots=slots, connectors=connectors)
 
 
 # end of file

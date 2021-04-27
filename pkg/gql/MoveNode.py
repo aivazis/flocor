@@ -17,7 +17,7 @@ from .Factory import Factory
 from .Product import Product
 from .Slot import Slot
 # connectors
-from .Binding import Binding
+from .Connector import Connector
 # basic types
 from .Position import Position
 # mutation payload
@@ -38,13 +38,13 @@ class MoveNode(graphene.Mutation):
 
     # fields
     node = graphene.Field(type=Node, required=True)
-    bindings = graphene.List(graphene.NonNull(Binding), required=True)
+    connectors = graphene.List(graphene.NonNull(Connector), required=True)
 
 
     def mutate(root, info, nodeinfo):
-        import journal
-        channel = journal.info("gql")
-
+        """
+        Move a node to a new location
+        """
         # unpack the node info
         id = nodeinfo["id"]
         x = nodeinfo["x"]
@@ -55,7 +55,7 @@ class MoveNode(graphene.Mutation):
         # the flow {layout}
         layout = panel.layout
         # and the connectivity matrix
-        connectivity = panel.bindings
+        connectivity = panel.connectivity
 
         # extract the type of the node and its {pyre_id}
         typename, nodeid = id.split(":")
@@ -66,8 +66,8 @@ class MoveNode(graphene.Mutation):
         # and build the new position to return to the client
         position = Position(x=x, y=y)
 
-        # make a pile of bindings
-        bindings = []
+        # make a pile of connectors
+        connectors = []
 
         # deduce the correct return type; for products
         if typename == "Product":
@@ -79,12 +79,12 @@ class MoveNode(graphene.Mutation):
                 fpos = layout[fuid]
                 # build a rep for it
                 frep = Position(x=fpos["x"], y=fpos["y"])
-                # assemble the binding id
-                buid = f"Binding:{fuid}|{guid}"
-                # build a rep for the binding
-                brep = Binding(id=buid, inp=direction, factoryAt=fpos, productAt=position)
+                # assemble the connector id
+                buid = f"Connector:{fuid}|{guid}"
+                # build a rep for the connector
+                brep = Connector(id=buid, inp=direction, factoryAt=fpos, productAt=position)
                 # and add it to the pile
-                bindings.append(brep)
+                connectors.append(brep)
         # for factories
         elif typename == "Factory":
             # build a factory
@@ -95,12 +95,12 @@ class MoveNode(graphene.Mutation):
                 npos = layout[nuid]
                 # build a rep for it
                 nrep = Position(x=npos["x"], y=npos["y"])
-                # assemble the binding id
-                buid = f"Binding:{guid}|{nuid}"
-                # build a rep for the binding
-                brep = Binding(id=buid, inp=direction, factoryAt=position, productAt=npos)
+                # assemble the connector id
+                buid = f"Connector:{guid}|{nuid}"
+                # build a rep for the connector
+                brep = Connector(id=buid, inp=direction, factoryAt=position, productAt=npos)
                 # and add it to the pile
-                bindings.append(brep)
+                connectors.append(brep)
         # for slots
         elif typename == "Slot":
             # build a slot
@@ -111,12 +111,12 @@ class MoveNode(graphene.Mutation):
                 fpos = layout[fuid]
                 # build a rep for it
                 frep = Position(x=fpos["x"], y=fpos["y"])
-                # assemble the binding id
-                buid = f"Binding:{fuid}|{guid}"
-                # build a rep for the binding
-                brep = Binding(id=buid, inp=direction, factoryAt=fpos, productAt=position)
+                # assemble the connector id
+                buid = f"Connector:{fuid}|{guid}"
+                # build a rep for the connector
+                brep = Connector(id=buid, inp=direction, factoryAt=fpos, productAt=position)
                 # and add it to the pile
-                bindings.append(brep)
+                connectors.append(brep)
         # anything else
         else:
             # get the journal
@@ -127,7 +127,7 @@ class MoveNode(graphene.Mutation):
             channel.log(f"while moving node '{id}': unknown type '{typename}")
 
         # return the node info
-        return MoveNode(node=node, bindings=bindings)
+        return MoveNode(node=node, connectors=connectors)
 
 
 # end of file

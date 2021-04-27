@@ -28,7 +28,7 @@ class Factory(graphene.ObjectType):
     id = graphene.ID()
     name = graphene.String(required=False)
     family = graphene.String(required=True)
-    # bindings
+    # products
     inputs = graphene.Int(required=True)
     outputs = graphene.Int(required=True)
     # location

@@ -11,13 +11,13 @@ import itertools
 # my interface
 from .Node import Node
 # local basic types
-from .Binding import Binding
+from .Connector import Connector
 from .Factory import Factory
 from .Product import Product
 from .Slot import Slot
 from .Position import Position
 # connections
-from .BindingConnection import BindingConnection
+from .ConnectorConnection import ConnectorConnection
 from .FactoryConnection import FactoryConnection
 from .ProductConnection import ProductConnection
 from .SlotConnection import SlotConnection
@@ -26,7 +26,7 @@ from .SlotConnection import SlotConnection
 # trait types from {pyre.schemata}
 class Flow(graphene.ObjectType):
     """
-    The container of products, factories, and their bindings
+    The container of products, factories, and their connectors
     """
 
     # {graphene} metadata
@@ -45,7 +45,7 @@ class Flow(graphene.ObjectType):
     # slots
     slots = graphene.relay.ConnectionField(SlotConnection)
     # connectors
-    bindings = graphene.relay.ConnectionField(BindingConnection)
+    connectors = graphene.relay.ConnectionField(ConnectorConnection)
 
 
     # resolvers
@@ -168,15 +168,15 @@ class Flow(graphene.ObjectType):
         return slots
 
 
-    def resolve_bindings(panel, info, **kwds):
+    def resolve_connectors(panel, info, **kwds):
         # unpack
         flow = panel.flow
         layout = panel.layout
-        connectivity = panel.bindings
+        connectivity = panel.connectors
 
         # make a pile
-        bindings = []
-        # all bindings involve a factory, so run through them
+        connectors = []
+        # all connectors involve a factory, so run through them
         for factory in flow.factories:
             # get its guid
             fuid = factory.pyre_id
@@ -190,15 +190,15 @@ class Flow(graphene.ObjectType):
                 ppos = layout[puid]
                 # build a rep for this
                 productAt = Position(x=ppos["x"], y=ppos["y"])
-                # construct the binding id
-                buid = f"Binding:{fuid}|{puid}"
+                # construct the connector id
+                buid = f"Connector:{fuid}|{puid}"
                 # build the rep
-                rep = Binding(id=buid, inp=direction, factoryAt=factoryAt, productAt=productAt)
+                rep = Connector(id=buid, inp=direction, factoryAt=factoryAt, productAt=productAt)
                 # and add it to the pile
-                bindings.append(rep)
+                connectors.append(rep)
 
         # return the pile
-        return bindings
+        return connectors
 
 
 # end of file
