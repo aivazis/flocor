@@ -40,7 +40,7 @@ export const Connector = (props) => {
     // handle inputs vs. ooutputs
     const delta = inp ? -1 : 1
     // compute the connector path
-    const connector = `
+    const path = `
         M ${factoryAt.x + delta} ${factoryAt.y}
         L ${productAt.x - delta} ${productAt.y}
         L ${productAt.x} ${productAt.y}
@@ -50,7 +50,7 @@ export const Connector = (props) => {
     const connectorStyle = { ...styles.connector, ...props.style }
     // render
     return (
-        <path d={connector} style={connectorStyle} />
+        <path d={path} style={connectorStyle} />
     )
 }
 
