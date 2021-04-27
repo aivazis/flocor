@@ -12,7 +12,7 @@ from .Position import Position
 
 
 # a flow node that represents a typed+named variable
-class Binding(graphene.ObjectType):
+class Connector(graphene.ObjectType):
     """
     A connector from a product to a factory
     """

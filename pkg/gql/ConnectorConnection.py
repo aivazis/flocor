@@ -8,11 +8,11 @@
 import graphene
 
 # my node type
-from .Binding import Binding
+from .Connector import Connector
 
 
 # a connection of bindings
-class BindingConnection(graphene.relay.Connection):
+class ConnectorConnection(graphene.relay.Connection):
     """
     A connection to a list of products
     """
@@ -21,7 +21,7 @@ class BindingConnection(graphene.relay.Connection):
     # {graphene} metadata
     class Meta:
         # register my node type
-        node = Binding
+        node = Connector
 
 
 # end of file
