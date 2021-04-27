@@ -46,8 +46,8 @@ type Flow implements Node {
   factories(after: String, first: Int, before: String, last: Int): FactoryConnection!
   # the set of unbound product slots
   slots(after: String, first: Int, before: String, last: Int): SlotConnection!
-  # the binding connectors
-  bindings(after: String, first: Int, before: String, last: Int): BindingConnection!
+  # the connectors
+  connectors(after: String, first: Int, before: String, last: Int): ConnectorConnection!
 }
 
 
@@ -113,8 +113,8 @@ type SlotEdge {
 }
 
 
-# a binding is a connector from a factory to a product
-type Binding {
+# a connector from a factory to a product
+type Connector {
   id: ID!
   inp: Boolean!
   factoryAt: Position!
@@ -122,13 +122,13 @@ type Binding {
 }
 
 # support for slot connections
-type BindingConnection {
-  edges: [BindingEdge]
+type ConnectorConnection {
+  edges: [ConnectorEdge]
   pageInfo: PageInfo!
 }
 
-type BindingEdge {
-  node: Binding
+type ConnectorEdge {
+  node: Connector
   cursor: String!
 }
 
@@ -201,7 +201,7 @@ type NewFactoryInfo {
   # the list of unbound products
   slots: [Slot!]!
   # and the list of indings
-  bindings: [Binding!]!
+  connectors: [Connector!]!
 }
 
 
@@ -228,7 +228,7 @@ input MoveNodeInput {
 type MoveNode {
   # refresh the information of the moving node
   node: Node!
-  bindings: [Binding!]!
+  connectors: [Connector!]!
 }
 
 
