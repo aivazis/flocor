@@ -22,7 +22,7 @@ export const Shape = ({ factory, style }) => {
     // and the number of outputs
     const nOutputs = outputs.length
 
-    // make a narrow factory, i.e. one where the binding lines terminate on the base cell
+    // make a narrow factory, i.e. one where the connectors terminate on the base cell
     const cell = 1
     // input multiplexing
     const inplex = (
@@ -39,7 +39,7 @@ export const Shape = ({ factory, style }) => {
 
     // mix my paint
     const shapeStyle = { ...styles.shape, ...style?.shape }
-    const bindingsStyle = { ...styles.bindings, ...style?.bindings }
+    const connectorsStyle = { ...styles.connectors, ...style?.connectors }
 
     // paint me
     return (
@@ -52,7 +52,7 @@ export const Shape = ({ factory, style }) => {
                 // render
                 return (
                     <g key={name} >
-                        <path d={`M ${x} ${y} L ${x + 1} ${y} L -1 0`} style={bindingsStyle} />
+                        <path d={`M ${x} ${y} L ${x + 1} ${y} L -1 0`} style={connectorsStyle} />
                         <g transform={`translate(${x} ${y})`}>
                             <Slot />
                         </g>
@@ -67,7 +67,7 @@ export const Shape = ({ factory, style }) => {
                 // render
                 return (
                     <g key={name} >
-                        <path d={`M ${x} ${y} L ${x - 1} ${y} L 1 0`} style={bindingsStyle} />
+                        <path d={`M ${x} ${y} L ${x - 1} ${y} L 1 0`} style={connectorsStyle} />
                         <g transform={`translate(${x} ${y})`}>
                             <Slot />
                         </g>

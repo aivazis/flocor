@@ -16,8 +16,8 @@ export default {
     // and its shape
     shape: {},
 
-    // the binding lines
-    bindings: {
+    // the connectors
+    connectors: {
         // stroke
         stroke: "hsl(0deg, 0%, 35%)",
         strokeWidth: 2,
