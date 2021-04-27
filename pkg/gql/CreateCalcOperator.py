@@ -54,7 +54,7 @@ class CreateCalcOperator(graphene.Mutation):
         # grab the {layout}
         layout = panel.layout
         # and the connectivity matrix
-        connectivity = panel.connectors
+        connectivity = panel.connectivity
 
         # make a {factory}; we don't have a name for it yet
         op = flocor.flows.operator(family=family)

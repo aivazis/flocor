@@ -172,7 +172,7 @@ class Flow(graphene.ObjectType):
         # unpack
         flow = panel.flow
         layout = panel.layout
-        connectivity = panel.connectors
+        connectivity = panel.connectivity
 
         # make a pile
         connectors = []
