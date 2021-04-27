@@ -12,10 +12,10 @@ import styles from './styles'
 
 
 // render the onnectors between factories and products
-export const Binding = (props) => {
+export const Connector = (props) => {
     // pull the data
-    const binding = useFragment(graphql`
-        fragment binding_binding on Binding {
+    const connector = useFragment(graphql`
+        fragment connector_connector on Connector {
             id
             inp
             factoryAt {
@@ -27,15 +27,15 @@ export const Binding = (props) => {
                 y
             }
         }
-    `, props.binding)
+    `, props.connector)
 
     // unpack
     // the direction flag
-    const inp = binding.inp
+    const inp = connector.inp
     // the factory diagram coordinates
-    const factoryAt = binding.factoryAt
+    const factoryAt = connector.factoryAt
     // and the product coordinates
-    const productAt = binding.productAt
+    const productAt = connector.productAt
 
     // handle inputs vs. ooutputs
     const delta = inp ? -1 : 1
@@ -47,10 +47,10 @@ export const Binding = (props) => {
         `
 
     // mix my paint
-    const bindingStyle = { ...styles.binding, ...props.style }
+    const connectorStyle = { ...styles.connector, ...props.style }
     // render
     return (
-        <path d={connector} style={bindingStyle} />
+        <path d={connector} style={connectorStyle} />
     )
 }
 
