@@ -26,7 +26,7 @@ import { Factories } from './factories'
 import { Products } from './products'
 import { Slots } from './slots'
 // connectors
-import { Bindings } from './bindings'
+import { Connectors } from './connectors'
 // styles
 import styles from './styles'
 
@@ -53,8 +53,8 @@ const Diagram = () => {
                     <Grid />
                     {/* the origin/orientation marker */}
                     <Compass />
-                    {/* binding connectors */}
-                    <Bindings flow={flow} />
+                    {/* connectors */}
+                    <Connectors flow={flow} />
                     {/* slots */}
                     <Slots flow={flow} />
                     {/* factories */}
@@ -80,7 +80,7 @@ const flogramQuery = graphql`query flogramQuery {
         # unbound products
         ...slots_flow
         # connectors
-        ...bindings_flow
+        ...connectors_flow
    }
 }`
 

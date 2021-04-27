@@ -28,7 +28,7 @@ export const Factory = (props) => {
         }
     `, props.factory)
 
-    // make a narrow factory, i.e. one where the binding lines terminate on the base cell
+    // make a narrow factory, i.e. one where the connector lines terminate on the base cell
     const cell = 1
     // input terminal
     const inplex = (

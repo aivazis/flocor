@@ -41,8 +41,8 @@ export default {
         fill: "url(#gridGlow)",
     },
 
-    // the binding lines
-    binding: {
+    // the connector lines
+    connector: {
         // stroke
         stroke: "hsl(0deg, 0%, 35%)",
         strokeWidth: 2,
