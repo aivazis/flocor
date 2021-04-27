@@ -65,7 +65,7 @@ export const useCreateOperator = (factory) => {
                 ConnectionHandler.insertEdgeAfter(factories, factoryEdge)
 
                 // add the new slots to the store
-                // extact the slots
+                // extract the slots
                 const newSlots = result.getLinkedRecords("slots")
                 // get a proxy to the connection that will own the new slots
                 const slots = ConnectionHandler.getConnection(
@@ -82,20 +82,20 @@ export const useCreateOperator = (factory) => {
                 })
 
                 // add the new slots to the store
-                // extact the bindings
-                const newBindings = result.getLinkedRecords("bindings")
+                // extract the connectors
+                const newConnectors = result.getLinkedRecords("connectors")
                 // get a proxy to the connection that will own the new slots
-                const bindings = ConnectionHandler.getConnection(
+                const connectors = ConnectionHandler.getConnection(
                     store.get(owner),
-                    "bindingsFragment_bindings"
+                    "connectorsFragment_connectors"
                 )
                 // go through the new slots and for each one
-                newBindings.forEach(newBinding => {
+                newConnectors.forEach(newConnector => {
                     // create an edge with the new slot
-                    const bindingEdge = ConnectionHandler.createEdge(
-                        store, bindings, newBinding, "BindingEdge")
+                    const connectorEdge = ConnectionHandler.createEdge(
+                        store, connectors, newConnector, "ConnectorEdge")
                     // add it to the connection
-                    ConnectionHandler.insertEdgeAfter(bindings, bindingEdge)
+                    ConnectionHandler.insertEdgeAfter(connectors, connectorEdge)
                 })
 
                 // all done
@@ -132,8 +132,8 @@ mutation useCreateOperatorMutation($info: NewNodeInput!) {
         slots {
             ... slot_slot
         }
-        bindings {
-            ... binding_binding
+        connectors {
+            ... connector_connector
         }
     }
 }`
