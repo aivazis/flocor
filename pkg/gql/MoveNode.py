@@ -37,6 +37,7 @@ class MoveNode(graphene.Mutation):
 
 
     # fields
+    flow = graphene.Field(type=Node, required=True)
     node = graphene.Field(type=Node, required=False, default_value=None)
     connectors = graphene.List(graphene.NonNull(Connector), required=True, default_value=[])
 
@@ -46,6 +47,7 @@ class MoveNode(graphene.Mutation):
         Move a node to a new location
         """
         # unpack the node info
+        owner = nodeinfo["flow"]
         id = nodeinfo["id"]
         x = nodeinfo["x"]
         y = nodeinfo["y"]
@@ -76,17 +78,17 @@ class MoveNode(graphene.Mutation):
                 # so if {moving} is a factory
                 if isinstance(moving, flocor.flows.factory):
                     # bail
-                    return MoveNode()
+                    return MoveNode(flow=owner)
                 # if {target} is a factory
                 if isinstance(target, flocor.flows.factory):
                     # bail
-                    return MoveNode()
+                    return MoveNode(flow=owner)
                 # if {moving} is a product
                 if isinstance(moving, flocor.flows.product):
                     # and {target} is also a product
                     if isinstance(target, flocor.flows.product):
                         # bail
-                        return MoveNode()
+                        return MoveNode(flow=owner)
                     # move on
                     break
                 # if {moving} is a slot
@@ -94,9 +96,13 @@ class MoveNode(graphene.Mutation):
                     # and {target} is also a slot
                     if isinstance(target, flocor.flows.slot):
                         # bail
-                        return MoveNode()
+                        return MoveNode(flow=owner)
                     # move on
                     break
+        # if the search yielded no collisions
+        else:
+            # this must be a safe spot for this node
+            panel.lastpos = (x, y)
 
         # use it to update the position of the moving node
         layout[guid] = {"x": x, "y": y}
@@ -162,9 +168,11 @@ class MoveNode(graphene.Mutation):
             channel = journal.firewall("flocor.gql.schema")
             # and complain
             channel.log(f"while moving node '{id}': unknown type '{typename}")
+            # and, just in case firewalls are not fatal, send an empty result back
+            return MoveNodeEnd(flow=owner)
 
         # return the node info
-        return MoveNode(node=node, connectors=connectors)
+        return MoveNode(flow=owner, node=node, connectors=connectors)
 
 
 # end of file
