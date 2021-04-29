@@ -30,6 +30,8 @@ class Panel(flocor.shells.command, family="flocor.cli.ux"):
         self.layout = {}
         # and the connectors
         self.connectivity = flocor.patterns.vivify(levels=2, atom=bool)
+        # we also provide a place to park the last known good position of whatever node is moving
+        self.lastpos = None
         # all done
         return
 
