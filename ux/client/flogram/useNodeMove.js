@@ -15,7 +15,7 @@ import { useMovingNode } from './useMovingNode'
 // the last step in moving a flow node is sending a mutation to the server
 // this hook reads the node information that was left behind in the {flogram} context when
 // the dragging operation started and uses it to build a callback that commits the mutation
-export const useNodeMove = () => {
+export const useNodeMove = (flow) => {
     // clicking on a node registers it as a move candidate with the {flogram} context
     const movingNodeInfo = useMovingNode()
     // the mutation sends the new location information to the server
@@ -33,9 +33,11 @@ export const useNodeMove = () => {
         commitMoveNode({
             variables: {
                 info: {
-                    // type info
+                    // the flow that owns this node
+                    flow,
+                    // the moving node
                     id: movingNodeInfo,
-                    // the new position
+                    // its new position
                     ...position
                 }
             }
