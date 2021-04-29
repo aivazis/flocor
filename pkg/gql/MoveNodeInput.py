@@ -16,6 +16,7 @@ class MoveNodeInput(graphene.InputObjectType):
 
 
     # the fields
+    flow = graphene.ID()
     id = graphene.ID()
     x = graphene.Int(required=True)
     y = graphene.Int(required=True)
