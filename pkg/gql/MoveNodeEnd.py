@@ -39,10 +39,10 @@ class MoveNodeEnd(graphene.Mutation):
     # fields
     flow = graphene.ID()
     node = graphene.Field(type=Node, required=False, default_value=None)
-    dead = graphene.Field(type=Slot, required=False, default_value=None)
-    connectors = graphene.List(graphene.NonNull(Connector), required=True, default_value=[])
+    connectors = graphene.List(graphene.NonNull(Connector), required=False, default_value=[])
+    dead = graphene.ID()
+    discard = graphene.List(graphene.ID, required=False, default_value=[])
     new = graphene.List(graphene.NonNull(Connector), required=True, default_value=[])
-    discard = graphene.List(graphene.NonNull(Connector), required=True, default_value=[])
 
 
     def mutate(root, info, nodeinfo):
@@ -138,6 +138,10 @@ class MoveNodeEnd(graphene.Mutation):
         # - all of its connectors have to be removed as well
         # - the surviror gets the all the connectors of the dead node
         #  pick the surviror
+
+        # the current position
+        position = Position(x=x, y=y)
+
         # if the target is a product
         if isinstance(target, flocor.flow.product):
             # it is the survivor
@@ -150,42 +154,13 @@ class MoveNodeEnd(graphene.Mutation):
             survivor = moving
             dead = target
 
-        # build a rep for the position of the survivor
-        position = Position(x=x, y=y)
-        # we need a node for the survivor; if it's a product
-        if isinstance(survivor, flocor.flow.product):
-            # make a product rep
-            node = Product(id=f"Product:{survivor.pyre_id}", position=position)
-        # otherwise
-        else:
-            print("what what?")
-            # make a slot rep
-            node = Slot(id=f"Slot:{survivor.pyre_id}", position=position)
         # the dead guy is always a slot, for now
-        deadnode = Slot(id=f"Slot:{dead.pyre_id}", position=Position(**layout[dead.pyre_id]))
-
-        # the survivor gets to keep his connectors
-        connectors = []
-        """
-        # go through all the factories the survivor is connected to
-        for fuid, direction in connectivity[survivor.pyre_id].items():
-            # look up the factory position
-            fpos = layout[fuid]
-            # build a rep for it
-            frep = Position(x=fpos["x"], y=fpos["y"])
-            # assemble the connector id
-            buid = f"Connector:{fuid}|{survivor.pyre_id}"
-            # build a rep for the connector
-            brep = Connector(id=buid, inp=direction, factoryAt=fpos, productAt=position)
-            # and add it to the pile
-            connectors.append(brep)
-            """
-
+        deadnode = f"Slot:{dead.pyre_id}"
         # make a pile for the new connectors of the survivor
         new = []
         # and a pile for the discarded connectors of the dead node
         discard = []
-        # go through all the factories the dead is connected to
+        # go through all the factories the dead node is connected to
         for fuid, direction in connectivity[dead.pyre_id].items():
             # look up the factory position
             fpos = layout[fuid]
@@ -197,15 +172,22 @@ class MoveNodeEnd(graphene.Mutation):
             nrep = Connector(id=nuid, inp=direction, factoryAt=fpos, productAt=position)
             # and add it to the pile
             new.append(nrep)
+            # update the connectivity matrix
+            connectivity[survivor.pyre_id][fuid] = direction
+            connectivity[fuid][survivor.pyre_id] = direction
             # make a connector id for the discarded connector
             duid = f"Connector:{fuid}|{dead.pyre_id}"
-            # build a rep for the connector
-            drep = Connector(id=duid, inp=direction, factoryAt=fpos, productAt=position)
             # and add it to the pile
-            discard.append(drep)
+            discard.append(duid)
+            # update the connectivity matrix
+            del connectivity[fuid][dead.pyre_id]
+        # remove the remaining connections to the dead node
+        del connectivity[dead.pyre_id]
+        # remove the slot from the layout
+        # del layout[dead.pyre_id]
 
-        return MoveNodeEnd(flow=owner, node=node, connectors=connectors,
-                           dead=deadnode, new=new, discard=discard)
+        # all done
+        return MoveNodeEnd(flow=owner, dead=deadnode, new=new, discard=discard)
 
 
 # end of file
