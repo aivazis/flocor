@@ -10,8 +10,10 @@ import flocor
 # the container
 from .Flow import Flow as flow
 # the nodes
-from .Factory import Factory
-from .Product import Product
+from .Factory import Factory as factory
+from .Product import Product as product
+# slots are framework items
+from pyre.framework.Slot import Slot as slot
 
 # the known variable types
 from . import variables
