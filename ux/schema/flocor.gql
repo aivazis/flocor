@@ -244,15 +244,15 @@ type MoveNodeEnd {
   # the flow that owns the new node
   flow: ID!
   # refresh the information of the moving node
-  node: Node!
+  node: Node
+  # and its connectors
+  connectors: [Connector!]
   # if the move resulted in a binding, there is a node to remove from the diagram
-  dead: Slot
-  # the connectors
-  connectors: [Connector!]!
+   dead: ID
   # the new connectors
   new: [Connector!]!
   # the discarded connectors
-  discard: [Connector!]!
+  discard: [ID!]!
 }
 
 
