@@ -13,6 +13,7 @@ from .CreateCalcOperator import CreateCalcOperator
 from .CreateCalcVariable import CreateCalcVariable
 # node movement
 from .MoveNode import MoveNode
+from .MoveNodeEnd import MoveNodeEnd
 
 
 # the mutation anchor
@@ -29,6 +30,8 @@ class Mutation(graphene.ObjectType):
 
     # move an existing node
     moveNode = MoveNode.Field()
+    # stop the moving node
+    moveNodeEnd = MoveNodeEnd.Field()
 
 
 # end of file
