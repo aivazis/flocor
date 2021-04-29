@@ -37,8 +37,8 @@ class MoveNode(graphene.Mutation):
 
 
     # fields
-    node = graphene.Field(type=Node, required=True)
-    connectors = graphene.List(graphene.NonNull(Connector), required=True)
+    node = graphene.Field(type=Node, required=False, default_value=None)
+    connectors = graphene.List(graphene.NonNull(Connector), required=True, default_value=[])
 
 
     def mutate(root, info, nodeinfo):
@@ -52,7 +52,9 @@ class MoveNode(graphene.Mutation):
 
         # get the panel
         panel = info.context["panel"]
-        # the flow {layout}
+        # the flow
+        flow = panel.flow
+        # its {layout}
         layout = panel.layout
         # and the connectivity matrix
         connectivity = panel.connectivity
@@ -61,9 +63,44 @@ class MoveNode(graphene.Mutation):
         typename, nodeid = id.split(":")
         # convert the string into a {uuid}
         guid = uuid.UUID(hex=nodeid)
-        # use it to adjust the position of the node
+
+        # collision check: go through all the known nodes
+        for nid, loc in layout.items():
+            # look for one that occupies my cell
+            if nid != guid and loc["x"] == x and loc["y"] == y:
+                # look up the moving node
+                moving = flow.index[guid]
+                # and the stationary target
+                target = flow.index[nid]
+                # the only supported combination is when one is a product and the other a slot
+                # so if {moving} is a factory
+                if isinstance(moving, flocor.flows.factory):
+                    # bail
+                    return MoveNode()
+                # if {target} is a factory
+                if isinstance(target, flocor.flows.factory):
+                    # bail
+                    return MoveNode()
+                # if {moving} is a product
+                if isinstance(moving, flocor.flows.product):
+                    # and {target} is also a product
+                    if isinstance(target, flocor.flows.product):
+                        # bail
+                        return MoveNode()
+                    # move on
+                    break
+                # if {moving} is a slot
+                if isinstance(moving, flocor.flows.slot):
+                    # and {target} is also a slot
+                    if isinstance(target, flocor.flows.slot):
+                        # bail
+                        return MoveNode()
+                    # move on
+                    break
+
+        # use it to update the position of the moving node
         layout[guid] = {"x": x, "y": y}
-        # and build the new position to return to the client
+        # and build the new position rep to return to the client
         position = Position(x=x, y=y)
 
         # make a pile of connectors
