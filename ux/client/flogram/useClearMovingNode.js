@@ -23,7 +23,7 @@ export const useClearMovingNode = () => {
             // bail
             return
         }
-        // otherwise, register the new node
+        // otherwise, clear the moving node marker
         setMovingNode(null)
         // all done
         return
