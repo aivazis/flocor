@@ -176,8 +176,10 @@ type Mutation {
   addCalcVariable(nodeinfo: NewNodeInput!): NewProductInfo!
   addCalcOperator(nodeinfo: NewNodeInput!): NewFactoryInfo!
 
-  # move an existing n ode
+  # move an existing node
   moveNode(nodeinfo: MoveNodeInput!): MoveNode!
+  # when the node move end
+  moveNodeEnd(nodeinfo: MoveNodeInput!): MoveNodeEnd!
 }
 
 
@@ -216,6 +218,8 @@ type NewProductInfo {
 
 # the input payload to the mutation that moves nodes around
 input MoveNodeInput {
+  # the flow that owns the moving node
+  flow: ID!
   # the id of the moving node
   id: ID!
   # and its new location on the diagram
@@ -226,10 +230,29 @@ input MoveNodeInput {
 
 # the result payload for the mutation that moves nodes around
 type MoveNode {
+  # the flow that owns the new node
+  flow: ID!
   # refresh the information of the moving node
   node: Node!
   # the updated connectors
   connectors: [Connector!]!
+}
+
+
+# the result payload for the mutation that alerts the server a node has stopped moving
+type MoveNodeEnd {
+  # the flow that owns the new node
+  flow: ID!
+  # refresh the information of the moving node
+  node: Node!
+  # if the move resulted in a binding, there is a node to remove from the diagram
+  dead: Slot
+  # the connectors
+  connectors: [Connector!]!
+  # the new connectors
+  new: [Connector!]!
+  # the discarded connectors
+  discard: [Connector!]!
 }
 
 
