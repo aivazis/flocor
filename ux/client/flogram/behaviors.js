@@ -14,6 +14,7 @@ import { useCamera } from '~/widgets/camera'
 import { useCreateNewNode } from '~/views/flo2d'
 // local
 import { useNodeMove } from './useNodeMove'
+import { useNodeEndMove } from './useNodeEndMove'
 import { useClearMovingNode } from './useClearMovingNode'
 
 
@@ -23,7 +24,9 @@ export const Behaviors = React.forwardRef(({ flow }, viewRef) => {
     const { newNode, createNode } = useCreateNewNode(flow)
 
     // to move a node
-    const { moveNode, movingNodeInfo } = useNodeMove()
+    const { moveNode, movingNodeInfo } = useNodeMove(flow)
+    // when a node stops moving
+    const { endMoveNode } = useNodeEndMove(flow)
     // to clear the moving node candidate
     const clearMovingNode = useClearMovingNode()
 
@@ -35,8 +38,8 @@ export const Behaviors = React.forwardRef(({ flow }, viewRef) => {
         const position = toICS(evt.clientX, evt.clientY)
         // check whether we are expected to make a new node
         createNode(position)
-        // clear the moving node candidate
-        clearMovingNode()
+        // complete the movement of a node
+        endMoveNode(position)
         // all done
         return
     }
