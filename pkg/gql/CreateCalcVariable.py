@@ -52,6 +52,7 @@ class CreateCalcVariable(graphene.Mutation):
         # make a {product}; we don't have a name for it yet
         var = flocor.flows.var(family=family)
         # add it to the flow
+        flow.index[var.pyre_id] = var
         flow.products.add(var)
         # and the layout
         layout[var.pyre_id] = {"x": x, "y": y}

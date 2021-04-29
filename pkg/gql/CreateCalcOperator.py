@@ -68,6 +68,7 @@ class CreateCalcOperator(graphene.Mutation):
         nOutputs = len(outputs)
 
         # add it to the flow
+        flow.index[op.pyre_id] = op
         flow.factories.add(op)
         # and the layout
         layout[op.pyre_id] = {"x": x, "y": y}
@@ -90,13 +91,15 @@ class CreateCalcOperator(graphene.Mutation):
         for idx, trait in enumerate(inputs):
             # get the slot
             slot = op.pyre_inventory[trait]
+            # get its id
+            guid = slot.pyre_id
+            # add it to the index
+            flow.index[guid] = slot
             # if it's bound
             if slot._value is not None:
                 # skip it
                 continue
-            # otherwise, get its id
-            guid = slot.pyre_id
-            # its name
+            # get its name
             name = trait.name
             # its family
             family = trait.typename
@@ -121,17 +124,19 @@ class CreateCalcOperator(graphene.Mutation):
             # and add to its pile
             connectors.append(connectorRep)
 
-        # for each one
+        # for each output
         for idx, trait in enumerate(outputs):
             # get the slot
             slot = op.pyre_inventory[trait]
+            # get its id
+            guid = slot.pyre_id
+            # add it to the index
+            flow.index[guid] = slot
             # if it's bound
             if slot._value is not None:
                 # skip it
                 continue
-            # otherwise, get its id
-            guid = slot.pyre_id
-            # its name
+            # get its name
             name = trait.name
             # its family
             family = trait.typename
