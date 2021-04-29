@@ -6,6 +6,7 @@
 
 # externals
 import uuid
+import weakref
 # get the package
 import flocor
 
@@ -15,6 +16,16 @@ class Flow(flocor.flow.dynamic, family="flocor.flows.flow", implements=flocor.sp
     """
     An undifferentiated container for flow nodes
     """
+
+
+    # metamethods
+    def __init__(self, **kwds):
+        # chain up
+        super().__init__(**kwds)
+        # build an index that maps a {pyre_id} to the corresponding {flow} node
+        self.index = weakref.WeakValueDictionary()
+        # all done
+        return
 
 
 # end of file
