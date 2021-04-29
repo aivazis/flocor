@@ -7,6 +7,7 @@
 // externals
 import React from 'react'
 import { useMutation } from 'react-relay/hooks'
+import { ConnectionHandler } from 'relay-runtime'
 // locals
 // context
 import { Context } from './context'
@@ -27,6 +28,9 @@ export const useNodeEndMove = (flow) => {
             // and bail if not
             return
         }
+        // clear the moving node marker
+        setMovingNode(null)
+
         // otherwise, assemble the node info and commit the change
         commitMoveNode({
             variables: {
@@ -47,16 +51,51 @@ export const useNodeEndMove = (flow) => {
                     // bail
                     return
                 }
-                // get the flow id
+                // grab the flow that owns the new node
                 const owner = result.getValue("flow")
-                console.log(flow)
-                // all done
+                // get the dead node id
+                const dead = result.getValue("dead")
+                // if there isn't one, the move did not result in any collistions, hence there
+                // are no changes to the digram
+                if (dead === null) {
+                    // hence there's nothing further to do
+                    return
+                }
+
+                // otherwise, get a proxy to the connection that owns the dead node
+                const slots = ConnectionHandler.getConnection(
+                    store.get(owner),
+                    "slotsFragment_slots"
+                )
+                // remove it from the edges of the {slotsFragment_slots} connection
+                ConnectionHandler.deleteNode(slots, dead)
+
+                // get a proxy the to the connection that owns the obsolete connectors
+                const connectors = ConnectionHandler.getConnection(
+                    store.get(owner),
+                    "connectorsFragment_connectors"
+                )
+                // get the pile of connectors to discard
+                const discard = result.getValue("discard")
+                // go through them
+                discard.forEach(connector => {
+                    // and remove each one
+                    ConnectionHandler.deleteNode(connectors, connector)
+                })
+                // get the pile of new connetors
+                const newConnectors = result.getLinkedRecords("new")
+                // go through the new slots and for each one
+                newConnectors.forEach(connector => {
+                    // create an edge with the new slot
+                    const connectorEdge = ConnectionHandler.createEdge(
+                        store, connectors, connector, "ConnectorEdge")
+                    // add it to the connection
+                    ConnectionHandler.insertEdgeAfter(connectors, connectorEdge)
+                })
+
                 return
             }
         })
-
-        // clear the moving node marker
-        setMovingNode(null)
 
         // all done
         return
@@ -72,31 +111,24 @@ const moveNodeMutation = graphql`mutation useNodeEndMoveMutation($info: MoveNode
     moveNodeEnd(nodeinfo: $info) {
         # the id of the flow that owns the moving node
         flow
-        # refresh the info of the moving node
+        # updates to the moving node
         node {
-            # based on its id
             id
-            # update its position
             position {
                 x
                 y
             }
         }
-        # the dead node
-        dead {
-            id
-        }
-        # the connectors
+        # and its connectors
         connectors {
             ...connector_connector
         }
-        # updated connectivity information
-        # new connectors
+        # the dead node
+        dead
+        # the obsolete connectors
+        discard
+        # and the new ones
         new {
-            ...connector_connector
-        }
-        # connectors to remove
-        discard {
             ...connector_connector
         }
     }
