@@ -38,20 +38,6 @@ export const useNodeMove = () => {
                     // the new position
                     ...position
                 }
-            },
-            updater: (store) => {
-                // get the result payload
-                const result = store.getRootField("moveNode")
-                // if we don't have one yet
-                if (!result) {
-                    // bail
-                    return
-                }
-
-                console.log("node moved...")
-
-                // all done
-                return
             }
         })
 
