@@ -73,7 +73,7 @@ const Root = () => (
 
 
 // render
-ReactDOM.unstable_createRoot(document.getElementById('flocor')).render(<Root />)
+ReactDOM.render(<Root />, document.getElementById('flocor'))
 
 
 // end of file
