@@ -22,6 +22,15 @@ class Add(Factory, family="flocor.factories.add"):
     # my value
     value = flocor.flow.specification.output()
 
+    # interface
+    def pyre_run(self, **kwds):
+        """
+        Compute and store my value
+        """
+        self.value.value = self.op1.value + self.op2.value
+        # all done
+        return self
+
 
 class Sub(Factory, family="flocor.factories.sub"):
     """
@@ -33,6 +42,15 @@ class Sub(Factory, family="flocor.factories.sub"):
     op2 = flocor.flow.specification.input()
     # my value
     value = flocor.flow.specification.output()
+
+    # interface
+    def pyre_run(self, **kwds):
+        """
+        Compute and store my value
+        """
+        self.value.value = self.op1.value - self.op2.value
+        # all done
+        return self
 
 
 class Mul(Factory, family="flocor.factories.mul"):
@@ -46,6 +64,15 @@ class Mul(Factory, family="flocor.factories.mul"):
     # my value
     value = flocor.flow.specification.output()
 
+    # interface
+    def pyre_run(self, **kwds):
+        """
+        Compute and store my value
+        """
+        self.value.value = self.op1.value * self.op2.value
+        # all done
+        return self
+
 
 class Div(Factory, family="flocor.factories.div"):
     """
@@ -58,14 +85,21 @@ class Div(Factory, family="flocor.factories.div"):
     # my value
     value = flocor.flow.specification.output()
 
+    # interface
+    def pyre_run(self, **kwds):
+        """
+        Compute and store my value
+        """
+        self.value.value = self.op1.value / self.op2.value
+        # all done
+        return self
+
 
 # put them all on a pile
 operators = [
     Add, Sub, Mul, Div,
 ]
-
-
-# index them by the family name
+# and index them by the family name
 index = { cls.pyre_family().split(".")[-1]: cls for cls in operators }
 
 
