@@ -81,7 +81,7 @@ class CreateCalcOperator(graphene.Mutation):
                        inputs=nInputs, outputs=nOutputs,
                        position=position)
 
-        # assemble the slots and their connetors
+        # assemble the slots and their connectors
         # make a pile for slots
         slots = []
         # and one for connectors
