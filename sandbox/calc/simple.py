@@ -60,11 +60,21 @@ def simple():
     # set some values
     a.value = 1
     b.value = 2
-    # do the math
-    print(f"{a.value} + {b.value} = {r.pyre_make().value}")
+    # update
+    r.pyre_make()
+    # show me
+    print(f"{a.value} + {b.value} = {r.value}")
+    # and check
+    assert r.pyre_make().value == 3
+
     # and again
     a.value = 2
-    print(f"{a.value} + {b.value} = {r.pyre_make().value}")
+    # update
+    r.pyre_make()
+    # show me
+    print(f"{a.value} + {b.value} = {r.value}")
+    # and check
+    assert r.pyre_make().value == 4
 
     # all done
     return 0
