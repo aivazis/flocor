@@ -45,6 +45,8 @@ from . import specs
 from . import products
 from . import factories
 from . import flows
+# server side diagram representation
+from . import diagram
 
 
 # administrivia
