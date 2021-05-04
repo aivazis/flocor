@@ -4,8 +4,8 @@
 # (c) 1998-2021 all rights reserved
 
 
-# the framework
-import flocor
+# publish
+from .Diagram import Diagram as diagram
 
 
 # end of file
