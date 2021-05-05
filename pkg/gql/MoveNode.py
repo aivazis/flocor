@@ -54,125 +54,80 @@ class MoveNode(graphene.Mutation):
 
         # get the panel
         panel = info.context["panel"]
-        # the flow
-        flow = panel.flow
-        # its {layout}
-        layout = panel.layout
-        # and the connectivity matrix
-        connectivity = panel.connectivity
-
+        # and the diagram
+        diagram = panel.diagram
         # extract the type of the node and its {pyre_id}
         typename, nodeid = id.split(":")
         # convert the string into a {uuid}
         guid = uuid.UUID(hex=nodeid)
+        # look up the moving node
+        node = diagram.nodes[guid]
 
-        # collision check: go through all the known nodes
-        for nid, loc in layout.items():
-            # look for one that occupies my cell
-            if nid != guid and loc["x"] == x and loc["y"] == y:
-                # look up the moving node
-                moving = flow.index[guid]
-                # and the stationary target
-                target = flow.index[nid]
-                # the only supported combination is when one is a product and the other a slot
-                # so if {moving} is a factory
-                if isinstance(moving, flocor.flows.factory):
-                    # bail
-                    return MoveNode(flow=owner)
-                # if {target} is a factory
-                if isinstance(target, flocor.flows.factory):
-                    # bail
-                    return MoveNode(flow=owner)
-                # if {moving} is a product
-                if isinstance(moving, flocor.flows.product):
-                    # and {target} is also a product
-                    if isinstance(target, flocor.flows.product):
-                        # bail
-                        return MoveNode(flow=owner)
-                    # move on
-                    break
-                # if {moving} is a slot
-                if isinstance(moving, flocor.flows.slot):
-                    # and {target} is also a slot
-                    if isinstance(target, flocor.flows.slot):
-                        # bail
-                        return MoveNode(flow=owner)
-                    # move on
-                    break
-        # if the search yielded no collisions
-        else:
-            # this must be a safe spot for this node
-            panel.lastpos = (x, y)
+        # if the move is illegal
+        if not diagram.mayMove(node=node, position=(x,y)):
+            # bail without touching anything
+            return MoveNode(flow=owner)
 
-        # use it to update the position of the moving node
-        layout[guid] = {"x": x, "y": y}
-        # and build the new position rep to return to the client
-        position = Position(x=x, y=y)
-
-        # make a pile of connectors
-        connectors = []
-
+        # build the new position rep to return to the client
+        here = Position(x=x, y=y)
         # deduce the correct return type; for products
         if typename == "Product":
             # build a product
-            node = Product(id=id, position=position)
-            # go through the factories i'm connected to
-            for fuid, direction in connectivity[guid].items():
-                # look up the factory position
-                fpos = layout[fuid]
-                # build a rep for it
-                frep = Position(x=fpos["x"], y=fpos["y"])
-                # assemble the connector id
-                buid = f"Connector:{fuid}|{guid}"
-                # build a rep for the connector
-                brep = Connector(id=buid, inp=direction, factoryAt=fpos, productAt=position)
-                # and add it to the pile
-                connectors.append(brep)
+            rep = Product(id=id, position=here)
         # for factories
         elif typename == "Factory":
             # build a factory
-            node = Factory(id=id, position=position)
-            # go through the products and slots i'm connected to
-            for nuid, direction in connectivity[guid].items():
-                # look up the node position
-                npos = layout[nuid]
-                # build a rep for it
-                nrep = Position(x=npos["x"], y=npos["y"])
-                # assemble the connector id
-                buid = f"Connector:{guid}|{nuid}"
-                # build a rep for the connector
-                brep = Connector(id=buid, inp=direction, factoryAt=position, productAt=npos)
-                # and add it to the pile
-                connectors.append(brep)
+            rep = Factory(id=id, position=here)
         # for slots
         elif typename == "Slot":
             # build a slot
-            node = Slot(id=id, position=position)
-            # go through the factories i'm connected to
-            for fuid, direction in connectivity[guid].items():
-                # look up the factory position
-                fpos = layout[fuid]
-                # build a rep for it
-                frep = Position(x=fpos["x"], y=fpos["y"])
-                # assemble the connector id
-                buid = f"Connector:{fuid}|{guid}"
-                # build a rep for the connector
-                brep = Connector(id=buid, inp=direction, factoryAt=fpos, productAt=position)
-                # and add it to the pile
-                connectors.append(brep)
+            rep = Slot(id=id, position=here)
         # anything else
         else:
-            # get the journal
+            # is a problem
             import journal
-            # make a channel
+            # that's almost certainly a bug
             channel = journal.firewall("flocor.gql.schema")
             # and complain
             channel.log(f"while moving node '{id}': unknown type '{typename}")
             # and, just in case firewalls are not fatal, send an empty result back
             return MoveNodeEnd(flow=owner)
 
+        # make a pile of connectors
+        connectors = []
+        # go through the connections of the node
+        for factory, trait, slot in node.connections:
+            # deduce the direction of the connector
+            direction = trait.input
+            # if the factory is moving
+            if factory is node:
+                # then its position is here
+                fpos = here
+            # otherwise
+            else:
+                # unpack the factory position
+                fx, fy = factory.position
+                # and build a rep
+                fpos = Position(x=fx, y=fy)
+            # if the slot is moving
+            if slot is node:
+                # then its position is here
+                spos = here
+            # otherwise
+            else:
+                # unpack the slot position
+                sx, sy = slot.position
+                # and build a rep
+                spos = Position(x=sx, y=sy)
+            # assemble the connector id
+            buid = f"Connector:{factory.pyre_id}|{slot.pyre_id}"
+            # build a rep for the connector
+            brep = Connector(id=buid, inp=direction, factoryAt=fpos, productAt=spos)
+            # and add it to the pile
+            connectors.append(brep)
+
         # return the node info
-        return MoveNode(flow=owner, node=node, connectors=connectors)
+        return MoveNode(flow=owner, node=rep, connectors=connectors)
 
 
 # end of file
