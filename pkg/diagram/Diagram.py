@@ -28,21 +28,20 @@ class Diagram:
         # add it to the pile
         self.factories.add(rep)
         # and the index
-        self.nodes[factory.pyre_id] = rep
-        # record its locations
+        self.nodes[rep.pyre_id] = rep
+        # record its location
         self.layout[rep.position] = rep
 
-        # make a pile of its slots; we need to send them to the caller
-        slots = tuple(rep.slots.values())
-        # go through them
-        for slot in slots:
+        # go through the slots
+        for slot in rep.slots.values():
             # add each one to my pile
             self.slots.add(slot)
-            # and the node index
+            # and to the node index
             self.nodes[slot.pyre_id] = slot
-            # place it in the dagram
+            # place it in the diagram
             self.layout[slot.position] = slot
 
+        # check and resolve collisions
         # all done
         return rep
 
@@ -58,7 +57,7 @@ class Diagram:
         # add it to the pile
         self.products.add(rep)
         # and the index
-        self.nodes[product.pyre_id] = rep
+        self.nodes[rep.pyre_id] = rep
         # record its location
         self.layout[rep.position] = rep
 
@@ -81,7 +80,7 @@ class Diagram:
         except KeyError:
             # the position is good
             self.lastpos = position
-            # the move is allowed
+            # and the move is allowed
             return True
 
         # we have a collision; if either node is a factory
@@ -111,7 +110,8 @@ class Diagram:
         # if there isn't
         except KeyError:
             # perfect; nothing to do
-            pass
+            target = None
+            connections = ()
         # if there is
         else:
             # we have cleaning up to do; remove the target from my {nodes}
@@ -124,31 +124,33 @@ class Diagram:
                 # go through all the factory traits that are resting on {node}
                 for factory, trait in node.connectors:
                     # bind them to the {target} product
-                    setattr(factory, trait.name, target.prduct)
+                    setattr(factory, trait.name, target.product)
             # if target is a slot
             else:
-                # remove from the pile of slots
+                # remove it from the pile of slots
                 self.slots.discard(target)
 
             # if node is a product
             if node.product is not None:
                 # go through all the factory traits that are resting on {target}
                 for factory, trait in target.connectors:
-                    # bind them to the {target} product
+                    # bind them to the {node} product
                     setattr(factory.factory, trait.name, node.product)
 
+            # save the {target} connections
+            connections = tuple(target.connections)
             # merge the two nodes; this clears the connectivity info in {other}, so do it late
             node.merge(target)
 
-        # in any case, # update the layout
+        # in any case, update the layout
         del self.layout[node.position]
         self.layout[position] = node
-        # the move {node} there
+        # move the {node} there
         node.position = position
         # clear the last known good position
         self.lastpos = None
         # and done
-        return node
+        return target, connections
 
 
     # metamethods
@@ -168,7 +170,7 @@ class Diagram:
         # a map from diagram coordinates to nodes
         self.layout = {}
 
-        # a tracker of the last position that was collision free
+        # a tracker of the last position we have verified as collision free
         self.lastpos = None
 
         # all done
