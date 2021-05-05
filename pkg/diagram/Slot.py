@@ -14,8 +14,27 @@ class Slot(Node):
     The representation of a slot
     """
 
-    # constants
-    typename = "Slot"
+    # public data
+    @property
+    def typename(self):
+        """
+        The name of my type
+        """
+        # i'm either a product or a slot
+        return "Product" if self.product is not None else "Slot"
+
+
+    @property
+    def connections(self):
+        """
+        An iterable of my connections to factories
+        """
+        # go through my connectivity table
+        for factory, trait in self.connectors:
+            # and build a canonical representation of the connection
+            yield factory, trait, self
+        # all done
+        return
 
 
     # interface
@@ -99,8 +118,7 @@ class Slot(Node):
 
     def __str__(self):
         # sometimes i'm a slot, sometimes i'm a product
-        typename = "Product" if self.product is not None else "Slot"
-        return f"{typename} '{self.pyre_id}'"
+        return f"{self.typename} '{self.pyre_id}'"
 
 
     # implementation details
@@ -110,7 +128,7 @@ class Slot(Node):
         """
         # i don't have a product any more
         self.product = None
-        # clear out my connections
+        # clear out my connectors
         self.connectors = set()
         # all done
         return
