@@ -40,22 +40,22 @@ def simple():
     diagram.move(node=p_r, position=(7,1))
 
     # diagram
-    print("products:")
-    for rep in diagram.products:
-        print(f"    {rep}: {rep.position}")
-        for f,t in rep.connectors:
-            print(f"        {f}, trait {t.name}")
-    print("factories:")
-    for rep in diagram.factories:
-        print(f"    {rep}: {rep.position}")
-        for t,s in rep.slots.items():
-            print(f"        {s}, trait {t.name}")
-    print("slots:")
-    for rep in diagram.slots:
-        print(f"    {rep}: {rep.position}")
-    print("layout:")
-    for position, node in diagram.layout.items():
-        print(f"   {position}: {node}")
+    # print("products:")
+    # for rep in diagram.products:
+        # print(f"    {rep}: {rep.position}")
+        # for f,t in rep.connectors:
+            # print(f"        {f}, trait {t.name}")
+    # print("factories:")
+    # for rep in diagram.factories:
+        # print(f"    {rep}: {rep.position}")
+        # for t,s in rep.slots.items():
+            # print(f"        {s}, trait {t.name}")
+    # print("slots:")
+    # for rep in diagram.slots:
+        # print(f"    {rep}: {rep.position}")
+    # print("layout:")
+    # for position, node in diagram.layout.items():
+        # print(f"   {position}: {node}")
 
     # set some values
     a.value = 1
