@@ -24,8 +24,6 @@ class Node(graphene.relay.Node):
 
     # the basic fields
     id = graphene.ID()
-    name = graphene.String(required=False)
-    family = graphene.String(required=True)
     # representation
     position = graphene.Field(Position, required=True)
 
