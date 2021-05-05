@@ -18,6 +18,13 @@ class Node:
     typename = "Node"
 
 
+    # public data
+    @property
+    def guid(self):
+        # build a {relay} node id
+        return f"{self.typename}:{self.pyre_id}"
+
+
     # metamethods
     def __init__(self, position, **kwds):
         # chain up
