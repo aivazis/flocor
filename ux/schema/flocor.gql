@@ -96,8 +96,6 @@ type FactoryEdge {
 # a slot is a paring of a specification with a label; used in laying out producers
 type Slot implements Node {
   id: ID!
-  name: String!
-  family: String!
   position: Position!
 }
 
