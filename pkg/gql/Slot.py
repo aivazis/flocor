@@ -26,9 +26,6 @@ class Slot(graphene.ObjectType):
 
     # the fields
     id = graphene.ID()
-    name = graphene.String(required=True)
-    family = graphene.String(required=True)
-
     # representation
     position = graphene.Field(Position, required=True)
 
