@@ -43,26 +43,21 @@ class CreateCalcVariable(graphene.Mutation):
 
         # get the panel
         panel = info.context["panel"]
-        # so we can grab the {flow}; we can use {owner} to do a consistency check that
-        # the node is being added to the correct graph
-        flow = panel.flow
-        # and its {layout}
-        layout = panel.layout
+        # and the diagram
+        diagram = panel.diagram
 
         # make a {product}; we don't have a name for it yet
         var = flocor.flows.var(family=family)
-        # add it to the flow
-        flow.index[var.pyre_id] = var
-        flow.products.add(var)
-        # and the layout
-        layout[var.pyre_id] = {"x": x, "y": y}
-
+        # add it to the diagram
+        product = diagram.addProduct(product=var, position=(x,y))
+        # get its if
+        guid = product.guid
         # make a position
         position = Position(x=x, y=y)
-        # make a product node
-        node = Product(id=f"Product:{var.pyre_id}", family=family, position=position)
+        # make a product rep
+        rep = Product(id=guid, family=family, position=position)
         # attach it and return it
-        return CreateCalcVariable(flow=owner, node=node)
+        return CreateCalcVariable(flow=owner, node=rep)
 
 
 # end of file
