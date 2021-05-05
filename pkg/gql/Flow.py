@@ -72,34 +72,27 @@ class Flow(graphene.ObjectType):
 
     def resolve_factories(panel, info, **kwds):
         # unpack
-        flow = panel.flow
-        layout = panel.layout
+        diagram = panel.diagram
 
         # make a pile
         factories = []
-        # go through the factories in {flow}
-        for node in flow.factories:
-            # get the id
-            guid = node.pyre_id
-
-            # get the inputs
-            inputs = node.pyre_inputTraits
-            # find out how many there are
-            nInputs = len(inputs)
-            # now, the outputs
-            outputs = node.pyre_outputTraits
-            # find out how many there are
-            nOutputs = len(outputs)
-
+        # go through the factories in the {diagram}
+        for node in diagram.factories:
+            # get its id
+            guid = node.guid
+            # its name
+            name = node.factory.pyre_name
+            # its family
+            family = node.factory.pyre_family()
+            # its arity
+            inputs = node.inputs
+            outputs = node.outputs
             # look up its position
-            position = layout[guid]
-            # unpack
-            x = position["x"]
-            y = position["y"]
+            x,y = node.position
             # represent
-            factory = Factory(id=f"Factory:{guid}",
-                        name=node.pyre_name, family=node.pyre_family(),
-                        inputs=nInputs, outputs=nOutputs,
+            factory = Factory(id=guid,
+                        name=name, family=family,
+                        inputs=inputs, outputs=outputs,
                         position=Position(x=x, y=y))
             # and add to the pile
             factories.append(factory)
@@ -110,23 +103,23 @@ class Flow(graphene.ObjectType):
 
     def resolve_products(panel, info, **kwds):
         # unpack
-        flow = panel.flow
-        layout = panel.layout
+        diagram = panel.diagram
 
         # make a pile
         products = []
         # go through the products in {flow}
-        for node in flow.products:
+        for node in diagram.products:
             # grab its id
-            guid = node.pyre_id
+            guid = node.guid
+            # its name
+            name = node.product.pyre_name
+            # its family
+            family = node.product.pyre_family()
             # look up its position
-            position = layout[guid]
-            # unpack
-            x = position["x"]
-            y = position["y"]
+            x,y = node.position
             # represent
-            product = Product(id=f"Product:{guid}",
-                        name=node.pyre_name, family=node.pyre_family(),
+            product = Product(id=guid,
+                        name=name, family=family,
                         position=Position(x=x, y=y))
             # and add to the pile
             products.append(product)
@@ -137,32 +130,20 @@ class Flow(graphene.ObjectType):
 
     def resolve_slots(panel, info, **kwds):
         # unpack
-        flow = panel.flow
-        layout = panel.layout
+        diagram = panel.diagram
 
         # make a pile
         slots = []
-        # slots are the unbound traits of factories, so go through all known factories
-        for node in flow.factories:
-            # grab all their relevant traits
-            traits = itertools.chain(node.pyre_inputTraits, node.pyre_outputTraits)
-            # and go through them
-            for trait in traits:
-                # get the trait slot
-                slot = node.pyre_inventory[trait]
-                # get the id
-                guid = slot.pyre_id
-                # look up its position
-                position = layout[guid]
-                # unpack
-                x = position["x"]
-                y = position["y"]
-                # represent
-                rep = Slot(id=f"Slot:{guid}",
-                           name=trait.name, family=trait.typename,
-                           position=Position(x=x, y=y))
-                # and add it to the pile
-                slots.append(rep)
+        # slots are the unbound traits of factories
+        for slot in diagram.slots:
+            # grab its id
+            guid = slot.guid
+            # look up its position
+            x,y = slot.position
+            # represent
+            rep = Slot(id=guid, position=Position(x=x, y=y))
+            # and add it to the pile
+            slots.append(rep)
 
         # return the pile
         return slots
@@ -170,30 +151,28 @@ class Flow(graphene.ObjectType):
 
     def resolve_connectors(panel, info, **kwds):
         # unpack
-        flow = panel.flow
-        layout = panel.layout
-        connectivity = panel.connectivity
+        diagram = panel.diagram
 
         # make a pile
         connectors = []
-        # all connectors involve a factory, so run through them
-        for factory in flow.factories:
-            # get its guid
-            fuid = factory.pyre_id
-            # and its location
-            fpos = layout[fuid]
-            # build a rep for its position
-            factoryAt = Position(x=fpos["x"], y=fpos["y"])
-            # go through all the products it is connected to
-            for puid, direction in connectivity[fuid].items():
-                # get their location
-                ppos = layout[puid]
-                # build a rep for this
-                productAt = Position(x=ppos["x"], y=ppos["y"])
-                # construct the connector id
-                buid = f"Connector:{fuid}|{puid}"
+        # all connectors involve slots and products, so go through them
+        for node in itertools.chain(diagram.products, diagram.slots):
+            # unpack the node position
+            nx, ny = node.position
+            # make a rep for the node position
+            nodeAt = Position(x=nx, y=ny)
+            # each node has a pile of connections
+            for factory, trait in node.connectors:
+                # make a connector id
+                guid = f"Connector:{factory.pyre_id}|{node.pyre_id}"
+                # unpack the factory position
+                fx, fy = factory.position
+                # make a rep for the factory position
+                factoryAt = Position(x=fx, y=fy)
+                # deduce the direction
+                direction = trait.input
                 # build the rep
-                rep = Connector(id=buid, inp=direction, factoryAt=factoryAt, productAt=productAt)
+                rep = Connector(id=guid, inp=direction, factoryAt=factoryAt, productAt=nodeAt)
                 # and add it to the pile
                 connectors.append(rep)
 
