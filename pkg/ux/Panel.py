@@ -26,6 +26,8 @@ class Panel(flocor.shells.command, family="flocor.cli.ux"):
     def __init__(self, **kwds):
         # chain up
         super().__init__(**kwds)
+        # wrap a diagram on my {flow}
+        self.diagram = flocor.diagram.diagram(flow=self.flow)
         # initialize the graph layout
         self.layout = {}
         # and the connectors
