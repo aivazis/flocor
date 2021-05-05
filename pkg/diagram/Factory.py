@@ -24,6 +24,20 @@ class Factory(Node):
     typename = "Factory"
 
 
+    # public data
+    @property
+    def connections(self):
+        """
+        An iterable of my connections to my slots
+        """
+        # go through the connectivity table
+        for trait, slot in self.slots.items():
+            # and build a canonical representation of the connection
+            yield self, trait, slot
+        # all done
+        return
+
+
     # interface
     def connect(self, trait, slot):
         """
@@ -45,14 +59,17 @@ class Factory(Node):
         super().__init__(**kwds)
         # save my product
         self.factory = factory
-        # my connections
-        self.slots = {trait: slot for trait,slot in self._connections()}
+        # get the factory arity
+        self.inputs = len(factory.pyre_inputTraits)
+        self.outputs = len(factory.pyre_outputTraits)
+        # my connectivity table
+        self.slots = {trait: slot for trait,slot in self._allSlots()}
         # all done
         return
 
 
     # implementation details
-    def _connections(self):
+    def _allSlots(self):
         """
         Return all my input and output slots
         """
