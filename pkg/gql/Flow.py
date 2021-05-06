@@ -97,6 +97,10 @@ class Flow(graphene.ObjectType):
             # and add to the pile
             factories.append(factory)
 
+        print(f"factories:")
+        for _ in diagram.factories:
+            print(f"  {_}")
+
         # return the pile
         return factories
 
@@ -124,6 +128,10 @@ class Flow(graphene.ObjectType):
             # and add to the pile
             products.append(product)
 
+        print(f"products:")
+        for _ in diagram.products:
+            print(f"  {_}")
+
         # return the pile
         return products
 
@@ -144,6 +152,10 @@ class Flow(graphene.ObjectType):
             rep = Slot(id=guid, position=Position(x=x, y=y))
             # and add it to the pile
             slots.append(rep)
+
+        print(f"slots:")
+        for _ in diagram.slots:
+            print(f"  {_}")
 
         # return the pile
         return slots
@@ -177,6 +189,10 @@ class Flow(graphene.ObjectType):
                 connectors.append(rep)
 
         # return the pile
+        print(f"connectors:")
+        for _ in connectors:
+            print(f"  {_.id}")
+
         return connectors
 
 

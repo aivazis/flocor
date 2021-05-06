@@ -54,6 +54,10 @@ class CreateCalcVariable(graphene.Mutation):
         # build a product rep
         rep = Product(id=product.guid, family=family, position=Position(x=x, y=y))
 
+        print(f"diagram:")
+        for _ in diagram.nodes.values():
+            print(f"  {_}")
+
         # attach it to my payload and return it
         return CreateCalcVariable(flow=owner, node=rep)
 
