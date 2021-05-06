@@ -103,9 +103,6 @@ class MoveNodeEnd(graphene.Mutation):
             # and add it to the pile
             discard.append(duid)
 
-        print(f"moving {node} to {here}")
-        print(f"  new: {new}")
-        print(f"  discard: {discard}")
         # all done
         return MoveNodeEnd(flow=owner, dead=deadnode, new=new, discard=discard)
 
