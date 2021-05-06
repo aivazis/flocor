@@ -8,8 +8,6 @@ import graphene
 # package
 import flocor
 
-# the node interface
-from .Node import Node
 # local types
 from .Slot import Slot
 from .Position import Position
@@ -31,7 +29,7 @@ class CreateCalcVariable(graphene.Mutation):
 
     # fields
     flow = graphene.ID()
-    node = graphene.Field(Node, required=True)
+    node = graphene.Field(Slot, required=True)
 
 
     def mutate(root, info, nodeinfo):
