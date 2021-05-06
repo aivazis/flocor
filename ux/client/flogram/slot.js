@@ -8,7 +8,8 @@
 import React from 'react'
 import { graphql, useFragment } from 'react-relay/hooks'
 // project
-import { Slot as Shape } from '~/shapes'
+import { Slot as Unbound } from '~/shapes'
+import { Product as Bound } from '~/shapes'
 // local
 import { Node } from './node'
 
@@ -18,6 +19,7 @@ export const Slot = (props) => {
     const slot = useFragment(graphql`
         fragment slot_slot on Slot {
             id
+            bound
             position {
                 x
                 y
@@ -25,10 +27,12 @@ export const Slot = (props) => {
         }
     `, props.slot)
 
+    console.log(slot.bound)
+
     // render
     return (
         <Node id={slot.id} position={slot.position} >
-            <Shape />
+            {slot.bound ? <Bound /> : <Unbound />}
         </Node>
     )
 }
