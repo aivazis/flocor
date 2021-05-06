@@ -53,15 +53,15 @@ export const useCreateVariable = (product) => {
                 const node = result.getLinkedRecord("node")
 
                 // get a proxy to the connection that will own the new product
-                const products = ConnectionHandler.getConnection(
+                const slots = ConnectionHandler.getConnection(
                     store.get(owner),
-                    "productsFragment_products"
+                    "slotsFragment_slots"
                 )
 
                 // create an edge with the product we just made
-                const edge = ConnectionHandler.createEdge(store, products, node, 'ProductEdge')
-                // and the new edge to the connection
-                ConnectionHandler.insertEdgeAfter(products, edge)
+                const edge = ConnectionHandler.createEdge(store, slots, node, 'SlotEdge')
+                // and add the new edge to the connection
+                ConnectionHandler.insertEdgeAfter(slots, edge)
 
                 // all done
                 return
@@ -93,6 +93,7 @@ mutation useCreateVariableMutation($info: NewNodeInput!) {
         # a description of the newly created node
         node {
             id
+            bound
             position {
                 x
                 y
