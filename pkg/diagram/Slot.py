@@ -74,6 +74,8 @@ class Slot(Node):
         """
         Consolidate me with the {other} slot
         """
+        # NYI: compatibility tests
+
         # if both are bound
         if self.product is not None and other.product is not None:
             # this is an error
@@ -85,23 +87,43 @@ class Slot(Node):
             channel.line(f"{self} is already bound to {self.product}")
             channel.log(f"{other} is already bound to {other.product}")
             # just in case firewalls are not fatal
-            return self
+            return other
 
-        # set the product binding
-        self.product = self.product or other.product
+        # otherwise, we have some changes to make
+        # during the merge process, all information from {other} moves to me
 
-        # go through the connection in {other}
+       # ask {other} for its binding
+        product = other.product
+        # if it is bound
+        if product is not None:
+            # all my connections
+            for factory, trait in self.connectors:
+                # must be bound to it
+                setattr(factory, trait.name, product)
+        # get my product
+        product = self.product
+        # if i'm the one that's bound
+        if product is not None:
+            # all the connections in {other}
+            for factory, trait in other.connectors:
+                # must be bound to it
+                setattr(factory, trait.name, product)
+
+        # regardless, go through the connections in {other}
         for factory, trait in other.connectors:
-            # NYI: compatibility tests
             # tell the factory it is connected to me; the factory will also update my
             # connectivity table
             factory.connect(trait=trait, slot=self)
 
+        # set the product binding
+        self.product = self.product or other.product
+        # save a copy of the connections held by {other}
+        connectors = other.connectors
         # other is now obsolete
         other.clear()
 
-        # all done
-        return
+        # all done; send back {other} and its old connectors
+        return other, connectors
 
 
     # metamethods
