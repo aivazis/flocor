@@ -56,7 +56,7 @@ export const useNodeEndMove = (flow) => {
                 // get the dead node id
                 const dead = result.getValue("dead")
                 // if there isn't one, the move did not result in any collistions, hence there
-                // are no changes to the digram
+                // are no changes to the diagram
                 if (dead === null) {
                     // hence there's nothing further to do
                     return
@@ -111,18 +111,6 @@ const moveNodeMutation = graphql`mutation useNodeEndMoveMutation($info: MoveNode
     moveNodeEnd(nodeinfo: $info) {
         # the id of the flow that owns the moving node
         flow
-        # updates to the moving node
-        node {
-            id
-            position {
-                x
-                y
-            }
-        }
-        # and its connectors
-        connectors {
-            ...connector_connector
-        }
         # the dead node
         dead
         # the obsolete connectors
