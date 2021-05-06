@@ -14,7 +14,6 @@ from .Node import Node
 # local types
 # flow nodes
 from .Factory import Factory
-from .Product import Product
 from .Slot import Slot
 # connectors
 from .Connector import Connector
@@ -70,12 +69,8 @@ class MoveNode(graphene.Mutation):
 
         # build the new position rep to return to the client
         here = Position(x=x, y=y)
-        # deduce the correct return type; for products
-        if typename == "Product":
-            # build a product
-            rep = Product(id=id, position=here)
-        # for factories
-        elif typename == "Factory":
+        # deduce the correct return type; for factories
+        if typename == "Factory":
             # build a factory
             rep = Factory(id=id, position=here)
         # for slots
