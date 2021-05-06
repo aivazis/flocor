@@ -133,6 +133,12 @@ class Slot(Node):
         return
 
 
+    def __str__(self):
+        # binding decoration
+        bound = "unbound" if self.product is None else "bound"
+        return f"{self.typename} '{self.pyre_id}' ({bound})"
+
+
     # implementation details
     def clear(self):
         """
