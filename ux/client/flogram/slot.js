@@ -27,8 +27,6 @@ export const Slot = (props) => {
         }
     `, props.slot)
 
-    console.log(slot.bound)
-
     // render
     return (
         <Node id={slot.id} position={slot.position} >
