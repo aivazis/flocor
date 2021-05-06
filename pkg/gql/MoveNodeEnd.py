@@ -105,10 +105,6 @@ class MoveNodeEnd(graphene.Mutation):
             # and add it to the pile
             discard.append(duid)
 
-        print(f"diagram:")
-        for _ in diagram.nodes.values():
-            print(f"  {_}")
-
         # all done
         return MoveNodeEnd(flow=owner, slot=slot, dead=deadnode, new=new, discard=discard)
 

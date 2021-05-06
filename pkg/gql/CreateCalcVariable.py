@@ -52,10 +52,6 @@ class CreateCalcVariable(graphene.Mutation):
         # build a rep
         rep = Slot(id=product.guid, bound=True, position=Position(x=x, y=y))
 
-        print(f"diagram:")
-        for _ in diagram.nodes.values():
-            print(f"  {_}")
-
         # attach it to my payload and return it
         return CreateCalcVariable(flow=owner, node=rep)
 

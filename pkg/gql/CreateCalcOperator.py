@@ -103,10 +103,6 @@ class CreateCalcOperator(graphene.Mutation):
                 # and add it to the pile
                 connectors.append(rep)
 
-        print(f"diagram:")
-        for _ in diagram.nodes.values():
-            print(f"  {_}")
-
         # build the payload and return it
         return CreateCalcOperator(flow=owner, node=node, slots=slots, connectors=connectors)
 
