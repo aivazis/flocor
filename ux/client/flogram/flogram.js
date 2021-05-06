@@ -23,7 +23,6 @@ import { Behaviors } from './behaviors'
 import { Grid } from './grid'
 // diagram nodes
 import { Factories } from './factories'
-import { Products } from './products'
 import { Slots } from './slots'
 // connectors
 import { Connectors } from './connectors'
@@ -59,8 +58,6 @@ const Diagram = () => {
                     <Slots flow={flow} />
                     {/* factories */}
                     <Factories flow={flow} />
-                    {/* products */}
-                    <Products flow={flow} />
                 </Camera >
             </svg>
         </section>
@@ -73,11 +70,9 @@ const flogramQuery = graphql`query flogramQuery {
     flow {
         # flow metadata
         id
-        # product connection
-        ...products_flow
         # factory connection
         ...factories_flow
-        # unbound products
+        # bound and unbound slots
         ...slots_flow
         # connectors
         ...connectors_flow
