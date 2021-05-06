@@ -111,10 +111,12 @@ class Flow(graphene.ObjectType):
         for slot in diagram.slots:
             # grab its id
             guid = slot.guid
+            # check whether it is bound
+            bound = False if slot.product is None else True
             # look up its position
             x,y = slot.position
             # represent
-            rep = Slot(id=guid, position=Position(x=x, y=y))
+            rep = Slot(id=guid, bound=bound, position=Position(x=x, y=y))
             # and add it to the pile
             slots.append(rep)
 
