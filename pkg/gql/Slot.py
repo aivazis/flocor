@@ -26,7 +26,7 @@ class Slot(graphene.ObjectType):
 
     # the fields
     id = graphene.ID()
-    bound = graphene.Boolean(default_value=False, required=True)
+    bound = graphene.Boolean(required=True)
     position = graphene.Field(Position, required=True)
 
 
