@@ -44,7 +44,7 @@ type Flow implements Node {
   products(after: String, first: Int, before: String, last: Int): ProductConnection!
   # the set of factories
   factories(after: String, first: Int, before: String, last: Int): FactoryConnection!
-  # the set of unbound product slots
+  # the set of bound and unbound product slots
   slots(after: String, first: Int, before: String, last: Int): SlotConnection!
   # the connectors
   connectors(after: String, first: Int, before: String, last: Int): ConnectorConnection!
@@ -96,6 +96,7 @@ type FactoryEdge {
 # a slot is a paring of a specification with a label; used in laying out producers
 type Slot implements Node {
   id: ID!
+  bound: Boolean!
   position: Position!
 }
 
@@ -210,7 +211,7 @@ type NewProductInfo {
   # the flow that owns the new node
   flow: ID!
   # and the node that was added
-  node: Node!
+  node: Slot!
 }
 
 
@@ -241,6 +242,8 @@ type MoveNode {
 type MoveNodeEnd {
   # the flow that owns the new node
   flow: ID!
+  # the slot updates
+  slot: Slot
   # if the move resulted in a binding, there is a node to remove from the diagram
   dead: ID
   # the new connectors
