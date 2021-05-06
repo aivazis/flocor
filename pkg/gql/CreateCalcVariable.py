@@ -11,7 +11,7 @@ import flocor
 # the node interface
 from .Node import Node
 # local types
-from .Product import Product
+from .Slot import Slot
 from .Position import Position
 # the class that holds the new node metadata that is input to the mutation
 from .NewNodeInput import NewNodeInput
@@ -51,8 +51,8 @@ class CreateCalcVariable(graphene.Mutation):
         # add it to the diagram
         product = diagram.addProduct(product=var, position=(x,y))
 
-        # build a product rep
-        rep = Product(id=product.guid, family=family, position=Position(x=x, y=y))
+        # build a rep
+        rep = Slot(id=product.guid, bound=True, position=Position(x=x, y=y))
 
         print(f"diagram:")
         for _ in diagram.nodes.values():
