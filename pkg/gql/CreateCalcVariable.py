@@ -50,13 +50,11 @@ class CreateCalcVariable(graphene.Mutation):
         var = flocor.flows.var(family=family)
         # add it to the diagram
         product = diagram.addProduct(product=var, position=(x,y))
-        # get its if
-        guid = product.guid
-        # make a position
-        position = Position(x=x, y=y)
-        # make a product rep
-        rep = Product(id=guid, family=family, position=position)
-        # attach it and return it
+
+        # build a product rep
+        rep = Product(id=product.guid, family=family, position=Position(x=x, y=y))
+
+        # attach it to my payload and return it
         return CreateCalcVariable(flow=owner, node=rep)
 
 

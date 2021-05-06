@@ -80,30 +80,25 @@ class CreateCalcOperator(graphene.Mutation):
 
         # go through the slots, and for each one
         for slot in factory.slots.values():
-            # grab its id
-            guid = slot.guid
-            # look up its position
-            x,y = slot.position
-            # represent
-            slotAt = Position(x=x, y=y)
-            rep = Slot(id=guid, position=slotAt)
+            # build a position rep
+            slotAt = Position(*slot.position)
+            # and one for the slot itself
+            rep = Slot(id=slot.guid, position=slotAt)
             # and add it to the pile
             slots.append(rep)
 
             # now, each slot has a pile of connections; this is a new factory, so it is
             # certain that each slot has only one connection to the factory we just added;
             # what we don't know is whether this is an input or an output slot; so do it right...
+            # go through the connetors
             for client, trait in slot.connectors:
-                # make a connector id
+                # make an id
                 cuid = f"Connector:{client.pyre_id}|{slot.pyre_id}"
-                print(cuid)
-                # unpack the factory position
-                fx, fy = client.position
-                # make a rep for the factory position
-                factoryAt = Position(x=fx, y=fy)
+                # and a rep for the factory position
+                factoryAt = Position(*client.position)
                 # deduce the direction
                 direction = trait.input
-                # build the rep
+                # build the connetor rep
                 rep = Connector(id=cuid, inp=direction, factoryAt=factoryAt, productAt=slotAt)
                 # and add it to the pile
                 connectors.append(rep)
