@@ -83,7 +83,7 @@ class CreateCalcOperator(graphene.Mutation):
             # build a position rep
             slotAt = Position(*slot.position)
             # and one for the slot itself
-            rep = Slot(id=slot.guid, position=slotAt)
+            rep = Slot(id=slot.guid, bound=False, position=slotAt)
             # and add it to the pile
             slots.append(rep)
 
