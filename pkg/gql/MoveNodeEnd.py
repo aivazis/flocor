@@ -38,8 +38,6 @@ class MoveNodeEnd(graphene.Mutation):
 
     # fields
     flow = graphene.ID()
-    node = graphene.Field(type=Node, required=False, default_value=None)
-    connectors = graphene.List(graphene.NonNull(Connector), required=False, default_value=[])
     dead = graphene.ID()
     discard = graphene.List(graphene.ID, required=False, default_value=[])
     new = graphene.List(graphene.NonNull(Connector), required=True, default_value=[])
@@ -87,13 +85,13 @@ class MoveNodeEnd(graphene.Mutation):
         discard = []
 
         # go through the {target} connections
-        for factory, trait, _ in connections:
+        for factory, trait in connections:
             # look up the factory position
             fx, fy = factory.position
             # build a rep for it
             fpos = Position(x=fx, y=fy)
             # make an id for the new connector
-            nuid = f"Connector:{factory.pyre_id}|{target.pyre_id}"
+            nuid = f"Connector:{factory.pyre_id}|{node.pyre_id}"
             # so we can build a rep for it
             nrep = Connector(id=nuid, inp=trait.input, factoryAt=fpos, productAt=here)
             # and add it to the pile
@@ -102,6 +100,10 @@ class MoveNodeEnd(graphene.Mutation):
             duid = f"Connector:{factory.pyre_id}|{target.pyre_id}"
             # and add it to the pile
             discard.append(duid)
+
+        print(f"diagram:")
+        for _ in diagram.nodes.values():
+            print(f"  {_}")
 
         # all done
         return MoveNodeEnd(flow=owner, dead=deadnode, new=new, discard=discard)
