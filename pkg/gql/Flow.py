@@ -13,20 +13,18 @@ from .Node import Node
 # local basic types
 from .Connector import Connector
 from .Factory import Factory
-from .Product import Product
 from .Slot import Slot
 from .Position import Position
 # connections
 from .ConnectorConnection import ConnectorConnection
 from .FactoryConnection import FactoryConnection
-from .ProductConnection import ProductConnection
 from .SlotConnection import SlotConnection
 
 
 # trait types from {pyre.schemata}
 class Flow(graphene.ObjectType):
     """
-    The container of products, factories, and their connectors
+    The container of slots, factories, and their connectors
     """
 
     # {graphene} metadata
@@ -38,8 +36,6 @@ class Flow(graphene.ObjectType):
     id = graphene.ID(required=True)
     name = graphene.String(required=True)
     family = graphene.String(required=True)
-    # products
-    products = graphene.relay.ConnectionField(ProductConnection)
     # factories
     factories = graphene.relay.ConnectionField(FactoryConnection)
     # slots
@@ -105,37 +101,6 @@ class Flow(graphene.ObjectType):
         return factories
 
 
-    def resolve_products(panel, info, **kwds):
-        # unpack
-        diagram = panel.diagram
-
-        # make a pile
-        products = []
-        # go through the products in {flow}
-        for node in diagram.products:
-            # grab its id
-            guid = node.guid
-            # its name
-            name = node.product.pyre_name
-            # its family
-            family = node.product.pyre_family()
-            # look up its position
-            x,y = node.position
-            # represent
-            product = Product(id=guid,
-                        name=name, family=family,
-                        position=Position(x=x, y=y))
-            # and add to the pile
-            products.append(product)
-
-        print(f"products:")
-        for _ in diagram.products:
-            print(f"  {_}")
-
-        # return the pile
-        return products
-
-
     def resolve_slots(panel, info, **kwds):
         # unpack
         diagram = panel.diagram
@@ -167,8 +132,8 @@ class Flow(graphene.ObjectType):
 
         # make a pile
         connectors = []
-        # all connectors involve slots and products, so go through them
-        for node in itertools.chain(diagram.products, diagram.slots):
+        # all connectors involve slots so go through them
+        for node in diagram.slots:
             # unpack the node position
             nx, ny = node.position
             # make a rep for the node position
