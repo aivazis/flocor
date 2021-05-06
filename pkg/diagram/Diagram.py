@@ -51,7 +51,7 @@ class Diagram:
         # build a rep
         rep = Slot(product=product, position=position)
         # add it to the pile
-        self.products.add(rep)
+        self.slots.add(rep)
         # and the index
         self.nodes[rep.pyre_id] = rep
 
@@ -127,14 +127,8 @@ class Diagram:
         # update my indices
         # clean up the node index
         del self.nodes[target.pyre_id]
-        # if {target} is a product
-        if target.product is not None:
-            # remove it from the pile of products
-            self.products.discard(target)
-        # otherwise
-        else:
-            # remove it from the pile of slots
-            self.slots.discard(target)
+        # remove it from the pile of slots
+        self.slots.discard(target)
 
         # merge the nodes and hand the caller {target} and its old connections
         return node.merge(other=target)
@@ -149,7 +143,6 @@ class Diagram:
 
         # the entries
         self.factories = set()
-        self.products = set()
         self.slots = set()
 
         # a map from ids to nodes
