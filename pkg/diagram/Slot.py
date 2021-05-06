@@ -14,16 +14,11 @@ class Slot(Node):
     The representation of a slot
     """
 
+
+    # constants
+    typename = "Slot"
+
     # public data
-    @property
-    def typename(self):
-        """
-        The name of my type
-        """
-        # i'm either a product or a slot
-        return "Product" if self.product is not None else "Slot"
-
-
     @property
     def connections(self):
         """
@@ -136,11 +131,6 @@ class Slot(Node):
         self.connectors = set()
         # all done
         return
-
-
-    def __str__(self):
-        # sometimes i'm a slot, sometimes i'm a product
-        return f"{self.typename} '{self.pyre_id}'"
 
 
     # implementation details
