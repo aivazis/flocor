@@ -14,7 +14,6 @@ from .Node import Node
 # local types
 # flow nodes
 from .Factory import Factory
-from .Product import Product
 from .Slot import Slot
 # connectors
 from .Connector import Connector
@@ -38,6 +37,7 @@ class MoveNodeEnd(graphene.Mutation):
 
     # fields
     flow = graphene.ID()
+    slot = graphene.Field(Slot, required=False)
     dead = graphene.ID()
     discard = graphene.List(graphene.ID, required=False, default_value=[])
     new = graphene.List(graphene.NonNull(Connector), required=True, default_value=[])
@@ -74,8 +74,12 @@ class MoveNodeEnd(graphene.Mutation):
             # nothing further to do
             return MoveNodeEnd(flow=owner)
 
+        # did the node just get bound
+        bound = node.product is not None
         # build a rep for the current position
         here = Position(x=x, y=y)
+        # build a rep with any updates to the slot
+        slot = Slot(id=id, bound=bound, position=here)
         # the {target} is always the node that gets discarded
         deadnode = target.guid
 
@@ -106,7 +110,7 @@ class MoveNodeEnd(graphene.Mutation):
             print(f"  {_}")
 
         # all done
-        return MoveNodeEnd(flow=owner, dead=deadnode, new=new, discard=discard)
+        return MoveNodeEnd(flow=owner, slot=slot, dead=deadnode, new=new, discard=discard)
 
 
 # end of file
