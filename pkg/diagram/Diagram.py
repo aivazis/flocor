@@ -148,6 +148,9 @@ class Diagram:
         # a map from ids to nodes
         self.nodes = {}
 
+        # storage for collision information while nodes are moving
+        self.contact = None, ()
+
         # all done
         return
 
