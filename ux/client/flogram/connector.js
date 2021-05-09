@@ -11,7 +11,7 @@ import { graphql, useFragment } from 'react-relay/hooks'
 import styles from './styles'
 
 
-// render the onnectors between factories and products
+// render the connectors between factories and slots
 export const Connector = (props) => {
     // pull the data
     const connector = useFragment(graphql`
@@ -22,7 +22,7 @@ export const Connector = (props) => {
                 x
                 y
             }
-            productAt {
+            slotAt {
                 x
                 y
             }
@@ -34,16 +34,16 @@ export const Connector = (props) => {
     const inp = connector.inp
     // the factory diagram coordinates
     const factoryAt = connector.factoryAt
-    // and the product coordinates
-    const productAt = connector.productAt
+    // and the slot coordinates
+    const slotAt = connector.slotAt
 
-    // handle inputs vs. ooutputs
+    // handle inputs vs. outputs
     const delta = inp ? -1 : 1
     // compute the connector path
     const path = `
         M ${factoryAt.x + delta} ${factoryAt.y}
-        L ${productAt.x - delta} ${productAt.y}
-        L ${productAt.x} ${productAt.y}
+        L ${slotAt.x - delta} ${slotAt.y}
+        L ${slotAt.x} ${slotAt.y}
         `
 
     // mix my paint
