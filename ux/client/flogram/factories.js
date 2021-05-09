@@ -11,9 +11,9 @@ import { graphql, useFragment } from 'react-relay/hooks'
 import { Factory } from './factory'
 
 
-// render the flow nodes that are products
+// render the flow nodes that are factories
 export const Factories = ({ flow }) => {
-    // extract the list of products
+    // extract the list of factories
     const { factories } = useFragment(factoriesFragment, flow)
     // render
     return (
@@ -28,7 +28,7 @@ export const Factories = ({ flow }) => {
 }
 
 
-//  the query fragment that fetches products
+//  the query fragment that fetches factories
 const factoriesFragment = graphql`
     fragment factories_flow on Flow {
         factories(first: 10000) @connection(key: "factoriesFragment_factories") {

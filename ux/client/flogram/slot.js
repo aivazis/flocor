@@ -14,7 +14,7 @@ import { Product as Bound } from '~/shapes'
 import { Node } from './node'
 
 
-// render the flow nodes that are products
+// render the flow nodes that are bound/unbound slots
 export const Slot = (props) => {
     const slot = useFragment(graphql`
         fragment slot_slot on Slot {
