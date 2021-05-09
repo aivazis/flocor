@@ -99,7 +99,7 @@ class CreateCalcOperator(graphene.Mutation):
                 # deduce the direction
                 direction = trait.input
                 # build the connetor rep
-                rep = Connector(id=cuid, inp=direction, factoryAt=factoryAt, productAt=slotAt)
+                rep = Connector(id=cuid, inp=direction, factoryAt=factoryAt, slotAt=slotAt)
                 # and add it to the pile
                 connectors.append(rep)
 

@@ -97,7 +97,7 @@ class MoveNodeEnd(graphene.Mutation):
             # make an id for the new connector
             nuid = f"Connector:{factory.pyre_id}|{node.pyre_id}"
             # so we can build a rep for it
-            nrep = Connector(id=nuid, inp=trait.input, factoryAt=fpos, productAt=here)
+            nrep = Connector(id=nuid, inp=trait.input, factoryAt=fpos, slotAt=here)
             # and add it to the pile
             new.append(nrep)
             # now, make an id for the discarded connector

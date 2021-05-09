@@ -117,7 +117,7 @@ class MoveNode(graphene.Mutation):
             # assemble the connector id
             buid = f"Connector:{factory.pyre_id}|{slot.pyre_id}"
             # build a rep for the connector
-            brep = Connector(id=buid, inp=direction, factoryAt=fpos, productAt=spos)
+            brep = Connector(id=buid, inp=direction, factoryAt=fpos, slotAt=spos)
             # and add it to the pile
             connectors.append(brep)
 

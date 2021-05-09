@@ -21,7 +21,7 @@ class Connector(graphene.ObjectType):
     id = graphene.ID()
     inp = graphene.Boolean(required=True)
     factoryAt = graphene.Field(Position, required=True)
-    productAt = graphene.Field(Position, required=True)
+    slotAt = graphene.Field(Position, required=True)
 
 
 # end of file

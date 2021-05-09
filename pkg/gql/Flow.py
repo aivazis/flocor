@@ -143,7 +143,7 @@ class Flow(graphene.ObjectType):
                 # deduce the direction
                 direction = trait.input
                 # build the rep
-                rep = Connector(id=guid, inp=direction, factoryAt=factoryAt, productAt=nodeAt)
+                rep = Connector(id=guid, inp=direction, factoryAt=factoryAt, slotAt=nodeAt)
                 # and add it to the pile
                 connectors.append(rep)
 
