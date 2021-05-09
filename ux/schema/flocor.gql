@@ -112,12 +112,12 @@ type SlotEdge {
 }
 
 
-# a connector from a factory to a product
+# a connector from a factory to a slot
 type Connector {
   id: ID!
   inp: Boolean!
   factoryAt: Position!
-  productAt: Position!
+  slotAt: Position!
 }
 
 # support for slot connections
@@ -199,7 +199,7 @@ type NewFactoryInfo {
   flow: ID!
   # the node that was added
   node: Factory!
-  # the list of unbound products
+  # the list of slots
   slots: [Slot!]!
   # and the list of indings
   connectors: [Connector!]!
@@ -210,7 +210,7 @@ type NewFactoryInfo {
 type NewProductInfo {
   # the flow that owns the new node
   flow: ID!
-  # and the node that was added
+  # and the bound slot that was added
   node: Slot!
 }
 
