@@ -55,7 +55,7 @@ export default {
     labels: {
         product: {
             fontFamily: "inconsolata",
-            fontSize: "0.65",
+            fontSize: 0.65,
             stroke: "none",
             fill: "hsl(200deg, 80%, 35%)",
             textAnchor: "middle",
@@ -63,9 +63,8 @@ export default {
         },
 
         factory: {
-            fontFamily: "georgia",
-            fontStyle: "italic",
-            fontSize: "0.65",
+            fontFamily: "noto",
+            fontSize: 0.65,
             stroke: "none",
             fill: "hsl(28deg, 70%, 55%)",
             textAnchor: "middle",
@@ -74,7 +73,7 @@ export default {
 
         connector: {
             fontFamily: "inconsolata",
-            fontSize: "0.5",
+            fontSize: 0.5,
             stroke: "none",
             fill: "hsl(0deg, 0%, 35%)",
             vectorEffect: "non-scaling-stroke",
