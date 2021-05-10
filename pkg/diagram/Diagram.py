@@ -93,9 +93,9 @@ class Diagram:
             # the move is disallowed
             return False
 
-        # update the position of the node
+        # otherwise, update the position of the node
         node.position = position
-        # otherwise, we are ok; let the caller know
+        # let the caller know we are ok
         return True
 
 
