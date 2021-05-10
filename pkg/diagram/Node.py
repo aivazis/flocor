@@ -26,7 +26,7 @@ class Node:
 
 
     # metamethods
-    def __init__(self, name=None, position, **kwds):
+    def __init__(self, position, name=None, **kwds):
         # chain up
         super().__init__(**kwds)
         # all nodes have their own ids
