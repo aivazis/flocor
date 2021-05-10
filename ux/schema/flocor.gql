@@ -48,6 +48,8 @@ type Flow implements Node {
   slots(after: String, first: Int, before: String, last: Int): SlotConnection!
   # the connectors
   connectors(after: String, first: Int, before: String, last: Int): ConnectorConnection!
+  # the labels
+  labels(after: String, first: Int, before: String, last: Int): LabelConnection!
 }
 
 
@@ -93,7 +95,7 @@ type FactoryEdge {
 }
 
 
-# a slot is a paring of a specification with a label; used in laying out producers
+# a slot is a pairing of a specification with a producer
 type Slot implements Node {
   id: ID!
   bound: Boolean!
@@ -128,6 +130,26 @@ type ConnectorConnection {
 
 type ConnectorEdge {
   node: Connector
+  cursor: String!
+}
+
+
+# labels
+type Label implements Node {
+  id: ID!
+  value: String
+  category: String
+  position: Position!
+}
+
+# support for slot connections
+type LabelConnection {
+  edges: [LabelEdge]
+  pageInfo: PageInfo!
+}
+
+type LabelEdge {
+  node: Label
   cursor: String!
 }
 
