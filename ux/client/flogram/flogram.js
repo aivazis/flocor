@@ -26,6 +26,8 @@ import { Factories } from './factories'
 import { Slots } from './slots'
 // connectors
 import { Connectors } from './connectors'
+// labels
+import { Labels } from './labels'
 // styles
 import styles from './styles'
 
@@ -52,6 +54,8 @@ const Diagram = () => {
                     <Grid />
                     {/* the origin/orientation marker */}
                     <Compass />
+                    {/* labels */}
+                    <Labels flow={flow} />
                     {/* connectors */}
                     <Connectors flow={flow} />
                     {/* slots */}
@@ -76,6 +80,8 @@ const flogramQuery = graphql`query flogramQuery {
         ...slots_flow
         # connectors
         ...connectors_flow
+        # labels
+        ...labels_flow
    }
 }`
 
