@@ -50,6 +50,36 @@ export default {
         // fill
         fill: "none",
     },
+
+    // labels
+    labels: {
+        product: {
+            fontFamily: "inconsolata",
+            fontSize: "0.65",
+            stroke: "none",
+            fill: "hsl(200deg, 80%, 35%)",
+            textAnchor: "middle",
+            vectorEffect: "non-scaling-stroke",
+        },
+
+        factory: {
+            fontFamily: "georgia",
+            fontStyle: "italic",
+            fontSize: "0.65",
+            stroke: "none",
+            fill: "hsl(28deg, 70%, 55%)",
+            textAnchor: "middle",
+            vectorEffect: "non-scaling-stroke",
+        },
+
+        connector: {
+            fontFamily: "inconsolata",
+            fontSize: "0.5",
+            stroke: "none",
+            fill: "hsl(0deg, 0%, 35%)",
+            vectorEffect: "non-scaling-stroke",
+        },
+    }
 }
 
 
