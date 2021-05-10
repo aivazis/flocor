@@ -55,14 +55,16 @@ class Factory(Node):
 
     # metamethods
     def __init__(self, factory, **kwds):
+        # name me after my factory's family name
+        name = factory.pyre_family().split('.')[-1] or None
         # chain up
-        super().__init__(**kwds)
-        # save my product
+        super().__init__(name=name, **kwds)
+        # save my factory
         self.factory = factory
-        # get the factory arity
+        # get its arity
         self.inputs = len(factory.pyre_inputTraits)
         self.outputs = len(factory.pyre_outputTraits)
-        # my connectivity table
+        # build my connectivity table
         self.slots = {trait: slot for trait,slot in self._allSlots()}
         # all done
         return
