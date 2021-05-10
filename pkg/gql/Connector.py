@@ -11,7 +11,7 @@ import graphene
 from .Position import Position
 
 
-# a flow node that represents a typed+named variable
+# a representation of a binding that links a slot to a factory
 class Connector(graphene.ObjectType):
     """
     A connector from a product to a factory
