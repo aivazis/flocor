@@ -166,14 +166,12 @@ class Flow(graphene.ObjectType):
         for node in diagram.factories:
             # get its id
             guid = node.guid
-            # its family
-            family = node.factory.pyre_family().split('.')[-1]
             # look up its position
             x,y = node.position
             # derive an id for the label
             luid = f"{guid}_label"
-            # set its value
-            value = family
+            # use the factory name as the label
+            value = node.name
             # represent
             label = Label(id=luid,
                         value=value, category="factory",
@@ -185,8 +183,8 @@ class Flow(graphene.ObjectType):
         for node in diagram.slots:
             # get the product it's bound to
             product = node.product
-            # if the slot is bound
-            if product is not None:
+            # if the slot is named and bound
+            if product is not None and node.name is not None:
                 # get its id
                 guid = node.guid
                 # look up its position
@@ -194,7 +192,7 @@ class Flow(graphene.ObjectType):
                 # derive an id for the label
                 luid = f"{guid}_label"
                 # build its value
-                value = "product"
+                value = node.name
                 # represent
                 label = Label(id=luid,
                             value=value, category="product",
