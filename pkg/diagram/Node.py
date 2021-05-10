@@ -26,11 +26,13 @@ class Node:
 
 
     # metamethods
-    def __init__(self, position, **kwds):
+    def __init__(self, name=None, position, **kwds):
         # chain up
         super().__init__(**kwds)
         # all nodes have their own ids
         self.pyre_id = uuid.uuid1()
+        # record my name
+        self.name = name
         # save the position
         self.position = position
         # all done
@@ -38,8 +40,10 @@ class Node:
 
 
     def __str__(self):
+        # build my name
+        name = f" {self.name}" if self.name is not None else ""
         # render my {typename} and my {uuid}
-        return f"{self.typename} '{self.pyre_id}'"
+        return f"{self.typename}{name} '{self.pyre_id}'"
 
 
 # end of file
