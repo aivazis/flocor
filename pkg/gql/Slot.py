@@ -16,7 +16,7 @@ from .Position import Position
 # a factory slot
 class Slot(graphene.ObjectType):
     """
-    {Slot} captures the relationship between a {product} and its named slot in a {factory}
+    {Slot} captures the relationship between a {product} and a named slot in a {factory}
     """
 
     # {graphene} metadata
