@@ -11,13 +11,16 @@ import itertools
 # my interface
 from .Node import Node
 # local basic types
+from .Position import Position
+# diagram entities
 from .Connector import Connector
 from .Factory import Factory
+from .Label import Label
 from .Slot import Slot
-from .Position import Position
 # connections
 from .ConnectorConnection import ConnectorConnection
 from .FactoryConnection import FactoryConnection
+from .LabelConnection import LabelConnection
 from .SlotConnection import SlotConnection
 
 
@@ -42,6 +45,8 @@ class Flow(graphene.ObjectType):
     slots = graphene.relay.ConnectionField(SlotConnection)
     # connectors
     connectors = graphene.relay.ConnectionField(ConnectorConnection)
+    # labels
+    labels = graphene.relay.ConnectionField(LabelConnection)
 
 
     # resolvers
@@ -149,6 +154,56 @@ class Flow(graphene.ObjectType):
 
         # return the pile
         return connectors
+
+
+    def resolve_labels(panel, info, **kwds):
+        # unpack
+        diagram = panel.diagram
+
+        # make a pile
+        labels = []
+        # go through the factories in the {diagram}
+        for node in diagram.factories:
+            # get its id
+            guid = node.guid
+            # its family
+            family = node.factory.pyre_family().split('.')[-1]
+            # look up its position
+            x,y = node.position
+            # derive an id for the label
+            luid = f"{guid}_label"
+            # set its value
+            value = family
+            # represent
+            label = Label(id=luid,
+                        value=value, category="factory",
+                        position=Position(x=x, y=y-3))
+            # and add to the pile
+            labels.append(label)
+
+        # go through the slots in the {diagram}
+        for node in diagram.slots:
+            # get the product it's bound to
+            product = node.product
+            # if the slot is bound
+            if product is not None:
+                # get its id
+                guid = node.guid
+                # look up its position
+                x,y = node.position
+                # derive an id for the label
+                luid = f"{guid}_label"
+                # build its value
+                value = "product"
+                # represent
+                label = Label(id=luid,
+                            value=value, category="product",
+                            position=Position(x=x, y=y-1))
+                # and add to the pile
+                labels.append(label)
+
+        # return the pile
+        return labels
 
 
 # end of file
