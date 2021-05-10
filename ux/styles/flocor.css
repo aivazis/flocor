@@ -97,6 +97,11 @@ a:active {
 }
 
 @font-face {
+   font-family: "noto";
+   src: url("/fonts/noto-i.ttf");
+}
+
+@font-face {
    font-family: "rubik";
    src: url("/fonts/rubik-medium.ttf");
 }
