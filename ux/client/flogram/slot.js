@@ -16,6 +16,7 @@ import { Node } from './node'
 
 // render the flow nodes that are bound/unbound slots
 export const Slot = (props) => {
+    // unpack the slot info
     const slot = useFragment(graphql`
         fragment slot_slot on Slot {
             id
