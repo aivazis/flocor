@@ -128,7 +128,9 @@ class Slot(Node):
         """
         Generate a label for this slot
         """
-        # get my product
+        # grab my position
+        x, y = self.position
+        # and my product
         product = self.product
         # if i have one
         if product is not None:
@@ -138,15 +140,26 @@ class Slot(Node):
             family = product.pyre_family().split(".")[-1]
             # assemble the label
             label = f"{name}:{family}"
-            # grab my position
-            x, y = self.position
-
             # pack and make available
             yield {
                 "id": f"{self.guid}-label",
                 "value": label,
                 "category": "product",
                 "position": (x, y-1),
+            }
+        # now, go through my connectivity table
+        for factory, trait in self.connectors:
+            # get the factory position
+            fx, fy = factory.position
+            # build the label position
+            lx = x + (1 if trait.input else -1)
+            ly = y + (0.5 if y > fy else -0.25)
+            # pack and make available
+            yield {
+               "id": f"Connector:{factory.pyre_id}|{self.pyre_id}-label",
+               "value": trait.name,
+               "category": "input" if trait.input else "output",
+               "position": (lx, ly)
             }
 
         # all done
