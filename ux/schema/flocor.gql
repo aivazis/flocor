@@ -274,6 +274,10 @@ type MoveNodeEnd {
   slot: Slot
   # if the move resulted in a binding, there is a node to remove from the diagram
   dead: ID
+  # the new labels
+  newLabels: [Label!]!
+  # the discarded labels
+  delLabels: [ID!]!
   # the new connectors
   newConnectors: [Connector!]!
   # the discarded connectors
