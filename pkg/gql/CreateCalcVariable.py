@@ -10,6 +10,7 @@ import flocor
 
 # local types
 from .Slot import Slot
+from .Label import Label
 from .Position import Position
 # the class that holds the new node metadata that is input to the mutation
 from .NewNodeInput import NewNodeInput
@@ -30,6 +31,7 @@ class CreateCalcVariable(graphene.Mutation):
     # fields
     flow = graphene.ID()
     node = graphene.Field(Slot, required=True)
+    label = graphene.Field(Label, required=True)
 
 
     def mutate(root, info, nodeinfo):
@@ -51,9 +53,15 @@ class CreateCalcVariable(graphene.Mutation):
 
         # build a rep
         rep = Slot(id=product.guid, bound=True, position=Position(x=x, y=y))
+        # get the product label
+        label = product.label()
+        # build a rep for its position
+        label["position"] = Position(*label["position"])
+        # and one for the label
+        labelRep = Label(**label)
 
-        # attach it to my payload and return it
-        return CreateCalcVariable(flow=owner, node=rep)
+        # build my payload and return it
+        return CreateCalcVariable(flow=owner, node=rep, label=labelRep)
 
 
 # end of file
