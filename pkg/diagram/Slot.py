@@ -125,22 +125,26 @@ class Slot(Node):
         """
         Generate a label for this slot
         """
-        # get my name
-        name = self.name or "prod"
         # and my product
         product = self.product
         # if i don't have a name or a product
-        if product is None or name is None:
+        if product is None:
             # don't have one
             return super().label()
 
+        # get my name
+        name = self.name or ""
+        # get my type
+        family = product.pyre_family().split(".")[-1]
+        # assemble the label
+        label = f"{name}:{family}"
         # grab my position
         x, y = self.position
 
         # pack and return
         return {
             "id": f"{self.guid}_label",
-            "value": name,
+            "value": label,
             "category": "product",
             "position": (x, y-1),
         }
