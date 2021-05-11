@@ -223,6 +223,8 @@ type NewFactoryInfo {
   node: Factory!
   # the list of slots
   slots: [Slot!]!
+  # the list of labels
+  labels: [Label!]!
   # and the list of indings
   connectors: [Connector!]!
 }
