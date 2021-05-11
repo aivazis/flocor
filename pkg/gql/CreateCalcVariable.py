@@ -31,7 +31,7 @@ class CreateCalcVariable(graphene.Mutation):
     # fields
     flow = graphene.ID()
     slot = graphene.Field(Slot, required=True)
-    label = graphene.Field(Label, required=True)
+    labels = graphene.List(graphene.NonNull(Label), required=True)
 
 
     def mutate(root, info, nodeinfo):
@@ -53,15 +53,19 @@ class CreateCalcVariable(graphene.Mutation):
 
         # build a rep
         rep = Slot(id=product.guid, bound=True, position=Position(x=x, y=y))
-        # get the product label
-        label = product.label()
-        # build a rep for its position
-        label["position"] = Position(*label["position"])
-        # and one for the label
-        labelRep = Label(**label)
+        # make a pile of labels
+        labels = []
+        # for each product label
+        for label in product.labels():
+            # build a rep for its position
+            label["position"] = Position(*label["position"])
+            # use it to make one for the label
+            labelRep = Label(**label)
+            # add it to the pile
+            labels.append(labelRep)
 
         # build my payload and return it
-        return CreateCalcVariable(flow=owner, slot=rep, label=labelRep)
+        return CreateCalcVariable(flow=owner, slot=rep, labels=labels)
 
 
 # end of file

@@ -83,10 +83,8 @@ class CreateCalcOperator(graphene.Mutation):
         # and one for connectors
         connectors = []
 
-        # get the factory label
-        label = factory.label()
-        # if there is one
-        if label:
+        # go through the factory labels
+        for label in factory.labels():
             # build a rep for its position
             label["position"] = Position(*label["position"])
             # and one for the label

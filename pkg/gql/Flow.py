@@ -164,10 +164,8 @@ class Flow(graphene.ObjectType):
         labels = []
         # go through the factories in the {diagram}
         for node in itertools.chain(diagram.factories, diagram.slots):
-            # get the label
-            label = node.label()
-            # if it has one
-            if label:
+            # for each label
+            for label in node.labels():
                 # build a rep for its position
                 label["position"] = Position(*label["position"])
                 # and one for the label

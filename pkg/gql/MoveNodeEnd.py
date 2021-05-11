@@ -71,7 +71,7 @@ class MoveNodeEnd(graphene.Mutation):
         here = (x, y)
 
         # do the move
-        target, connections, targetLabel = diagram.move(node=node, position=here)
+        target, connections, targetLabels = diagram.move(node=node, position=here)
 
         # if there was no collision
         if target is None:
@@ -93,16 +93,18 @@ class MoveNodeEnd(graphene.Mutation):
         delLabels = []
 
         # if the dying node has a non trivial label
-        if targetLabel:
+        for label in targetLabels:
+            # get the label id
+            lid = label["id"]
             # its id has to go to the discard pile
-            delLabels.append(targetLabel["id"])
-            # make a new label for the survivor
-            newLabel = node.label()
+            delLabels.append(lid)
+            # replace the target id with the survivor's id and attach it to the label
+            label["id"] = lid.replace(str(target.pyre_id), str(node.pyre_id))
             # build a rep for its position
-            newLabel["position"] = Position(*newLabel["position"])
+            label["position"] = Position(*label["position"])
             # and one for the new label
-            newLabelRep = Label(**newLabel)
-            # add the rep to the pil
+            newLabelRep = Label(**label)
+            # add the rep to the pile
             newLabels.append(newLabelRep)
 
         # make a pile for the new connectors of the survivor
