@@ -53,6 +53,21 @@ class Factory(Node):
         return
 
 
+    def label(self):
+        """
+        Layout my label
+        """
+        # get my position
+        x,y = self.position
+        # pack and return
+        return {
+            "id": f"{self.guid}_label",
+            "value": self.name,
+            "category": "factory",
+            "position": (x, y-3),
+        }
+
+
     # metamethods
     def __init__(self, factory, **kwds):
         # name me after my factory's family name

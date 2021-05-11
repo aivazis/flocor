@@ -25,6 +25,15 @@ class Node:
         return f"{self.typename}:{self.pyre_id}"
 
 
+    # interface
+    def label(self):
+        """
+        Generate a label for this node
+        """
+        # not enough information
+        return
+
+
     # metamethods
     def __init__(self, position, name=None, **kwds):
         # chain up

@@ -121,6 +121,31 @@ class Slot(Node):
         return other, connectors
 
 
+    def label(self):
+        """
+        Generate a label for this slot
+        """
+        # get my name
+        name = self.name or "prod"
+        # and my product
+        product = self.product
+        # if i don't have a name or a product
+        if product is None or name is None:
+            # don't have one
+            return super().label()
+
+        # grab my position
+        x, y = self.position
+
+        # pack and return
+        return {
+            "id": f"{self.guid}_label",
+            "value": name,
+            "category": "product",
+            "position": (x, y-1),
+        }
+
+
     # metamethods
     def __init__(self, product=None, **kwds):
         # chain up
