@@ -53,19 +53,21 @@ class Factory(Node):
         return
 
 
-    def label(self):
+    def labels(self):
         """
         Layout my label
         """
         # get my position
         x,y = self.position
-        # pack and return
-        return {
-            "id": f"{self.guid}_label",
+        # pack and make available
+        yield {
+            "id": f"{self.guid}-label",
             "value": self.name,
             "category": "factory",
             "position": (x, y-3),
         }
+        # all done
+        return
 
 
     # metamethods

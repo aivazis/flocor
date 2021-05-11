@@ -26,12 +26,12 @@ class Node:
 
 
     # interface
-    def label(self):
+    def labels(self):
         """
         Generate a label for this node
         """
-        # not enough information
-        return
+        # i git nothing
+        return []
 
 
     # metamethods
