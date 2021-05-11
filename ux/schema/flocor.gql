@@ -289,8 +289,8 @@ type MoveNodeEnd {
 # node position
 type Position {
   # the diagram coordinates of a node
-  x: Int!
-  y: Int!
+  x: Float!
+  y: Float!
 }
 
 
