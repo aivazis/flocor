@@ -39,8 +39,8 @@ class MoveNodeEnd(graphene.Mutation):
     flow = graphene.ID()
     slot = graphene.Field(Slot, required=False)
     dead = graphene.ID()
-    discard = graphene.List(graphene.ID, required=False, default_value=[])
-    new = graphene.List(graphene.NonNull(Connector), required=True, default_value=[])
+    delConnectors = graphene.List(graphene.ID, required=False, default_value=[])
+    newConnectors = graphene.List(graphene.NonNull(Connector), required=True, default_value=[])
 
 
     def mutate(root, info, nodeinfo):
@@ -84,9 +84,9 @@ class MoveNodeEnd(graphene.Mutation):
         deadnode = target.guid
 
         # make a pile for the new connectors of the survivor
-        new = []
+        newConnectors = []
         # and a pile for the discarded connectors of the dead node
-        discard = []
+        delConnectors = []
 
         # go through the {target} connections
         for factory, trait in connections:
@@ -99,14 +99,15 @@ class MoveNodeEnd(graphene.Mutation):
             # so we can build a rep for it
             nrep = Connector(id=nuid, inp=trait.input, factoryAt=fpos, slotAt=here)
             # and add it to the pile
-            new.append(nrep)
+            newConnectors.append(nrep)
             # now, make an id for the discarded connector
             duid = f"Connector:{factory.pyre_id}|{target.pyre_id}"
             # and add it to the pile
-            discard.append(duid)
+            delConnectors.append(duid)
 
         # all done
-        return MoveNodeEnd(flow=owner, slot=slot, dead=deadnode, new=new, discard=discard)
+        return MoveNodeEnd(flow=owner, slot=slot, dead=deadnode,
+            newConnectors=newConnectors, delConnectors=delConnectors)
 
 
 # end of file
