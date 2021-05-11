@@ -235,7 +235,7 @@ type NewProductInfo {
   # the flow that owns the new node
   flow: ID!
   # the bound slot that was added
-  node: Slot!
+  slot: Slot!
   # and its label
   label: Label!
 }
