@@ -53,6 +53,8 @@ export const useNodeEndMove = (flow) => {
                 }
                 // grab the flow that owns the new node
                 const owner = result.getValue("flow")
+                // and the associated record from the store
+                const record = store.get(owner)
                 // get the dead node id
                 const dead = result.getValue("dead")
                 // if there isn't one, the move did not result in any collisions, hence there
@@ -64,29 +66,50 @@ export const useNodeEndMove = (flow) => {
 
                 // otherwise, get a proxy to the connection that owns the dead node
                 const slots = ConnectionHandler.getConnection(
-                    store.get(owner),
-                    "slotsFragment_slots"
+                    record, "slotsFragment_slots"
                 )
                 // remove it from the edges of the {slotsFragment_slots} connection
                 ConnectionHandler.deleteNode(slots, dead)
 
-                // get a proxy the to the connection that owns the obsolete connectors
+                // get a proxy to the connection that owns the label
+                const labels = ConnectionHandler.getConnection(
+                    record, "labelsFragment_labels"
+                )
+                // get the pile of labels to remove
+                const delLabels = result.getValue("delLabels")
+                // go through them
+                delLabels.forEach(label => {
+                    // and remove each one
+                    ConnectionHandler.deleteNode(labels, label)
+                })
+                // get the pile of new labels
+                const newLabels = result.getLinkedRecords("newLabels")
+                // go through them
+                newLabels.forEach(label => {
+                    // create an edge with the new label
+                    const labelEdge = ConnectionHandler.createEdge(
+                        store, labels, label, "LabelEdge"
+                    )
+                    // and add it to the connection
+                    ConnectionHandler.insertEdgeAfter(labels, labelEdge)
+                })
+
+                // get a proxy the to the connection that owns the connectors
                 const connectors = ConnectionHandler.getConnection(
-                    store.get(owner),
-                    "connectorsFragment_connectors"
+                    record, "connectorsFragment_connectors"
                 )
                 // get the pile of connectors to discard
-                const discard = result.getValue("delConnectors")
+                const delConnectors = result.getValue("delConnectors")
                 // go through them
-                discard.forEach(connector => {
+                delConnectors.forEach(connector => {
                     // and remove each one
                     ConnectionHandler.deleteNode(connectors, connector)
                 })
                 // get the pile of new connectors
                 const newConnectors = result.getLinkedRecords("newConnectors")
-                // go through the new slots and for each one
+                // go through them
                 newConnectors.forEach(connector => {
-                    // create an edge with the new slot
+                    // create an edge with the new connector
                     const connectorEdge = ConnectionHandler.createEdge(
                         store, connectors, connector, "ConnectorEdge")
                     // add it to the connection
@@ -118,6 +141,12 @@ const moveNodeMutation = graphql`mutation useNodeEndMoveMutation($info: MoveNode
         }
         # the dead node
         dead
+        # the obsolete labels
+        delLabels
+        # and the new ones
+        newLabels {
+            ...label_label
+        }
         # the obsolete connectors
         delConnectors
         # and the new ones
