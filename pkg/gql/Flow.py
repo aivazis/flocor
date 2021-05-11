@@ -163,42 +163,17 @@ class Flow(graphene.ObjectType):
         # make a pile
         labels = []
         # go through the factories in the {diagram}
-        for node in diagram.factories:
-            # get its id
-            guid = node.guid
-            # look up its position
-            x,y = node.position
-            # derive an id for the label
-            luid = f"{guid}_label"
-            # use the factory name as the label
-            value = node.name
-            # represent
-            label = Label(id=luid,
-                        value=value, category="factory",
-                        position=Position(x=x, y=y-3))
-            # and add to the pile
-            labels.append(label)
-
-        # go through the slots in the {diagram}
-        for node in diagram.slots:
-            # get the product it's bound to
-            product = node.product
-            # if the slot is named and bound
-            if product is not None and node.name is not None:
-                # get its id
-                guid = node.guid
-                # look up its position
-                x,y = node.position
-                # derive an id for the label
-                luid = f"{guid}_label"
-                # build its value
-                value = node.name
-                # represent
-                label = Label(id=luid,
-                            value=value, category="product",
-                            position=Position(x=x, y=y-1))
+        for node in itertools.chain(diagram.factories, diagram.slots):
+            # get the label
+            label = node.label()
+            # if it has one
+            if label:
+                # build a rep for its position
+                label["position"] = Position(*label["position"])
+                # and one for the label
+                rep = Label(**label)
                 # and add to the pile
-                labels.append(label)
+                labels.append(rep)
 
         # return the pile
         return labels
