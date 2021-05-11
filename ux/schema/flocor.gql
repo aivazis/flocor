@@ -257,6 +257,8 @@ type MoveNode {
   flow: ID!
   # refresh the information of the moving node
   node: Node!
+  # the updated labels
+  labels: [Label!]!
   # the updated connectors
   connectors: [Connector!]!
 }
