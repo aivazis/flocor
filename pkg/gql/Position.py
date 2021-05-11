@@ -16,8 +16,8 @@ class Position(graphene.ObjectType):
 
 
     # the fields
-    x = graphene.Int(required=True)
-    y = graphene.Int(required=True)
+    x = graphene.Float(required=True)
+    y = graphene.Float(required=True)
 
 
 # end of file
