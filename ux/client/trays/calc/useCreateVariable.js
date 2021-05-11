@@ -49,13 +49,14 @@ export const useCreateVariable = (product) => {
 
                 // grab the flow that owns the new node
                 const owner = result.getValue("flow")
+                // and the associated record
+                const record = store.get(owner)
 
                 // extract the new node
                 const slot = result.getLinkedRecord("slot")
                 // get a proxy to the connection that will own the new product
                 const slots = ConnectionHandler.getConnection(
-                    store.get(owner),
-                    "slotsFragment_slots"
+                    record, "slotsFragment_slots"
                 )
                 // create an edge with the product we just made
                 const slotEdge = ConnectionHandler.createEdge(store, slots, slot, "SlotEdge")
@@ -63,17 +64,19 @@ export const useCreateVariable = (product) => {
                 ConnectionHandler.insertEdgeAfter(slots, slotEdge)
 
                 // extract the label
-                const label = result.getLinkedRecord("label")
+                const newLabels = result.getLinkedRecords("labels")
                 // get a proxy to the connection that will own the new label
                 const labels = ConnectionHandler.getConnection(
-                    store.get(owner),
-                    "labelsFragment_labels"
+                    record, "labelsFragment_labels"
                 )
-                // create an edge with the new label
-                const labelEdge = ConnectionHandler.createEdge(
-                    store, labels, label, "LabelEdge")
-                // add it to the connection
-                ConnectionHandler.insertEdgeAfter(labels, labelEdge)
+                // go through the new ones
+                newLabels.forEach(label => {
+                    // create an edge with the new label
+                    const labelEdge = ConnectionHandler.createEdge(
+                        store, labels, label, "LabelEdge")
+                    // add it to the connection
+                    ConnectionHandler.insertEdgeAfter(labels, labelEdge)
+                })
 
                 // all done
                 return
@@ -107,7 +110,7 @@ mutation useCreateVariableMutation($info: NewNodeInput!) {
             ... slot_slot
         }
         # and its label
-        label {
+        labels {
             ... label_label
         }
     }
