@@ -30,7 +30,7 @@ class CreateCalcVariable(graphene.Mutation):
 
     # fields
     flow = graphene.ID()
-    node = graphene.Field(Slot, required=True)
+    slot = graphene.Field(Slot, required=True)
     label = graphene.Field(Label, required=True)
 
 
@@ -61,7 +61,7 @@ class CreateCalcVariable(graphene.Mutation):
         labelRep = Label(**label)
 
         # build my payload and return it
-        return CreateCalcVariable(flow=owner, node=rep, label=labelRep)
+        return CreateCalcVariable(flow=owner, slot=rep, label=labelRep)
 
 
 # end of file
