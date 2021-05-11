@@ -81,7 +81,24 @@ export const useCreateOperator = (factory) => {
                     ConnectionHandler.insertEdgeAfter(slots, slotEdge)
                 })
 
-                // add the new slots to the store
+                // add the new labels to the store
+                // extract the labels
+                const newLabels = result.getLinkedRecords("labels")
+                // get a proxy to the connection that will own the new labels
+                const labels = ConnectionHandler.getConnection(
+                    store.get(owner),
+                    "labelsFragment_labels"
+                )
+                // go through the new labels and for each one
+                newLabels.forEach(newLabel => {
+                    // create an edge with the new label
+                    const labelEdge = ConnectionHandler.createEdge(
+                        store, labels, newLabel, "LabelEdge")
+                    // add it to the connection
+                    ConnectionHandler.insertEdgeAfter(labels, labelEdge)
+                })
+
+                // add the new connectors to the store
                 // extract the connectors
                 const newConnectors = result.getLinkedRecords("connectors")
                 // get a proxy to the connection that will own the new slots
@@ -89,9 +106,9 @@ export const useCreateOperator = (factory) => {
                     store.get(owner),
                     "connectorsFragment_connectors"
                 )
-                // go through the new slots and for each one
+                // go through the new connectors and for each one
                 newConnectors.forEach(newConnector => {
-                    // create an edge with the new slot
+                    // create an edge with the new connector
                     const connectorEdge = ConnectionHandler.createEdge(
                         store, connectors, newConnector, "ConnectorEdge")
                     // add it to the connection
@@ -131,6 +148,9 @@ mutation useCreateOperatorMutation($info: NewNodeInput!) {
         }
         slots {
             ... slot_slot
+        }
+        labels {
+            ... label_label
         }
         connectors {
             ... connector_connector
