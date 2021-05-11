@@ -76,14 +76,14 @@ export const useNodeEndMove = (flow) => {
                     "connectorsFragment_connectors"
                 )
                 // get the pile of connectors to discard
-                const discard = result.getValue("discard")
+                const discard = result.getValue("delConnectors")
                 // go through them
                 discard.forEach(connector => {
                     // and remove each one
                     ConnectionHandler.deleteNode(connectors, connector)
                 })
-                // get the pile of new connetors
-                const newConnectors = result.getLinkedRecords("new")
+                // get the pile of new connectors
+                const newConnectors = result.getLinkedRecords("newConnectors")
                 // go through the new slots and for each one
                 newConnectors.forEach(connector => {
                     // create an edge with the new slot
@@ -119,9 +119,9 @@ const moveNodeMutation = graphql`mutation useNodeEndMoveMutation($info: MoveNode
         # the dead node
         dead
         # the obsolete connectors
-        discard
+        delConnectors
         # and the new ones
-        new {
+        newConnectors {
             ...connector_connector
         }
     }
