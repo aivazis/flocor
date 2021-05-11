@@ -237,7 +237,7 @@ type NewProductInfo {
   # the bound slot that was added
   slot: Slot!
   # and its label
-  label: Label!
+  labels: [Label!]!
 }
 
 
