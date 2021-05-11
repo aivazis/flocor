@@ -114,11 +114,14 @@ class Slot(Node):
         self.product = self.product or other.product
         # save a copy of the connections held by {other}
         connectors = other.connectors
+
+        # save other's label
+        label = other.label()
         # other is now obsolete
         other.clear()
 
         # all done; send back {other} and its old connectors
-        return other, connectors
+        return other, connectors, label
 
 
     def label(self):
