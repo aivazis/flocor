@@ -49,19 +49,31 @@ export const useCreateVariable = (product) => {
 
                 // grab the flow that owns the new node
                 const owner = result.getValue("flow")
+
                 // extract the new node
                 const node = result.getLinkedRecord("node")
-
                 // get a proxy to the connection that will own the new product
                 const slots = ConnectionHandler.getConnection(
                     store.get(owner),
                     "slotsFragment_slots"
                 )
-
                 // create an edge with the product we just made
-                const edge = ConnectionHandler.createEdge(store, slots, node, 'SlotEdge')
+                const slotEdge = ConnectionHandler.createEdge(store, slots, node, "SlotEdge")
                 // and add the new edge to the connection
-                ConnectionHandler.insertEdgeAfter(slots, edge)
+                ConnectionHandler.insertEdgeAfter(slots, slotEdge)
+
+                // extract the label
+                const label = result.getLinkedRecord("label")
+                // get a proxy to the connection that will own the new label
+                const labels = ConnectionHandler.getConnection(
+                    store.get(owner),
+                    "labelsFragment_labels"
+                )
+                // create an edge with the new label
+                const labelEdge = ConnectionHandler.createEdge(
+                    store, labels, label, "LabelEdge")
+                // add it to the connection
+                ConnectionHandler.insertEdgeAfter(labels, labelEdge)
 
                 // all done
                 return
@@ -98,6 +110,10 @@ mutation useCreateVariableMutation($info: NewNodeInput!) {
                 x
                 y
             }
+        }
+        # and its label
+        label {
+            ...label_label
         }
     }
 }`
