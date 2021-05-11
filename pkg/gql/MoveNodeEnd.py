@@ -15,6 +15,8 @@ from .Node import Node
 # flow nodes
 from .Factory import Factory
 from .Slot import Slot
+# labels
+from .Label import Label
 # connectors
 from .Connector import Connector
 # basic types
@@ -39,6 +41,8 @@ class MoveNodeEnd(graphene.Mutation):
     flow = graphene.ID()
     slot = graphene.Field(Slot, required=False)
     dead = graphene.ID()
+    delLabels = graphene.List(graphene.ID, required=False, default_value=[])
+    newLabels = graphene.List(graphene.NonNull(Label), required=True, default_value=[])
     delConnectors = graphene.List(graphene.ID, required=False, default_value=[])
     newConnectors = graphene.List(graphene.NonNull(Connector), required=True, default_value=[])
 
@@ -67,7 +71,7 @@ class MoveNodeEnd(graphene.Mutation):
         here = (x, y)
 
         # do the move
-        target, connections = diagram.move(node=node, position=here)
+        target, connections, targetLabel = diagram.move(node=node, position=here)
 
         # if there was no collision
         if target is None:
@@ -82,6 +86,24 @@ class MoveNodeEnd(graphene.Mutation):
         slot = Slot(id=id, bound=bound, position=here)
         # the {target} is always the node that gets discarded
         deadnode = target.guid
+
+        # make a pile for the new labels of the survivor
+        newLabels = []
+        # and a pile for the discarded labels of the dead node
+        delLabels = []
+
+        # if the dying node has a non trivial label
+        if targetLabel:
+            # its id has to go to the discard pile
+            delLabels.append(targetLabel["id"])
+            # make a new label for the survivor
+            newLabel = node.label()
+            # build a rep for its position
+            newLabel["position"] = Position(*newLabel["position"])
+            # and one for the new label
+            newLabelRep = Label(**newLabel)
+            # add the rep to the pil
+            newLabels.append(newLabelRep)
 
         # make a pile for the new connectors of the survivor
         newConnectors = []
@@ -107,6 +129,7 @@ class MoveNodeEnd(graphene.Mutation):
 
         # all done
         return MoveNodeEnd(flow=owner, slot=slot, dead=deadnode,
+            newLabels=newLabels, delLabels=delLabels,
             newConnectors=newConnectors, delConnectors=delConnectors)
 
 
