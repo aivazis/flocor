@@ -80,7 +80,7 @@ class Diagram:
             # and mark the move as allowable
             return True
 
-        # we have a collistion
+        # we have a collision
         self.contact = target, position
 
         # if either node is a factory
@@ -110,7 +110,7 @@ class Diagram:
         # if there is no collision
         if target is None:
             # there's nothing to do
-            return None, ()
+            return None, (), {}
         # verify that the collision check is fresh
         if tpos != position:
             # if not, {move} was called before {mayMove}
