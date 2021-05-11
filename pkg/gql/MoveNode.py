@@ -15,6 +15,8 @@ from .Node import Node
 # flow nodes
 from .Factory import Factory
 from .Slot import Slot
+# labels
+from .Label import Label
 # connectors
 from .Connector import Connector
 # basic types
@@ -38,6 +40,7 @@ class MoveNode(graphene.Mutation):
     # fields
     flow = graphene.Field(type=Node, required=True)
     node = graphene.Field(type=Node, required=False, default_value=None)
+    labels = graphene.List(graphene.NonNull(Label), required=True, default_value=[])
     connectors = graphene.List(graphene.NonNull(Connector), required=True, default_value=[])
 
 
@@ -88,32 +91,33 @@ class MoveNode(graphene.Mutation):
             # and, just in case firewalls are not fatal, send an empty result back
             return MoveNodeEnd(flow=owner)
 
+        # make a pile of labels
+        labels = []
+        # get the node label
+        label = node.label()
+        # if it has one
+        if label:
+            # build a rep for its position
+            label["position"] = Position(*label["position"])
+            # and one for the label
+            labelRep = Label(**label)
+            # and add to the pile
+            labels.append(labelRep)
+
         # make a pile of connectors
         connectors = []
         # go through the connections of the node
         for factory, trait, slot in node.connections:
             # deduce the direction of the connector
             direction = trait.input
-            # if the factory is moving
-            if factory is node:
-                # then its position is here
-                fpos = here
-            # otherwise
-            else:
-                # unpack the factory position
-                fx, fy = factory.position
-                # and build a rep
-                fpos = Position(x=fx, y=fy)
-            # if the slot is moving
-            if slot is node:
-                # then its position is here
-                spos = here
-            # otherwise
-            else:
-                # unpack the slot position
-                sx, sy = slot.position
-                # and build a rep
-                spos = Position(x=sx, y=sy)
+            # unpack the factory position
+            fx, fy = factory.position
+            # and build a rep
+            fpos = Position(x=fx, y=fy)
+            # unpack the slot position
+            sx, sy = slot.position
+            # and build a rep
+            spos = Position(x=sx, y=sy)
             # assemble the connector id
             buid = f"Connector:{factory.pyre_id}|{slot.pyre_id}"
             # build a rep for the connector
@@ -122,7 +126,7 @@ class MoveNode(graphene.Mutation):
             connectors.append(brep)
 
         # return the node info
-        return MoveNode(flow=owner, node=rep, connectors=connectors)
+        return MoveNode(flow=owner, node=rep, labels=labels, connectors=connectors)
 
 
 # end of file
