@@ -16,6 +16,8 @@ from .Position import Position
 from .Slot import Slot
 # connectors
 from .Connector import Connector
+# labels
+from .Label import Label
 # the class that holds the new node metadata that is input to the mutation
 from .NewNodeInput import NewNodeInput
 
@@ -36,6 +38,7 @@ class CreateCalcOperator(graphene.Mutation):
     flow = graphene.ID()
     node = graphene.Field(Factory, required=True)
     slots = graphene.List(graphene.NonNull(Slot), required=True)
+    labels = graphene.List(graphene.NonNull(Label), required=True)
     connectors = graphene.List(graphene.NonNull(Connector), required=True)
 
 
@@ -75,8 +78,21 @@ class CreateCalcOperator(graphene.Mutation):
         # assemble the slots and their connectors
         # make a pile for slots
         slots = []
+        # one for labels
+        labels = []
         # and one for connectors
         connectors = []
+
+        # get the factory label
+        label = factory.label()
+        # if there is one
+        if label:
+            # build a rep for its position
+            label["position"] = Position(*label["position"])
+            # and one for the label
+            labelRep = Label(**label)
+            # and add to the pile
+            labels.append(labelRep)
 
         # go through the slots, and for each one
         for slot in factory.slots.values():
@@ -90,7 +106,7 @@ class CreateCalcOperator(graphene.Mutation):
             # now, each slot has a pile of connections; this is a new factory, so it is
             # certain that each slot has only one connection to the factory we just added;
             # what we don't know is whether this is an input or an output slot; so do it right...
-            # go through the connetors
+            # go through the connectors
             for client, trait in slot.connectors:
                 # make an id
                 cuid = f"Connector:{client.pyre_id}|{slot.pyre_id}"
@@ -98,13 +114,14 @@ class CreateCalcOperator(graphene.Mutation):
                 factoryAt = Position(*client.position)
                 # deduce the direction
                 direction = trait.input
-                # build the connetor rep
+                # build the connector rep
                 rep = Connector(id=cuid, inp=direction, factoryAt=factoryAt, slotAt=slotAt)
                 # and add it to the pile
                 connectors.append(rep)
 
         # build the payload and return it
-        return CreateCalcOperator(flow=owner, node=node, slots=slots, connectors=connectors)
+        return CreateCalcOperator(flow=owner,
+            node=node, slots=slots, labels=labels, connectors=connectors)
 
 
 # end of file
