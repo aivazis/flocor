@@ -117,6 +117,15 @@ class CreateCalcOperator(graphene.Mutation):
                 # and add it to the pile
                 connectors.append(rep)
 
+            # slots may have labels; go through them
+            for label in slot.labels():
+                # build a rep for its position
+                label["position"] = Position(*label["position"])
+                # use it to make one for the label
+                labelRep = Label(**label)
+                # add it to the pile
+                labels.append(labelRep)
+
         # build the payload and return it
         return CreateCalcOperator(flow=owner,
             node=node, slots=slots, labels=labels, connectors=connectors)
