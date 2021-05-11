@@ -71,11 +71,21 @@ export default {
             vectorEffect: "non-scaling-stroke",
         },
 
-        connector: {
+        input: {
             fontFamily: "inconsolata",
             fontSize: 0.5,
             stroke: "none",
             fill: "hsl(0deg, 0%, 35%)",
+            textAnchor: "start",
+            vectorEffect: "non-scaling-stroke",
+        },
+
+        output: {
+            fontFamily: "inconsolata",
+            fontSize: 0.5,
+            stroke: "none",
+            fill: "hsl(0deg, 0%, 35%)",
+            textAnchor: "end",
             vectorEffect: "non-scaling-stroke",
         },
     }
