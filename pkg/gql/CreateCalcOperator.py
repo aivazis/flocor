@@ -92,30 +92,26 @@ class CreateCalcOperator(graphene.Mutation):
             # and add to the pile
             labels.append(labelRep)
 
-        # go through the slots, and for each one
-        for slot in factory.slots.values():
+        # now, the factory has a pile of connections; this is a new factory, so it is
+        # certain that each slot has only one connection to the factory we just added;
+        # go through the connectors; note that {client} is guaranteed to be {factory}
+        for client, trait, slot in factory.connections:
             # build a position rep
             slotAt = Position(*slot.position)
             # and one for the slot itself
             rep = Slot(id=slot.guid, bound=False, position=slotAt)
             # and add it to the pile
             slots.append(rep)
-
-            # now, each slot has a pile of connections; this is a new factory, so it is
-            # certain that each slot has only one connection to the factory we just added;
-            # what we don't know is whether this is an input or an output slot; so do it right...
-            # go through the connectors
-            for client, trait in slot.connectors:
-                # make an id
-                cuid = f"Connector:{client.pyre_id}|{slot.pyre_id}"
-                # and a rep for the factory position
-                factoryAt = Position(*client.position)
-                # deduce the direction
-                direction = trait.input
-                # build the connector rep
-                rep = Connector(id=cuid, inp=direction, factoryAt=factoryAt, slotAt=slotAt)
-                # and add it to the pile
-                connectors.append(rep)
+            # make an id for the connector
+            cuid = f"Connector:{client.pyre_id}|{slot.pyre_id}"
+            # and a rep for the factory position
+            factoryAt = Position(*client.position)
+            # deduce the direction
+            direction = trait.input
+            # build the connector rep
+            rep = Connector(id=cuid, inp=direction, factoryAt=factoryAt, slotAt=slotAt)
+            # and add it to the pile
+            connectors.append(rep)
 
         # build the payload and return it
         return CreateCalcOperator(flow=owner,
