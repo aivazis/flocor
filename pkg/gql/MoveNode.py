@@ -94,7 +94,7 @@ class MoveNode(graphene.Mutation):
         # make a pile of labels
         labels = []
         # go through the node labels
-        for label in node.labels():
+        for label in node.labels:
             # build a rep for its position
             label["position"] = Position(*label["position"])
             # and one for the label

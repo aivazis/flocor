@@ -83,8 +83,8 @@ class CreateCalcOperator(graphene.Mutation):
         # and one for connectors
         connectors = []
 
-        # go through the factory labels
-        for label in factory.labels():
+        # go through the factory labels, which includes labels from the connectivity table
+        for label in factory.labels:
             # build a rep for its position
             label["position"] = Position(*label["position"])
             # and one for the label
@@ -116,15 +116,6 @@ class CreateCalcOperator(graphene.Mutation):
                 rep = Connector(id=cuid, inp=direction, factoryAt=factoryAt, slotAt=slotAt)
                 # and add it to the pile
                 connectors.append(rep)
-
-            # slots may have labels; go through them
-            for label in slot.labels():
-                # build a rep for its position
-                label["position"] = Position(*label["position"])
-                # use it to make one for the label
-                labelRep = Label(**label)
-                # add it to the pile
-                labels.append(labelRep)
 
         # build the payload and return it
         return CreateCalcOperator(flow=owner,

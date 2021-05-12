@@ -56,7 +56,7 @@ class CreateCalcVariable(graphene.Mutation):
         # make a pile of labels
         labels = []
         # for each product label
-        for label in product.labels():
+        for label in product.labels:
             # build a rep for its position
             label["position"] = Position(*label["position"])
             # use it to make one for the label

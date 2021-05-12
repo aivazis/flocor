@@ -164,7 +164,7 @@ class Flow(graphene.ObjectType):
         # go through the slots in the {diagram}
         for node in diagram.slots:
             # for each label
-            for label in node.labels():
+            for label in node.labels:
                 # build a rep for its position
                 label["position"] = Position(*label["position"])
                 # and one for the label
@@ -179,7 +179,7 @@ class Flow(graphene.ObjectType):
         # traversing the all the slots in the diagram, so we'll skip them
         for node in diagram.factories:
             # for each label
-            for label in node.labels():
+            for label in node.labels:
                 # build a rep for its position
                 label["position"] = Position(*label["position"])
                 # and one for the label
