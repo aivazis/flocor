@@ -38,21 +38,7 @@ class Factory(Node):
         return
 
 
-    # interface
-    def connect(self, trait, slot):
-        """
-        Add {slot} as the representative of my {trait}
-        """
-        # add it to the pile
-        self.slots[trait] = slot
-        # and let it know
-        # N.B.: {slot} depends on {factory} for this update; don't modify without reading through
-        # the implementations of both {Factory} and {Slot}
-        slot.connect(factory=self, trait=trait)
-        # all done
-        return
-
-
+    @property
     def labels(self):
         """
         Layout my label
@@ -68,8 +54,23 @@ class Factory(Node):
         }
 
         # label my connectors
-        yield from super().labels()
+        yield from super().labels
 
+        # all done
+        return
+
+
+    # interface
+    def connect(self, trait, slot):
+        """
+        Add {slot} as the representative of my {trait}
+        """
+        # add it to the pile
+        self.slots[trait] = slot
+        # and let it know
+        # N.B.: {slot} depends on {factory} for this update; don't modify without reading through
+        # the implementations of both {Factory} and {Slot}
+        slot.connect(factory=self, trait=trait)
         # all done
         return
 

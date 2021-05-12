@@ -32,6 +32,38 @@ class Slot(Node):
         return
 
 
+    @property
+    def labels(self):
+        """
+        Generate a label for this slot
+        """
+        # grab my position
+        x, y = self.position
+        # and my product
+        product = self.product
+        # if i have one
+        if product is not None:
+            # get my name
+            name = self.name or ""
+            # get my type
+            family = product.pyre_family().split(".")[-1]
+            # assemble the label
+            label = f"{name}:{family}"
+            # pack and make available
+            yield {
+                "id": f"{self.guid}-label",
+                "value": label,
+                "category": "product",
+                "position": (x, y-1),
+            }
+
+        # label my connectors
+        yield from super().labels
+
+        # all done
+        return
+
+
     # interface
     def bind(self, product):
         """
@@ -122,37 +154,6 @@ class Slot(Node):
 
         # all done; send back {other}, its old connectors, and its original label
         return other, connectors, labels
-
-
-    def labels(self):
-        """
-        Generate a label for this slot
-        """
-        # grab my position
-        x, y = self.position
-        # and my product
-        product = self.product
-        # if i have one
-        if product is not None:
-            # get my name
-            name = self.name or ""
-            # get my type
-            family = product.pyre_family().split(".")[-1]
-            # assemble the label
-            label = f"{name}:{family}"
-            # pack and make available
-            yield {
-                "id": f"{self.guid}-label",
-                "value": label,
-                "category": "product",
-                "position": (x, y-1),
-            }
-
-        # label my connectors
-        yield from super().labels()
-
-        # all done
-        return
 
 
     # metamethods

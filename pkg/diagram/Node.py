@@ -34,7 +34,7 @@ class Node:
         return []
 
 
-    # interface
+    @property
     def labels(self):
         """
         Generate a label for this node
