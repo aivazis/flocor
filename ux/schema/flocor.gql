@@ -137,7 +137,7 @@ type ConnectorEdge {
 # labels
 type Label implements Node {
   id: ID!
-  value: String
+  value: [String!]
   category: String
   position: Position!
 }
