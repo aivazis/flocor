@@ -148,7 +148,7 @@ class Slot(Node):
         connectors = other.connectors
 
         # save other's label
-        labels = tuple(other.labels())
+        labels = tuple(other.labels)
         # other is now obsolete
         other.clear()
 
