@@ -66,6 +66,10 @@ class Factory(Node):
             "category": "factory",
             "position": (x, y-3),
         }
+
+        # label my connectors
+        yield from super().labels()
+
         # all done
         return
 
