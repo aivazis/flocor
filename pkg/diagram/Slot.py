@@ -147,20 +147,9 @@ class Slot(Node):
                 "category": "product",
                 "position": (x, y-1),
             }
-        # now, go through my connectivity table
-        for factory, trait in self.connectors:
-            # get the factory position
-            fx, fy = factory.position
-            # build the label position
-            lx = x + (1 if trait.input else -1)
-            ly = y + (0.5 if y > fy else -0.25)
-            # pack and make available
-            yield {
-               "id": f"Connector:{factory.pyre_id}|{self.pyre_id}-label",
-               "value": trait.name,
-               "category": "input" if trait.input else "output",
-               "position": (lx, ly)
-            }
+
+        # label my connectors
+        yield from super().labels()
 
         # all done
         return
