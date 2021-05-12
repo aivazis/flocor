@@ -19,7 +19,7 @@ class Label(graphene.ObjectType):
 
     # the fields
     id = graphene.ID()
-    value = graphene.String(required=False)
+    value = graphene.List(graphene.String, required=False)
     category = graphene.String(required=False)
     position = graphene.Field(Position, required=True)
 
