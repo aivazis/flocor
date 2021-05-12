@@ -25,13 +25,38 @@ class Node:
         return f"{self.typename}:{self.pyre_id}"
 
 
+    @property
+    def connections(self):
+        """
+        An iterable of my connections to factories
+        """
+        # i have node
+        return []
+
+
     # interface
     def labels(self):
         """
         Generate a label for this node
         """
-        # i git nothing
-        return []
+        # go through my connectivity table
+        for factory, trait, slot in self.connections:
+            # get the factory position
+            _, fy = factory.position
+            # and the slot position
+            sx, sy = slot.position
+            # build the label position
+            lx = sx + (1 if trait.input else -1)
+            ly = sy + (0.5 if sy > fy else -0.25)
+            # pack and make available
+            yield {
+               "id": f"Connector:{factory.pyre_id}|{slot.pyre_id}-label",
+               "value": trait.name,
+               "category": "input" if trait.input else "output",
+               "position": (lx, ly)
+            }
+        # all done
+        return
 
 
     # metamethods
