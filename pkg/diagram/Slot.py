@@ -52,7 +52,7 @@ class Slot(Node):
             # pack and make available
             yield {
                 "id": f"{self.guid}-label",
-                "value": label,
+                "value": [label],
                 "category": "product",
                 "position": (x, y-1),
             }

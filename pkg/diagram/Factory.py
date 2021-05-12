@@ -48,7 +48,7 @@ class Factory(Node):
         # pack and make available
         yield {
             "id": f"{self.guid}-label",
-            "value": self.name,
+            "value": [self.name],
             "category": "factory",
             "position": (x, y-3),
         }

@@ -64,7 +64,7 @@ class Node:
             # pack and make available
             yield {
                "id": f"Connector:{factory.pyre_id}|{slot.pyre_id}-label",
-               "value": ",".join(sorted(trait.name for trait in traits)),
+               "value": tuple(sorted(trait.name for trait in traits)),
                "category": "input" if category else "output",
                "position": (lx, ly)
             }
