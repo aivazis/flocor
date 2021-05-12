@@ -32,7 +32,7 @@ export const Label = (props) => {
     const labelStyle = { ...styles.labels[category], ...props?.style?.labels[category] }
     // render
     return (
-        <text x={position.x} y={position.y} style={labelStyle}>{value}</text>
+        <text x={position.x} y={position.y} style={labelStyle}>{value.join(", ")}</text>
     )
 }
 
