@@ -6,7 +6,6 @@
 
 # externals
 import graphene
-import itertools
 
 # my interface
 from .Node import Node
@@ -162,8 +161,8 @@ class Flow(graphene.ObjectType):
 
         # make a pile
         labels = []
-        # go through the factories in the {diagram}
-        for node in itertools.chain(diagram.factories, diagram.slots):
+        # go through the slots in the {diagram}
+        for node in diagram.slots:
             # for each label
             for label in node.labels():
                 # build a rep for its position
@@ -172,6 +171,23 @@ class Flow(graphene.ObjectType):
                 rep = Label(**label)
                 # and add to the pile
                 labels.append(rep)
+
+        # now to extract the factory labels
+        # N.B.: in order to avoid double counting, we are only interested in the first
+        # entry of the factory label set, which is guaranteed to be the name of the factory.
+        # the rest would be labels for its connections that we have already harvested by
+        # traversing the all the slots in the diagram, so we'll skip them
+        for node in diagram.factories:
+            # for each label
+            for label in node.labels():
+                # build a rep for its position
+                label["position"] = Position(*label["position"])
+                # and one for the label
+                rep = Label(**label)
+                # add it to the pile
+                labels.append(rep)
+                # and bail; the rest are already on the pile
+                break
 
         # return the pile
         return labels
