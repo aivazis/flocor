@@ -40,6 +40,7 @@ class MoveNodeEnd(graphene.Mutation):
     # fields
     flow = graphene.ID()
     slot = graphene.Field(Slot, required=False)
+    labels = graphene.List(graphene.NonNull(Label), required=True, default_value=[])
     dead = graphene.ID()
     delLabels = graphene.List(graphene.ID, required=False, default_value=[])
     newLabels = graphene.List(graphene.NonNull(Label), required=True, default_value=[])
@@ -87,7 +88,9 @@ class MoveNodeEnd(graphene.Mutation):
         # the {target} is always the node that gets discarded
         deadnode = target.guid
 
-        # make a pile for the new labels of the survivor
+        # make a pile for the label updates of the survivor
+        updatedLabels = []
+        # a pile for the new labels for the survivor
         newLabels = []
         # and a pile for the discarded labels of the dead node
         delLabels = []
@@ -130,7 +133,8 @@ class MoveNodeEnd(graphene.Mutation):
             delConnectors.append(duid)
 
         # all done
-        return MoveNodeEnd(flow=owner, slot=slot, dead=deadnode,
+        return MoveNodeEnd(flow=owner, slot=slot, labels=updatedLabels,
+            dead=deadnode,
             newLabels=newLabels, delLabels=delLabels,
             newConnectors=newConnectors, delConnectors=delConnectors)
 
