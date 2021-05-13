@@ -139,6 +139,10 @@ const moveNodeMutation = graphql`mutation useNodeEndMoveMutation($info: MoveNode
             id
             bound
         }
+        # the label updates
+        labels {
+            ...label_label
+        }
         # the dead node
         dead
         # the obsolete labels
