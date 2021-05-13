@@ -272,6 +272,8 @@ type MoveNodeEnd {
   flow: ID!
   # the slot updates
   slot: Slot
+  # the updated labels
+  labels: [Label!]!
   # if the move resulted in a binding, there is a node to remove from the diagram
   dead: ID
   # the new labels
