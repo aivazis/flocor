@@ -136,25 +136,28 @@ const moveNodeMutation = graphql`mutation useNodeEndMoveMutation($info: MoveNode
         flow
         # the slot updates
         slot {
-            id
-            bound
-        }
-        # the label updates
-        labels {
-            ...label_label
+            ...slot_slot
         }
         # the dead node
         dead
-        # the obsolete labels
-        delLabels
         # and the new ones
         newLabels {
             ...label_label
         }
-        # the obsolete connectors
-        delConnectors
+        # the obsolete labels
+        delLabels
+        # the label updates
+        updatedLabels {
+            ...label_label
+        }
         # and the new ones
         newConnectors {
+            ...connector_connector
+        }
+        # the obsolete connectors
+        delConnectors
+        # the connetor updates
+        updatedConnectors {
             ...connector_connector
         }
     }
