@@ -6,10 +6,10 @@
 
 # framework
 import flocor
-
 # superclass
 from .Node import Node
-# factory builds these
+# the things i build
+from .Label import Label
 from .Slot import Slot
 
 
@@ -24,112 +24,186 @@ class Factory(Node):
     typename = "Factory"
 
 
-    # public data
+    # public daa
     @property
-    def connections(self):
+    def slots(self):
         """
-        An iterable of my connections to my slots
+        Get the set of slots that represent my bindings
         """
-        # go through the connectivity table
-        for trait, slot in self.slots.items():
-            # and build a canonical representation of the connection
-            yield self, trait, slot
-        # all done
-        return
-
-
-    @property
-    def labels(self):
-        """
-        Layout my label
-        """
-        # get my position
-        x,y = self.position
-        # pack and make available
-        yield {
-            "id": f"{self.guid}-label",
-            "value": [self.name],
-            "category": "factory",
-            "position": (x, y-3),
-        }
-
-        # label my connectors
-        yield from super().labels
-
-        # all done
-        return
+        # get my cache
+        slots = self._slots
+        # if it is valid
+        if slots is not None:
+            # hand it off
+            return slots
+        # otherwise, initialize it
+        slots = set(self.generateSlots())
+        # attach it it
+        self._slots = slots
+        # and return it
+        return slots
 
 
     # interface
-    def connect(self, trait, slot):
+    def connections(self):
         """
-        Add {slot} as the representative of my {trait}
+        Iterate over my connections to my {slots}
         """
-        # add it to the pile
-        self.slots[trait] = slot
-        # and let it know
-        # N.B.: {slot} depends on {factory} for this update; don't modify without reading through
-        # the implementations of both {Factory} and {Slot}
-        slot.connect(factory=self, trait=trait)
+        # go through my slots
+        for slot in self.slots:
+            # and pass on whatever it knows about me
+            yield from slot.connections(factory=self)
         # all done
         return
 
 
     # metamethods
     def __init__(self, factory, **kwds):
-        # name me after my factory's family name
-        name = factory.pyre_family().split('.')[-1] or None
         # chain up
-        super().__init__(name=name, **kwds)
-        # save my factory
+        super().__init__(**kwds)
+
+        # save the factory
         self.factory = factory
-        # get its arity
+        # and the arity
         self.inputs = len(factory.pyre_inputTraits)
         self.outputs = len(factory.pyre_outputTraits)
-        # build my connectivity table
-        self.slots = {trait: slot for trait,slot in self._allSlots()}
+
+        # initialize my slot cache
+        self._slots = None
+
         # all done
         return
 
 
     # implementation details
-    def _allSlots(self):
+    def generateLabels(self):
         """
-        Return all my input and output slots
+        Generate the set of my labels
         """
-        # grab my factory
-        factory = self.factory
-        # make slots for my inputs
-        yield from self._makeSlots(traits=factory.pyre_inputTraits, inputs=True)
-        # and my outputs
-        yield from self._makeSlots(traits=factory.pyre_outputTraits, inputs=False)
+        # get my type
+        family = self.factory.pyre_family().split(".")[-1]
+        # the value of the label
+        text = [ f"{family}"]
+        # build the position of the label relative to me
+        delta = (0, -3)
+        # assemble and publish
+        yield Label(text=text, category="factory", delta=delta, position=self.position)
+
+        # chain up
+        yield from super().generateLabels()
+
         # all done
         return
 
 
-    def _makeSlots(self, traits, inputs=True):
+    def generateSlots(self):
         """
-        Build slots corresponding to all {traits}
+        Generate the set of my initial slots
+        """
+        # grab my factory node
+        factory = self.factory
+
+        # put all input traits on a pile
+        ins = set(factory.pyre_inputTraits)
+        # and all output traits on another
+        outs = set(factory.pyre_outputTraits)
+
+        # isolate the ones that are just input
+        insOnly = ins - outs
+        # the ones that are just output
+        outsOnly = outs - ins
+        # and the ones that are both
+        inouts = ins & outs
+
+        # make slots for my inputs
+        yield from self._makeInputSlots(traits=insOnly)
+        # my outputs
+        yield from self._makeOutputSlots(traits=outsOnly)
+        # and the slots that are both
+        yield from self._makeInOutSlots(traits=inouts)
+
+        # all done
+        return
+
+
+    def rewire(self, new, old):
+        """
+        Replace {current} by {new} in my {slots}
+        """
+        # get my slot cache
+        slots = self._slots
+        # out with the old
+        slots.discard(old)
+        # in with the new
+        slots.add(new)
+        # all done
+        return self
+
+
+    # slot generation workhorses
+    def _makeInputSlots(self, traits):
+        """
+        Build input slots for the given {traits}
         """
         # get my location
         x, y = self.position
-        # pick the side of the slots
-        side = 1 if inputs else -1
-        # realize the {traits}, just in case we were handed a virtual container
-        traits = tuple(traits)
         # find out how many traits there are; we use this to position the slots in the diagram
         nTraits = len(traits)
         # go through all {traits}
         for idx, trait in enumerate(traits):
             # make a position for this slot
-            position = (x-3*side, y + 2*idx + 1 - nTraits)
+            position = (x-3, y + 2*idx + 1 - nTraits)
             # build an unbound rep
             slot = Slot(product=None, position=position)
-            # connect me to it; don't forget that we are in the middle of building the
-            # connection table, so it gets updated automatically after we are done here
-            slot.connect(factory=self, trait=trait)
+            # connect it to me
+            slot.connectReader(factory=self, trait=trait)
             # and publish it
-            yield trait, slot
+            yield slot
+        # all done
+        return
+
+
+    def _makeOutputSlots(self, traits):
+        """
+        Build output slots for all given {traits}
+        """
+        # get my location
+        x, y = self.position
+        # find out how many traits there are; we use this to position the slots in the diagram
+        nTraits = len(traits)
+        # go through all {traits}
+        for idx, trait in enumerate(traits):
+            # make a position for this slot
+            position = (x+3, y + 2*idx + 1 - nTraits)
+            # build an unbound rep
+            slot = Slot(product=None, position=position)
+            # connect it to me
+            slot.connectWriter(factory=self, trait=trait)
+            # and publish it
+            yield slot
+        # all done
+        return
+
+
+    def _makeInOutSlots(self, traits):
+        """
+        Build slots for the given {traits} that both input and output
+        """
+        # get my location
+        x, y = self.position
+        # find out how many traits there are; we use this to position the slots in the diagram
+        nTraits = len(traits)
+        # go through all {traits}
+        for idx, trait in enumerate(traits):
+            # make a position for this slot
+            position = (x, y + 2*(idx+1))
+            # build an unbound rep
+            slot = Slot(product=None, position=position)
+            # connect it to me
+            slot.connectReader(factory=self, trait=trait)
+            slot.connectWriter(factory=self, trait=trait)
+            # and publish it
+            yield slot
         # all done
         return
 
