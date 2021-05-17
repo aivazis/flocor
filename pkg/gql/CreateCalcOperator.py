@@ -56,66 +56,12 @@ class CreateCalcOperator(graphene.Mutation):
 
         # make a {factory}; we don't have a name for it yet
         op = flocor.flows.operator(family=family)
-        # add it to the diagram and get its rep
-        factory = diagram.addFactory(factory=op, position=(x,y))
-
-        # get the guid
-        guid = factory.guid
-        # name
-        name = factory.factory.pyre_name
-        # family
-        family = factory.factory.pyre_family()
-        # arity
-        inputs = factory.inputs
-        outputs = factory.outputs
-        # make a rep for the factory position
-        position = Position(x=x, y=y)
-        # and for the factory itself
-        node = Factory(id=guid, name=name, family=family,
-                       inputs=inputs, outputs=outputs,
-                       position=position)
-
-        # assemble the slots and their connectors
-        # make a pile for slots
-        slots = []
-        # one for labels
-        labels = []
-        # and one for connectors
-        connectors = []
-
-        # go through the factory labels, which includes labels from the connectivity table
-        for label in factory.labels:
-            # build a rep for its position
-            label["position"] = Position(*label["position"])
-            # and one for the label
-            labelRep = Label(**label)
-            # and add to the pile
-            labels.append(labelRep)
-
-        # now, the factory has a pile of connections; this is a new factory, so it is
-        # certain that each slot has only one connection to the factory we just added;
-        # go through the connectors; note that {client} is guaranteed to be {factory}
-        for client, trait, slot in factory.connections:
-            # build a position rep
-            slotAt = Position(*slot.position)
-            # and one for the slot itself
-            rep = Slot(id=slot.guid, bound=False, position=slotAt)
-            # and add it to the pile
-            slots.append(rep)
-            # make an id for the connector
-            cuid = f"Connector:{client.pyre_id}|{slot.pyre_id}"
-            # and a rep for the factory position
-            factoryAt = Position(*client.position)
-            # deduce the direction
-            direction = trait.input
-            # build the connector rep
-            rep = Connector(id=cuid, inp=direction, factoryAt=factoryAt, slotAt=slotAt)
-            # and add it to the pile
-            connectors.append(rep)
+        # add it to the diagram and get the reps of the new entities
+        factory, labels, slots, connectors = diagram.addFactory(factory=op, position=(x,y))
 
         # build the payload and return it
         return CreateCalcOperator(flow=owner,
-            node=node, slots=slots, labels=labels, connectors=connectors)
+            node=factory, slots=slots, labels=labels, connectors=connectors)
 
 
 # end of file
