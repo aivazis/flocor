@@ -24,4 +24,24 @@ class Connector(graphene.ObjectType):
     slotAt = graphene.Field(Position, required=True)
 
 
+    # the resolvers
+    def resolve_id(connector, *_):
+        return connector.relay
+
+    def resolve_inp(connector, *_):
+        return connector.typename == "Input"
+
+    def resolve_factoryAt(connector, *_):
+        # unpack
+        x, y = connector.factory.position
+        # build a position and return it
+        return Position(x=x, y=y)
+
+    def resolve_slotAt(connector, *_):
+        # unpack
+        x, y = connector.slot.position
+        # build a position and return it
+        return Position(x=x, y=y)
+
+
 # end of file
