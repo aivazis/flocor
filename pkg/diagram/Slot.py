@@ -4,8 +4,14 @@
 # (c) 1998-2021 all rights reserved
 
 
+# externals
+import collections
 # superclass
 from .Node import Node
+# the things i build
+from .Label import Label
+from .Input import Input
+from .Output import Output
 
 
 # slots, both bound and unbound
@@ -18,173 +24,270 @@ class Slot(Node):
     # constants
     typename = "Slot"
 
-    # public data
-    @property
-    def connections(self):
-        """
-        An iterable of my connections to factories
-        """
-        # go through my connectivity table
-        for factory, trait in self.connectors:
-            # and build a canonical representation of the connection
-            yield factory, trait, self
-        # all done
-        return
-
-
-    @property
-    def labels(self):
-        """
-        Generate a label for this slot
-        """
-        # grab my position
-        x, y = self.position
-        # and my product
-        product = self.product
-        # if i have one
-        if product is not None:
-            # get my name
-            name = self.name or ""
-            # get my type
-            family = product.pyre_family().split(".")[-1]
-            # assemble the label
-            label = f"{name}:{family}"
-            # pack and make available
-            yield {
-                "id": f"{self.guid}-label",
-                "value": [label],
-                "category": "product",
-                "position": (x, y-1),
-            }
-
-        # label my connectors
-        yield from super().labels
-
-        # all done
-        return
-
 
     # interface
-    def bind(self, product):
+    def connectReader(self, factory, trait):
         """
-        Associate me with a product
+        Make a connection between {factory} and me for the given input {trait}
         """
-        # if i already have one
-        if self.product:
-            # this is an error
-            import journal
-            # that's almost certainly a bug
-            channel = journal.firewall("flocor.diagram.slot")
-            # so complain
-            channel.line(f"{self}: while binding to {product}")
-            channel.log(f"this slot is already bound to {self.product}")
-            # just in case firewalls are not fatal
-            return self
-
-        # otherwise, bind me to the product
-        self.product = product
+        # look up {factory} in my index of {readers}
+        connector = self.readers.get(factory)
+        # if it's not there
+        if connector is None:
+            # make a new one
+            connector = Input(factory=factory, slot=self)
+            # add it to the pile
+            self.readers[factory] = connector
+        # add this {trait} to the connection
+        connector.add(trait)
         # all done
-        return self
+        return
 
 
-    def connect(self, factory, trait):
+    def connectWriter(self, factory, trait):
         """
-        Add the {trait} of a {factory} to the set of my clients
+        Make a connection between {factory} and me for the given output {trait}
         """
-        # add the connection to to my pile
-        self.connectors.add((factory,trait))
+        # look up {factory} in my index of {writers}
+        connector = self.writers.get(factory)
+        # if it's not there
+        if connector is None:
+            # make a new one
+            connector = Output(factory=factory, slot=self)
+            # add it to the pile
+            self.writers[factory] = connector
+        # add this {trait} to the connection
+        connector.add(trait)
         # all done
-        return self
+        return
 
+
+    def connections(self, factory=None):
+        """
+        Iterate over my connections
+        """
+        # if the caller doesn't care about a particular factory
+        if factory is None:
+            # go through my readers
+            yield from self.readers.values()
+            # and my writers
+            yield from self.writers.values()
+            # all done
+            return
+
+        # otherwise, look up factory in my readers
+        connection = self.readers.get(factory)
+        # if it's there
+        if connection:
+            # make it available
+            yield connection
+        # now, check among the writers
+        connection = self.writers.get(factory)
+        # if there
+        if connection:
+            # make it available
+            yield connection
+
+        # all done
+        return
 
     def merge(self, other):
         """
-        Consolidate me with the {other} slot
+        Take over all relationship managed by {other} and clear it out
         """
-        # NYI: compatibility tests
+        # make the label update piles
+        newLabels = []
+        delLabels = []
+        updatedLabels = []
+        # pack them in a pile
+        deltaLabels = newLabels, delLabels, updatedLabels
+        # and the connection update piles
+        newConnectors = []
+        delConnectors = []
+        updatedConnectors = []
+        # pack them in a pile
+        deltaConnectors = newConnectors, delConnectors, updatedConnectors
 
-        # if both are bound
-        if self.product is not None and other.product is not None:
-            # this is an error
-            import journal
-            # that's almost certainly a bug
-            channel = journal.firewall("flocor.diagram.slot")
-            # so complain
-            channel.line(f"{self}: while merging with {other}")
-            channel.line(f"{self} is already bound to {self.product}")
-            channel.log(f"{other} is already bound to {other.product}")
-            # just in case firewalls are not fatal
-            return other
+        # take care of the flow
+        self.rebind(other=other)
+        # take ownership of all the labels attached to {other}
+        self.relabel(other=other, delta=deltaLabels)
+        # connectors
+        self.rewire(other=other, deltaLabels=deltaLabels, deltaConnectors=deltaConnectors)
 
-        # otherwise, we have some changes to make
-        # during the merge process, all information from {other} moves to me
-
-       # ask {other} for its binding
-        product = other.product
-        # if it is bound
-        if product is not None:
-            # all my connections
-            for factory, trait in self.connectors:
-                # must be bound to it
-                setattr(factory, trait.name, product)
-        # get my product
-        product = self.product
-        # if i'm the one that's bound
-        if product is not None:
-            # all the connections in {other}
-            for factory, trait in other.connectors:
-                # must be bound to it
-                setattr(factory, trait.name, product)
-
-        # regardless, go through the connections in {other}
-        for factory, trait in other.connectors:
-            # tell the factory it is connected to me; the factory will also update my
-            # connectivity table
-            factory.connect(trait=trait, slot=self)
-
-        # set the product binding
-        self.product = self.product or other.product
-        # save a copy of the connections held by {other}
-        connectors = other.connectors
-
-        # save other's label
-        labels = tuple(other.labels)
-        # other is now obsolete
-        other.clear()
-
-        # all done; send back {other}, its old connectors, and its original label
-        return other, connectors, labels
+        # return the changes
+        return other, deltaLabels, deltaConnectors
 
 
     # metamethods
     def __init__(self, product=None, **kwds):
         # chain up
         super().__init__(**kwds)
-        # attach the product i'm bound to; {None} if the slot is free
+        # save the product
         self.product = product
-        # initialize my bindings
-        self.connectors = set()
+
+        # a map from readers to the associated connectors
+        self.readers = {}
+        # and another for writers
+        self.writers = {}
+
         # all done
         return
 
 
     def __str__(self):
-        # binding decoration
-        bound = "unbound" if self.product is None else "bound"
-        return f"{self.typename} '{self.pyre_id}' ({bound})"
+        # build the binding decoration
+        bound = "(unbound)" if self.product is None else "(bound)"
+        # add it to my textual representation
+        return " ".join([super().__str__(), bound])
 
 
     # implementation details
-    def clear(self):
+    def generateLabels(self):
         """
-        Someone else has taken my place
+        Generate the set of my labels
         """
-        # i don't have a product any more
-        self.product = None
-        # clear out my connectors
-        self.connectors = set()
+        # grab my product
+        product = self.product
+        # i only get a label if i'm bound
+        if product is not None:
+            # get my name
+            name = self.name or ""
+            # get my type
+            family = product.pyre_family().split(".")[-1]
+            # the value of the label
+            text = [ f"{name}:{family}"]
+            # build the position of the label relative to me
+            delta = (0, -1)
+            # assemble and publish
+            yield Label(text=text, category="product", delta=delta, position=self.position)
+
+        # chain up
+        yield from super().generateLabels()
+
         # all done
         return
+
+
+    def rebind(self, other):
+        """
+        Examine {other} and me, and rebind the flow so that {other} can be released
+        after {merge}
+        """
+        # get my product
+        product = self.product
+        # if i'm the one that's bound
+        if product is not None:
+            # go through all the connections in {other}
+            for connector in other.connections():
+                # get the factory
+                factory = connector.factory
+                # go through all the traits
+                for trait in connector:
+                    # and bind them to my product
+                    setattr(factory, trait.name, product)
+
+       # ask {other} for its binding
+        product = other.product
+        # if it is bound
+        if product is not None:
+            # bind me
+            self.product = product
+            # go through my connections
+            for connector in self.connections():
+                # get the associated factory
+                factory = connector.factory
+                # go through all the traits
+                for trait in connector:
+                    # and bind them to my new product
+                    setattr(factory, trait.name, product)
+
+        # all done
+        return
+
+
+    def relabel(self, other, delta):
+        """
+        Merge the labels of {other} into my pile
+        """
+        # for now, just merge the labels of {other} into my pile
+        self._labels |= other.labels
+
+        # N.B. this doesn't generate any deltas: labels are free-standing and change of
+        # ownership is transparent. this depends on how we manage the {relay} store on
+        # the client; an earlier implementation derived label ids from the owner's, making
+        # change of ownership visible to the client
+        # send back the deltas
+        return other, delta
+
+
+    def rewire(self, other, deltaLabels, deltaConnectors):
+        """
+        Merge the connectors of {other} into my pile
+        """
+        # unpack the label deltas
+        _, delLabels, updatedLabels = deltaLabels
+        # and the connector deltas
+        _, delConnectors, _ = deltaConnectors
+
+        # start by going through the {readers} in {other}
+        for factory, connector in other.readers.items():
+            # look up the {factory} among my readers
+            mine = self.readers.get(factory)
+            # if i have one
+            if mine is not None:
+                # schedule an update for my label
+                updatedLabels.append(mine.traitLabel)
+                # put the connector on the discard pile
+                delConnectors.append(connector)
+                # put its trait label on the discard pile
+                delLabels.append(connector.traitLabel)
+                # and merge the two connectors
+                mine.merge(other=connector)
+                # and clear out the obsolete {connector}
+                connector.clear()
+            # if i don't have connection to this factory
+            else:
+                # move the connector and its label as they are to my pile
+                self.readers[factory] = connector
+                # rewire the factory
+                factory.rewire(new=self, old=other)
+                # and the connector
+                connector.rewire(new=self)
+
+        # start by going through the {writers} in {other}
+        for factory, connector in other.writers.items():
+            # look up the {factory} among my writers
+            mine = self.writers.get(factory)
+            # if i have one
+            if mine is not None:
+                # schedule an update for my label
+                updatedLabels.append(mine.traitLabel)
+                # put the connector on the discard pile
+                delConnectors.append(connector)
+                # put its trait label on the discard pile
+                delLabels.append(connector.traitLabel)
+                # and merge the two connectors
+                mine.merge(other=connector)
+                # and clear out the obsolete {connector}
+                connector.clear()
+            # if i don't have
+            else:
+                # move the connector and its label as they are to my pile
+                self.writers[factory] = connector
+                # rewire the factory
+                factory.rewire(new=self, old=other)
+                # and the connector
+                connector.rewire(new=self)
+
+        # all done
+        return other, deltaLabels, deltaConnectors
+
+
+    def rewireConnectors(self, myPile, herPile):
+        """
+        Merge {herPile} of connectors into {myPile}
+        """
 
 
 # end of file
