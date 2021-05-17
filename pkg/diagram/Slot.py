@@ -213,7 +213,7 @@ class Slot(Node):
         # for now, just merge the labels of {other} into my pile
         self._labels |= other.labels
 
-        # N.B. this doesn't generate any deltas: labels are free-standing and change of
+        # N.B. this doesn't generate any deltas: labels are free-standing and the change of
         # ownership is transparent. this depends on how we manage the {relay} store on
         # the client; an earlier implementation derived label ids from the owner's, making
         # change of ownership visible to the client
@@ -225,15 +225,30 @@ class Slot(Node):
         """
         Merge the connectors of {other} into my pile
         """
+        # rewire my readers
+        self.rewireConnectors(other=other, myPile=self.readers, herPile=other.readers,
+            deltaLabels=deltaLabels, deltaConnectors=deltaConnectors)
+        # and my writers
+        self.rewireConnectors(other=other, myPile=self.writers, herPile=other.writers,
+            deltaLabels=deltaLabels, deltaConnectors=deltaConnectors)
+
+        # all done
+        return other, deltaLabels, deltaConnectors
+
+
+    def rewireConnectors(self, other, myPile, herPile, deltaLabels, deltaConnectors):
+        """
+        Merge {herPile} of connectors into {myPile}
+        """
         # unpack the label deltas
         _, delLabels, updatedLabels = deltaLabels
         # and the connector deltas
         _, delConnectors, _ = deltaConnectors
 
-        # start by going through the {readers} in {other}
-        for factory, connector in other.readers.items():
-            # look up the {factory} among my readers
-            mine = self.readers.get(factory)
+        # go through the {herPile}
+        for factory, connector in herPile.items():
+            # look up the {factory} in {myPile}
+            mine = myPile.get(factory)
             # if i have one
             if mine is not None:
                 # schedule an update for my label
@@ -242,39 +257,14 @@ class Slot(Node):
                 delConnectors.append(connector)
                 # put its trait label on the discard pile
                 delLabels.append(connector.traitLabel)
-                # and merge the two connectors
+                # merge the two connectors
                 mine.merge(other=connector)
                 # and clear out the obsolete {connector}
                 connector.clear()
-            # if i don't have connection to this factory
+            # if i don't have a connection to this factory
             else:
                 # move the connector and its label as they are to my pile
-                self.readers[factory] = connector
-                # rewire the factory
-                factory.rewire(new=self, old=other)
-                # and the connector
-                connector.rewire(new=self)
-
-        # start by going through the {writers} in {other}
-        for factory, connector in other.writers.items():
-            # look up the {factory} among my writers
-            mine = self.writers.get(factory)
-            # if i have one
-            if mine is not None:
-                # schedule an update for my label
-                updatedLabels.append(mine.traitLabel)
-                # put the connector on the discard pile
-                delConnectors.append(connector)
-                # put its trait label on the discard pile
-                delLabels.append(connector.traitLabel)
-                # and merge the two connectors
-                mine.merge(other=connector)
-                # and clear out the obsolete {connector}
-                connector.clear()
-            # if i don't have
-            else:
-                # move the connector and its label as they are to my pile
-                self.writers[factory] = connector
+                myPile[factory] = connector
                 # rewire the factory
                 factory.rewire(new=self, old=other)
                 # and the connector
@@ -282,12 +272,6 @@ class Slot(Node):
 
         # all done
         return other, deltaLabels, deltaConnectors
-
-
-    def rewireConnectors(self, myPile, herPile):
-        """
-        Merge {herPile} of connectors into {myPile}
-        """
 
 
 # end of file
