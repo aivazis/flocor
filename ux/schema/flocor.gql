@@ -76,8 +76,6 @@ type ProductEdge {
 # factories
 type Factory implements Node {
   id: ID!
-  name: String
-  family: String!
   position: Position!
   inputs: Int!
   outputs: Int!
@@ -272,18 +270,20 @@ type MoveNodeEnd {
   flow: ID!
   # the slot updates
   slot: Slot
-  # the updated labels
-  labels: [Label!]!
   # if the move resulted in a binding, there is a node to remove from the diagram
   dead: ID
   # the new labels
-  newLabels: [Label!]!
+  newLabels: [Label!]
   # the discarded labels
-  delLabels: [ID!]!
+  delLabels: [ID!]
+  # the updated labels
+  updatedLabels: [Label!]
   # the new connectors
-  newConnectors: [Connector!]!
+  newConnectors: [Connector!]
   # the discarded connectors
-  delConnectors: [ID!]!
+  delConnectors: [ID!]
+  # the updated connectors
+  updatedConnectors: [Connector!]
 }
 
 
