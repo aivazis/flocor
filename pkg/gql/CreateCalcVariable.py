@@ -48,24 +48,11 @@ class CreateCalcVariable(graphene.Mutation):
 
         # make a {product}; we don't have a name for it yet
         var = flocor.flows.var(family=family)
-        # add it to the diagram
-        product = diagram.addProduct(product=var, position=(x,y))
-
-        # build a rep
-        rep = Slot(id=product.guid, bound=True, position=Position(x=x, y=y))
-        # make a pile of labels
-        labels = []
-        # for each product label
-        for label in product.labels:
-            # build a rep for its position
-            label["position"] = Position(*label["position"])
-            # use it to make one for the label
-            labelRep = Label(**label)
-            # add it to the pile
-            labels.append(labelRep)
+        # add it to the diagram and get the new entities
+        product, labels = diagram.addProduct(product=var, position=(x,y))
 
         # build my payload and return it
-        return CreateCalcVariable(flow=owner, slot=rep, labels=labels)
+        return CreateCalcVariable(flow=owner, slot=product, labels=labels)
 
 
 # end of file
