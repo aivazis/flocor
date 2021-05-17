@@ -29,13 +29,56 @@ class Node(graphene.relay.Node):
 
 
     #  {graphene} hooks
+    @classmethod
+    def resolve_type(cls, entity, *_):
+        """
+        Type recognizer that converts diagram entities to {graphene} nodes
+        """
+        # if the node is a factory
+        if entity.typename == "Factory":
+            # get the class
+            from .Factory import Factory
+            # and return it
+            return Factory
+
+        # if it is a slot
+        if entity.typename == "Slot":
+            # get the class
+            from .Slot import Slot
+            # and return it
+            return Slot
+
+        # if it is a label
+        if entity.typename == "Label":
+            # get the class
+            from .Label import Label
+            # and return it
+            return Label
+
+        # if it is a connector
+        if entity.typename in ["Input", "Output"]:
+            # get the class
+            from .Connector import Connector
+            # and return it
+            return Connector
+
+        # anything else is a problem
+        import journal
+        # that's almost certainly a bug
+        channel = journal.firewall("flocor.gql.schema")
+        # and complain
+        channel.log(f"while moving {entity}: unknown type '{entity.typename}'")
+        # and, just in case firewalls are not fatal, send a generic node back
+        return Node
+
+
     @staticmethod
-    def to_global_id(gtype, id):
+    def to_global_id(gtype, eid):
         """
         Encode the {type} and {id} of a {node} implementor
         """
         # just splice them together
-        return f"{gtype}:{id}"
+        return f"{gtype}:{eid}"
 
 
     @staticmethod
