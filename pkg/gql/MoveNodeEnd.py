@@ -40,12 +40,13 @@ class MoveNodeEnd(graphene.Mutation):
     # fields
     flow = graphene.ID()
     slot = graphene.Field(Slot, required=False)
-    labels = graphene.List(graphene.NonNull(Label), required=True, default_value=[])
     dead = graphene.ID()
-    delLabels = graphene.List(graphene.ID, required=False, default_value=[])
-    newLabels = graphene.List(graphene.NonNull(Label), required=True, default_value=[])
-    delConnectors = graphene.List(graphene.ID, required=False, default_value=[])
-    newConnectors = graphene.List(graphene.NonNull(Connector), required=True, default_value=[])
+    newLabels = graphene.List(graphene.NonNull(Label), default_value=[])
+    delLabels = graphene.List(graphene.ID, default_value=[])
+    updatedLabels = graphene.List(graphene.NonNull(Label), default_value=[])
+    delConnectors = graphene.List(graphene.ID, default_value=[])
+    newConnectors = graphene.List(graphene.NonNull(Connector), default_value=[])
+    updatedConnectors = graphene.List(graphene.NonNull(Connector), default_value=[])
 
 
     def mutate(root, info, nodeinfo):
@@ -55,88 +56,68 @@ class MoveNodeEnd(graphene.Mutation):
         # unpack the node info
         owner = nodeinfo["flow"]
         id = nodeinfo["id"]
-        x = nodeinfo["x"]
-        y = nodeinfo["y"]
 
         # get the panel
         panel = info.context["panel"]
         # and the diagram
         diagram = panel.diagram
-        # extract the type of the node and its {pyre_id}
-        _, nodeid = id.split(":")
-        # convert the string into a {uuid}
-        guid = uuid.UUID(hex=nodeid)
         # look up the moving node
-        node = diagram.nodes[guid]
-        # pack the new position of the node
-        here = (x, y)
+        node = diagram.findNode(relay=id)
 
-        # do the move
-        target, connections, targetLabels = diagram.move(node=node, position=here)
+        # resolve the move
+        dead, deltaLabels, deltaConnectors = diagram.resolve(node=node)
 
         # if there was no collision
-        if target is None:
+        if dead is None:
             # nothing further to do
             return MoveNodeEnd(flow=owner)
 
-        # did the node just get bound
-        bound = node.product is not None
-        # build a rep for the current position
-        here = Position(x=x, y=y)
-        # build a rep with any updates to the slot
-        slot = Slot(id=id, bound=bound, position=here)
-        # the {target} is always the node that gets discarded
-        deadnode = target.guid
+        # unpack the label deltas
+        newLabels, delLabels, updatedLabels = deltaLabels
+        # unpack the connector deltas
+        newConnectors, delConnectors, updatedConnectors = deltaConnectors
 
-        # make a pile for the label updates of the survivor
-        updatedLabels = []
-        # a pile for the new labels for the survivor
-        newLabels = []
-        # and a pile for the discarded labels of the dead node
-        delLabels = []
-
-        # if the dying node has a non trivial label
-        for label in targetLabels:
-            # get the label id
-            lid = label["id"]
-            # its id has to go to the discard pile
-            delLabels.append(lid)
-            # replace the target id with the survivor's id and attach it to the label
-            label["id"] = lid.replace(str(target.pyre_id), str(node.pyre_id))
-            # build a rep for its position
-            label["position"] = Position(*label["position"])
-            # and one for the new label
-            newLabelRep = Label(**label)
-            # add the rep to the pile
-            newLabels.append(newLabelRep)
-
-        # make a pile for the new connectors of the survivor
-        newConnectors = []
-        # and a pile for the discarded connectors of the dead node
-        delConnectors = []
-
-        # go through the {target} connections
-        for factory, trait in connections:
-            # look up the factory position
-            fx, fy = factory.position
-            # build a rep for it
-            fpos = Position(x=fx, y=fy)
-            # make an id for the new connector
-            nuid = f"Connector:{factory.pyre_id}|{node.pyre_id}"
-            # so we can build a rep for it
-            nrep = Connector(id=nuid, inp=trait.input, factoryAt=fpos, slotAt=here)
-            # and add it to the pile
-            newConnectors.append(nrep)
-            # now, make an id for the discarded connector
-            duid = f"Connector:{factory.pyre_id}|{target.pyre_id}"
-            # and add it to the pile
-            delConnectors.append(duid)
+        # the delete piles just need ids
+        delLabelIds = [ label.relay for label in delLabels]
+        delConnectorIds = [ connector.relay for connector in delConnectors]
 
         # all done
-        return MoveNodeEnd(flow=owner, slot=slot, labels=updatedLabels,
-            dead=deadnode,
-            newLabels=newLabels, delLabels=delLabels,
-            newConnectors=newConnectors, delConnectors=delConnectors)
+        return MoveNodeEnd(flow=owner, slot=node, dead=dead.relay,
+            newLabels=newLabels, delLabels=delLabelIds, updatedLabels=updatedLabels,
+            newConnectors=newConnectors, delConnectors=delConnectorIds,
+            updatedConnectors=updatedConnectors)
+
+
+    # debugging support
+    def debug(self, node, dead, deltaLabels, deltaConnectors):
+        """
+        Show me the deltas that are about to be shipped to the client
+        """
+        # unpack the label deltas
+        newLabels, delLabels, updatedLabels = deltaLabels
+        # unpack the connector deltas
+        newConnectors, delConnectors, updatedConnectors = deltaConnectors
+
+        # the delete piles just need ids
+        delLabelIds = [ label.relay for label in delLabels]
+        delConnectorIds = [ connector.relay for connector in delConnectors]
+
+        # debug
+        print(f"MoveNodeEnd.mutate:")
+        print(f"  slot: {node}")
+        print(f"    product: {node.product}")
+        print(f"  dead: {dead}")
+        print(f"  labels:")
+        print(f"    new: {[label.relay for label in newLabels]}")
+        print(f"    deleted: {delLabelIds}")
+        print(f"    updated: {[label.relay for label in updatedLabels]}")
+        print(f"  connectors:")
+        print(f"    new: {[connector.relay for connector in newConnectors]}")
+        print(f"    deleted: {delConnectorIds}")
+        print(f"    updated: {[connector.relay for connector in updatedConnectors]}")
+
+        # all done
+        return
 
 
 # end of file
