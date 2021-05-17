@@ -4,93 +4,57 @@
 # (c) 1998-2021 all rights reserved
 
 
-# externals
-import collections
-import uuid
+# superclasses
+from .Entity import Entity
+from .Labeled import Labeled
 
 
 # the base entity
-class Node:
+class Node(Labeled, Entity):
     """
-    The base class for diagram entities
+    The base class for diagram nodes
     """
 
     # constants
     typename = "Node"
 
 
-    # public data
-    @property
-    def guid(self):
-        # build a {relay} node id
-        return f"{self.typename}:{self.pyre_id}"
-
-
-    @property
+    # interface
     def connections(self):
         """
-        An iterable of my connections to factories
+        Iterate over the nodes that are connected to me
         """
-        # i have node
+        # i don't have any
         return []
 
 
-    @property
-    def labels(self):
+    def move(self, position):
         """
-        Generate a label for this node
+        Move to a new {position}
         """
-        # the connector between a given slot/factory pair may represent the binding of multiple
-        # traits to the same slot, e.g. when both operands of {add} are connected to the same
-        # input. we want the connector label to reflect the names of all traits that are mapped
-        # to their slot
-        uniq = collections.defaultdict(list)
-        # go through the my connectivity table
-        for factory, trait, slot in self.connections:
-            # and add this relation to the table; we form the key using not only the
-            # {factory}/{slot} pair, but the trait category as well so that we can distinguish
-            # inputs and outputs, just in case we ever allow complicate diagram topologies
-            uniq[(factory,slot,trait.input)].append(trait)
+        # record the new location
+        self.position = tuple(position)
+        # go through my labels
+        for label in self.labels:
+            # and ask them to move as well
+            label.move(position)
+        # notify my connectors
+        for connector in self.connections():
+            # that they have to update their locations
+            connector.moved()
 
-        # now, go through the table
-        for (factory, slot, category), traits in uniq.items():
-            # get the factory position
-            _, fy = factory.position
-            # and the slot position
-            sx, sy = slot.position
-            # build the label position
-            lx = sx + (1 if category else -1)
-            ly = sy + (0.5 if sy > fy else -0.25)
-            # pack and make available
-            yield {
-               "id": f"Connector:{factory.pyre_id}|{slot.pyre_id}-label",
-               "value": tuple(sorted(trait.name for trait in traits)),
-               "category": "input" if category else "output",
-               "position": (lx, ly)
-            }
         # all done
-        return
+        return self
 
 
     # metamethods
-    def __init__(self, position, name=None, **kwds):
+    def __init__(self, position, **kwds):
         # chain up
         super().__init__(**kwds)
-        # all nodes have their own ids
-        self.pyre_id = uuid.uuid1()
-        # record my name
-        self.name = name
-        # save the position
-        self.position = position
+        # save my position
+        self.position = tuple(position)
         # all done
         return
-
-
-    def __str__(self):
-        # build my name
-        name = f" {self.name}" if self.name is not None else ""
-        # render my {typename} and my {uuid}
-        return f"{self.typename}{name} '{self.pyre_id}'"
 
 
 # end of file
