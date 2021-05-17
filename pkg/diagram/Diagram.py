@@ -4,7 +4,12 @@
 # (c) 1998-2021 all rights reserved
 
 
+# externals
+import collections
+# the framework
+import flocor
 # the nodes
+from .Entity import Entity
 from .Factory import Factory
 from .Slot import Slot
 
@@ -16,141 +21,268 @@ class Diagram:
     """
 
 
+    # public data
+    @property
+    def connectors(self):
+        """
+        Iterate over all known connectors
+        """
+        # go through all my slots
+        for slot in self.slots:
+            # and return all of their connections
+            yield from slot.connections()
+        # all done
+        return
+
+
     # interface
+    @staticmethod
+    def relayToEid(relay):
+        """
+        Extract the {typename} and {eid} from a {relay} id
+        """
+        # {entities} know how to do this
+        return Entity.relayToEid(relay)
+
+
+    def findNode(self, relay):
+        """
+        Look up a node given its {relay} id
+        """
+        # parse the {relay} id
+        typename, eid = self.relayToEid(relay=relay)
+        # look up the node
+        node = self.nodes.get(eid)
+
+        # make sure it exists
+        if node is None:
+            # if not, we have a problem
+            import journal
+            # that's almost certainly a bug
+            channel = journal.firewall("flocor.diagram.nodes")
+            # so complain
+            channel.line(f"while looking up '{relay}'")
+            channel.line(f"in the diagram for {self.flow}")
+            channel.log(f"node '{eid}' not found")
+            # in case firewalls aren't fatal, return the found node
+            return node
+
+        # make sure it's the right type
+        if node.typename != typename:
+            # if not, we have a problem
+            import journal
+            # that's almost certainly a bug
+            channel = journal.firewall("flocor.diagram.nodes")
+            # so complain
+            channel.line(f"while looking up '{relay}'")
+            channel.line(f"in the diagram for {self.flow}")
+            channel.log(f"type mismatch: retrieved node is '{typename}'")
+            # in case firewalls aren't fatal, return the found node
+            return node
+
+        # all done
+        return node
+
+
+    # new nodes
     def addFactory(self, factory, position):
         """
-        Add a product to the flow
+        Add a factory to the flow
         """
-        # put it in the flow
+        # place the factory in the flow
         self.flow.factories.add(factory)
-        # build a rep
-        rep = Factory(factory=factory, position=position)
-        # add it to the pile
-        self.factories.add(rep)
-        # and the index
-        self.nodes[rep.pyre_id] = rep
+        # build an entity
+        entity = Factory(factory=factory, position=position)
+        # its slots
+        slots = entity.slots
+        # and its connectors
+        connectors = list(entity.connections())
 
-        # go through the slots
-        for slot in rep.slots.values():
-            # add each one to my pile
-            self.slots.add(slot)
-            # and to the node index
-            self.nodes[slot.pyre_id] = slot
+        # make a pile
+        labels = []
+        # add the entity labels
+        labels.extend(entity.labels)
+        # go through the connetors
+        for connector in connectors:
+            # and add their labels to the pile
+            labels.extend(connector.labels)
 
-        # check and resolve collisions
-        # all done
-        return rep
+        # i maintain a set of all factories
+        self.factories.add(entity)
+        # and all slots
+        self.slots |= slots
+
+        # update my node index: it keeps track of the factory itself
+        self.nodes[entity.eid] = entity
+        # its slots
+        self.nodes.update((slot.eid, slot) for slot in slots)
+        # and the new labels
+        self.nodes.update((label.eid, label) for label in labels)
+
+        # update my layout
+        self.layout[entity.position] = entity
+        self.layout.update((slot.position, slot) for slot in slots)
+
+        # return the new factory
+        return entity, labels, slots, connectors
 
 
     def addProduct(self, product, position):
         """
         Add a product to the flow
         """
-        # put it in the flow
+        # place the product in the flow
         self.flow.products.add(product)
-        # build a rep
-        rep = Slot(product=product, position=position)
-        # add it to the pile
-        self.slots.add(rep)
-        # and the index
-        self.nodes[rep.pyre_id] = rep
+        # build an entity
+        entity = Slot(product=product, position=position)
+        # and generate its labels
+        labels = entity.labels
 
-        # check and resolve collisions
-        # all done
-        return rep
+        # i have a set of all slots
+        self.slots.add(entity)
+
+        # update my node index: it keeps track of both slots
+        self.nodes[entity.eid] = entity
+        # and their labels
+        self.nodes.update((label.eid, label) for label in labels)
+
+        # update my layout
+        self.layout[entity.position] = entity
+
+        # return the new slot
+        return entity, labels
 
 
     # event handlers
-    def mayMove(self, node, position):
+    def move(self, node, position):
         """
-        Predicate that checks whether {position} is allowable for {node}
+        Move {node} to a new {position}, if permitted
         """
-        # go through all known nodes
-        for target in self.nodes.values():
-            # looking for potential collisions with other nodes
-            if target.position == position and target is not node:
-               # if there is one, just stop looking
-               break
-        # if there is no collision
-        else:
-            # record that this {position} is collision free
-            self.contact = None, position
-            # update the position of the node
-            node.position = position
-            # and mark the move as allowable
+        # if the position hasn't changed
+        if position == node.position:
+            # it's a legal move
             return True
 
-        # we have a collision
-        self.contact = target, position
+        # get the current migrant node, and its original position
+        migrant = self.migrant
+        # if it's not the current {node}
+        if migrant is not node:
+            # make it so
+            self.migrant = node
+            # remove it from the layout
+            del self.layout[node.position]
 
-        # if either node is a factory
-        if isinstance(node, Factory) or isinstance(target, Factory):
-            # the move is disallowed
-            return False
+        # check whether there is somebody already there
+        occupant = self.layout.get(position)
+        # if so
+        if occupant:
+            # check whether bindings are permitted among the two nodes
+            if not self.supported(node, occupant):
+                # and if not, the move is illegal
+                return False
 
-        # if both are products
-        if node.product is not None and target.product is not None:
-            # the move is disallowed
-            return False
+        # mark whether this move caused a collision
+        self.collision = occupant
 
-        # otherwise, update the position of the node
-        node.position = position
-        # let the caller know we are ok
+        # move the node and its labels
+        node.move(position=position)
+
+        # all done
         return True
 
 
-    def move(self, node, position):
+    def resolve(self, node):
         """
-        Place {node} at {position}, carrying out any allowable side effects
+        Resolve any side effects of placing {node} in its current location
         """
-        # check whether there is a recorded collision at {position}
-        target, tpos = self.contact
-        # clear it; it all gets handled here
-        self.contact = None, ()
-        # if there is no collision
-        if target is None:
-            # there's nothing to do
-            return None, (), {}
-        # verify that the collision check is fresh
-        if tpos != position:
-            # if not, {move} was called before {mayMove}
-            import journal
-            # let's treat this as a bug, for now
-            channel = journal.firewall("flocor.gql.diagram")
-            # complain
-            channel.line(f"while moving {node} to {position}:")
-            channel.line(f"collision with {target} at {tpos}")
-            channel.log(f"but the positions do not match")
-            # bail, just in case firewalls aren't fatal
-            return
+        # clear the migration marker
+        self.migrant = None
+        # put the node back in the layout
+        self.layout[node.position] = node
 
-        # update my indices
-        # clean up the node index
-        del self.nodes[target.pyre_id]
-        # remove it from the pile of slots
-        self.slots.discard(target)
+        # get the potential collision target
+        dead = self.collision
+        # if there was no collision
+        if dead is None:
+            # all done
+            return None, [], []
 
-        # merge the nodes and hand the caller {target} and its old connections
-        return node.merge(other=target)
+        # otherwise, we have to compute the move side effects; first up, maintenance of
+        # my indices that requires access to the stale information
+        # clear the collision marker
+        self.collision = None
+        # remove the dead node from my slot index
+        self.slots.discard(dead)
+        # and my node index
+        del self.nodes[dead.eid]
+
+        # now, ask {node} to subsume the {dead} node's info
+        return node.merge(other=dead)
 
 
     # metamethods
     def __init__(self, flow=None, **kwds):
         # chain up
         super().__init__(**kwds)
+
         # my flow
         self.flow = flow if flow is not None else flocor.flow.dynamic()
-
-        # the entries
-        self.factories = set()
+        # the pile of slots
         self.slots = set()
+        # factories
+        self.factories = set()
 
-        # a map from ids to nodes
+        # my layout keeps track of entity locations
+        self.layout = {}
+
+        # the node index maps relay ids to diagram entities
         self.nodes = {}
+        # a set of labels that are not associated with any entity
+        self.labels = set()
 
-        # storage for collision information while nodes are moving
-        self.contact = None, ()
+        # a record of the moving node and its initial position
+        self.migrant = None, ()
+        # marker that a collision among nodes was detected during a move
+        self.collision = None
 
+        # all done
+        return
+
+
+    # implementation details
+    def supported(self, n1, n2):
+        """
+        Check whether a binding between {n1} and {n2} is permissible
+        """
+        # if either is a factory
+        if isinstance(n1, Factory) or isinstance(n2, Factory):
+            # the binding is not supported
+            return False
+
+        # if both are products
+        if n1.product is not None and n2.product is not None:
+            # the binding is not supported
+            return False
+
+        # anything else is ok
+        return True
+
+
+    # debugging support
+    def dump(self):
+        """
+        Generate a report with my slots and factories
+        """
+        # first the flow name
+        yield f"flow: {self.flow}"
+        # go through my slots
+        yield f"  slots:"
+        for slot in self.slots:
+            yield f"    {slot}"
+        # go through my factories
+        yield f"  factories:"
+        for factory in self.factories:
+            yield f"    {factory}"
         # all done
         return
 
