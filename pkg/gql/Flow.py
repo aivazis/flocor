@@ -52,9 +52,6 @@ class Flow(graphene.ObjectType):
     def resolve_id(panel, info, **kwds):
         # unpack
         flow = panel.flow
-        # debug
-        diagram = panel.diagram
-        print("\n".join(diagram.dump()))
         # return the {flow} id
         return f"Flow:{flow.pyre_id}"
 
