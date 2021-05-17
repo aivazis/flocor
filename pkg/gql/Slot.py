@@ -30,4 +30,18 @@ class Slot(graphene.ObjectType):
     position = graphene.Field(Position, required=True)
 
 
+    # the resolvers
+    def resolve_id(slot, *_):
+        return slot.relay
+
+    def resolve_bound(slot, *_):
+        return slot.product is not None
+
+    def resolve_position(slot, *_):
+        # unpack
+        x, y = slot.position
+        # build a position and return it
+        return Position(x=x, y=y)
+
+
 # end of file
