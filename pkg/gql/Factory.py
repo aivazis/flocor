@@ -26,13 +26,28 @@ class Factory(graphene.ObjectType):
 
     # the fields
     id = graphene.ID()
-    name = graphene.String(required=False)
-    family = graphene.String(required=True)
     # products
     inputs = graphene.Int(required=True)
     outputs = graphene.Int(required=True)
     # location
     position = graphene.Field(Position, required=True)
+
+
+    # the resolvers
+    def resolve_id(factory, *_):
+        return factory.relay
+
+    def resolve_inputs(factory, *_):
+        return factory.inputs
+
+    def resolve_outputs(factory, *_):
+        return factory.outputs
+
+    def resolve_position(factory, *_):
+        # unpack
+        x, y = factory.position
+        # build a position and return it
+        return Position(x=x, y=y)
 
 
 # end of file
