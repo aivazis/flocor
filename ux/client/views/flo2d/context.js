@@ -20,6 +20,9 @@ export const Context = React.createContext(
         newNode: null,
         setNewNode: () => { throw new Error('setNewNode: ' + complaint) },
         clearNewNode: () => { throw new Error('clearNewNode: ' + complaint) },
+        // the selection
+        selection: null,
+        setSelection: () => { throw new Error('setSelection: ' + complaint) },
     }
 )
 
@@ -33,12 +36,17 @@ export const Provider = ({ children }) => {
     // build a handler that clears the new node info
     const clearNewNode = () => { setNewNode(null) }
 
+    // the current selection
+    const [selection, setSelection] = React.useState([])
+
     // build the current value of the context
     const context = {
         // the interaction container
         containerRef,
         // the node mutator
         newNode, setNewNode, clearNewNode,
+        // the selection
+        selection, setSelection,
     }
 
     // provide for my children
