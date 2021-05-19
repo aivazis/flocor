@@ -7,8 +7,9 @@
 // externals
 import React from 'react'
 
+// project
+import { useSetSelection } from '~/views/flo2d'
 // local
-// hooks
 import { useSetMovingNode } from './useSetMovingNode'
 
 
@@ -19,20 +20,15 @@ export const Node = ({ id, position, children }) => {
     // build the positioning transform
     const xform = `translate(${x} ${y})`
 
-    // make a callback that marks me as a candidate for moving
-    const maybeMoveNode = useSetMovingNode(id)
-
-    // when i'm clicked
-    const select = () => {
-        // mark me as a candidate for movement
-        maybeMoveNode()
-        // all done
-        return
-    }
+    //
+    const select = useSetSelection(id)
+    // mark me as a candidate for moving
+    const embark = useSetMovingNode(id)
 
     // node controls
     const nodeControls = {
-        onMouseDown: select,
+        onClick: select,
+        onMouseDown: embark,
     }
 
     // render
