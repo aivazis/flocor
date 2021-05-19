@@ -9,12 +9,17 @@
 export { Flo2d } from './flo2d'
 
 // the hooks
-// its hooks
+// node creation
 export { useNewNode } from './useNewNode'
 export { useSetNewNode } from './useSetNewNode'
 export { useClearNewNode } from './useClearNewNode'
 export { useCreateNewNode } from './useCreateNewNode'
+// node selection
+export { useSelection } from './useSelection'
+export { useSetSelection } from './useSetSelection'
+export { useClearSelection } from './useClearSelection'
 
+// access to the top level container
 export { useInteractionContainer } from './useInteractionContainer'
 
 
