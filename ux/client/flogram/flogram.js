@@ -9,6 +9,8 @@ import React from 'react'
 import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
 
 // project
+// hooks
+import { useClearSelection } from '~/views/flo2d'
 // widgets
 import { Compass, Camera } from '~/widgets'
 
@@ -39,11 +41,19 @@ const Diagram = () => {
 
     // ask the server for the flow diagram
     const { flow } = useLazyLoadQuery(flogramQuery, {})
+    // to clear the selection
+    const clearSelection = useClearSelection()
+
+    // the canvas controls
+    const canvasControls = {
+        onClick: clearSelection
+    }
 
     // build the container and return it
     return (
         <section ref={ref} style={styles.panel} >
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" {...styles.canvas}>
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                {...styles.canvas} {...canvasControls} >
                 {/* global defs */}
                 <Globals />
                 {/* everything that is in ICS */}
