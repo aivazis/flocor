@@ -13,6 +13,7 @@ import style from '~/shapes/styles'
 
 // the shape color
 const ink = "hsl(0deg, 0%, 40%)"
+const highlight = "hsl(0deg, 0%, 20%)"
 const paint = "hsl(0deg, 0%, 15%)"
 
 // publish
@@ -33,7 +34,8 @@ export default {
         // inherit
         ...style.decoration,
         // stroke
-        stroke: "none",
+        stroke: highlight,
+        strokeWidth: 2,
         // fill
         fill: "none",
     },
