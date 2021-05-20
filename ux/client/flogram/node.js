@@ -20,7 +20,7 @@ export const Node = ({ id, position, children }) => {
     // build the positioning transform
     const xform = `translate(${x} ${y})`
 
-    //
+    // get the selection callback
     const select = useSetSelection(id)
     // mark me as a candidate for moving
     const embark = useSetMovingNode(id)
