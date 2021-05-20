@@ -10,6 +10,7 @@ import { graphql, useFragment } from 'react-relay/hooks'
 // project
 import { Slot as Unbound } from '~/shapes'
 import { Product as Bound } from '~/shapes'
+import { useSelection } from '~/views/flo2d'
 // local
 import { Node } from './node'
 
@@ -28,10 +29,15 @@ export const Slot = (props) => {
         }
     `, props.slot)
 
+    // get the current selection
+    const { selection } = useSelection()
+    // am i selected
+    const selected = selection.includes(slot.id)
+
     // render
     return (
         <Node id={slot.id} position={slot.position} >
-            {slot.bound ? <Bound /> : <Unbound />}
+            {slot.bound ? <Bound highlight={selected} /> : <Unbound highlight={selected} />}
         </Node>
     )
 }

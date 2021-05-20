@@ -8,6 +8,8 @@
 import React from 'react'
 import { graphql, useFragment } from 'react-relay/hooks'
 // project
+// hooks
+import { useSelection } from '~/views/flo2d'
 // shapes
 import { Factory as Shape, Plex, Terminal } from '~/shapes'
 // local
@@ -28,6 +30,11 @@ export const Factory = (props) => {
         }
     `, props.factory)
 
+    // get the current selection
+    const { selection } = useSelection()
+    // am i selected
+    const selected = selection.includes(factory.id)
+
     // make a narrow factory, i.e. one where the connector lines terminate on the base cell
     const cell = 1
     // input terminal
@@ -46,7 +53,7 @@ export const Factory = (props) => {
     // render
     return (
         <Node id={factory.id} position={factory.position} >
-            <Shape />
+            <Shape highlight={selected} />
             {inplex}
             {outplex}
         </Node>
