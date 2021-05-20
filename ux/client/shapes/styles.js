@@ -32,6 +32,15 @@ export default {
         // exclude the stroke from any transforms
         vectorEffect: "non-scaling-stroke",
     },
+
+    highlight: {
+        // stroke
+        strokeWidth: 0.25,
+        // fill
+        fill: "none",
+        // exclude the stroke from any transforms
+        vectorEffect: "non-scaling-stroke",
+    },
 }
 
 
