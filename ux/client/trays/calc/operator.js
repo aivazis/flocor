@@ -17,7 +17,7 @@ import styles from './styles'
 
 // a tray with factory nodes
 export const Operator = ({ operator, els, style }) => {
-    // buld the item selector
+    // build the item selector
     const selector = useCreateOperator(operator)
     // paint
     return (
