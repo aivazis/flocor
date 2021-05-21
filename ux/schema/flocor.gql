@@ -17,7 +17,7 @@ type Query {
   # the set of protocols for products and factories in a given package
   catalog(package: String = "flocor"): Catalog
 
-  # basic node from {pyre.calc}
+  # basic nodes from {pyre.calc}
   # variables
   calcVariables: [Specification!]!
   # and operators
