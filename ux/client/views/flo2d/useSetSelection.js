@@ -28,11 +28,15 @@ export const useSetSelection = (node) => {
         if (evt.shiftKey) {
             // add the {node} that was clicked to the selection pile
             setSelection(prev => {
-                // ensure uniqueness by adding the node to the current pile
-                // and then converting the array into a set
-                const pile = new Set(prev.concat([node]))
-                // turn back into an array an return it
-                return [...pile]
+                // check whether {node} is already in the selection
+                const idx = prev.indexOf(node)
+                // if it's not there
+                if (idx == -1) {
+                    // add it and return the new selection
+                    return [...prev, node]
+                }
+                // if it is already selected, remove it
+                return prev.filter(entry => entry != node)
             })
             // all done
             return
