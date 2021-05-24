@@ -57,14 +57,7 @@ const Panel = () => {
 
                 {/* the activity specific work area */}
                 <Flex.Panel min={400} style={{ ...styles.flex, ...styles.canvas }} >
-                    <Switch>
-                        <Route path={`${match.path}compose`} >
-                            <Flogram />
-                        </Route>
-                        <Route >
-                            <NYI />
-                        </Route>
-                    </Switch>
+                    <Flogram />
                 </Flex.Panel>
 
             </Flex.Box>
