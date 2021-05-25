@@ -35,8 +35,9 @@ export const Factory = (props) => {
     // am i selected
     const selected = selection.includes(factory.id)
 
-    // make a narrow factory, i.e. one where the connector lines terminate on the base cell
-    const cell = 1
+    // make a wide factory, i.e. one where the connector lines terminate on the edge of the
+    // cell adjacent to the factory base cell
+    const cell = 2
     // input terminal
     const inplex = (
         <g transform={`translate(${-cell} 0)`}>
@@ -53,7 +54,7 @@ export const Factory = (props) => {
     // render
     return (
         <Node id={factory.id} position={factory.position} >
-            <Shape highlight={selected} />
+            <Shape highlight={selected} cell={cell} />
             {inplex}
             {outplex}
         </Node>
