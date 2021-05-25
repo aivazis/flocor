@@ -38,7 +38,7 @@ export const Connector = (props) => {
     const slotAt = connector.slotAt
 
     // handle inputs vs. outputs
-    const delta = inp ? -1 : 1
+    const delta = 2 * (inp ? -1 : 1)
     // compute the connector path
     const path = `
         M ${factoryAt.x + delta} ${factoryAt.y}
