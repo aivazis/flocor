@@ -21,8 +21,15 @@ class GraphQL:
         """
         Resolve the {query} and generate a response for the client
         """
+        # assemble the raw payload
+        raw = b'\n'.join(request.payload)
+        # if there is nothing there
+        if not raw:
+            # return an empty document; this should never happen...
+            return server.documents.OK(server=server)
+
         # parse the {request} payload
-        payload = json.loads(b'\n'.join(request.payload))
+        payload = json.loads(raw)
         # get the query
         query = payload.get("query")
         # extract the variables
