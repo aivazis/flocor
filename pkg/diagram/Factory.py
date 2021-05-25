@@ -85,7 +85,7 @@ class Factory(Node):
         # the value of the label
         text = [ f"{family}"]
         # build the position of the label relative to me
-        delta = (0, -3)
+        delta = (0, -2.5)
         # assemble and publish
         yield Label(text=text, category="factory", delta=delta, position=self.position)
 
@@ -152,7 +152,7 @@ class Factory(Node):
         # go through all {traits}
         for idx, trait in enumerate(traits):
             # make a position for this slot
-            position = (x-3, y + 2*idx + 1 - nTraits)
+            position = (x-5, y + 2*idx + 1 - nTraits)
             # build an unbound rep
             slot = Slot(product=None, position=position)
             # connect it to me
@@ -174,7 +174,7 @@ class Factory(Node):
         # go through all {traits}
         for idx, trait in enumerate(traits):
             # make a position for this slot
-            position = (x+3, y + 2*idx + 1 - nTraits)
+            position = (x+5, y + 2*idx + 1 - nTraits)
             # build an unbound rep
             slot = Slot(product=None, position=position)
             # connect it to me
