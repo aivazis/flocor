@@ -16,6 +16,7 @@ export { Flo2d } from './flo2d'
 export { NodeLibrary } from './nodelib'
 
 // sandboxes
+export { GiQL } from './graphiql'
 export Flex from './flex'
 
 // not yet implemented
