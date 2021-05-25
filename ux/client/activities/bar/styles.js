@@ -13,7 +13,7 @@ export default {
     // for my toolbar
     box: {
         // style
-        padding: "0.5rem 0.0rem",
+        padding: "0.25rem 0.0rem",
         // paint
         backgroundColor: "hsl(0deg, 0%, 21%, 1)",
     },
@@ -21,7 +21,7 @@ export default {
     // my opinions on badges
     badge: {
         //  styling
-        padding: "0.75rem 0.5rem",
+        padding: "0.375rem 0.5rem",
         // make a transparent border of the correct width so the badges don't move around
         // when the corresponding activity is engaged
         borderLeft: `2px solid hsl(0deg, 0%, 0%, 0)`,

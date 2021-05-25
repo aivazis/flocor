@@ -19,7 +19,7 @@ import styles from './styles'
 // the activity bar
 const bar = () => {
     // decide on a size
-    const size = 32
+    const size = 20
 
     // paint me
     return (
