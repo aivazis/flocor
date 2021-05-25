@@ -57,7 +57,7 @@ const Diagram = () => {
                 {/* global defs */}
                 <Globals />
                 {/* everything that is in ICS */}
-                <Camera ref={ref} >
+                <Camera ref={ref} scale={15} >
                     {/* diagram behaviors */}
                     <Behaviors ref={ref} flow={flow.id} />
                     {/* the current cell highlighter, an experiment in not rendering a grid */}
@@ -74,7 +74,7 @@ const Diagram = () => {
                     <Factories flow={flow} />
                 </Camera >
             </svg>
-        </section>
+        </section >
     )
 }
 
