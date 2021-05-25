@@ -23,7 +23,7 @@ import { environment } from '~/context'
 // views
 import {
     // the main page
-    Flo2d,
+    Flo2d, GiQL,
     // the flex sandbox
     Flex,
     // boilerplate
@@ -42,20 +42,26 @@ const FloApp = () => {
 
     // render
     return (
-        <div style={styles.page}>
-            <Switch >
-                {/* the closing page */}
-                <Route path="/stop" component={Stop} />
-                {/* the page to render while waiting for data to arrive */}
-                <Route path="/loading" component={Loading} />
+        <Switch>
+            {/* the graphiql sandbox */}
+            <Route path="/graphiql" component={GiQL} />
+            <Route>
+                <div style={styles.page}>
+                    <Switch >
+                        {/* the closing page */}
+                        <Route path="/stop" component={Stop} />
+                        {/* the page to render while waiting for data to arrive */}
+                        <Route path="/loading" component={Loading} />
 
-                {/* the flex sandbox */}
-                <Route path="/flex" component={Flex} />
-                {/* show the app */}
-                <Route path="/" component={Flo2d} />
-            </Switch>
-            <Status />
-        </div>
+                        {/* the flex sandbox */}
+                        <Route path="/flex" component={Flex} />
+                        {/* show the app */}
+                        <Route path="/" component={Flo2d} />
+                    </Switch>
+                    <Status />
+                </div>
+            </Route>
+        </Switch>
     )
 }
 
