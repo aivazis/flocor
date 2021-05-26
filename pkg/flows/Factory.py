@@ -4,16 +4,14 @@
 # (c) 1998-2021 all rights reserved
 
 
-# externals
-import uuid
 # framework
 import flocor
 
 
-# base class for factories
-class Factory(flocor.flow.factory, family="flocor.factories.factory"):
+# base class for local factories
+class Factory(flocor.flow.factory, family="flocor.calc.factories"):
     """
-    The base class for {flocor} factories
+    The base class for {flocor.calc} factories
     """
 
 
