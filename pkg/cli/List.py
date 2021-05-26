@@ -14,16 +14,23 @@ class List(flocor.shells.command, family='flocor.cli.about'):
     Display information about factories and product
     """
 
+    # user configurable state
+    package = flocor.properties.str()
+    package.default = "flocor.calc"
+    package.doc = "the name of the package to look up"
+
 
     @flocor.export(tip="print the list of known factories")
     def factories(self, plexus, **kwds):
         """
         Print the known factories
         """
-        # get the nameserver
+        # get the target package name
+        package = self.package
+        # get the name server
         ns = self.pyre_nameserver
-        # look up the generic SLC factory protocol
-        factory = ns["flocor.factories"]
+        # look up the factory protocol that owns the namespace
+        factory = ns[f"{package}.factories"]
         # locate the implementers
         implementers = factory.pyre_locateAllImplementers(namespace="flocor")
 
@@ -50,10 +57,12 @@ class List(flocor.shells.command, family='flocor.cli.about'):
         """
         Print the known factories
         """
-        # get the nameserver
+        # get the target package name
+        package = self.package
+        # get the name server
         ns = self.pyre_nameserver
         # look up the generic SLC factory protocol
-        slc = ns["flocor.products"]
+        slc = ns[f"{package}.products"]
 
         # the locator of implementers
         implementers = slc.pyre_locateAllImplementers(namespace="flocor")
