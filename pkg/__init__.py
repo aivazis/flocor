@@ -39,14 +39,18 @@ from . import shells         # the supported application shells
 from . import cli            # the command line interface
 from . import gql            # graphql queries
 from . import ux             # support for the web client
+
+# server side diagram representation
+from . import diagram
+
 # protocols for products and factories
 from . import specs
 # flow nodes
 from . import products
 from . import factories
-from . import flows
-# server side diagram representation
-from . import diagram
+
+# flow packages
+from . import calc
 
 
 # administrivia
