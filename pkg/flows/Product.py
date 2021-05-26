@@ -4,16 +4,14 @@
 # (c) 1998-2021 all rights reserved
 
 
-# externals
-import uuid
 # framework
 import flocor
 
 
 # base class for local products
-class Product(flocor.flow.product, family="flocor.products.product"):
+class Product(flocor.flow.product, family="flocor.calc.products"):
     """
-    The base class for {flocor} products
+    The base class for {flocor.calc} products
     """
 
 
