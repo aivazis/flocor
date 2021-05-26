@@ -11,7 +11,7 @@ from .Producer import Producer
 
 
 # base class for local factories
-class Factory(flocor.flow.factory, implements=Producer):
+class Factory(flocor.flow.factory, implements=Producer, internal=True):
     """
     The base class for {flocor.calc} factories
     """
