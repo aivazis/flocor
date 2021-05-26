@@ -5,14 +5,13 @@
 
 
 # externals
-import uuid
 import weakref
-# get the package
+# package
 import flocor
 
 
 # an undifferentiated flow
-class Flow(flocor.flow.dynamic, family="flocor.flows.flow", implements=flocor.specs.flow):
+class Flow(flocor.flow.dynamic, family="flocor.flows.flow"):
     """
     An undifferentiated container for flow nodes
     """
