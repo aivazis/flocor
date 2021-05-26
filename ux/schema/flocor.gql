@@ -40,8 +40,6 @@ type Flow implements Node {
   # and its type
   family: String!
 
-  # the set of products
-  products(after: String, first: Int, before: String, last: Int): ProductConnection!
   # the set of factories
   factories(after: String, first: Int, before: String, last: Int): FactoryConnection!
   # the set of bound and unbound product slots
@@ -50,26 +48,6 @@ type Flow implements Node {
   connectors(after: String, first: Int, before: String, last: Int): ConnectorConnection!
   # the labels
   labels(after: String, first: Int, before: String, last: Int): LabelConnection!
-}
-
-
-# a product is a named+typed variable
-type Product implements Node {
-  id: ID!
-  name: String
-  family: String!
-  position: Position!
-}
-
-# support for product connections
-type ProductConnection {
-  edges: [ProductEdge]
-  pageInfo: PageInfo!
-}
-
-type ProductEdge {
-  node: Product
-  cursor: String!
 }
 
 
