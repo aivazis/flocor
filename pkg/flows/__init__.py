@@ -6,70 +6,177 @@
 
 # the framework
 import flocor
-# publish
-# the nodes
+
+# publish the protocols
 from .Factory import Factory as factory
 from .Product import Product as product
-# slots are framework items
-from pyre.framework.Slot import Slot as slot
-
-# the known variable types
-from . import variables
-# and the known operators
-from . import operators
 
 
-# calc
-# variables
-def var(family):
+# factories
+@flocor.foundry(implements=factory, tip="add two values")
+def add():
     """
-    Resolve the {family} name into a variable instance
+    Add two values
     """
-    # lookup the associated class
-    cls = variables.index[family]
-    # instantiate
-    product = cls()
-    # and return it
-    return product
+    # pull the factory
+    from .Add import Add
+    # and publish it
+    return Add
 
 
-def calcVariables():
+@flocor.foundry(implements=factory, tip="subtract two values")
+def sub():
     """
-    Enumerate the accessible schemata for {pyre.calc} variables
+    Subtract two values
     """
-    # publish the set of known variable type names
-    yield from variables.index.keys()
-    # all done
-    return
+    # pull the factory
+    from .Sub import Sub
+    # and publish it
+    return Sub
 
 
-# calc operators
-def operator(family):
+@flocor.foundry(implements=factory, tip="multiply two values")
+def mul():
     """
-    Resolve the {family} name into an operator instance
+    Multiply two values
     """
-    # lookup the associated class
-    cls = operators.index[family]
-    # instantiate
-    factory = cls()
-    # and return it
-    return factory
+    # pull the factory
+    from .Mul import Mul
+    # and publish it
+    return Mul
 
 
-def calcOperators():
+@flocor.foundry(implements=factory, tip="divide a value by another")
+def div():
     """
-    Enumerate the accessible {pyre.calc} operators
+    Divide a value by another
     """
-    # grab all items from the {operators} index
-    for name, cls in operators.index.items():
-        # look up the names of my inputs
-        inputs = [ trait.name for trait in cls.pyre_inputTraits]
-        # and my outputs
-        outputs = [ trait.name for trait in cls.pyre_outputTraits]
-        # send the required info off
-        yield name, inputs, outputs
-    # all done
-    return
+    # pull the factory
+    from .Div import Div
+    # and publish it
+    return Div
+
+
+# products
+@flocor.foundry(implements=product, tip="make a variable that holds a string")
+def str():
+    """
+    Make a variable that holds a string
+    """
+    # pull the product
+    from .String import String
+    # and publish it
+    return String
+
+
+@flocor.foundry(implements=product, tip="make a variable that holds a boolean")
+def bool():
+    """
+    Make a variable that holds a boolean
+    """
+    # pull the product
+    from .Bool import Bool
+    # and publish it
+    return Bool
+
+
+@flocor.foundry(implements=product, tip="make a variable that holds an integer")
+def int():
+    """
+    Make a variable that holds an integer
+    """
+    # pull the product
+    from .Integer import Integer
+    # and publish it
+    return Integer
+
+
+@flocor.foundry(implements=product, tip="make a variable that holds a float")
+def float():
+    """
+    Make a variable that holds a float
+    """
+    # pull the product
+    from .Float import Float
+    # and publish it
+    return Float
+
+
+@flocor.foundry(implements=product, tip="make a variable that holds a complex value")
+def complex():
+    """
+    Make a variable that holds a complex value
+    """
+    # pull the product
+    from .Complex import Complex
+    # and publish it
+    return Complex
+
+
+@flocor.foundry(implements=product, tip="make a variable that holds a quantity with units")
+def dimensional():
+    """
+    Make a variable that holds a quantity with units
+    """
+    # pull the product
+    from .Dimensional import Dimensional
+    # and publish it
+    return Dimensional
+
+
+@flocor.foundry(implements=product, tip="make a variable that holds a path")
+def path():
+    """
+    Make a variable that holds a path
+    """
+    # pull the product
+    from .Path import Path
+    # and publish it
+    return Path
+
+
+@flocor.foundry(implements=product, tip="make a variable that holds a date")
+def date():
+    """
+    Make a variable that holds a date
+    """
+    # pull the product
+    from .Date import Date
+    # and publish it
+    return Date
+
+
+@flocor.foundry(implements=product, tip="make a variable that holds a timestamp")
+def time():
+    """
+    Make a variable that holds a timestamp
+    """
+    # pull the product
+    from .Time import Time
+    # and publish it
+    return Time
+
+
+@flocor.foundry(implements=product, tip="make a variable that holds an input stream")
+def istream():
+    """
+    Make a variable that holds an input stream
+    """
+    # pull the product
+    from .IStream import IStream
+    # and publish it
+    return IStream
+
+
+@flocor.foundry(implements=product, tip="make a variable that holds an output stream")
+def ostream():
+    """
+    Make a variable that holds an output stream
+    """
+    # pull the product
+    from .OStream import OStream
+    # and publish it
+    return OStream
 
 
 # end of file
