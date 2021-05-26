@@ -11,7 +11,7 @@ from .Specification import Specification
 
 
 # base class for local products
-class Product(flocor.flow.product, implements=Specification):
+class Product(flocor.flow.product, implements=Specification, internal=True):
     """
     The base class for {flocor.calc} products
     """
