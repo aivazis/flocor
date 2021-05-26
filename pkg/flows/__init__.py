@@ -7,8 +7,6 @@
 # the framework
 import flocor
 # publish
-# the container
-from .Flow import Flow as flow
 # the nodes
 from .Factory import Factory as factory
 from .Product import Product as product
