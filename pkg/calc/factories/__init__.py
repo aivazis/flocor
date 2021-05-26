@@ -6,11 +6,8 @@
 
 # the framework
 import flocor
-
-# the protocols
+# the protocol
 from .Producer import Producer as producer
-# and the base classes
-from .Factory import Factory as factory
 
 
 # factories
