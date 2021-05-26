@@ -6,10 +6,12 @@
 
 # framework
 import flocor
+# my protocol
+from .Specification import Specification
 
 
 # base class for local products
-class Product(flocor.flow.product, family="flocor.calc.products"):
+class Product(flocor.flow.product, implements=Specification):
     """
     The base class for {flocor.calc} products
     """
