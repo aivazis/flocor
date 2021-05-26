@@ -7,13 +7,16 @@
 # the framework
 import flocor
 
-# publish the protocols
+# the protocols
+from .Producer import Producer as producer
+from .Specification import Specification as specification
+# and the base classes
 from .Factory import Factory as factory
 from .Product import Product as product
 
 
 # factories
-@flocor.foundry(implements=factory, tip="add two values")
+@flocor.foundry(implements=producer, tip="add two values")
 def add():
     """
     Add two values
@@ -24,7 +27,7 @@ def add():
     return Add
 
 
-@flocor.foundry(implements=factory, tip="subtract two values")
+@flocor.foundry(implements=producer, tip="subtract two values")
 def sub():
     """
     Subtract two values
@@ -35,7 +38,7 @@ def sub():
     return Sub
 
 
-@flocor.foundry(implements=factory, tip="multiply two values")
+@flocor.foundry(implements=producer, tip="multiply two values")
 def mul():
     """
     Multiply two values
@@ -46,7 +49,7 @@ def mul():
     return Mul
 
 
-@flocor.foundry(implements=factory, tip="divide a value by another")
+@flocor.foundry(implements=producer, tip="divide a value by another")
 def div():
     """
     Divide a value by another
@@ -58,7 +61,7 @@ def div():
 
 
 # products
-@flocor.foundry(implements=product, tip="make a variable that holds a string")
+@flocor.foundry(implements=specification, tip="make a variable that holds a string")
 def str():
     """
     Make a variable that holds a string
@@ -69,7 +72,7 @@ def str():
     return String
 
 
-@flocor.foundry(implements=product, tip="make a variable that holds a boolean")
+@flocor.foundry(implements=specification, tip="make a variable that holds a boolean")
 def bool():
     """
     Make a variable that holds a boolean
@@ -80,7 +83,7 @@ def bool():
     return Bool
 
 
-@flocor.foundry(implements=product, tip="make a variable that holds an integer")
+@flocor.foundry(implements=specification, tip="make a variable that holds an integer")
 def int():
     """
     Make a variable that holds an integer
@@ -91,7 +94,7 @@ def int():
     return Integer
 
 
-@flocor.foundry(implements=product, tip="make a variable that holds a float")
+@flocor.foundry(implements=specification, tip="make a variable that holds a float")
 def float():
     """
     Make a variable that holds a float
@@ -102,7 +105,7 @@ def float():
     return Float
 
 
-@flocor.foundry(implements=product, tip="make a variable that holds a complex value")
+@flocor.foundry(implements=specification, tip="make a variable that holds a complex value")
 def complex():
     """
     Make a variable that holds a complex value
@@ -113,7 +116,7 @@ def complex():
     return Complex
 
 
-@flocor.foundry(implements=product, tip="make a variable that holds a quantity with units")
+@flocor.foundry(implements=specification, tip="make a variable that holds a quantity with units")
 def dimensional():
     """
     Make a variable that holds a quantity with units
@@ -124,7 +127,7 @@ def dimensional():
     return Dimensional
 
 
-@flocor.foundry(implements=product, tip="make a variable that holds a path")
+@flocor.foundry(implements=specification, tip="make a variable that holds a path")
 def path():
     """
     Make a variable that holds a path
@@ -135,7 +138,7 @@ def path():
     return Path
 
 
-@flocor.foundry(implements=product, tip="make a variable that holds a date")
+@flocor.foundry(implements=specification, tip="make a variable that holds a date")
 def date():
     """
     Make a variable that holds a date
@@ -146,7 +149,7 @@ def date():
     return Date
 
 
-@flocor.foundry(implements=product, tip="make a variable that holds a timestamp")
+@flocor.foundry(implements=specification, tip="make a variable that holds a timestamp")
 def time():
     """
     Make a variable that holds a timestamp
@@ -157,7 +160,7 @@ def time():
     return Time
 
 
-@flocor.foundry(implements=product, tip="make a variable that holds an input stream")
+@flocor.foundry(implements=specification, tip="make a variable that holds an input stream")
 def istream():
     """
     Make a variable that holds an input stream
@@ -168,7 +171,7 @@ def istream():
     return IStream
 
 
-@flocor.foundry(implements=product, tip="make a variable that holds an output stream")
+@flocor.foundry(implements=specification, tip="make a variable that holds an output stream")
 def ostream():
     """
     Make a variable that holds an output stream
