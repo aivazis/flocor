@@ -15,8 +15,4 @@ from .SLCDataset import SLCDataset as slcDataset
 from .SLCFactory import SLCFactory as slcFactory
 
 
-# flows
-from .Flow import Flow as flow
-
-
 # end of file
