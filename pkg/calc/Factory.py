@@ -6,10 +6,12 @@
 
 # framework
 import flocor
+# my protocol
+from .Producer import Producer
 
 
 # base class for local factories
-class Factory(flocor.flow.factory, family="flocor.calc.factories"):
+class Factory(flocor.flow.factory, implements=Producer):
     """
     The base class for {flocor.calc} factories
     """
