@@ -62,35 +62,6 @@ class Query(graphene.ObjectType):
         return panel
 
 
-    # variables from {pyre.calc}
-    def resolve_calcVariables(root, info, **kwds):
-        """
-        Generate a list of {pyre.calc} variables
-        """
-        # make a list of the basic variable types from {pyre.calc}
-        variables = [
-            Specification(family=family) for family in flocor.flows.calcVariables()
-        ]
-        # and return them
-        return variables
-
-
-    # operators from {pyre.calc}
-    def resolve_calcOperators(root, info, **kwds):
-        """
-        Generate a list of {pyre.calc} operators
-        """
-        # make a pile
-        operators = [
-            # of producers
-            Producer(family=family, inputs=inputs, outputs=outputs)
-            # from  the supported {calc} operators
-            for family, inputs, outputs in flocor.flows.calcOperators()
-        ]
-        # and return it
-        return operators
-
-
     # catalog
     def resolve_catalog(root, info, **kwds):
         """
