@@ -8,6 +8,8 @@
 import flocor
 # the protocol
 from .Producer import Producer as producer
+# publish the base factory so users can extend the package
+from .Factory import Factory as factory
 
 
 # factories
