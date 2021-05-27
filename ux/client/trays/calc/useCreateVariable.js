@@ -40,7 +40,7 @@ export const useCreateVariable = (product) => {
             // the {updater} that adjusts the {relay} store on successful commit
             updater: (store) => {
                 // get the result payload
-                const result = store.getRootField("addCalcVariable")
+                const result = store.getRootField("addProduct")
                 // if we don't have one yet
                 if (!result) {
                     // bail
@@ -102,7 +102,7 @@ export const useCreateVariable = (product) => {
 // the mutation that adds a new node to the diagram
 const createVariableMutation = graphql`
 mutation useCreateVariableMutation($info: NewNodeInput!) {
-    addCalcVariable(nodeinfo: $info) {
+    addProduct(nodeinfo: $info) {
         # the id of the flow that owns the new node
         flow
         # a description of the newly created node
