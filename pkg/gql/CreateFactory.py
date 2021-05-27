@@ -23,7 +23,7 @@ from .NewNodeInput import NewNodeInput
 
 
 # a mutation that adds a new node to the flow
-class CreateCalcOperator(graphene.Mutation):
+class CreateFactory(graphene.Mutation):
     """
     A mutation that adds a new node to the flow
     """
@@ -55,12 +55,12 @@ class CreateCalcOperator(graphene.Mutation):
         diagram = panel.diagram
 
         # make a {factory}; we don't have a name for it yet
-        op = flocor.flows.operator(family=family)
+        op = flocor.flow.producer.pyre_resolveSpecification(spec=family)
         # add it to the diagram and get the reps of the new entities
         factory, labels, slots, connectors = diagram.addFactory(factory=op, position=(x,y))
 
         # build the payload and return it
-        return CreateCalcOperator(flow=owner,
+        return CreateFactory(flow=owner,
             node=factory, slots=slots, labels=labels, connectors=connectors)
 
 
