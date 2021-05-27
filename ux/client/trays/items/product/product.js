@@ -28,11 +28,16 @@ export const Product = ({ product, selector, els, style }) => {
     // shapes are rendered assuming a quarter cell grid
     const place = `scale(${els}) translate(${box.x / 2} ${box.y / 2})`
 
+    // splice the family name
+    const levels = product.family.split(".")
+    // build the family label
+    const family = levels[levels.length - 1]
+
     // mix my paint
     const nodeStyle = { ...styles.node, ...style?.node }
     // paint me
     return (
-        <Item family={product.family} selector={selector} els={els} size={offset} >
+        <Item family={family} selector={selector} els={els} size={offset} >
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                 width={width} height={height} style={nodeStyle}>
                 <g transform={place}>
