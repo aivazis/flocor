@@ -17,7 +17,7 @@ from .NewNodeInput import NewNodeInput
 
 
 # a mutation that adds a new node to the flow
-class CreateCalcVariable(graphene.Mutation):
+class CreateProduct(graphene.Mutation):
     """
     A mutation that adds a new node to the flow
     """
@@ -47,12 +47,12 @@ class CreateCalcVariable(graphene.Mutation):
         diagram = panel.diagram
 
         # make a {product}; we don't have a name for it yet
-        var = flocor.flows.var(family=family)
+        product = flocor.flow.specification.pyre_resolveSpecification(spec=family)
         # add it to the diagram and get the new entities
-        product, labels = diagram.addProduct(product=var, position=(x,y))
+        slot, labels = diagram.addProduct(product=product, position=(x,y))
 
         # build my payload and return it
-        return CreateCalcVariable(flow=owner, slot=product, labels=labels)
+        return CreateProduct(flow=owner, slot=slot, labels=labels)
 
 
 # end of file
