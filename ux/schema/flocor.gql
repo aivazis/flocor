@@ -163,9 +163,9 @@ type Version {
 # mutations
 type Mutation {
 
-  # {calc} nodes
-  addCalcVariable(nodeinfo: NewNodeInput!): NewProductInfo!
-  addCalcOperator(nodeinfo: NewNodeInput!): NewFactoryInfo!
+  # make new nodes
+  addFactory(nodeinfo: NewNodeInput!): NewFactoryInfo!
+  addProduct(nodeinfo: NewNodeInput!): NewProductInfo!
 
   # move an existing node
   moveNode(nodeinfo: MoveNodeInput!): MoveNode!
