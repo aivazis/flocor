@@ -5,9 +5,9 @@
 
 
 # publish the factories
-from . import factories
+from .factories import producer, factory
 # and the products
-from . import products
+from .products import specification, product
 
 
 # end of file
