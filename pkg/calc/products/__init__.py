@@ -8,6 +8,8 @@
 import flocor
 # the protocol
 from .Specification import Specification as specification
+# publish the base product so users can extend the package
+from .Product import Product as product
 
 
 # products
