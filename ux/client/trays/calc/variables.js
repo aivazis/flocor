@@ -21,12 +21,12 @@ import styles from './styles'
 // a tray with product nodes
 export const Variables = ({ els, style }) => {
     // get the set of basic traits from the server
-    const { calcVariables } = useLazyLoadQuery(varQuery)
+    const { catalog } = useLazyLoadQuery(varQuery)
 
     // paint me
     return (
         <Tray title="calc variables" >
-            {calcVariables.map(variable => (
+            {catalog.specifications.map(variable => (
                 <Variable key={variable.family} variable={variable} els={els} style={style} />
             ))}
         </Tray >
@@ -36,8 +36,10 @@ export const Variables = ({ els, style }) => {
 
 // the query text
 const varQuery = graphql`query variablesQuery {
-    calcVariables {
-        family
+    catalog(package: "flocor.calc") {
+        specifications {
+            family
+        }
     }
 }`
 
