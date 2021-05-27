@@ -24,39 +24,41 @@ class Catalog(graphene.ObjectType):
 
 
     # resolvers
-    def resolve_producers(catalog, info):
-        # get the {pyre} nameserver from the execution context
+    def resolve_producers(variables, info):
+        # get the {pyre} name server from the execution context
         ns = info.context["nameserver"]
         # and the package name from the query
-        package = catalog["package"]
+        package = variables["package"]
         # we are looking for producers, all of which sit under {factories}
-        factories = ns.join(package, "factories")
+        key = ns.join(package, "factories")
         # retrieve the associated protocol
-        producer = ns[factories]
+        producer = ns[key]
 
         # prime the search
-        implementers = producer.pyre_locateAllImplementers(namespace=package)
+        factories = producer.pyre_locateAllImplementers(namespace="flocor")
         # build the pile; some are accessible multiple ways, so eliminate the duplicates
-        yield from set(producer for _,_, producer in implementers)
+        yield from sorted(set(factory for _,_, factory in factories),
+                          key=lambda factory: factory.pyre_family())
 
         # all done
         return
 
 
-    def resolve_specifications(catalog, info):
-        # get the {pyre} nameserver from the execution context
+    def resolve_specifications(variables, info):
+        # get the {pyre} name server from the execution context
         ns = info.context["nameserver"]
         # and the package name from the query
-        package = catalog["package"]
+        package = variables["package"]
         # we are looking for product specifications, all of which sit under {products}
-        products = ns.join(package, "products")
+        key = ns.join(package, "products")
         # retrieve the associated protocol
-        specification = ns[products]
+        specification = ns[key]
 
         # prime the search
-        implementers = specification.pyre_locateAllImplementers(namespace=package)
+        products = specification.pyre_locateAllImplementers(namespace="flocor")
         # build the pile; some are accessible multiple ways, so eliminate the duplicates
-        yield from set(spec for _,_, spec in implementers)
+        yield from sorted(set(product for _,_, product in products),
+                          key=lambda product: product.pyre_family())
 
         # all done
         return
