@@ -40,7 +40,7 @@ export const useCreateOperator = (factory) => {
             // the {updater} that adjusts the {relay} store on successful commit
             updater: (store) => {
                 // get the result payload
-                const result = store.getRootField("addCalcOperator")
+                const result = store.getRootField("addFactory")
                 // if we don't have one yet
                 if (!result) {
                     // bail
@@ -126,7 +126,7 @@ export const useCreateOperator = (factory) => {
         return
     }
 
-    // unpack the relavant information
+    // unpack the relevant information
     const info = { family: factory.family }
 
     // use the {info, mutator} to build the item selector
@@ -139,7 +139,7 @@ export const useCreateOperator = (factory) => {
 // the mutation that adds a new node to the diagram
 const createOperatorMutation = graphql`
 mutation useCreateOperatorMutation($info: NewNodeInput!) {
-    addCalcOperator(nodeinfo: $info) {
+    addFactory(nodeinfo: $info) {
         # the id of the flow that owns the new node
         flow
         # a description of the newly created node
