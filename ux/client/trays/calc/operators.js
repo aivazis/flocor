@@ -21,12 +21,12 @@ import styles from './styles'
 // a tray with factory nodes
 export const Operators = ({ els, style }) => {
     // get the set of basic {calc} operators
-    const { calcOperators } = useLazyLoadQuery(opQuery)
+    const { catalog } = useLazyLoadQuery(opQuery)
 
     // paint me
     return (
         <Tray title="calc operators" >
-            {calcOperators.map(operator => (
+            {catalog.producers.map(operator => (
                 <Operator key={operator.family} operator={operator} els={els} style={style} />
             ))}
         </Tray >
@@ -36,10 +36,12 @@ export const Operators = ({ els, style }) => {
 
 // the query string
 const opQuery = graphql`query operatorsQuery {
-    calcOperators {
-        family
-        inputs
-        outputs
+    catalog(package: "flocor.calc") {
+        producers {
+            family
+            inputs
+            outputs
+        }
     }
 }
 `
