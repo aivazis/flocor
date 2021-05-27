@@ -22,4 +22,22 @@ class Producer(graphene.ObjectType):
     outputs = graphene.List(graphene.NonNull(graphene.String))
 
 
+    # the resolvers
+    def resolve_family(factory, *_):
+        # ask the {factory} for its family name
+        return factory.pyre_family()
+
+    def resolve_inputs(factory, *_):
+        # go through the names of all input traits
+        yield from (trait.name for trait in factory.pyre_inputTraits)
+        # all done
+        return
+
+    def resolve_outputs(factory, *_):
+        # go through the names of all output traits
+        yield from (trait.name for trait in factory.pyre_outputTraits)
+        # all done
+        return
+
+
 # end of file

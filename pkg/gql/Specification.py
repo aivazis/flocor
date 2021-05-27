@@ -18,4 +18,9 @@ class Specification(graphene.ObjectType):
     family = graphene.String(required=True)
 
 
+    # the resolvers
+    def resolve_family(product, *_):
+       return product.pyre_family()
+
+
 # end of file
