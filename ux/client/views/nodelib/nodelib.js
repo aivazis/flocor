@@ -12,7 +12,7 @@ import { useInteractionContainer } from '~/views/flo2d'
 // widgets
 import { Shadow } from '~/widgets'
 // trays
-import { Operators, Variables } from '~/trays/calc'
+import { Calc } from '~/trays/calc'
 // locals
 // styles
 import styles from './styles'
@@ -41,8 +41,7 @@ export const NodeLibrary = ({ style }) => {
     return (
         <section style={boxStyle} {...controls}>
             <Shadow ref={appContainerRef} >
-                <Variables els={els} />
-                <Operators els={els} />
+                <Calc els={els} />
             </Shadow>
         </section>
     )
