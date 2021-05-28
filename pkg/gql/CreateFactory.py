@@ -36,7 +36,7 @@ class CreateFactory(graphene.Mutation):
 
     # fields
     flow = graphene.ID()
-    node = graphene.Field(Factory, required=True)
+    factory = graphene.Field(Factory, required=True)
     slots = graphene.List(graphene.NonNull(Slot), required=True)
     labels = graphene.List(graphene.NonNull(Label), required=True)
     connectors = graphene.List(graphene.NonNull(Connector), required=True)
@@ -61,7 +61,7 @@ class CreateFactory(graphene.Mutation):
 
         # build the payload and return it
         return CreateFactory(flow=owner,
-            node=factory, slots=slots, labels=labels, connectors=connectors)
+            factory=factory, slots=slots, labels=labels, connectors=connectors)
 
 
 # end of file
