@@ -10,7 +10,7 @@
 export { Item, Factory, Product } from './items'
 
 // the trays with the {calc} variables and operators
-export { Variables, Operators } from './calc'
+export { Calc } from './calc'
 
 
 // end of file
