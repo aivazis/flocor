@@ -10,13 +10,19 @@ import React from 'react'
 // project
 import { Item } from '~/trays'
 // local
+// hooks
+import { useCreateProduct } from './useCreateProduct'
+// my graphical representation
 import { Shape } from './shape'
 // styles
 import styles from './styles'
 
 
 // a tray item with a factory
-export const Product = ({ product, selector, els, style }) => {
+export const Product = ({ product, els, style }) => {
+    // build the item selector
+    const selector = useCreateProduct(product)
+
     // build the bounding box of the product shape in grid cells
     const box = { x: 2, y: 2 }
     // in pixels, for sizing the {svg} viewport
