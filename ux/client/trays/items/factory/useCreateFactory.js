@@ -52,7 +52,7 @@ export const useCreateFactory = (factory) => {
 
                 // add the new factory to the store
                 // extract the new node
-                const newFactory = result.getLinkedRecord("node")
+                const newFactory = result.getLinkedRecord("factory")
                 // get a proxy to the connection that will own the new factory
                 const factories = ConnectionHandler.getConnection(
                     store.get(owner),
@@ -143,7 +143,7 @@ mutation useCreateFactoryMutation($info: NewNodeInput!) {
         # the id of the flow that owns the new node
         flow
         # a description of the newly created node
-        node {
+        factory {
             ... factory_factory
         }
         slots {
