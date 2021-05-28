@@ -169,7 +169,7 @@ type Mutation {
 
   # move an existing node
   moveNode(nodeinfo: MoveNodeInput!): MoveNode!
-  # when the node move end
+  # resolve any side effects from moving nodes
   moveNodeEnd(nodeinfo: MoveNodeInput!): MoveNodeEnd!
 }
 
@@ -190,7 +190,7 @@ type NewFactoryInfo {
   # the flow that owns the new node
   flow: ID!
   # the node that was added
-  node: Factory!
+  factory: Factory!
   # the list of slots
   slots: [Slot!]!
   # the list of labels
