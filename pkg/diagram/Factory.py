@@ -152,7 +152,7 @@ class Factory(Node):
         # go through all {traits}
         for idx, trait in enumerate(traits):
             # make a position for this slot
-            position = (x-5, y + 2*idx + 1 - nTraits)
+            position = (x-5, y + 2*(2*idx + 1 - nTraits))
             # build an unbound rep
             slot = Slot(product=None, position=position)
             # connect it to me
@@ -174,7 +174,7 @@ class Factory(Node):
         # go through all {traits}
         for idx, trait in enumerate(traits):
             # make a position for this slot
-            position = (x+5, y + 2*idx + 1 - nTraits)
+            position = (x+5, y + 2*(2*idx + 1 - nTraits))
             # build an unbound rep
             slot = Slot(product=None, position=position)
             # connect it to me
