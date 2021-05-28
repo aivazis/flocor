@@ -12,7 +12,7 @@ import { useInteractionContainer } from '~/views/flo2d'
 // widgets
 import { Shadow } from '~/widgets'
 // trays
-import { Calc } from '~/trays/calc'
+import { Calc } from '~/trays'
 // locals
 // styles
 import styles from './styles'
