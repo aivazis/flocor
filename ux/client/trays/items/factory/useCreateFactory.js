@@ -14,18 +14,18 @@ import { useSetNewNode, useClearNewNode } from '~/views/flo2d'
 
 
 // adding a new node to the diagram requires sending a mutation to the server
-// this hook builds a callback that adds a {calc} operator  to a {flow}
-export const useCreateOperator = (factory) => {
+// this hook builds a callback that adds a factory to a {flow}
+export const useCreateFactory = (factory) => {
     // get the callback that clears the new node info
     const clearNode = useClearNewNode()
     // build the mutation that sends the new node info to the server
-    const [commitCreateOperator, isInFlight] = useMutation(createOperatorMutation)
+    const [commitCreateFactory, isInFlight] = useMutation(createFactoryMutation)
 
     // make the mutator; {flow} is redundant and can be used to do a consistency check
     // that the server added the node to the correct flow
     const mutator = (flow, position) => {
         // that commits the new node to its flow
-        commitCreateOperator({
+        commitCreateFactory({
             //  the mutation input payload
             variables: {
                 info: {
@@ -137,8 +137,8 @@ export const useCreateOperator = (factory) => {
 
 
 // the mutation that adds a new node to the diagram
-const createOperatorMutation = graphql`
-mutation useCreateOperatorMutation($info: NewNodeInput!) {
+const createFactoryMutation = graphql`
+mutation useCreateFactoryMutation($info: NewNodeInput!) {
     addFactory(nodeinfo: $info) {
         # the id of the flow that owns the new node
         flow
