@@ -10,13 +10,19 @@ import React from 'react'
 // project
 import { Item } from '~/trays'
 // local
+// hooks
+import { useCreateFactory } from './useCreateFactory'
+// my graphical representation
 import { Shape } from './shape'
 // styles
 import styles from './styles'
 
 
 // a tray item with a factory
-export const Factory = ({ factory, selector, els, style }) => {
+export const Factory = ({ factory, els, style }) => {
+    // build the item selector
+    const selector = useCreateFactory(factory)
+
     // build the bounding box of the factory shape in grid cells
     const box = {
         x: 8,
