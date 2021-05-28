@@ -6,6 +6,7 @@
 
 // externals
 import React from 'react'
+import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
 
 // local
 // the tray with the {calc} variables
@@ -15,16 +16,32 @@ import { Operators } from './operators'
 
 // the trays with nodes from the {calc} package
 export const Calc = ({ els, style }) => {
+    // get the catalog from the server
+    const { catalog } = useLazyLoadQuery(calcQuery)
 
-    // paint me
+    // paint my trays
     return (
         <>
-            <Variables els={els} style={style} />
-            <Operators els={els} style={style} />
+            <Variables els={els} specifications={catalog.specifications} style={style} />
+            <Operators els={els} producers={catalog.producers} style={style} />
         </>
     )
 }
 
+
+// the query text
+const calcQuery = graphql`query calcQuery {
+    catalog(package: "flocor.calc") {
+        producers {
+            family
+            inputs
+            outputs
+        }
+        specifications {
+            family
+        }
+    }
+}`
 
 
 // end of file

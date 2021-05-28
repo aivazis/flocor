@@ -6,7 +6,6 @@
 
 // externals
 import React from 'react'
-import { graphql, useLazyLoadQuery } from 'react-relay/hooks'
 
 // project
 // i am a tray
@@ -19,29 +18,16 @@ import styles from './styles'
 
 
 // a tray with product nodes
-export const Variables = ({ els, style }) => {
-    // get the set of basic traits from the server
-    const { catalog } = useLazyLoadQuery(varQuery)
-
+export const Variables = ({ els, specifications, style }) => {
     // paint me
     return (
         <Tray title="calc variables" >
-            {catalog.specifications.map(variable => (
+            {specifications.map(variable => (
                 <Product key={variable.family} product={variable} els={els} style={style} />
             ))}
         </Tray >
     )
 }
-
-
-// the query text
-const varQuery = graphql`query variablesQuery {
-    catalog(package: "flocor.calc") {
-        specifications {
-            family
-        }
-    }
-}`
 
 
 // end of file
