@@ -6,7 +6,6 @@
 
 // externals
 import React from 'react'
-
 // project
 // i'm a tray
 import { Tray } from '~/widgets'
