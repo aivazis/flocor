@@ -18,10 +18,10 @@ class Sub(Factory, family="flocor.calc.factories.sub"):
 
 
     # my operands
-    op1 = flocor.flow.specification.input()
-    op2 = flocor.flow.specification.input()
+    min = flocor.flow.specification.input()
+    sub = flocor.flow.specification.input()
     # my value
-    value = flocor.flow.specification.output()
+    diff = flocor.flow.specification.output()
 
 
     # interface
@@ -29,7 +29,7 @@ class Sub(Factory, family="flocor.calc.factories.sub"):
         """
         Compute and store my value
         """
-        self.value.value = self.op1.value - self.op2.value
+        self.diff.value = self.min.value - self.sub.value
         # all done
         return self
 

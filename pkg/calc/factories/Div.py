@@ -18,10 +18,10 @@ class Div(Factory, family="flocor.calc.factories.div"):
 
 
     # my operands
-    op1 = flocor.flow.specification.input()
-    op2 = flocor.flow.specification.input()
+    num = flocor.flow.specification.input()
+    dem = flocor.flow.specification.input()
     # my value
-    value = flocor.flow.specification.output()
+    ratio = flocor.flow.specification.output()
 
 
     # interface
@@ -29,7 +29,7 @@ class Div(Factory, family="flocor.calc.factories.div"):
         """
         Compute and store my value
         """
-        self.value.value = self.op1.value / self.op2.value
+        self.ratio.value = self.num.value / self.dem.value
         # all done
         return self
 

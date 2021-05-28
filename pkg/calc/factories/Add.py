@@ -21,7 +21,7 @@ class Add(Factory, family="flocor.calc.factories.add"):
     op1 = flocor.flow.specification.input()
     op2 = flocor.flow.specification.input()
     # my value
-    value = flocor.flow.specification.output()
+    sum = flocor.flow.specification.output()
 
 
     # interface
@@ -29,7 +29,7 @@ class Add(Factory, family="flocor.calc.factories.add"):
         """
         Compute and store my value
         """
-        self.value.value = self.op1.value + self.op2.value
+        self.sum.value = self.op1.value + self.op2.value
         # all done
         return self
 
