@@ -14,18 +14,18 @@ import { useSetNewNode, useClearNewNode } from '~/views/flo2d'
 
 
 // adding a new node to the diagram requires sending a mutation to the server
-// this hook builds a callback that adds a {calc} variable to a {flow}
-export const useCreateVariable = (product) => {
+// this hook builds a callback that adds a product to a {flow}
+export const useCreateProduct = (product) => {
     // get the callback that clears the new node info
     const clearNode = useClearNewNode()
     // build the mutation that sends the new node info to the server
-    const [commitCreateVariable, isInFlight] = useMutation(createVariableMutation)
+    const [commitCreateProduct, isInFlight] = useMutation(createProductMutation)
 
     // make the mutator; {flow} is redundant and can be used to do a consistency check
     // that the server added the node to the correct flow
     const mutator = (flow, position) => {
         // that commits the new node to its flow
-        commitCreateVariable({
+        commitCreateProduct({
             //  the mutation input payload
             variables: {
                 info: {
@@ -100,8 +100,8 @@ export const useCreateVariable = (product) => {
 
 
 // the mutation that adds a new node to the diagram
-const createVariableMutation = graphql`
-mutation useCreateVariableMutation($info: NewNodeInput!) {
+const createProductMutation = graphql`
+mutation useCreateProductMutation($info: NewNodeInput!) {
     addProduct(nodeinfo: $info) {
         # the id of the flow that owns the new node
         flow
