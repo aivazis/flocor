@@ -11,6 +11,8 @@ export { Item, Factory, Product } from './items'
 
 // the trays with the {calc} variables and operators
 export { Calc } from './calc'
+// the trays with the {isce} factories and products
+export { ISCE } from './isce'
 
 
 // end of file
