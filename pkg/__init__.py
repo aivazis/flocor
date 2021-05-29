@@ -43,13 +43,7 @@ from . import ux             # support for the web client
 # server side diagram representation
 from . import diagram
 
-# protocols for products and factories
-from . import specs
-# flow nodes
-from . import products
-from . import factories
-
-# flow packages
+# packages with flow nodes
 from . import calc
 from . import isce
 
