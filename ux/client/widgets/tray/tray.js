@@ -16,7 +16,7 @@ import styles from './styles'
 // a tray with a header and some items
 export const Tray = ({ title, style, children }) => {
     // storage for my state
-    const [expanded, setExpanded] = React.useState(true)
+    const [expanded, setExpanded] = React.useState(false)
 
     // handler for flipping my state
     const toggle = () => setExpanded(!expanded)
