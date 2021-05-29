@@ -12,6 +12,8 @@ import { theme } from '~/palette'
 export default {
     // the overall container
     box: {
+        // for me
+        minHeight: "1.3rem",
         // for my children
         display: "flex",
         flexDirection: "column",
@@ -22,7 +24,7 @@ export default {
     header: {
         // style
         fontSize: "60%",
-        padding: "0.25rem 0.0rem 0.25rem 0.75rem",
+        padding: "0.25rem 0.0rem 0.25rem 0.6rem",
         // colors
         color: "hsl(0deg, 0%, 60%, 1)",
         backgroundColor: "hsl(0deg, 0%, 25%, 1)",
