@@ -8,6 +8,8 @@
 import flocor
 # pull the {isce} protocols
 from .. import protocols
+
+
 # publish the base product so users can extend the package
 from .Product import Product as product
 
