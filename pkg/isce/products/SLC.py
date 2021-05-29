@@ -6,12 +6,14 @@
 
 # framework
 import flocor
+# my base class
+from .Product import Product as product
 
 
 # an SLC is a flow product that encapsulates a complex raster of a given shape
-class SLC(flocor.flow.product,
-          family="flocor.products.slc.slc",
-          implements=flocor.specs.slc):
+class SLC(product,
+          family="flocor.isce.products.slc.slc",
+          implements=flocor.isce.protocols.slc):
     """
     An SLC raster
 
@@ -25,7 +27,7 @@ class SLC(flocor.flow.product,
     shape.doc = "a pair of integers that describes the shape of the raster"
 
     # my dataset grants access to my data grid
-    data = flocor.specs.slcDataset()
+    data = flocor.isce.protocols.dataset()
     data.doc = "the payload"
 
 
