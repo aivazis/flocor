@@ -11,7 +11,7 @@ from .Specification import Specification
 
 
 # the product payload
-class SLCDataset(Specification, family="flocor.products.datasets"):
+class Dataset(Specification, family="flocor.isce.products.datasets"):
     """
     A dataset provides access to the actual data
     """
