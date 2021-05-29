@@ -46,6 +46,7 @@ from . import diagram
 # packages with flow nodes
 from . import calc
 from . import isce
+from . import ampcor
 
 
 # administrivia
