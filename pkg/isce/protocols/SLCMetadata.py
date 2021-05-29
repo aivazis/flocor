@@ -11,7 +11,7 @@ from .Specification import Specification
 
 
 # SLC metadata
-class SLCMetadata(Specification, family="flocor.products.metadata"):
+class SLCMetadata(Specification, family="flocor.isce.products.slc.metadata"):
     """
     The SLC metadata
     """
@@ -20,7 +20,7 @@ class SLCMetadata(Specification, family="flocor.products.metadata"):
     # public data
     # the least amount of information that we need is the shape of the payload
     shape = flocor.properties.tuple(schema=flocor.properties.int())
-    shape.doc = "a pair of integers that describes the shape of the raster"
+    shape.doc = "a pair of integers that describes the shape of the slc"
 
 
 # end of file
