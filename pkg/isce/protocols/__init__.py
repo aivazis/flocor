@@ -10,7 +10,7 @@ from .Specification import Specification as specification
 
 # the local specifications
 # generic
-from .Dataset import Dataser as dataset
+from .Dataset import Dataset as dataset
 # slc parts
 from .SLCMetadata import SLCMetadata as slcMetadata
 from .SLC import SLC as slc
