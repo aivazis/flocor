@@ -13,7 +13,7 @@ from .SLC import SLC
 
 
 # the specification for an SLC factory
-class SLCFactory(Producer, family="flocor.factories.slc"):
+class SLCFactory(Producer, family="flocor.isce.factories.slc"):
     """
     The specification for SLC factories
     """
