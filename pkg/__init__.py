@@ -51,6 +51,7 @@ from . import factories
 
 # flow packages
 from . import calc
+from . import isce
 
 
 # administrivia
