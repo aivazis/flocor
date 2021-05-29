@@ -4,6 +4,9 @@
 # (c) 1998-2021 all rights reserved
 
 
+# publish the base product so users can extend the package
+from .Product import Product as product
+
 # publish the products
 from .SLC import SLC as slc
 
