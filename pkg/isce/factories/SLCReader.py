@@ -6,12 +6,14 @@
 
 # framework
 import flocor
+# superclass
+from .Factory import Factory
 
 
 # an SLC factory, given a shape and a filename
-class SLCReader(flocor.flow.factory,
-                 family="flocor.factories.slc.reader",
-                 implements=flocor.specs.slcFactory):
+class SLCReader(Factory,
+                family="flocor.isce.factories.slcReader",
+                implements=flocor.isce.protocols.slcFactory):
     """
     An SLC factory that make a product given a shape and a path to the payload
     """
@@ -25,7 +27,7 @@ class SLCReader(flocor.flow.factory,
     shape.doc = "a pair of integers that describes the shape of the SLC in (lines,samples)"
 
     # output
-    slc = flocor.specs.slc.output()
+    slc = flocor.isce.protocols.slc.output()
     slc.doc = "the SLC data product"
 
 
