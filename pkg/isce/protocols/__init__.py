@@ -8,12 +8,17 @@
 from .Producer import Producer as producer
 from .Specification import Specification as specification
 
+
 # the local specifications
 # generic
 from .Dataset import Dataset as dataset
 # slc parts
 from .SLCMetadata import SLCMetadata as slcMetadata
 from .SLC import SLC as slc
+
+
+# the local producers
+from .SLCFactory import SLCFactory as slcFactory
 
 
 # end of file
