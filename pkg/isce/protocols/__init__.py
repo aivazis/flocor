@@ -8,5 +8,12 @@
 from .Producer import Producer as producer
 from .Specification import Specification as specification
 
+# the local specifications
+# generic
+from .Dataset import Dataser as dataset
+# slc parts
+from .SLCMetadata import SLCMetadata as slcMetadata
+from .SLC import SLC as slc
+
 
 # end of file
