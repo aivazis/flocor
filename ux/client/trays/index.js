@@ -13,6 +13,8 @@ export { Item, Factory, Product } from './items'
 export { Calc } from './calc'
 // the trays with the {isce} factories and products
 export { ISCE } from './isce'
+// the trays with the {ampcor} factories and products
+export { Ampcor } from './ampcor'
 
 
 // end of file
