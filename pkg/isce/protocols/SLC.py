@@ -7,12 +7,12 @@
 # support
 import flocor
 # my superclasses
+from .Dataset import Dataset
 from .SLCMetadata import SLCMetadata
-from .SLCDataset import SLCDataset
 
 
 # a 2d raster of complex floats
-class SLC(SLCMetadata, SLCDataset, family="flocor.products.slc"):
+class SLC(SLCMetadata, Dataset, family="flocor.isce.products.slc"):
     """
     The base class for building SLC data products
 
@@ -20,8 +20,8 @@ class SLC(SLCMetadata, SLCDataset, family="flocor.products.slc"):
     acquired. This class is the basis for requiring instances to provide metadata and a
     payload.
 
-    Other packages, e.g. isce3 and nisar, may (should?) constrain the required metadata
-    further, and therefore may specify more traits here. For the purposes of {flocor}, the only
+    Other packages, e.g. {nisar}, may (should?) constrain the required metadata further,
+    and therefore may specify more traits here. For the purposes of {flocor.isce}, the only
     remaining piece is to supply a default implementation for those entities that do not
     explicitly specify one.
 
@@ -36,7 +36,7 @@ class SLC(SLCMetadata, SLCDataset, family="flocor.products.slc"):
         Provide access to the reference implementation
         """
         # the default implementation is one of mine; publish
-        return flocor.products.slc
+        return flocor.isce.products.slc
 
 
 # end of file
