@@ -27,8 +27,11 @@ class SLCReader(Factory,
     shape.doc = "a pair of integers that describes the shape of the SLC in (lines,samples)"
 
     # output
-    slc = flocor.isce.protocols.slc.output()
-    slc.doc = "the SLC data product"
+    data = flocor.isce.protocols.dataset.output()
+    data.doc = "the SLC data product"
+
+    meta = flocor.isce.protocols.slcMetadata.output()
+    meta.doc = "the metadata of the SLC product"
 
 
 # end of file
