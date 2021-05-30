@@ -15,7 +15,7 @@ from .Factory import Factory as factory
 
 
 @flocor.foundry(implements=protocols.slcFactory, tip="a reader for SLC data products")
-def slc():
+def slcReader():
     """
     An SLC reader
     """
