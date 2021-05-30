@@ -25,4 +25,15 @@ def slc():
     return SLC
 
 
+@flocor.foundry(implements=protocols.slc, tip="the SLC data product")
+def slcMetadata():
+    """
+    The metadata of an SLC
+    """
+    # pull the spec
+    from .SLCMetadata import SLCMetadata
+    # and publish it
+    return SLCMetadata
+
+
 # end of file

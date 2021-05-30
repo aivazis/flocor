@@ -16,16 +16,10 @@ class SLC(product,
           implements=flocor.isce.protocols.slc):
     """
     An SLC raster
-
-    This is the fully formed and decorated SLC data product that can be consumed by workflows
     """
 
 
     # public data
-    # my metadata
-    shape = flocor.properties.tuple(schema=flocor.properties.int())
-    shape.doc = "a pair of integers that describes the shape of the raster"
-
     # my dataset grants access to my data grid
     data = flocor.isce.protocols.dataset()
     data.doc = "the payload"
