@@ -12,9 +12,9 @@ from .SLCMetadata import SLCMetadata
 
 
 # a 2d raster of complex floats
-class SLC(SLCMetadata, Dataset, family="flocor.isce.products.slc"):
+class SLC(Dataset, family="flocor.isce.products.slc"):
     """
-    The base class for building SLC data products
+    The protocol for describing SLC data products
 
     An SLC is a 2d raster of complex floats along with metadata that describe how the data were
     acquired. This class is the basis for requiring instances to provide metadata and a
