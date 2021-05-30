@@ -10,6 +10,7 @@ import flocor
 from .Producer import Producer
 # my product specs
 from .SLC import SLC
+from .SLCMetadata import SLCMetadata
 
 
 # the specification for an SLC factory
@@ -20,8 +21,11 @@ class SLCFactory(Producer, family="flocor.isce.factories.slc"):
 
 
     # outputs
-    slc = SLC.output()
-    slc.doc = "the SLC data product"
+    data = SLC.output()
+    data.doc = "the SLC data product"
+
+    meta = SLCMetadata.output()
+    meta.doc = "the metadata of the SLC data product"
 
 
 # end of file
