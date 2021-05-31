@@ -11,9 +11,9 @@ def test():
     Sanity check: attempt to access the SLC product
     """
     # get the package
-    import flocor.factories
+    import flocor.isce.factories
     # make an SLC reader
-    slcReader = flocor.factories.slcReader()
+    slcReader = flocor.isce.factories.slcReader()(name="ref")
 
     # get the journal
     import journal
@@ -24,9 +24,8 @@ def test():
     channel.line(f"  name: {slcReader.pyre_name}")
     channel.line(f"  uri: {slcReader.uri}")
     channel.line(f"  shape: {slcReader.shape}")
-    channel.line(f"  slc: {slcReader.slc}")
-    channel.line(f"    shape: {slcReader.slc.shape}")
-    channel.line(f"    data: {slcReader.slc.data}")
+    channel.line(f"  meta: {slcReader.meta}")
+    channel.line(f"  data: {slcReader.data}")
     # flush
     channel.log()
 
