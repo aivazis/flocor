@@ -12,11 +12,11 @@
 namespace flocor::products {
     // slc
     // the spec
-    using slc_t = SLC;
+    using slc_metadata_t = SLCMetadata;
 
     // SLC rasters
-    using slc_raster_t = Raster<slc_t, false>;       // read/write
-    using slc_const_raster_t = Raster<slc_t, true>;  // read-only
+    using slc_raster_t = Raster<slc_metadata_t, false>;         // read/write
+    using slc_const_raster_t = Raster<slc_metadata_t, true>;    // read-only
 }
 
 

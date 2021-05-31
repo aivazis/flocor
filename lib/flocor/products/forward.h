@@ -11,7 +11,7 @@
 // namespace setup
 namespace flocor::products {
     // product specs
-    class SLC;
+    class SLCMetadata;
 
     // intermediate products
 

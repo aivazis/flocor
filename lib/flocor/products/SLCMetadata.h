@@ -4,16 +4,16 @@
 // (c) 1998-2021 all rights reserved
 
 // code guard
-#if !defined(flocor_products_SLC_h)
-#define flocor_products_SLC_h
+#if !defined(flocor_products_SLCMetadata_h)
+#define flocor_products_SLCMetadata_h
 
 
-// specification of an SLC product
-class flocor::products::SLC {
+// specification of the metadata of an SLC product
+class flocor::products::SLCMetadata {
     // types
 public:
     // me
-    using slc_type = SLC;
+    using slc_type = SLCMetadata;
     // my pixels are complex
     using value_type = float;
     using pixel_type = complex_t<value_type>;
@@ -23,7 +23,7 @@ public:
 
     // metamethods
 public:
-    constexpr SLC(layout_const_reference);
+    constexpr SLCMetadata(layout_const_reference);
 
     // interface
 public:
@@ -40,9 +40,9 @@ private:
 
 
 // get the inline definitions
-#define flocor_products_SLC_icc
-#include "SLC.icc"
-#undef flocor_products_SLC_icc
+#define flocor_products_SLCMetadata_icc
+#include "SLCMetadata.icc"
+#undef flocor_products_SLCMetadata_icc
 
 
 #endif

@@ -19,7 +19,7 @@
 
 // local entities
 // product specifications
-#include "SLC.h"
+#include "SLCMetadata.h"
 // realizations and data containers
 #include "Raster.h"
 
