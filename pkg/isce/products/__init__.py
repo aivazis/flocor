@@ -14,6 +14,17 @@ from .. import protocols
 from .Product import Product as product
 
 
+@flocor.foundry(implements=protocols.pixels, tip="a sequence of raster pixels")
+def pixels():
+    """
+    A sequence of raster pixels
+    """
+    # pull the spec
+    from .Pixels import Pixels
+    # and publish it
+    return Pixels
+
+
 @flocor.foundry(implements=protocols.slc, tip="the SLC data product")
 def slc():
     """
