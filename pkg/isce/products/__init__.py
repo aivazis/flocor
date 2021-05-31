@@ -25,18 +25,18 @@ def pixels():
     return Pixels
 
 
-@flocor.foundry(implements=protocols.slc, tip="the SLC data product")
-def slc():
+@flocor.foundry(implements=protocols.slcDataset, tip="the SLC data product")
+def slcDataset():
     """
-    An SLC raster
+    An SLC dataset
     """
     # pull the spec
-    from .SLC import SLC
+    from .SLCDataset import SLCDataset
     # and publish it
-    return SLC
+    return SLCDataset
 
 
-@flocor.foundry(implements=protocols.slc, tip="the SLC data product")
+@flocor.foundry(implements=protocols.slcMetadata, tip="the SLC data product")
 def slcMetadata():
     """
     The metadata of an SLC

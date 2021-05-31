@@ -12,7 +12,7 @@ from .SLCMetadata import SLCMetadata
 
 
 # a 2d raster of complex floats
-class SLC(Dataset, family="flocor.isce.products.slc"):
+class SLCDataset(Dataset, family="flocor.isce.products.slcDatasets"):
     """
     The protocol for describing SLC data products
 
@@ -36,7 +36,7 @@ class SLC(Dataset, family="flocor.isce.products.slc"):
         Provide access to the reference implementation
         """
         # the default implementation is one of mine; publish
-        return flocor.isce.products.slc
+        return flocor.isce.products.slcDataset
 
 
 # end of file

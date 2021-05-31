@@ -9,7 +9,7 @@ import flocor
 # my superclass
 from .Producer import Producer
 # my product specs
-from .SLC import SLC
+from .SLCDataset import SLCDataset
 from .SLCMetadata import SLCMetadata
 
 
@@ -21,7 +21,7 @@ class SLCFactory(Producer, family="flocor.isce.factories.slc"):
 
 
     # outputs
-    data = SLC.output()
+    data = SLCDataset.output()
     data.doc = "the SLC data product"
 
     meta = SLCMetadata.output()

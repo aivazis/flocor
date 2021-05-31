@@ -12,14 +12,14 @@ from .Factory import Factory
 
 # an SLC factory, given a shape and a filename
 class SLCReader(Factory,
-                family="flocor.isce.factories.slcReader",
+                family="flocor.isce.factories.slc.slcReader",
                 implements=flocor.isce.protocols.slcFactory):
     """
     An SLC factory that make a product given a shape and a path to the payload
     """
 
 
-    # inputs
+    # user configurable state
     uri = flocor.properties.path()
     uri.doc = "the path to the file with the payload"
 
@@ -27,11 +27,32 @@ class SLCReader(Factory,
     shape.doc = "a pair of integers that describes the shape of the SLC in (lines,samples)"
 
     # outputs
-    data = flocor.isce.protocols.slc.output()
+    data = flocor.isce.protocols.slcDataset.output()
     data.doc = "the SLC data product"
 
     meta = flocor.isce.protocols.slcMetadata.output()
     meta.doc = "the metadata of the SLC product"
+
+
+    # framework hooks
+    def pyre_run(self, **kwds):
+        """
+        Build my outputs
+        """
+        # unpack my configuration
+        uri = self.uri
+        shape = self.shape
+        # and my outputs
+        meta = self.meta
+        data = self.data
+
+        # use it to decorate my metadata
+        meta.shape = shape
+        # and access the payload
+        # data.data = None
+
+        # all done
+        return self
 
 
 # end of file

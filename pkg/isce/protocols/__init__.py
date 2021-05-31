@@ -16,7 +16,7 @@ from .Pixel import Pixel as pixel
 from .Pixels import Pixels as pixels
 # slc parts
 from .SLCMetadata import SLCMetadata as slcMetadata
-from .SLC import SLC as slc
+from .SLCDataset import SLCDataset as slcDataset
 
 
 # the local producers
