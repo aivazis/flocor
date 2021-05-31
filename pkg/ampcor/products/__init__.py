@@ -14,4 +14,16 @@ from .. import protocols
 from .Product import Product as product
 
 
+# foundries
+@flocor.foundry(implements=protocols.specification, tip="the correlation plan")
+def plan():
+    """
+    The correlation plan
+    """
+    # pull the spec
+    from .Plan import Plan
+    # and publish it
+    return Plan
+
+
 # end of file
