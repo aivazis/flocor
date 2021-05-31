@@ -26,7 +26,7 @@ class SLCReader(Factory,
     shape = flocor.properties.tuple(schema=flocor.properties.int())
     shape.doc = "a pair of integers that describes the shape of the SLC in (lines,samples)"
 
-    # output
+    # outputs
     data = flocor.isce.protocols.dataset.output()
     data.doc = "the SLC data product"
 
