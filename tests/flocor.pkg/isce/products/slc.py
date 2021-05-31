@@ -11,16 +11,21 @@ def test():
     Sanity check: attempt to access the SLC product
     """
     # get the package
-    import flocor.products
+    import flocor.isce.products
     # make an SLC
-    slc = flocor.products.slc()
+    slc = flocor.isce.products.slc()(name="ref")
 
     # get the journal
     import journal
     # make a channel
-    channel = journal.info("flocor.products.slc")
+    channel = journal.info("flocor.isce.products.slc")
     # and show me
-    channel.log(f"slc: {slc.pyre_name}")
+    channel.line(f"slc: {slc}")
+    channel.line(f"    name: {slc.pyre_name}")
+    channel.line(f"    family: {slc.pyre_family()}")
+    channel.line(f"    stale: {slc.pyre_stale}")
+    channel.line(f"    data: {slc.data}")
+    channel.log()
 
     # all done
     return 0
