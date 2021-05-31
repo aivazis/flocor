@@ -1,6 +1,6 @@
 {
     "name": "flocor",
-    "version": "0.0.1",
+    "version": "0.0.6",
     "description": "flocor embedded ux",
     "license": "BSD-2-Clause",
     "repository": "https://github.com/aivazis/flocor",
