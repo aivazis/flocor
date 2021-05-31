@@ -15,7 +15,7 @@
 // type aliases
 namespace flocor::py {
     // the product spec
-    using slc_t = flocor::products::slc_t;
+    using slc_t = flocor::products::slc_metadata_t;
     // safe pointers
     using slc_pointer = std::unique_ptr<slc_t>;
 
