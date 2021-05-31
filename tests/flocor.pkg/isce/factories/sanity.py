@@ -11,7 +11,7 @@ def test():
     Sanity check: attempt to access the package
     """
     # access check
-    import flocor.factories
+    import flocor.isce.factories
     # all done
     return 0
 
