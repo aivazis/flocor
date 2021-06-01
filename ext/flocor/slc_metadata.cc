@@ -30,10 +30,10 @@ namespace flocor::py {
 
 // add bindings for the product spec
 void
-flocor::py::slc(py::module & m)
+flocor::py::slc_metadata(py::module & m)
 {
     // add the product spec to the package namespace
-    auto slc = py::class_<slc_t>(m, "SLC");
+    auto slc = py::class_<slc_t>(m, "SLCMetadata");
 
     // constructor from a python tuple
     slc.def(
