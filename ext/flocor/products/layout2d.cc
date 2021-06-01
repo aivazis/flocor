@@ -5,30 +5,30 @@
 
 
 // externals
-#include "external.h"
+#include "../external.h"
 // namespace setup
-#include "forward.h"
+#include "../forward.h"
 
 
 // add bindings for the grid layouts used in this package
 void
-flocor::py::layout3d(py::module & m)
+flocor::py::layout2d(py::module & m)
 {
-    // 3d layouts
-    auto layoutCls = py::class_<layout3d_t>(m, "Layout3D");
+    // 2d layouts
+    auto layoutCls = py::class_<layout2d_t>(m, "Layout2D");
 
     // constructors
     // from a shape
     layoutCls.def(
         // the handler
-        py::init<const shape3d_t &>(),
+        py::init<const shape2d_t &>(),
         // the signature
         "shape"_a);
 
     // from a shape and an origin
     layoutCls.def(
         // the handler
-        py::init<const shape3d_t &, const index3d_t &>(),
+        py::init<const shape2d_t &, const index2d_t &>(),
         // the signature
         "shape"_a, "origin"_a);
 
@@ -38,7 +38,7 @@ flocor::py::layout3d(py::module & m)
         // the name
         "shape",
         // the getter
-        &layout3d_t::shape,
+        &layout2d_t::shape,
         // the docstring
         "get my shape");
 
@@ -47,7 +47,7 @@ flocor::py::layout3d(py::module & m)
         // the name
         "origin",
         // the getter
-        &layout3d_t::origin,
+        &layout2d_t::origin,
         // the docstring
         "get my origin");
 
@@ -56,7 +56,7 @@ flocor::py::layout3d(py::module & m)
         // the name
         "order",
         // the getter
-        [](const layout3d_t & layout) { return layout.order(); },
+        [](const layout2d_t & layout) { return layout.order(); },
         // the docstring
         "get my packing order");
 
@@ -65,7 +65,7 @@ flocor::py::layout3d(py::module & m)
         // the name
         "strides",
         // the getter
-        &layout3d_t::strides,
+        &layout2d_t::strides,
         // the docstring
         "get my strides");
 
@@ -74,7 +74,7 @@ flocor::py::layout3d(py::module & m)
         // the name
         "nudge",
         // the getter
-        &layout3d_t::nudge,
+        &layout2d_t::nudge,
         // the docstring
         "get my nudge");
 
@@ -82,15 +82,15 @@ flocor::py::layout3d(py::module & m)
     layoutCls.def_property_readonly(
         "cells",
         // the getter
-        &layout3d_t::cells,
+        &layout2d_t::cells,
         // the docstring
-        "the number of pixels in the arena");
+        "the number of pixels in the raster");
 
-    // methods
+    // extract a portion of a layout
     layoutCls.def(
         "box",
         // the handler
-        &layout3d_t::box,
+        &layout2d_t::box,
         // the signature
         "origin"_a, "shape"_a,
         // the docstring
@@ -102,7 +102,7 @@ flocor::py::layout3d(py::module & m)
         // the name
         "index",
         // the function
-        &layout3d_t::index,
+        &layout2d_t::index,
         // the signature,
         "offset"_a,
         // the docstring
@@ -112,7 +112,7 @@ flocor::py::layout3d(py::module & m)
         // the name
         "offset",
         // the function
-        &layout3d_t::offset,
+        &layout2d_t::offset,
         // the signature
         "index"_a,
         // the docstring
@@ -122,11 +122,11 @@ flocor::py::layout3d(py::module & m)
         // the name
         "offset",
         // the function
-        [](const layout3d_t & layout, std::tuple<int, int> index) {
+        [](const layout2d_t & layout, std::tuple<int, int> index) {
             // unpack
             auto [i0, i1] = index;
             // make an index
-            index3d_t idx { i0, i1 };
+            index2d_t idx { i0, i1 };
             // and ask for the offset
             return layout.offset(idx);
         },
@@ -140,7 +140,7 @@ flocor::py::layout3d(py::module & m)
         // the name
         "__iter__",
         // the implementation
-        [](const layout3d_t & layout) { return py::make_iterator(layout.begin(), layout.end()); },
+        [](const layout2d_t & layout) { return py::make_iterator(layout.begin(), layout.end()); },
         // the docstring
         "iterate over the layout in its natural order",
         // make sure the shape lives long enough
@@ -151,7 +151,7 @@ flocor::py::layout3d(py::module & m)
         // the name of the property
         "rank",
         // the getter
-        [](py::object) { return layout3d_t::rank(); },
+        [](py::object) { return layout2d_t::rank(); },
         // the docstring
         "the number of cells in this shape");
 

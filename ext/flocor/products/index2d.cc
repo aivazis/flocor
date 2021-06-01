@@ -5,72 +5,72 @@
 
 
 // externals
-#include "external.h"
+#include "../external.h"
 // namespace setup
-#include "forward.h"
+#include "../forward.h"
 
 
 // add bindings for the grid layouts used in this package
 void
-flocor::py::order3d(py::module & m)
+flocor::py::index2d(py::module & m)
 {
-    // the order
-    auto orderCls = py::class_<order3d_t>(m, "Order3D");
+    // the index
+    auto indexCls = py::class_<index2d_t>(m, "Index2D");
 
-    // populate {Order3D}
+    // populate {Shape2D}
     // constructor
-    orderCls.def(
+    indexCls.def(
         // convert python tuples into indices
-        py::init([](std::tuple<int, int> pyOrder) {
+        py::init([](std::tuple<int, int> pyIndex) {
             // unpack
-            auto [s0, s1] = pyOrder;
-            // build an order and return it
-            return new layout3d_t::order_type(s0, s1);
+            auto [s0, s1] = pyIndex;
+            // build an index and return it
+            return new layout2d_t::index_type(s0, s1);
         }),
         // the signature
-        "order"_a);
+        "index"_a);
 
     // rank
-    orderCls.def_property_readonly_static(
+    indexCls.def_property_readonly_static(
         // the name of the property
         "rank",
         // the getter
-        [](py::object) { return order3d_t::rank(); },
+        [](py::object) { return index2d_t::rank(); },
         // the docstring
-        "the number of entries this order");
+        "the number of entries this index");
 
     // access to individual ranks
-    orderCls.def(
+    indexCls.def(
         // the name of the method
         "__getitem__",
         // the getter
-        [](const order3d_t & order, int idx) { return order[idx]; },
+        [](const index2d_t & index, int idx) { return index [idx]; },
         // the signature
-        "order"_a,
+        "index"_a,
         // the docstring
         "get the value of a given rank");
 
     // iteration support
-    orderCls.def(
+    indexCls.def(
         // the name of the method
         "__iter__",
         // the implementation
-        [](const order3d_t & order) { return py::make_iterator(order.begin(), order.end()); },
+        [](const index2d_t & index) { return py::make_iterator(index.begin(), index.end()); },
         // the docstring
         "iterate over the ranks",
-        // make sure the order lives long enough
+        // make sure the index lives long enough
         py::keep_alive<0, 1>());
 
     // string representation
-    orderCls.def(
+    indexCls.def(
         // the name of the method
         "__str__",
         // the implementation
-        [](const order3d_t & order) {
+        [](const index2d_t & index) {
             // make a buffer
             std::stringstream buffer;
             // inject my value
-            buffer << order;
+            buffer << index;
             // and return the value
             return buffer.str();
         },

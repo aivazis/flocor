@@ -5,81 +5,72 @@
 
 
 // externals
-#include "external.h"
+#include "../external.h"
 // namespace setup
-#include "forward.h"
+#include "../forward.h"
 
 
 // add bindings for the grid layouts used in this package
 void
-flocor::py::shape3d(py::module & m)
+flocor::py::order2d(py::module & m)
 {
-    // the shape
-    auto shapeCls = py::class_<shape3d_t>(m, "Shape3D");
+    // the order
+    auto orderCls = py::class_<order2d_t>(m, "Order2D");
 
-    // populate {Shape3D}
+    // populate {Shape2D}
     // constructor
-    shapeCls.def(
-        // convert python tuples into shapes
-        py::init([](std::tuple<int, int, int> pyShape) {
+    orderCls.def(
+        // convert python tuples into indices
+        py::init([](std::tuple<int, int> pyOrder) {
             // unpack
-            auto [s0, s1, s2] = pyShape;
-            // build a shape and return it
-            return new layout3d_t::shape_type(s0, s1, s2);
+            auto [s0, s1] = pyOrder;
+            // build an order and return it
+            return new layout2d_t::order_type(s0, s1);
         }),
         // the signature
-        "shape"_a);
+        "order"_a);
 
     // rank
-    shapeCls.def_property_readonly_static(
+    orderCls.def_property_readonly_static(
         // the name of the property
         "rank",
         // the getter
-        [](py::object) { return shape3d_t::rank(); },
+        [](py::object) { return order2d_t::rank(); },
         // the docstring
-        "the number of cells in this shape");
-
-    // number of cells
-    shapeCls.def_property_readonly(
-        // the name of the property
-        "cells",
-        // the getter
-        &shape3d_t::cells,
-        // the docstring
-        "the number of cells in this shape");
+        "the number of entries this order");
 
     // access to individual ranks
-    shapeCls.def(
+    orderCls.def(
         // the name of the method
         "__getitem__",
         // the getter
-        [](const shape3d_t & shape, int idx) { return shape[idx]; },
+        [](const order2d_t & order, int idx) { return order[idx]; },
         // the signature
-        "index"_a,
+        "order"_a,
         // the docstring
         "get the value of a given rank");
 
     // iteration support
-    shapeCls.def(
+    orderCls.def(
         // the name of the method
         "__iter__",
         // the implementation
-        [](const shape3d_t & shape) { return py::make_iterator(shape.begin(), shape.end()); },
+        [](const order2d_t & order) { return py::make_iterator(order.begin(), order.end()); },
         // the docstring
         "iterate over the ranks",
-        // make sure the shape lives long enough
+        // make sure the order lives long enough
         py::keep_alive<0, 1>());
 
     // string representation
-    shapeCls.def(
+    orderCls.def(
         // the name of the method
         "__str__",
         // the implementation
-        [](const shape3d_t & shape) {
+        [](const order2d_t & order) {
             // make a buffer
             std::stringstream buffer;
             // inject my value
-            buffer << shape;
+            buffer << order;
             // and return the value
             return buffer.str();
         },

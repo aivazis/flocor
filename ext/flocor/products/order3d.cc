@@ -5,19 +5,19 @@
 
 
 // externals
-#include "external.h"
+#include "../external.h"
 // namespace setup
-#include "forward.h"
+#include "../forward.h"
 
 
 // add bindings for the grid layouts used in this package
 void
-flocor::py::order2d(py::module & m)
+flocor::py::order3d(py::module & m)
 {
     // the order
-    auto orderCls = py::class_<order2d_t>(m, "Order2D");
+    auto orderCls = py::class_<order3d_t>(m, "Order3D");
 
-    // populate {Shape2D}
+    // populate {Order3D}
     // constructor
     orderCls.def(
         // convert python tuples into indices
@@ -25,7 +25,7 @@ flocor::py::order2d(py::module & m)
             // unpack
             auto [s0, s1] = pyOrder;
             // build an order and return it
-            return new layout2d_t::order_type(s0, s1);
+            return new layout3d_t::order_type(s0, s1);
         }),
         // the signature
         "order"_a);
@@ -35,7 +35,7 @@ flocor::py::order2d(py::module & m)
         // the name of the property
         "rank",
         // the getter
-        [](py::object) { return order2d_t::rank(); },
+        [](py::object) { return order3d_t::rank(); },
         // the docstring
         "the number of entries this order");
 
@@ -44,7 +44,7 @@ flocor::py::order2d(py::module & m)
         // the name of the method
         "__getitem__",
         // the getter
-        [](const order2d_t & order, int idx) { return order[idx]; },
+        [](const order3d_t & order, int idx) { return order[idx]; },
         // the signature
         "order"_a,
         // the docstring
@@ -55,7 +55,7 @@ flocor::py::order2d(py::module & m)
         // the name of the method
         "__iter__",
         // the implementation
-        [](const order2d_t & order) { return py::make_iterator(order.begin(), order.end()); },
+        [](const order3d_t & order) { return py::make_iterator(order.begin(), order.end()); },
         // the docstring
         "iterate over the ranks",
         // make sure the order lives long enough
@@ -66,7 +66,7 @@ flocor::py::order2d(py::module & m)
         // the name of the method
         "__str__",
         // the implementation
-        [](const order2d_t & order) {
+        [](const order3d_t & order) {
             // make a buffer
             std::stringstream buffer;
             // inject my value
