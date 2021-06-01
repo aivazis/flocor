@@ -84,7 +84,6 @@ flocor::py::covering(py::module & m)
         // grant write access
         py::return_value_policy::reference);
 
-
     // all done
     return;
 }
