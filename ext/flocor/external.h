@@ -21,7 +21,7 @@
 #include <pybind11/stl.h>
 #include <pybind11/stl_bind.h>
 
-// libampcor
+// libflocor
 #include <flocor/products.h>
 
 
@@ -43,6 +43,6 @@ namespace flocor::py {
 }
 
 
-# endif
+#endif
 
 // end of file

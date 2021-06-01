@@ -36,6 +36,8 @@ PYBIND11_MODULE(flocor, m)
     // products
     // slc
     flocor::py::slc_metadata(m);
+    flocor::py::slc_dataset(m);
+    flocor::py::slc_const_dataset(m);
 }
 
 
