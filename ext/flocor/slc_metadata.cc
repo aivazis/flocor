@@ -77,6 +77,14 @@ flocor::py::slc_metadata(py::module & m)
         // the docstring
         "the memory footprint of an SLC pixel, in bytes");
 
+    // layout
+    slc.def_property_readonly(
+        "layout",
+        // the getter
+        &slc_meta_t::layout,
+        // the docstring
+        "the spec layout");
+
     // the shape
     slc.def_property_readonly(
         "shape",
