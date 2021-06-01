@@ -24,19 +24,24 @@ namespace flocor::products {
     // storage strategies
     // memory mapped data
     template <typename pixelT, bool isReadOnly = true>
-    using mmap_t = std::conditional_t<isReadOnly,
-                                      pyre::memory::constmap_t<pixelT>,
-                                      pyre::memory::map_t<pixelT>
-                                      >;
+    using mmap_t = std::conditional_t<
+        isReadOnly, pyre::memory::constmap_t<pixelT>, pyre::memory::map_t<pixelT>>;
+
+    // data on the heap
+    template <typename cellT>
+    using heap_t = pyre::memory::heap_t<cellT>;
 
     // products in this package are packed in the canonical layout with the default ordering
     template <int N>
     using layout_t = pyre::grid::canonical_t<N>;
 
     // pull {pyre::grid::grid_t} into this namespace, with a twist
-    template <class specT, template<typename, bool> class storageT, bool isReadOnly = true>
-    using grid_t = pyre::grid::grid_t<typename specT::layout_type,
-                                      storageT<typename specT::pixel_type, isReadOnly>>;
+    template <class specT, template <typename, bool> class storageT, bool isReadOnly = true>
+    using grid_t = pyre::grid::grid_t<
+        typename specT::layout_type, storageT<typename specT::pixel_type, isReadOnly>>;
+
+    // a covering is a read/write grid of pixel coordinates, stored on the heap
+    using covering_t = pyre::grid::grid_t<layout_t<2>, heap_t<std::pair<int, int>>>;
 }
 
 
