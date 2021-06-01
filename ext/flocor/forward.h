@@ -42,7 +42,7 @@ namespace flocor::py {
     void layout3d(py::module &);
 
     // bindings for the {slc_t} product spec
-    void slc(py::module &);
+    void slc_metadata(py::module &);
 }
 
 

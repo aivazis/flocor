@@ -33,8 +33,9 @@ PYBIND11_MODULE(flocor, m)
     flocor::py::shape3d(m);
     flocor::py::layout3d(m);
 
-    // product spec bindings
-    flocor::py::slc(m);
+    // products
+    // slc
+    flocor::py::slc_metadata(m);
 }
 
 
