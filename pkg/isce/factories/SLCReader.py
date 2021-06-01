@@ -48,8 +48,8 @@ class SLCReader(Factory,
 
         # use it to decorate my metadata
         meta.shape = shape
-        # and access the payload
-        # data.data = None
+        # and build access to the payload
+        data.data = flocor.ext.libflocor.SLCConstDataset(uri=uri, shape=shape)
 
         # all done
         return self
