@@ -34,6 +34,8 @@ PYBIND11_MODULE(flocor, m)
     flocor::py::layout3d(m);
 
     // products
+    // grid of pixel coordinates
+    flocor::py::covering(m);
     // slc
     flocor::py::slc_metadata(m);
     flocor::py::slc_dataset(m);

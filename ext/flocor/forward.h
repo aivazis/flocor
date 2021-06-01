@@ -41,6 +41,9 @@ namespace flocor::py {
     void shape3d(py::module &);
     void layout3d(py::module &);
 
+    // a 2d grid of pixel coordinates on the heap
+    void covering(py::module &);
+
     // bindings for the {slc_t} product spec
     void slc_metadata(py::module &);
     void slc_dataset(py::module &);
