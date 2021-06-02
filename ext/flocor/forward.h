@@ -48,6 +48,9 @@ namespace flocor::py {
     void slc_metadata(py::module &);
     void slc_dataset(py::module &);
     void slc_const_dataset(py::module &);
+
+    // factories
+    void uniform_grid(py::module &);
 }
 
 
