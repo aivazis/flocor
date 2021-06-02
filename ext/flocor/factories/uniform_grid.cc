@@ -10,6 +10,7 @@
 #include "../forward.h"
 // libflocor
 #include <flocor/products.h>
+#include <flocor/factories.h>
 
 
 // type aliases
@@ -27,9 +28,9 @@ flocor::py::uniform_grid(py::module & m)
     m.def(
         "uniform_grid",
         // the implementation
-        [](const shape2d_t & shape, const shape2d_t & bounds) -> void {
-            // all done
-            return;
+        [](const shape2d_t & shape, const shape2d_t & bounds) -> covering_t {
+            // invoke the factory
+            return factories::uniform_grid(shape, bounds);
         },
         // the signature
         "shape"_a, "bounds"_a,
