@@ -10,9 +10,6 @@
 
 // namespace setup
 namespace flocor::factories {
-
-    auto uniform_grid(const raster_t::shape_type & shape, const raster_t::shape_type & bounds)
-        -> covering_t;
 }
 
 

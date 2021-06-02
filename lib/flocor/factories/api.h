@@ -10,6 +10,9 @@
 
 // publicly visible types
 namespace flocor::factories {
+    // the
+    auto uniform_grid(const layout2d_t::shape_type & shape, const layout2d_t::shape_type & bounds)
+        -> covering_t;
 }
 
 
