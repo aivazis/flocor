@@ -36,4 +36,21 @@ class UniformGrid(factory,
     pixels.doc = "the bag of generated pixel coordinates"
 
 
+    # framework hooks
+    def pyre_run(self, **kwds):
+        """
+        Refresh my outputs
+        """
+        # unpack
+        shape = flocor.ext.libflocor.Shape2D(shape=self.shape)
+        bounds = flocor.ext.libflocor.Shape2D(shape=self.meta.shape)
+        pixels = self.pixels
+
+        # build the covering grid and attach it
+        pixels.pixels = flocor.ext.libflocor.uniform_grid(shape=shape, bounds=bounds)
+
+        # all done
+        return self
+
+
 # end of file
