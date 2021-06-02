@@ -13,10 +13,12 @@ namespace flocor::products {
     // slc
     // the spec
     using slc_metadata_t = SLCMetadata;
-
-    // SLC rasters
+    // the rasters
     using slc_dataset_t = Raster<slc_metadata_t, false>;         // read/write
     using slc_const_dataset_t = Raster<slc_metadata_t, true>;    // read-only
+
+    // a covering is a read/write grid of pixel coordinates, stored on the heap
+    using covering_t = pyre::grid::grid_t<layout_t<2>, heap_t<std::pair<int, int>>>;
 }
 
 

@@ -39,9 +39,6 @@ namespace flocor::products {
     template <class specT, template <typename, bool> class storageT, bool isReadOnly = true>
     using grid_t = pyre::grid::grid_t<
         typename specT::layout_type, storageT<typename specT::pixel_type, isReadOnly>>;
-
-    // a covering is a read/write grid of pixel coordinates, stored on the heap
-    using covering_t = pyre::grid::grid_t<layout_t<2>, heap_t<std::pair<int, int>>>;
 }
 
 
