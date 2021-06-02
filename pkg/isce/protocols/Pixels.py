@@ -24,4 +24,14 @@ class Pixels(Specification, family="flocor.isce.products.pixels"):
     pixels.doc = "a sequence of pixels"
 
 
+    # framework hooks
+    @classmethod
+    def pyre_default(cls, **kwds):
+        """
+        Provide access to the default implementation
+        """
+        # get and publish
+        return flocor.isce.products.pixels
+
+
 # end of file
