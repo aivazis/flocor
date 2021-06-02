@@ -8,7 +8,7 @@
 #define flocor_factories_h
 
 
-// publish the product specs
+// publish the factories
 #include "factories/public.h"
 
 
