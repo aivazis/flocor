@@ -50,6 +50,7 @@ namespace flocor::py {
     void slc_const_dataset(py::module &);
 
     // factories
+    void constant_shift(py::module &);
     void uniform_grid(py::module &);
 }
 
