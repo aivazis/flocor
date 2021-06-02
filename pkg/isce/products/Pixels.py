@@ -20,7 +20,7 @@ class Pixels(product, family="flocor.isce.products.pixels.pixels"):
 
 
     # public data
-    pixels = flocor.properties.tuple(schema=protocols.pixel())
+    pixels = flocor.properties.object()
     pixels.doc = "a sequence of pixels"
 
 
