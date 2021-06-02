@@ -19,7 +19,7 @@ export const Terminal = ({ style }) => {
     return (
         <>
             <circle style={deco} cx="0" cy="0" r="0.5" />
-            <path style={ico} d="M -0.25 -0.25 L 0.25 0.25 M -0.25 0.25 L 0.25 -0.25" />
+            <path style={ico} d="M -0.20 -0.20 L 0.20 0.20 M -0.20 0.20 L 0.20 -0.20" />
         </>
     )
 }
