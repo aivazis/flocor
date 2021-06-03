@@ -45,7 +45,7 @@ class Planner(producer, family="flocor.ampcor.factories.planners"):
         Provide access to the reference implementation
         """
         # the default is a uniform grid
-        return flocor.ampcor.factories.constant
+        return flocor.ampcor.factories.planner
 
 
 # end of file
