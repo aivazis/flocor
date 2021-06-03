@@ -10,9 +10,9 @@ import flocor
 from .Factory import Factory as factory
 
 
-# protocol for describing maps
+# generate a correlation plan
 class Planner(factory,
-              family="flocor.ampcor.factories.planners.planner",
+              family="flocor.ampcor.factories.planners.plan",
               implements=flocor.ampcor.protocols.planner):
     """
     Create a correlation plan given the reference and secondary raster shapes and a map

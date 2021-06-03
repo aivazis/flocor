@@ -8,14 +8,12 @@
 import flocor
 # superclass
 from .Factory import Factory as factory
-# protocols
-from .. import protocols
 
 
-# base class for local factories
+# cover a dataset of a known shape with a uniform grid
 class UniformGrid(factory,
                   family="flocor.isce.factories.covers.uniformGrid",
-                  implements=protocols.cover):
+                  implements=flocor.ampcor.protocols.cover):
     """
     A cover that generates a uniform grid of points over a rectangle of a given shape
     """

@@ -8,14 +8,12 @@
 import flocor
 # superclass
 from .Factory import Factory as factory
-# protocols
-from .. import protocols
 
 
-# base class for local factories
+# shift pixels by a constant displacement
 class Constant(factory,
-               family="flocor.isce.factories.functors.constant",
-               implements=protocols.functor):
+               family="flocor.isce.factories.functors.shift",
+               implements=flocor.ampcor.protocols.functor):
     """
     A map that applies a constant shift to its input pixels
     """
