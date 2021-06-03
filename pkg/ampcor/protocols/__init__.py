@@ -18,6 +18,7 @@ from .CorrelationPlan import CorrelationPlan as correlationPlan
 from .Analyze import Analyze as analyze
 from .Correlate import Correlate as correlate
 from .Cover import Cover as cover
+from .DSP import DSP as dsp
 from .Detect import Detect as detect
 from .Functor import Functor as functor
 from .Packer import Packer as packer
