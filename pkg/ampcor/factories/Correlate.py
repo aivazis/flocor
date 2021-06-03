@@ -10,12 +10,12 @@ import flocor
 from .Factory import Factory as factory
 
 
-# compute the amplitude of the input signal arena
+# the correlation surface
 class Correlate(factory,
                 family="flocor.ampcor.factories.correlators.correlate",
                 implements=flocor.ampcor.protocols.correlate):
     """
-    Generate an arena of the pixel amplitudes
+    Generate the correlation surface {gamma} between a {reference} and a {secondary} arena
     """
 
 
