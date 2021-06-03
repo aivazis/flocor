@@ -105,4 +105,15 @@ def uniformGrid():
     return UniformGrid
 
 
+@flocor.foundry(implements=protocols.cover, tip="extend the input shape using FFT interpolation")
+def zoom():
+    """
+    Use FFT interpolation to expand the shape of an input arena of signal tiles
+    """
+    # pull the spec
+    from .Zoom import Zoom
+    # and publish it
+    return Zoom
+
+
 # end of file
