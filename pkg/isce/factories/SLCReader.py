@@ -12,7 +12,7 @@ from .Factory import Factory
 
 # an SLC factory, given a shape and a filename
 class SLCReader(Factory,
-                family="flocor.isce.factories.slc.slcReader",
+                family="flocor.isce.factories.slc.readSLC",
                 implements=flocor.isce.protocols.slcFactory):
     """
     An SLC factory that make a product given a shape and a path to the payload
