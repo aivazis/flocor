@@ -37,6 +37,17 @@ def correlate():
     return Correlate
 
 
+@flocor.foundry(implements=protocols.detect, tip="deramp a complex signal")
+def deramp():
+    """
+    Deramp an input signal
+    """
+    # pull the spec
+    from .Deramp import Deramp
+    # and publish it
+    return Deramp
+
+
 @flocor.foundry(implements=protocols.detect, tip="compute the amplitude of signal tiles")
 def detect():
     """
