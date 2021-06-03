@@ -11,9 +11,11 @@ from .Product import Product as product
 
 
 # base class for local products
-class Plan(product, family="flocor.ampcor.products.plans.plan"):
+class Plan(product,
+           family="flocor.ampcor.products.plans.correlationPlan",
+           implements=flocor.ampcor.protocols.correlationPlan):
     """
-    The plan
+    The correlation plan is a pairing of reference to secondary tiles
     """
 
 
