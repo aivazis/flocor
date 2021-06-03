@@ -6,7 +6,7 @@
 
 # the framework
 import flocor
-# pull the {ampcor} protocols
+# the local protocols
 from .. import protocols
 
 
@@ -26,7 +26,53 @@ def constant():
     return Constant
 
 
-@flocor.foundry(implements=protocols.planner, tip="a generator of a correlation plan")
+@flocor.foundry(implements=protocols.detect, tip="compute the correlation of two datasets")
+def correlate():
+    """
+    Compute the correlation of two signals
+    """
+    # pull the spec
+    from .Correlate import Correlate
+    # and publish it
+    return Correlate
+
+
+@flocor.foundry(implements=protocols.detect, tip="compute the amplitude of signal tiles")
+def detect():
+    """
+    Generate an arena of amplitude tiles given signal tiles
+    """
+    # pull the spec
+    from .Detect import Detect
+    # and publish it
+    return Detect
+
+
+@flocor.foundry(implements=protocols.analyze, tip="compute an offset map")
+def max():
+    """
+    Generate an offset map given a correlation surface
+    """
+    # pull the spec
+    from .Max import Max
+    # and publish it
+    return Max
+
+
+@flocor.foundry(implements=protocols.packer,
+                tip="a generator of a correlation plan")
+def packer():
+    """
+    A generator of tile arenas
+    """
+    # pull the spec
+    from .Packer import Packer
+    # and publish it
+    return Packer
+
+
+@flocor.foundry(implements=protocols.planner,
+                tip="a generator of a correlation plan")
 def planner():
     """
     A generator of a correlation plan
