@@ -71,6 +71,18 @@ def max():
 
 
 @flocor.foundry(implements=protocols.packer,
+                tip="generate an arena with with signal tiles refined by interpolation")
+def refine():
+    """
+    A generator of tile arenas
+    """
+    # pull the spec
+    from .Refine import Refine
+    # and publish it
+    return Refine
+
+
+@flocor.foundry(implements=protocols.packer,
                 tip="a generator of a correlation plan")
 def packer():
     """
