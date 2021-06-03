@@ -6,7 +6,7 @@
 
 # framework
 import flocor
-# pull the {ampcor} protocols
+# the local protocols
 from .. import protocols
 
 
@@ -15,7 +15,40 @@ from .Product import Product as product
 
 
 # foundries
-@flocor.foundry(implements=protocols.specification, tip="the correlation plan")
+@flocor.foundry(implements=protocols.arena, tip="a collection of tiles")
+def floatArena():
+    """
+    A densely packed collection of tiles of the same shape whose pixels are floats
+    """
+    # pull the spec
+    from .FloatArena import FloatArena
+    # and publish it
+    return FloatArena
+
+
+@flocor.foundry(implements=protocols.arena, tip="a collection of tiles")
+def complexArena():
+    """
+    A densely packed collection of tiles of the same shape whose pixels are complex numbers
+    """
+    # pull the spec
+    from .ComplexArena import ComplexArena
+    # and publish it
+    return ComplexArena
+
+
+@flocor.foundry(implements=protocols.arena, tip="the offset map")
+def offsets():
+    """
+    A map with pixels offsets from a reference to a secondary dataset
+    """
+    # pull the spec
+    from .Offsets import Offsets
+    # and publish it
+    return Offsets
+
+
+@flocor.foundry(implements=protocols.correlationPlan, tip="the correlation plan")
 def plan():
     """
     The correlation plan
