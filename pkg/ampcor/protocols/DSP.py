@@ -19,12 +19,12 @@ class DSP(producer, family="flocor.ampcor.factories.dsp"):
 
 
     # inputs
-    source = arena.input()
-    source.doc = "the input signal"
+    signal = arena.input()
+    signal.doc = "the input signal"
 
     # output
-    signal = arena.output()
-    signal.doc = "the output signal"
+    result = arena.output()
+    result.doc = "the output signal"
 
 
 # end of file
